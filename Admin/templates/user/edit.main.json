@@ -1,0 +1,19 @@
+[
+	{
+		"config": {
+			"data[username]": {
+				"length": {
+					"min": "3",
+					"max": "32",
+					"error": "Benutzername muss zwischen 3-32 Zeichen lang sein."
+				}
+			}
+		},
+		"validation": {
+			"object": "Modules_Validation_Basechecks",
+			"errors": [
+
+			]
+		}
+	}
+]

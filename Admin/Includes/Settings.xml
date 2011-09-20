@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<settings>
+
+	<email>
+		<default>
+			<name></name>
+			<address></address>
+		</default>
+		<signup>
+			<name></name>
+			<address></address>
+		</signup>
+	</email>
+
+	<sitename>Example Photoblog 1</sitename>
+
+	<defaults>
+		<image>
+			<web>
+				<maxwidth>800</maxwidth>
+				<maxheight>600</maxheight>
+			</web>
+			<thumb>
+				<maxwidth>300</maxwidth>
+				<maxheight>200</maxheight>
+			</thumb>
+			<mini>
+				<maxwidth>150</maxwidth>
+				<maxheight>100</maxheight>
+			</mini>
+		</image>
+	</defaults>
+
+</settings>

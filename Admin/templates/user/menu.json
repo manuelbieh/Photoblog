@@ -1,0 +1,18 @@
+{
+	"title":"Benutzer",
+	"order":"-64",
+	"id":"p-pics",
+	"controller":"User",
+	"class":"icon-user",
+	"link":"#",
+	"sub":[
+			{
+				"title":"Mein Profil",
+				"link":"User/edit"
+			},
+			{
+				"title":"Neu",
+				"link":"User/add"
+			}
+		]
+}

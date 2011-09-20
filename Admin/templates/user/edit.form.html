@@ -1,0 +1,43 @@
+<h2>Edit profile</h2>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend>Benutzerprofil bearbeiten</legend>
+
+	<p>
+		<label for="data[username]">Benutzername</label>
+		<?php echo $this->input(array('type'=>'text', 'name'=>'data[username]', 'id'=>'data[username]', 'value'=>$this->data->username)); ?>
+	</p>
+
+	<p>
+		<label for="data[firstname]">Vorname</label>
+		<?php echo $this->input(array('type'=>'text', 'name'=>'data[firstname]', 'id'=>'data[firstname]', 'value'=>$this->data->firstname)); ?>
+	</p>
+
+	<p>
+		<label for="data[lastname]">Nachname</label>
+		<?php echo $this->input(array('type'=>'text', 'name'=>'data[lastname]', 'id'=>'data[lastname]', 'value'=>$this->data->lastname)); ?>
+	</p>
+
+	<p>
+		<label for="data[email]">E-Mail</label>
+		<?php echo $this->input(array('type'=>'text', 'name'=>'data[email]', 'id'=>'data[email]', 'value'=>$this->data->email)); ?>
+	</p>
+
+	<p>
+		<label for="data[password]">Passwort</label>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
+	</p>
+
+	<p>
+		<label for="confirm">Passwort wiederholen</label>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
+	</p>
+
+	<!--<input type="hidden" name="hash" value="[[hash]]" />-->
+
+	[[$SEND]]
+
+</fieldset>

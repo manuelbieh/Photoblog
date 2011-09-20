@@ -1,0 +1,51 @@
+<!--
+Controller: <?php echo Application_Base::getController(); ?><br />
+Action: <?php echo Application_Base::getAction(); ?><br />
+-->
+<?php
+$controller = str_replace('Admin_Controller_', '', Application_Base::getController());
+$action = Application_Base::getAction();
+
+if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
+
+	$menu = new Admin_View_Helper_Menu();
+	$menu->gatherJSON(dirname(__FILE__).'/../');
+	echo $menu->create();
+
+}
+
+
+?>
+<!--
+<ul id="menu">
+	<li id="p-pics" class="icon-pics <?php echo $controller == 'Post' ? 'active':''; ?>"><a href="#">Fotos</a>
+		<ul>
+			<li class="<?php echo $action == 'add' && $controller == 'Post' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Post/add">Neu</a></li>
+			<li class="<?php echo $action == 'view' && $controller == 'Post' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Post/view">Verwalten</a></li>
+		</ul>		
+	</li>
+	<li id="p-cats" class="icon-cats <?php echo $controller == 'Categories' ? 'active':''; ?>"><a href="#">Kategorien</a>
+		<ul>
+			<li class="<?php echo $action == 'add' && $controller == 'Categories' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Categories/add">Neu</a></li>
+			<li class="<?php echo $action == 'view' && $controller == 'Categories' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Categories/view">Verwalten</a></li>
+		</ul>		
+	</li>
+	<li><a href="">Seiten</a></li>
+	<li><a href="">Kommentare</a></li>
+	<li><a href="">Benutzer</a></li>
+	<li><a href="">Plugins</a></li>
+	<li><a href="">Einstellungen</a></li>
+</ul>
+-->
+
+<script>
+$(function() {
+	$('ul#menu li:not(.active) ul').hide();
+	$('ul#menu > li:not(:first-child(ul)) > a').bind('click', function(e) {
+		e.preventDefault();
+		$(this).parent().find('ul').slideToggle();
+	});
+});
+</script>
+
+

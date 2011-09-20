@@ -1,0 +1,32 @@
+<h2><?php echo __('Edit comment'); ?></h2>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend><?php echo __('Edit comment #'); ?><?php echo $this->data['comment']->comment_id; ?></legend>
+
+	<p>
+		<label for="data[name]"><?php echo __('Name'); ?></label>
+		<?php echo $this->input(array('name'=>'data[name]', 'value'=>$this->data['comment']->name)); ?>
+	</p>
+
+	<p>
+		<label for="data[url]"><?php echo __('Author URL'); ?></label>
+		<?php echo $this->input(array('name'=>'data[url]', 'value'=>$this->data['comment']->url)); ?>
+	</p>
+
+	<p>
+		<label for="data[email]"><?php echo __('Author email'); ?></label>
+		<?php echo $this->input(array('name'=>'data[email]', 'value'=>$this->data['comment']->email)); ?>
+	</p>
+
+	<p>
+		<label for="data[text]"><?php echo __('Comment'); ?></label>
+		<?php echo $this->textarea(array('name'=>'data[text]', 'value'=>$this->data['comment']->text)); ?>
+	</p>
+
+</fieldset>
+
+
+[[$SEND]]

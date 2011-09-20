@@ -1,0 +1,9 @@
+{
+	"title":"Dashboard",
+	"order":"-2048",
+	"id":"p-dashboard",
+	"controller":"Dashboard",
+	"class":"icon-dashboard",
+	"link":"",
+	"sub":[]
+}

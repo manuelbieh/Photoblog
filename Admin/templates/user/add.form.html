@@ -1,0 +1,72 @@
+<?php
+	$v = new Modules_JSONValidation();
+	$v->setConfigByJSONFile(dirname(__FILE__) . '/signup.json');
+	$this->setValidation($v);
+?>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend>Zugangsdaten</legend>
+	<p>
+		<label for="data[username]">Benutzername</label>
+		<?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
+	</p>
+	<p>
+		<label for="data[email]">E-Mail</label>
+		<?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]')); ?>
+	</p>
+	<p>
+		<label for="data[password]">Passwort</label>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
+	</p>
+	<p>
+		<label for="confirm">Passwort wiederholen</label>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
+	</p>
+
+	<p>
+		<label for="data[active]">Account aktiv?</label>
+		<?php echo $this->input(array('type'=>'checkbox', 'name'=>'data[active]', 'value'=>'1', 'id'=>'data[active]')); ?>
+	</p>
+
+</fieldset>
+
+
+<fieldset>
+
+	<legend>Persönliche Daten</legend>
+
+	<p>
+		<label for="data[salutation]">Anrede</label>
+		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Herr'=>'Herr', 'Frau'=>'Frau', 'Eure Majestät'=>'Eure Majestät')); ?>
+	</p>
+
+	<p>
+		<label for="data[firstname]">Vorname</label>
+		<?php echo $this->input(array('name'=>'data[firstname]', 'id'=>'data[firstname]')); ?>
+	</p>
+	<p>
+		<label for="data[lastname]">Nachname</label>
+		<?php echo $this->input(array('name'=>'data[lastname]', 'id'=>'data[lastname]')); ?>
+	</p>
+	<p>
+		<label for="data[birthname]">Geburtsname</label>
+		<?php echo $this->input(array('name'=>'data[birthname]', 'id'=>'data[birthname]')); ?>
+	</p>
+
+	<p>
+		<span class="label">Geschlecht</span><br />
+		<?php echo $this->input(array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]')); ?>
+		<label for="data[gender][m]" class="nofloat">Männlich</label>
+		<?php echo $this->input(array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]')); ?>
+		<label for="data[gender][w]" class="nofloat">Weiblich</label>
+	</p>
+	<!--
+	<p><?php echo $this->input(array('name'=>'data[lastname]', 'id'=>'data[lastname]')); ?>
+	<label for="data[lastname]">Nachname</label></p>
+	-->
+	[[$SEND]]
+
+</fieldset>

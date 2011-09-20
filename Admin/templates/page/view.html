@@ -1,0 +1,76 @@
+<h2><?php echo __('Manage pages'); ?></h2>
+<?php
+	$n = new Modules_Structure_Presets($this->data['nested_pages']);
+	$n->HTMLunorderedList();
+	$n->setItemContent('<span>%title%</span>')
+		->setBeforeItem('<li id="page_%page_id%" class="%cssclass%">')
+		->setListWrap('<ol class="sortable">%content%</ol>')
+		->setBeforeList('<ol>')
+		->setAfterList('</ol>');
+	echo $n->draw(); 
+?>
+<!--
+<?php print_r($this->data['nested_pages']); ?>
+-->
+<style>
+.placeholder {
+	background-color: #cfcfcf;
+}
+
+.ui-nestedSortable-error {
+	background: #fbe3e4;
+	color:#8a1f11;
+}
+
+ol {
+	margin-left: 1.5em;
+	padding: 0;
+}
+
+ol.sortable, ol.sortable ol {
+	margin: 0 0 0 10px;
+	padding: 0;
+	list-style-type: none;
+}
+
+ol.sortable {
+	margin: 4em 0;
+}
+
+.sortable li {
+	background-image: url(<?php echo Application_Base::getBaseURL(); ?>/templates/assets/images/treeview-default-line.gif);
+	background-repeat: no-repeat;
+
+	margin: -1px 0 0 0;
+	padding-left: 18px;
+}
+
+.sortable li span  {
+	padding: 3px;
+	margin: 0;
+	cursor: move;
+	display: block;
+}
+
+
+</style>
+<script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery-ui-1.8.11.custom.min.js"></script>
+<script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery.ui.nestedSortable.js"></script>
+<script>
+$(function() {
+	$('.sortable').nestedSortable({
+		disableNesting: 'no-nest',
+		forcePlaceholderSize: true,
+		handle: 'span',
+		helper:	'clone',
+		items: 'li',
+		maxLevels: 3,
+		opacity: .6,
+		placeholder: 'placeholder',
+		revert: 250,
+		tabSize: 25,
+		tolerance: 'pointer',
+		toleranceElement: '> span'
+	});
+});
+</script>

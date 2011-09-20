@@ -1,0 +1,26 @@
+<script>
+$(function() {
+	$('a.ajax').bind('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: $(this).attr('href'),
+			type: 'post',
+			data: 'ajax=true',
+			success: function(response) {
+				$('#col2').html(response);
+			}
+		});
+		return false;
+	});
+});
+</script>
+
+<ul>
+<li<?php echo Application_Base::getAction() == 'forgot' ? ' class="active" ':''; ?>><a href="/login/forgot">Passwort vergessen</a></li>
+<li<?php echo Application_Base::getAction() == 'reset' ? ' class="active" ':''; ?>><a href="/login/reset">Passwort bestätigen</a></li>
+<li<?php echo Application_Base::getAction() == 'confirm' ? ' class="active" ':''; ?>><a href="/login/confirm">Account bestätigen</a></li>
+<li><hr /></li>
+<li><a href="/login/forgot" class="ajax">Ajax Passwort vergessen</a></li>
+<li><a href="/login/reset" class="ajax">Ajax Passwort bestätigen</a></li>
+<li><a href="/login/confirm" class="ajax">Ajax Account bestätigen</a></li>
+</ul>
