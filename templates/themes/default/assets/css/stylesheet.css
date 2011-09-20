@@ -1,0 +1,30 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #dedede;
+	font-family: "trebuchet ms", arial, verdana, sans-serif;
+	font-size: 13px;
+}
+
+header {
+	height: 100px;
+	text-align: center;
+}
+
+#wrapper {
+	background: white;
+	margin: auto;
+}
+
+.center {
+	text-align: center;
+}
+
+.entry {
+	border-bottom: 10px solid #dedede;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}

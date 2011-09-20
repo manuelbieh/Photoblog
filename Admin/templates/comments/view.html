@@ -1,0 +1,68 @@
+<h2>View comments</h2>
+
+<?php if(count($this->data['comments']) > 0) { ?>
+
+	<p>
+		<?php echo $this->data['pagination']; ?>
+	</p>
+
+	<ul class="zebra">
+	<?php
+	foreach($this->data['comments'] AS $num => $comment) {
+	$photo = $this->data['photomapper']->find($comment->photo_id, new Model_Photo);
+	?>
+		<li>
+			<div class="mini">
+				<img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/mini/<?php echo $photo->web_name; ?>" />
+			</div>
+			<div class="meta">
+				<strong><?php if(isset($comment->url)) { ?><a href="<?php echo $comment->url; ?>"><?php echo $comment->name; ?></a><?php } else { ?><?php echo $comment->name; ?><?php } ?></strong> am <?php echo $comment->datetime; ?>
+				<p><?php echo nl2br($comment->text); ?></p>
+				<ul class="tools">
+					<li><a class="edit" href="<?php echo Application_Base::getBaseURL(); ?>Comments/edit/<?php echo $comment->comment_id; ?>">Kommentar bearbeiten</a></li>
+					<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Comments/delete/<?php echo $comment->comment_id; ?>">Kommentar löschen</a></li>
+				</ul>
+			</div>
+			<span class="clear"></span>
+		</li>
+	<?php } ?>
+	</ul>
+
+	<br style="clear: both;" />
+
+	<p>
+		<?php echo $this->data['pagination']; ?>
+	</p>
+
+<?php } else { ?>
+
+<p>Sorry, no comments so far.</p>
+
+<?php } ?>
+
+<script>$(function() {
+
+	$('a.delete').bind('click', function(e) {
+
+		e.preventDefault();
+		var item = $(this).parent().parent().parent();
+		var del = confirm("<?php echo __('Are you sure you want to delete the comment?'); ?>");
+
+		if(del == true) {
+			$.ajax({
+				url: $(this).attr('href'),
+				type: 'POST',
+				data: 'ajax=1&confirm=true',
+				success: function(msg) {
+					alert(msg);
+					item.fadeOut();
+				}
+			});
+		}
+
+		return false;
+
+	});
+	
+
+});</script>

@@ -1,0 +1,19 @@
+[
+	{
+		"config": {
+			"data[title]": {
+				"length": {
+					"min": "1",
+					"max": "255",
+					"error": "Bitte einen Bildtitel eingeben."
+				}
+			}
+		},
+		"validation": {
+			"object": "Modules_Validation_Basechecks",
+			"errors": [
+
+			]
+		}
+	}
+]

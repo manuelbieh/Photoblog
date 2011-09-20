@@ -1,0 +1,6 @@
+Hallo [[username]],
+
+du hast angegeben dein Passwort vergessen zu haben. Um dein Passwort nun zurück zu setzen, klicke bitte den folgenden Link:
+[[resetlink]].
+
+Solltest du dein Passwort nicht vergessen haben oder sollte es dir inzwischen wieder eingefallen sein, kannst du diese E-Mail hier einfach löschen.

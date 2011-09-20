@@ -1,0 +1,14 @@
+{
+	"title":"Kommentare",
+	"order":"-96",
+	"id":"p-pics",
+	"controller":"Comments",
+	"class":"icon-comments",
+	"link":"#",
+	"sub":[
+			{
+				"title":"Bearbeiten",
+				"link":"Comments/view"
+			}
+		]
+}

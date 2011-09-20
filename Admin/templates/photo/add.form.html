@@ -1,0 +1,70 @@
+<h2>Neues Bild</h2>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend>Neues Bild</legend>
+	<p>
+		<label for="data[title]">Titel</label>
+		<?php echo $this->input(array('name'=>'data[title]', 'class'=>'i5', 'id'=>'data[title]', 'placeholder'=>'Titel des Bildes')); ?>
+	</p>
+
+	<p>
+		<label for="data[description]">Beschreibung</label>
+		<?php echo $this->textarea(array('name'=>'data[description]', 'class'=>'i6', 'rows'=>5, 'cols'=>45, 'id'=>'data[description]')); ?>
+	</p>
+
+	<p>
+		<label for="upload[file]">Bild auswählen</label>
+		<?php echo $this->input(array('type'=>'file', 'name'=>'upload[]', 'id'=>'upload[file]')); ?>
+	</p>
+
+	<p>
+		<label for="data[tags]">Tags (kommasepariert)</label>
+		<?php echo $this->input(array('name'=>'data[tags]', 'class'=>'i5', 'id'=>'data[tags]', 'placeholder'=>'z.B. outdoor, landscape, body')); ?>
+	</p>
+
+</fieldset>
+
+<fieldset>
+
+	<legend>Optionen</legend>
+
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'instant', 'name'=>'instant', 'checked'=>'checked', 'value'=>'1' )); ?>
+		<label for="instant">Sofort veröffentlichen</label>
+	</p>
+
+	<p>
+		<label for="data[title]">Veröffentlichungsdatum (YYYY-MM-DD HH:MM)</label>
+		<?php echo $this->input(array('type'=>'datetime', 'disabled'=>'disabled', 'name'=>'data[date_publish]', 'class'=>'i5', 'id'=>'data[date_publish]', 'Placeholder'=>'Sofort')); ?>
+	</p>
+
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[exif]', 'name'=>'data[exif]', 'checked'=>'checked', 'value'=>'1' )); ?>
+		<label for="data[exif]">EXIF-Daten veröffentlichen</label>
+	</p>
+
+
+
+</fieldset>
+
+[[$SEND]]
+
+<script>
+$(function() {
+
+	$('#instant').bind('change', function() {
+
+		if($(this).is(':checked')) {
+			$('input[name="data[date_publish]"]').attr('disabled', true);
+		} else {
+			$('input[name="data[date_publish]"]').attr('disabled', false);
+		
+		}
+
+	});
+
+});
+</script>

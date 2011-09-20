@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<settings>
+
+	<general label="General">
+
+		<site label="Site settings" type="group">
+			<sitename label="Sitename" type="text">My Photoblog</sitename>
+		</site>
+
+		<exif label="EXIF settings" type="group">
+			<publishByDefault label="Publishing of EXIF data active by default?" type="checkbox">1</publishByDefault>
+			<fields label="Fields to publish (comma separated)" type="text"></fields>
+		</exif>
+
+	</general>
+
+	<system label="System">
+		<email label="Email" type="group">
+			<default label="Default" type="group">
+				<name label="From" type="text">[[Sitename]]</name>
+				<address label="Address" type="email">info@scenito.de</address>
+			</default>
+			<signup label="Signup">
+				<name label="From">[[Sitename]] Anmeldung</name>
+				<address label="Address" type="email">signup@scenito.de</address>
+			</signup>
+		</email>
+	</system>
+
+	<theme label="Theme">
+		<main label="Theme" type="select" callback="Application_View_Theme::getThemelist()">default</main>
+		<photosPerPage label="Photos per page on frontpage" type="range" min="1" max="25" default="1">1</photosPerPage>
+	</theme>
+
+</settings>

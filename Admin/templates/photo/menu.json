@@ -1,0 +1,18 @@
+{
+	"title":"Fotos",
+	"order":"-128",
+	"id":"p-pics",
+	"controller":"Photo",
+	"class":"icon-pics",
+	"link":"#",
+	"sub":[
+			{
+				"title":"Neu",
+				"link":"Photo/add"
+			},
+			{
+				"title":"Verwalten",
+				"link":"Photo/view"
+			}
+		]
+}

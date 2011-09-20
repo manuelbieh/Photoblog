@@ -1,0 +1,21 @@
+<h2><?php echo $this->data['photo']->title; ?></h2>
+<h3><?php echo $this->data['photo']->date_publish; ?></h2>
+
+<img src="<?php echo Application_Base::getBaseURL(); ?>uploads/web/<?php echo $this->data['photo']->web_name; ?>" alt="" />
+
+<p class="desc"><?php echo $this->data['photo']->description; ?></p>
+
+<section id="comments">
+	<h3><?php echo __('Comments'); ?></h3>
+	<?php if($this->data['comments']) { ?>
+		<?php foreach($this->data['comments'] AS $commentID => $comment) { ?>
+			<p><?php echo $comment->name; ?> <?php echo __('wrote:'); ?></p>
+			<p><?php echo nl2br(htmlentities($comment->text, ENT_NOQUOTES)); ?></p>
+		<?php } ?>
+	<?php } ?>
+</section>
+<!--
+<?php
+var_dump($this); 
+?>
+-->

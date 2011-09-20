@@ -1,0 +1,74 @@
+<routing>
+
+	<domain name="*">
+
+		<path>
+			<pattern><![CDATA[/Api/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
+			<controller>Api_%controller%</controller>
+			<action>%action%</action>
+			<!--
+			<options>
+				<dontSplitParams />
+			</options>
+			-->
+		</path>
+
+		<path>
+			<pattern><![CDATA[/(?<params>(page)/(.*))]]></pattern>
+			<controller>Controller_Index</controller>
+			<action>index</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/page]]></pattern>
+			<controller>Controller_Index</controller>
+			<action>index</action>
+			<redirect>/</redirect>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/photo/view/(?<params>.*)]]></pattern>
+			<controller>Controller_Photo</controller>
+			<action>view</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/photo/(?<params>.*)]]></pattern>
+			<controller>Controller_Photo</controller>
+			<action>view</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
+			<controller>Controller_%controller%</controller>
+			<action>%action%</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/(?<controller>.*)/(?<action>.*)]]></pattern>
+			<controller>Controller_%controller%</controller>
+			<action>%action%</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/(?<controller>.*)]]></pattern>
+			<controller>Controller_%controller%</controller>
+			<action>index</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/]]></pattern>
+			<controller>Controller_Index</controller>
+			<action>index</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/Admin/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
+			<controller>Admin_Controller_%controller%</controller>
+			<action>%action%</action>
+		</path>
+
+	</domain>
+
+
+</routing>
