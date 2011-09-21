@@ -11,20 +11,20 @@ abstract class Modules_Mail {
 	protected $Subject;
 	protected $Type = 'text';
 
-	public function __set($member, $value) {
-
-		$method = 'set'.ucfirst($member);
-		if(method_exists($this, $method)) {
-			$this->$method($value);
-		}
-
-	}
-
 	public function __get($member) {
 
 		$method = 'get'.ucfirst($member);
 		if(method_exists($this, $method)) {
 			return $this->$method();
+		}
+
+	}
+
+	public function __set($member, $value) {
+
+		$method = 'set'.ucfirst($member);
+		if(method_exists($this, $method)) {
+			$this->$method($value);
 		}
 
 	}
@@ -108,7 +108,7 @@ abstract class Modules_Mail {
 
 	public function getMultipart() {
 
-		$boundary = md5(time() . mt_rand(999, 999999));
+		$boundary = md5(time() . mt_rand(10000, 99999999));
 		$this->setHeader('Content-Type: multipart/alternative; boundary="' . $boundary . '"');
 		$this->setHeader("MIME-Version: 1.0");
 

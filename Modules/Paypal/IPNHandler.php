@@ -102,8 +102,7 @@ abstract class Modules_Paypal_IPNHandler {
 				return $ipn_data;
 		}
 
-		protected static function fix_encoding( & $ipn_data)
-		{
+		protected static function fix_encoding( & $ipn_data) {
 				// If charset is specified
 				if(array_key_exists('charset', $ipn_data) && ($charset = $ipn_data['charset'])) {
 						// Ignore if same as our default

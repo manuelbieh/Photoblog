@@ -11,6 +11,9 @@ class Application_Base {
 
 		spl_autoload_register(array($this, '__autoload'));
 		$this->appDir = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
+		if(!defined('__COREDIR__')) {
+			define('__COREDIR__', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
+		}
 
 	}
 
@@ -26,7 +29,7 @@ class Application_Base {
 
 				$classFile = realpath($dir . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className . '.php'));
 
-				if(strpos($classFile, realpath($dir) ) !== false) {
+				if(strpos($classFile, realpath($dir)) !== false) {
 
 					if(is_file($classFile)) {
 						require_once $classFile;
@@ -71,6 +74,12 @@ class Application_Base {
 	public function setAction($action) {
 		self::$action = $action;
 	
+	}
+
+	public function setProjectDir($dir) {
+		if(is_dir($dir) && !defined('__PROJECTDIR__')) {
+			define('__PROJECTDIR__', rtrim(realpath($dir), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+		}
 	}
 
 	public function getController() {
@@ -219,90 +228,6 @@ class Application_Base {
 		}
 
 	}
-
-	public function buildExtensionIndex($dest=0) {
-
-		$core		= self::getCoreDir();
-		$project	= self::getProjectDir();
-
-		$dirs		= explode('/', rtrim($project, '/'));
-
-		$project	= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
-		//$project	= strpos('Admin', $project
-		//var_dump($project);
-
-		$xml = new Modules_XML();
-
-		$coreFiles		= glob($core . '/Extensions/*.xml');
-		$projectFiles	= glob($project . '/Extensions/*.xml');
-
-		$files			= array_merge($coreFiles, $projectFiles);
-
-		foreach($files AS $extMeta) {
-
-			$xml->load($extMeta);
-			$classNodes = $xml->XPath()->query("//class/@name");
-
-			foreach($classNodes AS $extClass) {
-
-				$hooks = array();
-				$hookNodes = $xml->XPath()->query("../hooks/item", $extClass);
-
-				foreach($hookNodes AS $extHook) {
-					$base[$extHook->textContent][] = $extClass->textContent;
-				}
-
-			}
-
-		}
-
-		$hooksFile = new Modules_XML();
-		$rootEl = $hooksFile->createElement('hooks');
-		$hooksFile->appendChild($rootEl);
-
-		foreach($base AS $classToHook => $extensions) {
-
-			$classEl = $hooksFile->createElement('class');
-			$classEl->setAttribute('name', $classToHook);
-			$rootEl->appendChild($classEl);
-
-			foreach($extensions AS $extClass) {
-				$itemEl = $hooksFile->createElement('item', $extClass);
-				$classEl->appendChild($itemEl);
-			}
-
-		}
-
-		switch($dest) {
-
-			case 0:
-			default:
-				$dest = $core;
-				break;
-
-			case 1:
-				$dest = $project;
-				break;
-
-			case 2:
-				$dest = realpath($project . '/..');
-				break;
-
-		}
-
-		$hooksFile->save($dest . '/Sys/Hooks.xml');
-
-	}
-
-	public function getExtensions($class) {
-
-		$coreExtensions		= self::getCoreDir();
-		$projectExtensions	= self::getProjectDir();
-		
-		$xml = new Modules_XML();
-
-	}
-
 
 
 	public static function go($route) {
