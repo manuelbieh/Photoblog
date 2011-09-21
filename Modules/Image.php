@@ -14,6 +14,10 @@ class Modules_Image {
 
 	}
 
+	public function __get($member) {
+		return $this->imageObject->$member;
+	}
+
 	public function __set($property, $value) {
 		$this->imageObject->$property = $value;
 	}
@@ -22,10 +26,6 @@ class Modules_Image {
 
 		return call_user_func_array(array($this->imageObject, $method), $params);
 
-	}
-
-	public function __get($member) {
-		return $this->imageObject->$member;
 	}
 
 }

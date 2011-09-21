@@ -22,7 +22,7 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 	}
 
 	public function view() {
-		$foo = Application_Base::buildExtensionIndex();
+		$foo = Application_Extensions::buildIndex();
 		var_dump($foo);
 		//$this->view->addSubview('main', new Application_View_String('foo'));
 		
