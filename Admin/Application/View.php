@@ -1,6 +1,6 @@
 <?php
 
-class Application_View {
+class Admin_Application_View {
 
 	public $data;
 	protected $charset='UTF-8';
@@ -40,7 +40,7 @@ class Application_View {
 
 		//$docroot = rtrim($_SERVER['DOCUMENT_ROOT'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 		//$coredir = rtrim(realpath((dirname(__FILE__) . '/../Core')), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-		$docroot = Application_Base::getProjectDir();
+		$docroot = Admin_Application_Base::getAdminDir();
 		$coredir = Application_Base::getCoreDir();
 		$tpls = "templates" . DIRECTORY_SEPARATOR;
 

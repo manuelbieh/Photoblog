@@ -20,7 +20,7 @@
 		<?php if(Modules_Session::getInstance()->getVar('userdata')->user_id) { ?>
 		<div class="info">
 			<div class="userimg"></div><?php echo Modules_Session::getInstance()->getVar('userdata')->firstname; ?> <?php echo Modules_Session::getInstance()->getVar('userdata')->lastname; ?><br />
-			<small><a href="<?php echo Application_Base::getBaseURL(); ?>User/edit">Profil bearbeiten</a> | <a href="<?php echo Application_Base::getBaseURL(); ?>Login/?logout">Logout</a></small>
+			<small><a href="<?php echo Admin_Application_Base::getAdminURL(); ?>User/edit">Profil bearbeiten</a> | <a href="<?php echo Admin_Application_Base::getAdminURL(); ?>Login/?logout">Logout</a></small>
 			<br style="clear: both;" />
 		</div>
 		<?php } ?>

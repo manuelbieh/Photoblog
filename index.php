@@ -9,6 +9,8 @@ try {
 	$router = new Application_Router(dirname(__FILE__).'/Includes/routes.xml');
 	$router->execute();
 
+	var_dump(Application_Base::getProjectDir());
+
 	include_once 'View/outro.php';
 
 } catch (Exception$e) {

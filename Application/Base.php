@@ -92,19 +92,14 @@ class Application_Base {
 
 	public function getProjectDir() {
 
+		if(defined('__PROJECTDIR__')) {
+			return __PROJECTDIR__;
+		}
 		$project	= rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME'])), DIRECTORY_SEPARATOR);
 		$dirs		= explode('/', rtrim($project, '/'));
 		$project	= end($dirs) == 'Admin' ? realpath($project . '/..') : $project;
 
 		return rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME'])), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
-	}
-
-	public function getAdminDir() {
-
-		$project	= $this->getProjectDir();
-		$dirs		= explode('/', rtrim($project, '/'));
-		$project	= end($dirs) == 'Admin' ? $project : realpath(rtrim($project, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'Admin');
 
 	}
 

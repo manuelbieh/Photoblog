@@ -1,7 +1,0 @@
-AuthUserFile /www/htdocs/w006633a//dev/photo/blog1/Admin/usage//.htpasswd
-AuthGroupFile /dev/null
-AuthName ByPassword
-AuthType Basic
-<Limit GET POST>
-require user w006633a
-</Limit>
