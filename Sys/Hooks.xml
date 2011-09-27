@@ -1,2 +1,13 @@
 <?xml version="1.0"?>
-
+<hooks>
+	<class name="Admin_Controller_User">
+		<item>Extensions_Wefoundit_Admin_Controller_User</item>
+		<item>Extensions_Wefoundit_Another_Ext</item>
+	</class>
+	<class name="Admin_Controller_Foobar">
+		<item>Extensions_Wefoundit_Admin_Controller_User</item>
+	</class>
+	<class name="Admin_Controller_Signup">
+		<item>Extensions_Wefoundit_Admin_Controller_Signup</item>
+	</class>
+</hooks>

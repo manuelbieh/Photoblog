@@ -76,12 +76,44 @@ class Application_Extensions {
 
 	}
 
-	public function getExtensions($class) {
+	public static function getExtensions($class, $dest=0) {
 
-		$coreExtensions		= Application_Base::getCoreDir();
-		$projectExtensions	= Application_Base::getProjectDir();
-		
-		$xml = new Modules_XML();
+		$core		= Application_Base::getCoreDir();
+		$project	= Application_Base::getProjectDir();
+
+		$dirs		= explode('/', rtrim($project, '/'));
+		$project	= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
+
+		switch($dest) {
+
+			case 0:
+			default:
+				$dest = $core;
+				break;
+
+			case 1:
+				$dest = $project;
+				break;
+
+			case 2:
+				$dest = realpath($project . '/..');
+				break;
+
+		}
+
+		$hooksFile = new Modules_XML();
+		$hooksFile->load($dest . '/Sys/Hooks.xml');
+
+		$classes = $hooksFile->XPath()->query("//hooks/class[@name='" . $class . "']/item");
+
+		$ext = array();
+		foreach($classes AS $item) {
+			if(class_exists($item->textContent)) {
+				$ext[$item->textContent] = $item->textContent;
+			}
+		}
+
+		return $ext;
 
 	}
 
