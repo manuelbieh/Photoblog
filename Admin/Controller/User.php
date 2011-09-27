@@ -149,18 +149,18 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	public function add() {
 
-		$form = new Modules_Form('templates/user/add.form.html');
+		$this->form = new Modules_Form('templates/user/add.form.html');
 
 		$validation = new Admin_Controller_User_Validation();
-		$validation->checkUsername($form->valueOf('data[username]'));
+		$validation->checkUsername($this->form->valueOf('data[username]'));
 	//	$validation->checkEmail($form->valueOf('data[email]'));
 
-		$form->addValidation($validation);
+		$this->form->addValidation($validation);
 
-		if($form->isSent(true)) {
+		if($this->form->isSent(true)) {
 
 			$user = new Model_User();
-			foreach($form->valueOf('data') AS $property => $value) {
+			foreach($this->form->valueOf('data') AS $property => $value) {
 				$user->$property = $value;
 			}
 			$userMapper = new Model_User_Mapper($this->userDB);
@@ -171,7 +171,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				$subview->loadHTML('templates/user/add.success.html');
 				$this->notify('addSuccess');
 			} else {
-				$form->addError(__('An unknown error occured. Please try again.'));
+				$this->form->addError(__('An unknown error occured. Please try again.'));
 			}
 			$this->view->addSubview('main', $subview);
 
@@ -179,7 +179,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		}
 
-		$this->view->addSubview('main', $form);
+		$this->view->addSubview('main', $this->form);
 
 	}
 
