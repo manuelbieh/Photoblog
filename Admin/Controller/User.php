@@ -1,17 +1,26 @@
 <?php
 
-class Admin_Controller_User extends Controller_Frontend {
+class Admin_Controller_User extends Controller_Frontend implements Application_Observable {
+
+	protected $observers = array();
 
 	public function __construct() {
 
 		$this->userDB	= new Model_User_Gateway_PDO(Application_Registry::get('pdodb'));
 		$this->view		= new Application_View();
 
+		$ext = Application_Extensions::getExtensions(__CLASS__);
+
+		foreach($ext AS $obs) {
+			$this->addObserver(new $obs());
+		}
+
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
 		}
+		$this->notify('templateLoaded');
 
 		$navi = new Application_View();
 
@@ -26,9 +35,7 @@ class Admin_Controller_User extends Controller_Frontend {
 	}
 
 	public function view($offset=0) {
-
 		
-
 	}
 
 	public function profile($username=NULL) {
@@ -95,6 +102,7 @@ class Admin_Controller_User extends Controller_Frontend {
 	}
 
 	public function edit() {
+
 
 		if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
 
@@ -165,6 +173,7 @@ class Admin_Controller_User extends Controller_Frontend {
 			$subview = new Application_View();
 			if($newUser != false) {
 				$subview->loadHTML('templates/user/add.success.html');
+				$this->notify('addSuccess');
 			} else {
 				$form->addError(__('An unknown error occured. Please try again.'));
 			}
@@ -177,5 +186,26 @@ class Admin_Controller_User extends Controller_Frontend {
 		$this->view->addSubview('main', $form);
 
 	}
+
+	public function addObserver($observer) {
+
+		array_push($this->observers, $observer);
+
+	}
+
+	public function notify($state) {
+
+		foreach((array) $this->observers AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state(&$this);
+
+			}
+
+		}
+
+	}
+
 
 }
