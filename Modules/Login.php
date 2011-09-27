@@ -72,11 +72,18 @@ class Modules_Login {
 
 		}
 
+		if(isset($loginUser) && (is_array($loginUser) || is_object($loginUser) )) {
+			foreach($loginUser AS $property => $value) {
+				$this->model->$property = $value;
+			}
+		}
+		/*
 		if($this->model instanceof Model_User) {
 			$this->model->user_id = $loginUser['user_id'];
 			$this->model->username = $loginUser['username'];
 			$this->model->email = $loginUser['email'];
 		}
+		*/
 
 		if(is_array($loginUser)) {
 			Modules_Session::getInstance()->setVar($sessionKey, $this->model);
