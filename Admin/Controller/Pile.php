@@ -40,9 +40,6 @@ class Admin_Controller_Pile {
 		$folders = $fileReader->getFoldersRecursive("/www/htdocs/w006633a/dev/photo/blog1/uploads");
 		var_dump($folders);
 
-		
-
-
 		switch($action) {
 
 
@@ -65,7 +62,6 @@ class Admin_Controller_Pile {
 			case 'view':
 				
 				break;
-
 
 		}
 

@@ -172,16 +172,19 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			if($newUser != false) {
 				$subview->loadHTML('templates/user/add.success.html');
 				$this->notify('addSuccess');
+				$this->view->addSubview('main', $subview);
 			} else {
 				$this->form->addError(__('An unknown error occured. Please try again.'));
+				$this->view->addSubview('main', $this->form);
 			}
-			$this->view->addSubview('main', $subview);
 
 			//$this->notify('user saved successfully');
 
-		}
+		} else {
 
-		$this->view->addSubview('main', $this->form);
+			$this->view->addSubview('main', $this->form);
+
+		}
 
 	}
 

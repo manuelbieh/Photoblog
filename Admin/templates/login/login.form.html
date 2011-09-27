@@ -2,12 +2,18 @@
 
 <fieldset>
 	<legend>Login</legend>
-	<p><?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
-	<label for="data[username]">Benutzername</label></p>
-	<p><?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
-	<label for="data[password]">Passwort</label></p>
-	<p><?php echo $this->input(array('type'=>'checkbox', 'value'=>"1", "checked"=>"checked", "name"=>"data[enableCookie]")); ?>
-	<label for="data[enableCookie]">Login speichern</label>
+	<p>
+		<label for="data[username]">Benutzername</label>
+		<?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
+	</p>
+
+	<p>
+		<label for="data[password]">Passwort</label>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
+	</p>
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'value'=>"1", "checked"=>"checked", "name"=>"data[enableCookie]", 'id'=>'data[enableCookie]')); ?>
+		<label for="data[enableCookie]">Login speichern</label>
 	</p>
 </fieldset>
 
