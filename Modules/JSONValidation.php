@@ -92,7 +92,7 @@ class Modules_JSONValidation extends Modules_Validation_Abstract {
 							$this->validations[] = $valObject;
 
 							if($this->performAllChecks == false && $result === false) {
-								var_dump('RETURNING ERRORS');
+								//var_dump('RETURNING ERRORS');
 								return $valObject->getErrors();
 								// Should be an array with errors
 							}
@@ -117,7 +117,6 @@ class Modules_JSONValidation extends Modules_Validation_Abstract {
 	public function getErrors() {
 		return $this->errors();
 	}
-
 
 	public function errors() {
 

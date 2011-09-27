@@ -120,7 +120,9 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$blacklist = array('user_id', 'username', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
 
 			if($form->isSent(true)) {
+
 				foreach($form->valueOf('data') AS $prop => $value) {
+					// ISSUE: password is removed since check fails
 					if(!in_array($prop, $blacklist)) {
 						if($prop != 'password' || ($prop === 'password' && strlen($value) > 0)) {
 							$user->$prop = $value;
