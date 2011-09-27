@@ -43,14 +43,20 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 
 		$data = array(
 			'username'=>$model->username,
-			'password'=>$model->password,
 			'email'=>$model->email,
 			'firstname'=>$model->firstname,
 			'lastname'=>$model->lastname,
 			'middlename'=>$model->middlename,
 			'passconf'=>$model->passconf,
-			'active'=>$model->active,
 		);
+
+		if($model->password !== NULL) {
+			$data['password'] = $model->password;
+		}
+
+		if($model->active !== NULL) {
+			$data['active'] = $model->active;
+		}
 
 		if((int) $model->user_id === 0) {
 

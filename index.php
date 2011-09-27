@@ -1,5 +1,10 @@
 <?php
 set_time_limit(0);
+include_once "Application/Benchmark.php";
+
+$benchmark = new Application_Benchmark();
+
+$benchmark->start();
 
 try {
 
@@ -9,12 +14,14 @@ try {
 	$router = new Application_Router(dirname(__FILE__).'/Includes/routes.xml');
 	$router->execute();
 
-	var_dump(Application_Base::getProjectDir());
-
 	include_once 'View/outro.php';
+
+	die(var_dump($benchmark->end()));
+
 
 } catch (Exception$e) {
 
 	echo $e->getMessage();
 
 }
+
