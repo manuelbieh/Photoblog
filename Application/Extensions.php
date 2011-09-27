@@ -76,7 +76,7 @@ class Application_Extensions {
 
 	}
 
-	public static function getExtensions($class, $dest=0) {
+	public function getExtensions($class, $dest=0) {
 
 		$core		= Application_Base::getCoreDir();
 		$project	= Application_Base::getProjectDir();
@@ -114,6 +114,16 @@ class Application_Extensions {
 		}
 
 		return $ext;
+
+	}
+
+	public function registerObservers(&$obj, $dest=0) {
+
+		$ext = self::getExtensions(get_class($obj));
+
+		foreach($ext AS $obs) {
+			$obj->addObserver(new $obs());
+		}
 
 	}
 
