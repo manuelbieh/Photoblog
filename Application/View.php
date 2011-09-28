@@ -44,9 +44,9 @@ class Application_View {
 		$coredir = Application_Base::getCoreDir();
 		$tpls = "templates" . DIRECTORY_SEPARATOR;
 
-		$filepath = str_replace($docroot, '', $filepath, 1);
-		$filepath = str_replace($coredir, '', $filepath, 1);
-		$filepath = str_replace($tpls, '', $filepath, 1);
+		$filepath = str_replace($docroot, '', $filepath);
+		$filepath = str_replace($coredir, '', $filepath);
+		$filepath = str_replace($tpls, '', $filepath);
 
 
 		if($docroot == $coredir && Modules_Filesys::isFile($docroot . $tpls . $filepath)) {
@@ -61,6 +61,7 @@ class Application_View {
 			} else if(Modules_Filesys::isFile($coredir . $tpls . $filepath)) {
 				return $coredir . $tpls . $filepath;
 			} else {
+				return $filepath;
 				return false;
 			}
 
