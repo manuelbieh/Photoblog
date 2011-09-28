@@ -20,21 +20,11 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 
 	public function fetchAll() {
 
-/*
-		$resultSet = $this->_db()->fetchAll();
-		$entries   = array();
-
-		foreach ($resultSet as $row) {
-			$entry = new Application_Model_Guestbook();
-			$entry->setId($row->id)
-				  ->setEmail($row->email)
-				  ->setComment($row->comment)
-				  ->setCreated($row->created);
-			$entries[] = $entry;
+		foreach($this->_db->fetchAll() AS $entry => $data) {
+			$users[] = $this->find($data['user_id'], new Model_User);
 		}
 
-		return $entries;
-*/
+		return $users;
 
 	}
 

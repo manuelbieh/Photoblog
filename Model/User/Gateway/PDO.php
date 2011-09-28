@@ -318,4 +318,12 @@ class Model_User_Gateway_PDO {
 
 	}
 
+	public function fetchAll($columns=NULL, $where=NULL) {
+
+		$s = $this->db->prepare("SELECT user_id FROM cel_users ORDER BY user_id ASC");
+		$s->execute();
+		return $s->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
 }

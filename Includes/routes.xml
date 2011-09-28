@@ -3,6 +3,18 @@
 	<domain name="*">
 
 		<path>
+			<pattern><![CDATA[/Api/(?<controller>.*)/addObserver/?(?<params>.*)]]></pattern>
+			<controller>Api_%controller%</controller>
+			<action>index</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/Api/(?<controller>.*)/notify/?(?<params>.*)]]></pattern>
+			<controller>Api_%controller%</controller>
+			<action>index</action>
+		</path>
+
+		<path>
 			<pattern><![CDATA[/Api/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
 			<controller>Api_%controller%</controller>
 			<action>%action%</action>
@@ -69,6 +81,5 @@
 		</path>
 
 	</domain>
-
 
 </routing>

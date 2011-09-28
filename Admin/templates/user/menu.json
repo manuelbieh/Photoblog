@@ -1,7 +1,7 @@
 {
 	"title":"Benutzer",
 	"order":"-64",
-	"id":"p-pics",
+	"id":"p-user",
 	"controller":"User",
 	"class":"icon-user",
 	"link":"#",
@@ -13,6 +13,10 @@
 			{
 				"title":"Neu",
 				"link":"User/add"
+			},
+			{
+				"title":"Verwalten",
+				"link":"User/view"
 			}
 		]
 }

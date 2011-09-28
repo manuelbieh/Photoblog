@@ -58,10 +58,14 @@
 
 	<p>
 		<span class="label">Geschlecht</span><br />
-		<?php echo $this->input(array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]')); ?>
-		<label for="data[gender][m]" class="nofloat">Männlich</label>
-		<?php echo $this->input(array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]')); ?>
-		<label for="data[gender][w]" class="nofloat">Weiblich</label>
+		<label for="data[gender][m]">
+			<?php echo $this->input(array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]')); ?>
+			Männlich
+		</label>
+		<label for="data[gender][w]" class="nofloat">
+			<?php echo $this->input(array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]')); ?>
+			Weiblich
+		</label>
 	</p>
 	<!--
 	<p><?php echo $this->input(array('name'=>'data[lastname]', 'id'=>'data[lastname]')); ?>
