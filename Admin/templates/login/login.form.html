@@ -3,17 +3,17 @@
 <fieldset>
 	<legend>Login</legend>
 	<p>
-		<label for="data[username]">Benutzername</label>
+		<label for="data[username]"><?php echo __('Username'); ?></label>
 		<?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
 	</p>
 
 	<p>
-		<label for="data[password]">Passwort</label>
+		<label for="data[password]"><?php echo __('Password'); ?></label>
 		<?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
 	</p>
 	<p>
 		<?php echo $this->input(array('type'=>'checkbox', 'value'=>"1", "checked"=>"checked", "name"=>"data[enableCookie]", 'id'=>'data[enableCookie]')); ?>
-		<label for="data[enableCookie]">Login speichern</label>
+		<label for="data[enableCookie]"><?php echo __('Remember login'); ?></label>
 	</p>
 </fieldset>
 

@@ -1,4 +1,4 @@
-<h2>View comments</h2>
+<h2><?php echo __('View comments'); ?></h2>
 
 <?php if(count($this->data['comments']) > 0) { ?>
 
@@ -16,11 +16,11 @@
 				<img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/mini/<?php echo $photo->web_name; ?>" />
 			</div>
 			<div class="meta">
-				<strong><?php if(isset($comment->url)) { ?><a href="<?php echo $comment->url; ?>"><?php echo $comment->name; ?></a><?php } else { ?><?php echo $comment->name; ?><?php } ?></strong> am <?php echo $comment->datetime; ?>
+				<strong><?php if(isset($comment->url)) { ?><a href="<?php echo $comment->url; ?>"><?php echo $comment->name; ?></a><?php } else { ?><?php echo $comment->name; ?><?php } ?></strong> <?php echo __('at'); ?> <?php echo $comment->datetime; ?>
 				<p><?php echo nl2br($comment->text); ?></p>
 				<ul class="tools">
-					<li><a class="edit" href="<?php echo Application_Base::getBaseURL(); ?>Comments/edit/<?php echo $comment->comment_id; ?>">Kommentar bearbeiten</a></li>
-					<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Comments/delete/<?php echo $comment->comment_id; ?>">Kommentar löschen</a></li>
+					<li><a class="edit" href="<?php echo Application_Base::getBaseURL(); ?>Comments/edit/<?php echo $comment->comment_id; ?>"><?php echo __('Edit comment'); ?></a></li>
+					<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Comments/delete/<?php echo $comment->comment_id; ?>"><?php echo __('Delete comment'); ?></a></li>
 				</ul>
 			</div>
 			<span class="clear"></span>
@@ -36,7 +36,7 @@
 
 <?php } else { ?>
 
-<p>Sorry, no comments so far.</p>
+<p><?php echo __('Sorry, no comments so far.'); ?></p>
 
 <?php } ?>
 

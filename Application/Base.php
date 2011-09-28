@@ -6,6 +6,7 @@ class Application_Base {
 	public static $autoloadDirs = array();
 	public static $action;
 	public static $controller;
+	public static $i18n;
 
 	public function __construct() {
 

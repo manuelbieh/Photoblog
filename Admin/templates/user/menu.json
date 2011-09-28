@@ -1,5 +1,5 @@
 {
-	"title":"Benutzer",
+	"title":"Users",
 	"order":"-64",
 	"id":"p-user",
 	"controller":"User",
@@ -7,15 +7,15 @@
 	"link":"#",
 	"sub":[
 			{
-				"title":"Mein Profil",
+				"title":"My profile",
 				"link":"User/edit"
 			},
 			{
-				"title":"Neu",
+				"title":"New",
 				"link":"User/add"
 			},
 			{
-				"title":"Verwalten",
+				"title":"Manage",
 				"link":"User/view"
 			}
 		]

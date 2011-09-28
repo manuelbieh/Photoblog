@@ -173,10 +173,11 @@ class Admin_Controller_Settings {
 			case 'checkbox':
 
 				$data .= '';
-				$data .= '<label for="data[' . $xpath . ']">' . $label . '</label>';
+				$data .= '<label for="data[' . $xpath . ']">';
 				$checked = ($node->textContent == 1) ? ' checked="checked" ' : '';
-				$data .= '<input type="checkbox" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="1" ' . $checked . ' />';
-				$data .= '';
+				$data .= '<input type="checkbox" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="1" ' . $checked . ' /> ';
+				$data .= $label . '</label>';
+				$data .= $node->getAttribute('break') == 'true' ? '<br />' : '';
 				break;
 
 
