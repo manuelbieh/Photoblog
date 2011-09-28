@@ -44,6 +44,15 @@ class Modules_Form {
 
 		//$this->tpl = $tpl;
 
+		$this->__token = md5(mt_rand(0, 9999999));
+
+		$oldToken = Modules_Session::getInstance()->getVar('form__token');
+		$oldToken = $oldToken[md5($_SERVER['REQUEST_URI'])][0];
+
+		Modules_Session::getInstance()->setVar('form__token', 
+			array(md5($_SERVER['REQUEST_URI'])=>array(0=>$oldToken, 1=>$this->__token))
+		);
+
 		$this->loadTemplate($tpl);
 
 
@@ -301,6 +310,9 @@ class Modules_Form {
 	 * @return    bool     Gibt im Erfolgsfall true zurück ansonsten false
 	 */
 	public function isSent($validate=false) {
+
+		var_dump($this->valueOf('__token'));
+		var_dump(Modules_Session::getInstance()->getVar('forminvalidator'));
 
 		if(is_array($this->sendname)) {
 			foreach($this->sendname AS $button) {
@@ -653,7 +665,6 @@ class Modules_Form {
 
 	public function render() {
 
-
 		if($this->form === false) {
 			$this->loadTemplate($this->form);
 		#	throw new Exception(_('Formulartemplate konnte nicht gefunden werden.'));
@@ -705,7 +716,12 @@ class Modules_Form {
 		$d = (!empty($this->formid)) ? ' id="' . $this->formid . '" ':'';
 		$e = (!empty($this->formid)) ? ' name="' . $this->formid . '" ':'';
 
-		return sprintf('<form method="%s" enctype="multipart/form-data" action="%s"%s%s>%s%s%s</form>', strtolower($this->method), $this->formaction, $d, $e, $this->form, $actionGetParams, $this->append);
+		return sprintf('
+			<form method="%s" enctype="multipart/form-data" action="%s"%s%s>%s%s%s
+			<input type="hidden" name="__token" value="' . $this->__token . '" />
+			</form>', 
+			strtolower($this->method), $this->formaction, $d, $e, $this->form, $actionGetParams, $this->append
+		);
 
 	}
 
