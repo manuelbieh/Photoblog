@@ -1,49 +1,49 @@
-<h2>Neues Bild</h2>
+<h2><?php echo __('New photo'); ?></h2>
 
 [[$ERRORS]]
 
 <fieldset>
 
-	<legend>Neues Bild</legend>
+	<legend><?php echo __('Photo information'); ?></legend>
 	<p>
-		<label for="data[title]">Titel</label>
+		<label for="data[title]"><?php echo __('Title'); ?></label>
 		<?php echo $this->input(array('name'=>'data[title]', 'class'=>'i5', 'id'=>'data[title]', 'placeholder'=>'Titel des Bildes')); ?>
 	</p>
 
 	<p>
-		<label for="data[description]">Beschreibung</label>
+		<label for="data[description]"><?php echo __('Description'); ?></label>
 		<?php echo $this->textarea(array('name'=>'data[description]', 'class'=>'i6', 'rows'=>5, 'cols'=>45, 'id'=>'data[description]')); ?>
 	</p>
 
 	<p>
-		<label for="upload[file]">Bild auswählen</label>
+		<label for="upload[file]"><?php echo __('Select image'); ?></label>
 		<?php echo $this->input(array('type'=>'file', 'name'=>'upload[]', 'id'=>'upload[file]')); ?>
 	</p>
 
 	<p>
-		<label for="data[tags]">Tags (kommasepariert)</label>
-		<?php echo $this->input(array('name'=>'data[tags]', 'class'=>'i5', 'id'=>'data[tags]', 'placeholder'=>'z.B. outdoor, landscape, body')); ?>
+		<label for="data[tags]"><?php echo __('Tags (comma separated)'); ?></label>
+		<?php echo $this->input(array('name'=>'data[tags]', 'class'=>'i5', 'id'=>'data[tags]', 'placeholder'=>__('e.g. outdoor, landscape, body') )); ?>
 	</p>
 
 </fieldset>
 
 <fieldset>
 
-	<legend>Optionen</legend>
+	<legend><?php echo __('Options'); ?></legend>
 
 	<p>
 		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'instant', 'name'=>'instant', 'checked'=>'checked', 'value'=>'1' )); ?>
-		<label for="instant">Sofort veröffentlichen</label>
+		<label for="instant"><?php echo __('Publish now'); ?></label>
 	</p>
 
 	<p>
-		<label for="data[title]">Veröffentlichungsdatum (YYYY-MM-DD HH:MM)</label>
+		<label for="data[title]"><?php echo __('Publish date'); ?></label>
 		<?php echo $this->input(array('type'=>'datetime', 'disabled'=>'disabled', 'name'=>'data[date_publish]', 'class'=>'i5', 'id'=>'data[date_publish]', 'Placeholder'=>'Sofort')); ?>
 	</p>
 
 	<p>
 		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[exif]', 'name'=>'data[exif]', 'checked'=>'checked', 'value'=>'1' )); ?>
-		<label for="data[exif]">EXIF-Daten veröffentlichen</label>
+		<label for="data[exif]"><?php echo __('Publish exif data'); ?></label>
 	</p>
 
 
