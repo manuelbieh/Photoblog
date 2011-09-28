@@ -78,31 +78,35 @@ class Modules_JSONValidation extends Modules_Validation_Abstract {
 			($ignoreSend == false && $GLOBALS['_' . $this->method])
 		) {
 
-			foreach($this->checks AS $count => $data) {
+			if(is_array($this->checks)) {
 
-				foreach($data['config'] AS $field => $validation) {
+				foreach($this->checks AS $count => $data) {
 
-					foreach($validation AS $check => $params) {
+					foreach($data['config'] AS $field => $validation) {
 
-						array_unshift($params, $this->getValue($field));
-						if(is_callable(array($data['validation'], $check))) {
+						foreach($validation AS $check => $params) {
 
-							$valObject = new $data['validation'];
-							$result = call_user_func_array(array($valObject, $check), $params);
-							$this->validations[] = $valObject;
+							array_unshift($params, $this->getValue($field));
+							if(is_callable(array($data['validation'], $check))) {
 
-							if($this->performAllChecks == false && $result === false) {
-								//var_dump('RETURNING ERRORS');
-								return $valObject->getErrors();
-								// Should be an array with errors
+								$valObject = new $data['validation'];
+								$result = call_user_func_array(array($valObject, $check), $params);
+								$this->validations[] = $valObject;
+
+								if($this->performAllChecks == false && $result === false) {
+									//var_dump('RETURNING ERRORS');
+									return $valObject->getErrors();
+									// Should be an array with errors
+								}
+
 							}
+
+							$this->errors = array_unique(array_merge($this->errors, $valObject->getErrors()));
 
 						}
 
-						$this->errors = array_unique(array_merge($this->errors, $valObject->getErrors()));
 
 					}
-
 
 				}
 

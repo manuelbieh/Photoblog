@@ -1,3 +1,5 @@
+<h2><?php echo __('Create new user'); ?></h2>
+
 <?php
 	$v = new Modules_JSONValidation();
 	$v->setConfigByJSONFile(dirname(__FILE__) . '/signup.json');
@@ -8,26 +10,26 @@
 
 <fieldset>
 
-	<legend>Zugangsdaten</legend>
+	<legend><?php echo __('Account information'); ?></legend>
 	<p>
-		<label for="data[username]">Benutzername</label>
+		<label for="data[username]"><?php echo __('Username'); ?></label>
 		<?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
 	</p>
 	<p>
-		<label for="data[email]">E-Mail</label>
+		<label for="data[email]"><?php echo __('Email'); ?></label>
 		<?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]')); ?>
 	</p>
 	<p>
-		<label for="data[password]">Passwort</label>
+		<label for="data[password]"><?php echo __('Password'); ?></label>
 		<?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
 	</p>
 	<p>
-		<label for="confirm">Passwort wiederholen</label>
+		<label for="confirm"><?php echo __('Repeat password'); ?></label>
 		<?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
 	</p>
 
 	<p>
-		<label for="data[active]">Account aktiv?</label>
+		<label for="data[active]"><?php echo __('Account active?'); ?></label>
 		<?php echo $this->input(array('type'=>'checkbox', 'name'=>'data[active]', 'value'=>'1', 'id'=>'data[active]')); ?>
 	</p>
 
@@ -36,35 +38,35 @@
 
 <fieldset>
 
-	<legend>Persönliche Daten</legend>
+	<legend><?php echo __('Personal data'); ?></legend>
 
 	<p>
-		<label for="data[salutation]">Anrede</label>
+		<label for="data[salutation]"><?php echo __('Salutation'); ?></label>
 		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Herr'=>'Herr', 'Frau'=>'Frau', 'Eure Majestät'=>'Eure Majestät')); ?>
 	</p>
 
 	<p>
-		<label for="data[firstname]">Vorname</label>
+		<label for="data[firstname]"><?php echo __('Firstname'); ?></label>
 		<?php echo $this->input(array('name'=>'data[firstname]', 'id'=>'data[firstname]')); ?>
 	</p>
 	<p>
-		<label for="data[lastname]">Nachname</label>
+		<label for="data[lastname]"><?php echo __('Lastname'); ?></label>
 		<?php echo $this->input(array('name'=>'data[lastname]', 'id'=>'data[lastname]')); ?>
 	</p>
 	<p>
-		<label for="data[birthname]">Geburtsname</label>
+		<label for="data[birthname]"><?php echo __('Birthname'); ?></label>
 		<?php echo $this->input(array('name'=>'data[birthname]', 'id'=>'data[birthname]')); ?>
 	</p>
 
 	<p>
-		<span class="label">Geschlecht</span><br />
+		<span class="label"><?php echo __('Gender'); ?></span><br />
 		<label for="data[gender][m]">
 			<?php echo $this->input(array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]')); ?>
-			Männlich
+			<?php echo __('Male'); ?>
 		</label>
 		<label for="data[gender][w]" class="nofloat">
 			<?php echo $this->input(array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]')); ?>
-			Weiblich
+			<?php echo __('Female'); ?>
 		</label>
 	</p>
 	<!--

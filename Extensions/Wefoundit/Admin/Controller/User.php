@@ -9,19 +9,21 @@ class Extensions_Wefoundit_Admin_Controller_User {
 
 	}
 
-	//public function addSuccess($config=array()) {
+
 	public function addSuccess(Admin_Controller_User $userController) {
 
 		$user = $userController->form->valueOf('data');
 
-		$mail = new Modules_Mail_Mail();
-		$mail->setRecipient($user['email'], $user['username']);
-		$mail->setSubject(__('New account for Photoblog'));
+		if(!empty($user)) {
 
-		$mail->setMessage(__('A new account has been created. Username is: ' . $user['username']));
-		$mail->send();
+			$mail = new Modules_Mail_Mail();
+			$mail->setRecipient($user['email'], $user['username']);
+			$mail->setSubject(__('New account for Photoblog'));
 
-		
+			$mail->setMessage(__('A new account has been created. Username is: ' . $user['username']));
+			$mail->send();
+
+		}
 
 	}
 
