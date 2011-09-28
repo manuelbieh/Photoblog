@@ -1,1 +1,1 @@
-Eingeloggt als <?php echo Modules_Session::getInstance()->getVar('userdata')->username; ?> (<a href="?logout">Logout</a>)
+<p><?php echo __('Logged in as'); ?> <?php echo Modules_Session::getInstance()->getVar('userdata')->username; ?> (<a href="?logout"><?php echo __('Logout'); ?></a>)</p>

@@ -1,5 +1,5 @@
 {
-	"title":"Fotos",
+	"title":"Photos",
 	"order":"-128",
 	"id":"p-pics",
 	"controller":"Photo",
@@ -7,11 +7,11 @@
 	"link":"#",
 	"sub":[
 			{
-				"title":"Neu",
+				"title":"New",
 				"link":"Photo/add"
 			},
 			{
-				"title":"Verwalten",
+				"title":"Manage",
 				"link":"Photo/view"
 			}
 		]

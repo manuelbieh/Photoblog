@@ -1,5 +1,5 @@
 {
-	"title":"Kommentare",
+	"title":"Comments",
 	"order":"-96",
 	"id":"p-pics",
 	"controller":"Comments",
@@ -7,7 +7,7 @@
 	"link":"#",
 	"sub":[
 			{
-				"title":"Bearbeiten",
+				"title":"Manage",
 				"link":"Comments/view"
 			}
 		]

@@ -1,0 +1,7 @@
+A new account for "%s" has been created. 
+
+Username: %s
+Password: %s
+
+Click here to login:
+%s

@@ -1,9 +1,9 @@
 
 <fieldset>
-	<legend>Bitte geben Sie Ihren Benutzernamen oder ihr Passwort ein:</legend>
+	<legend><?php echo __('Please enter your username or email address:'); ?></legend>
 	<p><?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
-	<label for="data[username]">Benutzername</label></p>
+	<label for="data[username]"><?php echo __('Username'); ?></label></p>
 	<p><?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]')); ?>
-	<label for="data[email]">E-Mail</label></p>
+	<label for="data[email]"><?php echo __('Email'); ?></label></p>
 	[[$SEND]]
 </fieldset>

@@ -36,13 +36,13 @@ class Admin_View_Helper_Menu {
 				$class	= $main['class'] ? ' ' . $main['class'] . ' ' : '';
 				$open	= $main['open'] == "true" || in_array($main['title'], $this->open) ? ' open ':'';
 
-				$menu .= '<li ' . $id . ' class="' . $active . $class . $open . '"><a href="' . $url . $main['link'] . '">' . $main['title'] . '</a>';
+				$menu .= '<li ' . $id . ' class="' . $active . $class . $open . '"><a href="' . $url . $main['link'] . '">' . __($main['title']) . '</a>';
 				if(isset($main['sub']) && !empty($main['sub'])) {
 					$menu .= '<ul>';
 					foreach($main['sub'] AS $sub) {
 						$active	= (strtolower($controller . '/' . $action) == strtolower($sub['link']) || strpos(ltrim($currentURL, '/'), ltrim($sub['link']))  === 0) ? 'active':'';
 						$id		= $sub['id'] ? ' id="'. $sub['id'] . '"' : '';
-						$menu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . $sub['title'] . '</a></li>';
+						$menu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . __($sub['title']) . '</a></li>';
 					}
 					$menu .= '</ul>';
 				}

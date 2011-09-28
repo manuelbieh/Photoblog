@@ -10,20 +10,13 @@ class i18n_Translate {
 
 	public function setLocale($locale) {
 
-		
+		$this->adapter->setLocale($locale);
 
 	}
 
-	public function _($key, $locale=NULL) {
+	public function __($string, $locale=NULL) {
 
-		if($language != NULL) {
-			//include dirname(__FILE__) . 'lang' . substr($locale, 0, 5) . '.php';
-			include Application_Base::getProjectDir() . '/i18n/lang' . substr($locale, 0, 5) . '.php';
-		}
-
-		if(isset($_lang[$key])) {
-			return $_lang[$key];
-		}
+		return $this->adapter->__($string, $locale);
 
 	}
 

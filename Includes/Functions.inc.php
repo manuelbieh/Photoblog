@@ -6,7 +6,7 @@ if(!function_exists('getURL')) {
 }
 
 if(!function_exists('__')) {
-	function __($string) {
+	function __($string, $locale=NULL) {
 
 		$translationsFile = Application_Base::getCoreDir() . 'i18n/Strings.txt';
 		if(file_exists($translationsFile)) {
@@ -24,6 +24,12 @@ if(!function_exists('__')) {
 
 		}
 
-		return $string;
+		$translate = Application_Registry::get('translate');
+		if($translate != NULL) {
+			return $translate->__($string, $locale);
+		} else {
+			return $string;
+		}
+
 	}
 }

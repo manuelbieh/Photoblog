@@ -43,4 +43,34 @@ array (
   41 => 'Female',
   42 => 'Profile updated successfully',
   43 => 'Your profile was updated successfully!',
+  44 => 'Create new user',
+  45 => 'User',
+  46 => 'Contact',
+  47 => 'Edit comment',
+  48 => 'Edit comment #',
+  49 => 'Name',
+  50 => 'Author URL',
+  51 => 'Author email',
+  52 => 'Comment',
+  53 => 'Comment edited successfully!',
+  54 => 'New photo',
+  55 => 'Photo information',
+  56 => 'Description',
+  57 => 'Select image',
+  58 => 'Tags (comma separated)',
+  59 => 'e.g. outdoor, landscape, body',
+  60 => 'Options',
+  61 => 'Publish now',
+  62 => 'Publish date',
+  63 => 'Publish exif data',
+  64 => 'New account for photoblog "My Photoblog"',
+  65 => 'A new account for "%s" has been created. 
+
+Username: %s
+Password: %s
+
+Click here to login:
+%s',
+  66 => 'Profile was created successfully',
+  67 => 'New user profile was created successfully!',
 )

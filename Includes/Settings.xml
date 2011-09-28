@@ -25,6 +25,13 @@
 				<address label="Address" type="email">signup@scenito.de</address>
 			</signup>
 		</email>
+
+		<notifications label="Notifications" type="group">
+			<comments label="Comment notifications" type="group">
+				<new type="checkbox" label="Send notification for new comments">1</new>
+			</comments>
+		</notifications>
+
 	</system>
 
 	<theme label="Theme">
