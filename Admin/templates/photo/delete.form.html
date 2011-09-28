@@ -1,6 +1,6 @@
-<h2>Delete photo</h2>
+<h2><?php echo __('Delete photo'); ?></h2>
 
-<p>Are you sure you want to delete this image?</p>
+<p><?php echo __('Are you sure you want to delete this photo?'); ?></p>
 <p><img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/thumbs/[[web_name]]" alt="" /></p>
 <p><?php echo $this->input(array('name'=>'confirm', 'type'=>'submit', 'value'=>__('Yes, please!'))); ?> <?php echo $this->input(array('name'=>'cancel', 'type'=>'submit', 'value'=>__('Wait, no no no!'))); ?></p>
 
