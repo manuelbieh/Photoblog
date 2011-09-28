@@ -8,7 +8,7 @@ if(count($this->data['users']) > 0) {
 <?php foreach($this->data['users'] AS $user => $data) { ?>
 <li style="clear: both;" class="<?php echo $data->active == 1 ? 'active':'inactive'; ?>">
 
-	<h4><?php echo $data->username; ?></h4>
+	<h4><a href="<?php echo Application_Base::getBaseURL(); ?>User/profile/<?php echo $data->username; ?>"><?php echo $data->username; ?></a></h4>
 	<span class="clear"></span>
 </li>
 <?php } ?>
