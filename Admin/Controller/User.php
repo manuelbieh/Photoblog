@@ -31,7 +31,36 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 	}
 
 	public function view($offset=0) {
-		
+
+		$userMapper		= new Model_User_Mapper($this->userDB);
+		$allUsers		= $userMapper->fetchAll();
+
+		$itemsPerPage	= 10;
+		$totalItems		= count($allUsers);
+		$offset			= (int) $offset;
+
+		$subview = new Application_View();
+		$subview->loadHTML('templates/user/view.html');
+
+		$subview->data['offset'] = (int) $offset;
+		for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
+			if(isset($allUsers[$i])) {
+				$subview->data['users'][$i] = $allUsers[$i];
+			}
+		}
+
+		$pagina = new Modules_Pagination;
+		$pagina->setLink(Application_Base::getBaseURL() . "Photo/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+		$subview->data['pagination'] = $pagina->render();
+
+		$this->view->addSubview('main', $subview);
+
+/*
+		$subview = new Application_View();
+		$subview->data = $userMapper->fetchAll();
+		$subview->loadHTML('templates/user/view.html');
+*/
+
 	}
 
 	public function profile($username=NULL) {
@@ -40,7 +69,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		if($username == NULL) {
 
-			$subview->loadHTML('templates/user/view.nouser.error.html');
+			$subview->loadHTML('templates/user/profile.nouser.error.html');
 			$this->view->addSubview('main', $subview);
 
 		} else {
@@ -49,11 +78,11 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 			if($subview->data == false) {
 
-				$subview->loadHTML('templates/user/view.nouser.error.html');
+				$subview->loadHTML('templates/user/profile.nouser.error.html');
 
 			} else {
 
-				$subview->loadHTML('templates/user/view.html');
+				$subview->loadHTML('templates/user/profile.html');
 				$this->view->addSubview('main', $subview);
 
 			}

@@ -1,6 +1,51 @@
-<h2><?php echo $this->data['firstname']; ?> <?php echo $this->data['lastname']; ?></h2>
+<h2><?php echo __('Manage users'); ?></h2>
+<?php
+if(count($this->data['users']) > 0) {
+?>
+<p class="pagination"><?php echo $this->data['pagination']; ?></p>
 
-<fieldset>
-	<legend>Kontakt</legend>
-	<p><strong>E-Mail: </strong><?php echo $this->data['email']; ?></p>
-</fieldset>
+<ul id="userlist">
+<?php foreach($this->data['users'] AS $user => $data) { ?>
+<li style="clear: both;" class="<?php echo $data->active == 1 ? 'active':'inactive'; ?>">
+
+	<h4><?php echo $data->username; ?></h4>
+	<span class="clear"></span>
+</li>
+<?php } ?>
+</ul>
+
+<br style="clear: both;" />
+<p class="pagination"><?php echo $this->data['pagination']; ?></p>
+
+<?php } else { ?>
+<p>Sorry, nothing to see here yet.
+<?php } ?> 
+
+
+
+<script>$(function() {
+
+	$('a.delete').bind('click', function(e) {
+
+		e.preventDefault();
+		var item = $(this).parent().parent().parent();
+		var del = confirm("<?php echo __('Are you sure you want to delete the file '); ?>" + item.find('h4').text() + '?');
+
+		if(del == true) {
+			$.ajax({
+				url: $(this).attr('href'),
+				type: 'POST',
+				data: 'ajax=1&confirm=true',
+				success: function(msg) {
+					alert(msg);
+					item.fadeOut();
+				}
+			});
+		}
+
+		return false;
+
+	});
+	
+
+});</script>
