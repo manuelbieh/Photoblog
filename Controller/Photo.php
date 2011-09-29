@@ -8,8 +8,8 @@ class Controller_Photo extends Controller_Frontend {
 		$photo				= $photoMapper->fetchWhere(array('clean_title'=>$cleanTitle));
 		$photo				= $photo[0];
 
+		$commentController	= new Controller_Comment();
 		$commentMapper		= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
-		$comments			= $commentMapper->findByPhoto($photo->photo_id);
 
 		if(Modules_Filesys::isFile(Application_Base::getProjectDir() . 'uploads/web/' . $photo->web_name)) {
 
@@ -22,13 +22,16 @@ class Controller_Photo extends Controller_Frontend {
 
 			$subview = new Application_View_Theme();
 			$subview->loadHTML('photo/view.html');
+
+			$subview->assign('commentform', $commentController->commentForm($photo->photo_id));
+
 			$subview->data['photo'] = $photo;
-			$subview->data['comments'] = $comments;
+			$subview->data['comments'] = $commentMapper->findByPhoto($photo->photo_id);
 
 			$this->view->addSubview('main', $subview);
 
-		}
 
+		}
 
 	}
 

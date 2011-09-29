@@ -249,7 +249,13 @@ input[type="checkbox"] + label {
 
 #imagelist > li {
 	border-bottom: 1px solid #e6e6e6;
+	clear: none !important;
+	float: left;
+	height: 200px;
 	list-style: none;
+	max-width: 100%;
+	overflow: auto;
+	width: 320px;
 }
 
 #imagelist > li:nth-child(even) {

@@ -32,11 +32,15 @@
 			</comments>
 		</notifications>
 
+		<backend label="Backend configuration">
+			<photosPerPage label="Photos per shown in backend list" type="range" min="1" max="50" default="15">15</photosPerPage>
+		</backend>
+
 	</system>
 
 	<theme label="Theme">
 		<main label="Theme" type="select" callback="Application_View_Theme::getThemelist()">default</main>
-		<photosPerPage label="Photos per page on frontpage" type="range" min="1" max="25" default="1">1</photosPerPage>
+		<photosPerPage label="Photos per page on frontpage" type="range" min="1" max="25" default="1">4</photosPerPage>
 	</theme>
 
 </settings>

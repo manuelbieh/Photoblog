@@ -14,7 +14,7 @@ class Model_Photo_Gateway_PDO {
 
 	public function getPhotoById($id) {
 
-		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = :photo_id) AS comment_count FROM cel_photo_photos WHERE photo_id = :photo_id");
+		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = :photo_id) AS comment_count FROM cel_photo_photos WHERE photo_id = :photo_id");
 		$s->execute(array('photo_id'=>(int) $id));
 		return $s->fetch(PDO::FETCH_ASSOC);
 
@@ -66,7 +66,7 @@ class Model_Photo_Gateway_PDO {
 
 	public function fetchAll($columns=NULL, $where=NULL) {
 
-		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos ORDER BY photo_id ASC");
+		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos ORDER BY photo_id ASC");
 		$s->execute();
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
@@ -82,7 +82,7 @@ class Model_Photo_Gateway_PDO {
 			}
 			$w = " WHERE " . join(' AND ', $w);
 		}
-		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos $w ORDER BY photo_id ASC");
+		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos $w ORDER BY photo_id ASC");
 		$s->execute($prep);
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
