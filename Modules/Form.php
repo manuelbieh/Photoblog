@@ -46,15 +46,17 @@ class Modules_Form {
 
 		$this->__token = md5(mt_rand(0, 9999999));
 
-		$oldToken = Modules_Session::getInstance()->getVar('form__token');
-		$oldToken = $oldToken[md5($_SERVER['REQUEST_URI'])][0];
+		$oldToken = Modules_Session::getInstance()->getVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']');
+		$oldToken = $oldToken[0];
 
-		Modules_Session::getInstance()->setVar('form__token', 
-			array(md5($_SERVER['REQUEST_URI'])=>array(0=>$oldToken, 1=>$this->__token))
+		Modules_Session::getInstance()->setVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']', 
+			array(
+				0=>$this->__token,
+				1=>$oldToken
+			)
 		);
 
 		$this->loadTemplate($tpl);
-
 
 	}
 
@@ -296,7 +298,7 @@ class Modules_Form {
 				}
 			}
 		} else {
-			throw new Exception(_('Attributliste enthält Fehler.'));
+			throw new Exception(__('Attributes list contained invalid data.'));
 		}
 
 		return $d;
@@ -311,10 +313,8 @@ class Modules_Form {
 	 */
 	public function isSent($validate=false) {
 
-		var_dump($this->valueOf('__token'));
-		var_dump(Modules_Session::getInstance()->getVar('forminvalidator'));
-
 		if(is_array($this->sendname)) {
+
 			foreach($this->sendname AS $button) {
 				if(
 					isset($GLOBALS['_'.strtoupper($this->method)][$button]) && 
@@ -324,11 +324,18 @@ class Modules_Form {
 						$validate == false
 					)
 				) {
-					return true;
+					if($this->alreadySent() == true) {
+						return false;
+					} else {
+						return true;
+					}
 				}
 			}
+
 			return false;
+
 		} else {
+
 			if(
 				isset($GLOBALS['_'.strtoupper($this->method)][$button]) && 
 				$GLOBALS['_'.strtoupper($this->method)][$this->sendname] === $this->valueOf($button) &&
@@ -337,11 +344,30 @@ class Modules_Form {
 					$validate == false
 				)
 			) {
-				return true;
+
+				if($this->alreadySent() == true) {
+					return false;
+				} else {
+					return true;
+				}
+
 			} else {
 				return false;
 			}
 
+		}
+
+	}
+
+
+	public function alreadySent() {
+
+		$formToken = Modules_Session::getInstance()->getVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']');
+		if($this->valueOf('__token') != $formToken[1]) {
+			$this->addError(__('The submitted form is no longer valid.'));
+			return true;
+		} else {
+			return false;
 		}
 
 	}
@@ -401,7 +427,7 @@ class Modules_Form {
 					$this->addError($errmsg);
 				}
 			} else {
-				throw new Exception(_('Bei der Überprüfung von Daten ist ein Fehler aufgetreten.'));
+				throw new Exception(__('An error occured while checking a file type'));
 			}
 		}
 	}
@@ -535,6 +561,8 @@ class Modules_Form {
 
 		if(isset($this->validation) && is_array($this->validation)) {
 			$this->validation[0]->addError($errmsg);
+		} else {
+			$this->errors[] = $errmsg;
 		}
 
 		/*
@@ -561,6 +589,8 @@ class Modules_Form {
 			}
 			return $this->errors;
 
+		} else {
+			return $this->errors;
 		}
 
 		return false;
@@ -578,6 +608,9 @@ class Modules_Form {
 	public function errors($wrap='<ul class="errors">%s</ul>', $pattern='<li>%s</li>') {
 
 		$e = $this->getErrors();
+		if(is_array($e)) {
+			$e = array_unique($e);
+		}
 	
 		if($e != false) {
 
@@ -616,7 +649,7 @@ class Modules_Form {
 
 
 	/**
-	 * Weist einem Marker (üblicherweise ###MARKER###) spezielle Daten (bspw. Input-Felder) zu.
+	 * Weist einem Marker (üblicherweise [[MARKER]]) spezielle Daten (bspw. Input-Felder) zu.
 	 *
 	 * @param    string    Wrap aller Fehlermeldungen. %s als Platzhalter (default: <ul class="errors>%s</ul>)
 	 * @param    string    Muster für einen einzelnen Fehler. %s als Platzhalter (default: <li>%s</li>)
@@ -677,7 +710,7 @@ class Modules_Form {
 		}
 
 		$this->assign('$SEND', $this->sendbutton);
-		if(isset($this->validation) && !empty($this->validation)) {
+		if( (isset($this->validation) && !empty($this->validation)) || !empty($this->errors) ) {
 			//$this->validation->getErrors();
 			$this->assign('$ERRORS', (isset($this->errorlist) && $this->errorlist != '') ? $this->errorlist : $this->errors());
 		} else {
