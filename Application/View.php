@@ -3,6 +3,7 @@
 class Application_View {
 
 	public $data;
+	public $observers = array();
 	protected $charset='UTF-8';
 	protected $mime='text/html';
 	protected $HTML;
@@ -15,6 +16,9 @@ class Application_View {
 
 	public function __construct() {
 
+		Application_Extensions::registerObservers($this);
+		$this->notify('init');
+		
 		$this->XML = new DOMDocument;
 		$this->XSL = new XSLTProcessor();
 	
@@ -304,5 +308,24 @@ class Application_View {
 
 	}
 
+	public function addObserver($observer) {
+
+		array_push($this->observers, $observer);
+
+	}
+
+	public function notify($state) {
+
+		foreach((array) $this->observers AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state(&$this);
+
+			}
+
+		}
+
+	}
 
 }

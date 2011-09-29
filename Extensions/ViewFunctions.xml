@@ -1,0 +1,11 @@
+<extension name="Custom functions for application views">
+
+	<options></options>
+
+	<class name="Extensions_Wefoundit_Application_View">
+		<hooks>
+			<item>Application_View</item>
+		</hooks>
+	</class>
+
+</extension>
