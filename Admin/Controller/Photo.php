@@ -150,10 +150,13 @@ class Admin_Controller_Photo {
 	public function view($offset=0) {
 
 		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
-		$allImages		= $photoMapper->fetchAll();
+		$allPhotos		= $photoMapper->fetchAll();
+		$allPhotosReverse	= is_array($allPhotos) ? array_reverse($allPhotos) : array();
 
-		$itemsPerPage	= 10;
-		$totalItems		= count($allImages);
+		$itemsPerPage	= Application_Settings::get("//settings/system/backend/photosPerPage", 1);
+		$itemsPerPage	= (int) $itemsPerPage === 0 ? 15 : $itemsPerPage;
+
+		$totalItems		= count($allPhotos);
 		$offset			= (int) $offset;
 
 		$subview = new Application_View();
@@ -161,8 +164,8 @@ class Admin_Controller_Photo {
 
 		$subview->data['offset'] = (int) $offset;
 		for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-			if(isset($allImages[$i])) {
-				$subview->data['images'][$i] = $allImages[$i];
+			if(isset($allPhotosReverse[$i])) {
+				$subview->data['images'][$i] = $allPhotosReverse[$i];
 			}
 		}
 

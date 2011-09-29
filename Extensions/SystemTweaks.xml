@@ -1,5 +1,7 @@
 <extension name="Configurable System Tweaks">
 
+	<options></options>
+
 	<class name="Extensions_Wefoundit_Admin_Controller_User">
 		<hooks>
 			<item>Admin_Controller_User</item>

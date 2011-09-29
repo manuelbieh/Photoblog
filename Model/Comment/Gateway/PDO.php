@@ -15,7 +15,7 @@ class Model_Comment_Gateway_PDO {
 
 	public function getCommentById($id) {
 
-		$s = $this->db->prepare("SELECT *, date_format(datetime, '%Y-%m-%d %H:%i') AS datetime, date_format(datetime, '%Y-%m-%d') AS date, date_format(datetime, '%H:%i') AS time FROM cel_photo_comments WHERE comment_id = :comment_id");
+		$s = $this->db->prepare("SELECT *, date_format(datetime, '%Y-%m-%d %H:%i:%s') AS datetime, date_format(datetime, '%Y-%m-%d') AS date, date_format(datetime, '%H:%i:%s') AS time FROM cel_photo_comments WHERE comment_id = :comment_id");
 		$s->execute(array('comment_id'=>(int) $id));
 		return $s->fetch(PDO::FETCH_ASSOC);
 
@@ -48,7 +48,7 @@ class Model_Comment_Gateway_PDO {
 
 	public function fetchAll($columns=NULL, $where=NULL) {
 
-		$s = $this->db->prepare("SELECT *, date_format(datetime, '%Y-%m-%d %H:%i') AS datetime FROM cel_photo_comments ORDER BY comment_id ASC");
+		$s = $this->db->prepare("SELECT *, date_format(datetime, '%Y-%m-%d %H:%i:%s') AS datetime FROM cel_photo_comments ORDER BY comment_id ASC");
 		$s->execute();
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
@@ -56,7 +56,7 @@ class Model_Comment_Gateway_PDO {
 
 	public function findCommentsByPhotoId($photo_id) {
 
-		$s = $this->db->prepare("SELECT *, date_format(datetime, '%Y-%m-%d %H:%i') AS datetime FROM cel_photo_comments WHERE photo_id = :photo_id ORDER BY comment_id ASC");
+		$s = $this->db->prepare("SELECT *, date_format(datetime, '%Y-%m-%d %H:%i:%s') AS datetime FROM cel_photo_comments WHERE photo_id = :photo_id ORDER BY comment_id ASC");
 		$s->execute(array('photo_id'=>(int) $photo_id));
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 

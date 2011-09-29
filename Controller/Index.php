@@ -38,8 +38,6 @@ class Controller_Index extends Controller_Frontend {
 
 		}
 
-		$totalPhotos = count($subview->data['photos']);
-
 		if((int) $totalPhotos > 0) {
 
 			$this->view->data['maxWidth'] = $maxWidth;

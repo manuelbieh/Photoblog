@@ -54,6 +54,8 @@
 				type: 'POST',
 				data: 'ajax=1&confirm=true',
 				success: function(msg) {
+					response = JSON.parse(msg);
+					console.log(response);
 					alert(msg);
 					item.fadeOut();
 				}

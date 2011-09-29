@@ -115,7 +115,7 @@ class Admin_Controller_Comments {
 			if($deleted == true) {
 
 				if($_POST['ajax']) {
-					$subview->setHTML(__('{"error":"Comment was deleted successfully."}'));
+					$subview->setHTML(__('{"response":"Comment was deleted successfully."}'));
 				} else {
 					$subview->loadHTML('templates/comments/delete.success.html');
 				}

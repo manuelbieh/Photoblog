@@ -1,0 +1,27 @@
+[[$ERRORS]]
+
+<p>
+	<label for="data[name]"><?php echo __('Name'); ?>:<br />
+	<?php echo $this->input(array('name'=>'data[name]', 'id'=>'data[name]')); ?>
+	</label>
+</p>
+
+<p>
+	<label for="data[url]"><?php echo __('URL'); ?>:<br />
+	<?php echo $this->input(array('name'=>'data[url]', 'id'=>'data[url]', 'type'=>'url')); ?>
+	</label>
+</p>
+
+<p>
+	<label for="data[email]"><?php echo __('Email'); ?>:<br />
+	<?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]', 'type'=>'email')); ?>
+	</label>
+</p>
+
+<p>
+	<label for="data[text]"><?php echo __('Comment'); ?>:<br />
+	<?php echo $this->textarea(array('name'=>'data[text]', 'id'=>'data[text]')); ?>
+	</label>
+</p>
+
+[[$SEND]]
