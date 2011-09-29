@@ -4,8 +4,11 @@
 		<item>Extensions_Wefoundit_Admin_Controller_User</item>
 		<item>Extensions_Wefoundit_Another_Ext</item>
 	</class>
-	<class name="Admin_Controller_Foobar">
-		<item>Extensions_Wefoundit_Admin_Controller_User</item>
+	<class name="Application_View">
+		<item>Extensions_Wefoundit_Application_View</item>
+	</class>
+	<class name="Application_View_Theme">
+		<item>Extensions_Wefoundit_Application_View</item>
 	</class>
 	<class name="Admin_Controller_Signup">
 		<item>Extensions_Wefoundit_Admin_Controller_Signup</item>
