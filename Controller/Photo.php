@@ -11,7 +11,9 @@ class Controller_Photo extends Controller_Frontend {
 		$commentController	= new Controller_Comment();
 		$commentMapper		= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
 
-		if(Modules_Filesys::isFile(Application_Base::getProjectDir() . 'uploads/web/' . $photo->web_name)) {
+		$subview = new Application_View_Theme();
+
+		if($photo !== NULL && Modules_Filesys::isFile(Application_Base::getProjectDir() . 'uploads/web/' . $photo->web_name)) {
 
 			$image = new Modules_Image(Application_Base::getProjectDir() . 'uploads/web/' . $photo->web_name);
 
@@ -20,7 +22,6 @@ class Controller_Photo extends Controller_Frontend {
 
 			$this->view->data['maxWidth'] = $photo->width;
 
-			$subview = new Application_View_Theme();
 			$subview->loadHTML('photo/view.html');
 
 			$subview->assign('commentform', $commentController->commentForm($photo->photo_id));
@@ -30,6 +31,10 @@ class Controller_Photo extends Controller_Frontend {
 
 			$this->view->addSubview('main', $subview);
 
+		} else {
+
+			$subview->loadHTML('photo/view.notfound.error.html');
+			$this->view->addSubview('main', $subview);
 
 		}
 
