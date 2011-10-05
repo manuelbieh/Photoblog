@@ -47,6 +47,10 @@ include "../Includes/Bootstrap.inc.php";
 				file_put_contents('../Includes/Config.inc.php', $config);
 				// mysql table import
 				// admin user creation
+				$uploadFolders = glob('../uploads/*', GLOB_ONLYDIR);
+				foreach($uploadFolders AS $folder) {
+					chmod($folder, 0666);
+				}
 
 			} else {
 				echo $form->render();

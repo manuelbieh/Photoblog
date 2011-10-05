@@ -14,16 +14,17 @@ class Modules_Session {
 
 			$dir = rtrim($_SERVER['DOCUMENT_ROOT'], ' /') . '/' . self::$savePath;
 
+			// doesn't work as expected (causing 'permission denied' errors)
 			if(!is_dir($dir)) {
-				mkdir($dir, 0755, true);
-				chmod($dir, 0755);
+			//	mkdir($dir, 0755, true);
+			//	chmod($dir, 0755);
 			}
 
-			session_save_path($dir);
+			//session_save_path($dir);
 
 		} else if(is_readable(rtrim($_SERVER['DOCUMENT_ROOT'], '/ ') . $_defaultSavePath)) {
 
-			session_save_path(rtrim($_SERVER['DOCUMENT_ROOT'], '/ ') . $_defaultSavePath);
+			//session_save_path(rtrim($_SERVER['DOCUMENT_ROOT'], '/ ') . $_defaultSavePath);
 
 		}
 
