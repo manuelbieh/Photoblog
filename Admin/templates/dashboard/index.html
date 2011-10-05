@@ -16,20 +16,24 @@ if(is_array($this->data['comments'])) {
 <ul>
 	<?php
 	$commentCount = count($this->data['comments']);
+
+
 	for($i = $commentCount-1; $i > $commentCount-6; $i--) { ?>
 		<?php $comment = $this->data['comments'][$i];?>
 		<?php if($comment != NULL) { ?>
 		<li>
 			<?php echo $comment->name; ?> 
 			<?php if($comment->url != '') { ?>
-				<a href="<?php echo $comment->url; ?>">(website)</a>
+				<a href="<?php echo $comment->url; ?>">(<?php echo __('website'); ?>)</a>
 			<?php } ?>
 			<?php echo __('commented on'); ?> 
 			<?php echo $this->data['photos'][$comment->photo_id]->title; ?>
 			<a href="<?php echo Application_Base::getBaseURL(); ?>comments/edit/<?php echo $comment->comment_id; ?>"><?php echo __('edit'); ?></a>
 		</li>
 		<?php } ?>
-
+		
 	<?php } ?>
 </ul>
+<?php } else { ?>
+<p><?php echo __('No comments so far.'); ?></p>
 <?php } ?>

@@ -37,8 +37,10 @@ class Admin_Controller_Dashboard {
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
 			$allPhotos		= $photoMapper->fetchAll();
 
-			foreach($allPhotos AS $photoObject) {
-				$photos[$photoObject->photo_id] = $photoObject;
+			if(is_array($allPhotos)) {
+				foreach($allPhotos AS $photoObject) {
+					$photos[$photoObject->photo_id] = $photoObject;
+				}
 			}
 
 			$CommentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));

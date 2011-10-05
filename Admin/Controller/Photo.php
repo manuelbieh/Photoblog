@@ -82,8 +82,10 @@ class Admin_Controller_Photo {
 
 						$cleanTitles = array();
 						$allPhotos = $photoMapper->fetchAll();
-						foreach($allPhotos AS $photoObject) {
-							$cleanTitles[] = $photoObject->clean_title;
+						if(is_array($allPhotos)) {
+							foreach($allPhotos AS $photoObject) {
+								$cleanTitles[] = $photoObject->clean_title;
+							}
 						}
 
 						foreach($form->valueOf('data') AS $key => $value) {

@@ -1,9 +1,6 @@
 <?php
 
-#require_once dirname(__FILE__) . "/Bootstrap.inc.php";
-
-
-$pdodb = new PDO("mysql:dbname=d0047892;host=85.13.134.221", "d0047892", "qwertz");
+$pdodb = new PDO("mysql:dbname=myDBName;host=localhost", "myDBUser", "MyDBPass");
 $pdodb->query("SET NAMES 'utf8'");
 $pdodb->query("SET CHARACTER SET 'utf8'");
 
