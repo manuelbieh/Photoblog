@@ -217,6 +217,14 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	}
 
+	public function usergroups() {
+
+		$ug	= new Model_Usergroup_Gateway_PDO(Application_Registry::get('pdodb'));
+		$groups = $ug->getRecursiveUsergroupById(3);
+		$this->view->addSubview('main', new Application_View_String(print_r($groups, true)));
+
+	}
+
 	public function addObserver($observer) {
 
 		array_push($this->observers, $observer);
