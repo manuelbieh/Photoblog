@@ -21,10 +21,16 @@ class Model_Mapper_Abstract {
 
 	}
  
- 
-	public function getDbTable() {
+ 	public function getDatabase() {
 
 		return $this->_db;
+
+	}
+ 
+	// Deprecated. Use getDatabase() instead.
+	public function getDbTable() {
+
+		return $this->getDatabase();
 
 	}
 
