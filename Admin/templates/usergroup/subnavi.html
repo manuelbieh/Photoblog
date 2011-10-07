@@ -1,0 +1,14 @@
+<?php
+if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
+$userdata = Modules_Session::getInstance()->getVar('userdata');
+?>
+<ul>
+	<li>
+		<a href="/user/view/<?php echo $userdata->username; ?>">Mein Profil</a><br />
+		<small><a href="/user/edit/">Bearbeiten</a></small>
+	</li>
+	<li><a href="/contacts">Kontakte</a></li>
+</ul>
+<?php } else { ?>
+
+<?php } ?>

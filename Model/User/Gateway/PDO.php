@@ -274,11 +274,12 @@ class Model_User_Gateway_PDO {
 
 		$s = $this->db->prepare("SELECT usergroup_id FROM cel_users_x_usergroups WHERE user_id = :user_id");
 		$s->execute(array('user_id'=>$user_id));
+		$groups = array();
 		foreach($s->fetchAll(PDO::FETCH_ASSOC) AS $row) {
 			$groups[] = $row['usergroup_id'];
 		}
 
-		return (array) $groups;
+		return $groups;
 
 	}
 

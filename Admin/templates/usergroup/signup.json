@@ -1,0 +1,35 @@
+[
+	{
+		"config": {
+			"data[username]": {
+				"length": {
+					"min": "3",
+					"max": "32",
+					"error": "Username must be between 3 and 32 characters long."
+				}
+			},
+			"data[password]": {
+				"compare": {
+					"value2": "<?php echo $this->getValue('confirm'); ?>",
+					"error": "Password and password confirmation values did not match."
+				},
+				"length": {
+					"min": "6",
+					"max": "0",
+					"error": "Password must be at least 6 characters"
+				}
+			},
+			"data[email]": {
+				"email": {
+					"error": "No valid email address!"
+				}
+			}
+		},
+		"validation": {
+			"object": "Modules_Validation_Basechecks",
+			"errors": [
+
+			]
+		}
+	}
+]

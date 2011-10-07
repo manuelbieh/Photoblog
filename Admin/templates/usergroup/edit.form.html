@@ -1,0 +1,17 @@
+<h2><?php echo __('Edit usergroup'); ?></h2>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend><?php echo __('Group information'); ?></legend>
+
+	<p>
+		<label for="data[title]"><?php echo __('Title'); ?></label>
+		<?php echo $this->input(array('type'=>'text', 'name'=>'data[title]', 'id'=>'data[title]', 'value'=>$this->data->title)); ?>
+	</p>
+
+	[[$SEND]]
+
+</fieldset>
+
