@@ -1,0 +1,18 @@
+{
+	"title":"Usergroups",
+	"order":"-48",
+	"id":"p-usergroup",
+	"controller":"Usergroup",
+	"class":"icon-usergroup",
+	"link":"#",
+	"sub":[
+			{
+				"title":"Create Usergroup",
+				"link":"Usergroup/add"
+			},
+			{
+				"title":"Manage Usergroups",
+				"link":"Usergroup/view"
+			}
+		]
+}

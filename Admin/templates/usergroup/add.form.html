@@ -1,0 +1,27 @@
+<h2><?php echo __('Create new usergroup'); ?></h2>
+
+<?php
+	/*
+	$v = new Modules_JSONValidation();
+	$v->setConfigByJSONFile(dirname(__FILE__) . '/signup.json');
+	$this->setValidation($v);
+	*/
+?>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend><?php echo __('Group information'); ?></legend>
+	<p>
+		<label for="data[username]"><?php echo __('Grouptitle'); ?></label>
+		<?php echo $this->input(array('name'=>'data[title]', 'id'=>'data[title]')); ?>
+	</p>
+	<p>
+		<label for="data[active]"><?php echo __('Group active?'); ?></label>
+		<?php echo $this->input(array('type'=>'checkbox', 'name'=>'data[active]', 'value'=>'1', 'id'=>'data[active]')); ?>
+	</p>
+
+	[[$SEND]]
+
+</fieldset>
