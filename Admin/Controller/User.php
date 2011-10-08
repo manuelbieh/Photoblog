@@ -223,6 +223,11 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$groups = $ug->getRecursiveUsergroupById(3);
 		$this->view->addSubview('main', new Application_View_String(print_r($groups, true)));
 
+		$perm	= new Model_Permission_Gateway_PDO(Application_Registry::get('pdodb'));
+		$perm	= new Model_Permission_Mapper($perm);
+		$pid = $perm->findPermissionId('photo', 'edit', 'other');
+		var_dump($pid);
+
 	}
 
 	public function addObserver($observer) {

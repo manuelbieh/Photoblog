@@ -2,8 +2,14 @@
 
 class Admin_Application_Access {
 
-	public static function hasAccess($user_id, $class, $method, $param=NULL) {
+	public function setDatabase($db) {
 
+		
+
+	}
+
+	public function hasAccess($user_id, $class, $method, $param=NULL) {
+		
 	}
 
 	public function extract($string=NULL) {
@@ -32,9 +38,9 @@ class Admin_Application_Access {
 
 	public function access($classMethod, $param) {
 
-		$classMethod = self::extract($classMethod);
+		$classMethod = $this->extract($classMethod);
 
-		self::hasAccess($classMethod[0], $classMethod[1], $param);
+		$this->hasAccess($classMethod[0], $classMethod[1], $param);
 
 	}
 
