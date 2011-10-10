@@ -20,7 +20,7 @@ class Model_Permission_Gateway_PDO {
 
 		$users = array();
 		foreach($s->fetchAll(PDO::FETCH_ASSOC) AS $user) {
-			$users[] = $user->user_id;
+			$users[] = $user['user_id'];
 		}
 
 		return $users;
@@ -30,12 +30,12 @@ class Model_Permission_Gateway_PDO {
 
 	public function getPermissionId($class, $method, $param) {
 
-		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions_x_users WHERE class = :class AND method = :method AND param = :param LIMIT 1");
+		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions WHERE class = :class AND method = :method AND param = :param LIMIT 1");
 		$s->execute(array('class'=>$class, 'method'=>$method, 'param'=>$param));
 
 		$permission_id = $s->fetch(PDO::FETCH_ASSOC);
-		var_dump($permission_id);
-		return $permission_id->permission_id;
+
+		return (int) $permission_id['permission_id'];
 	
 	}
 

@@ -4,12 +4,17 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	protected $observers = array();
 
-	public function __construct() {
-
+	public function __construct($params=NULL) {
+var_dump(func_get_args());
 		Application_Extensions::registerObservers($this);
 
 		$this->userDB	= new Model_User_Gateway_PDO(Application_Registry::get('pdodb'));
 		$this->view		= new Application_View();
+		$this->access	= new Admin_Application_Access(
+							new Model_Permission_Mapper(
+								new Model_Permission_Gateway_PDO($params['database'])
+							)
+						);
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -225,8 +230,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		$perm	= new Model_Permission_Gateway_PDO(Application_Registry::get('pdodb'));
 		$perm	= new Model_Permission_Mapper($perm);
-		$pid = $perm->findPermissionId('photo', 'edit', 'other');
-		var_dump($pid);
+		$pid = $perm->findPermissionId('Admin_Controller_Photo', 'edit', 'other');
 
 	}
 

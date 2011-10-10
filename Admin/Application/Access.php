@@ -3,9 +3,11 @@
 class Admin_Application_Access {
 
 	public function setDatabase($db) {
+		$this->db = $db;
+	}
 
-		
-
+	public function setPermissionMapper($permission) {
+		$this->permission = $permission;
 	}
 
 	public function hasAccess($user_id, $class, $method, $param=NULL) {

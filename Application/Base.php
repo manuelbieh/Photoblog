@@ -197,7 +197,6 @@ class Application_Base {
 					$ret = new $obj();
 					break;
 
-
 			}
 
 		}
