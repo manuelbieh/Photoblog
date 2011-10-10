@@ -2,9 +2,9 @@
 
 class Application_Router {
 
+	protected $params = array();
 	protected $request;
 	protected $routes;
-	protected $langs;
 	protected $ignore;
 
 	public function __construct($routes) {
@@ -21,15 +21,23 @@ class Application_Router {
 		return $this;
 	}
 
-	public function addLang($lang) {
-		$this->langs[] = substr($lang, 0, 2);
+	public function addParams($params) {
+
+		foreach($params AS $key => $value) {
+			$this->params[$key] = $value;
+		}
+
 	}
 
 	public function ignoreFolder($partName) {
 		$this->ignore[] = $partName;
 	}
 
+	public function getParams() {
 
+		return is_array($this->params) ? $this->params : array();
+
+	}
 
 	protected function parseRouteFile($file) {
 
@@ -136,7 +144,9 @@ echo "Action: " . $data['action'] . " <br />\n";
 					Application_Base::setController($data['controller']);
 					Application_Base::setAction($data['action']);
 
-					$obj = Application_Base::newObject($data['controller']);
+					$constructorParams = $this->getParams();
+
+					$obj = Application_Base::newObject($data['controller'], $constructorParams);
 					//$obj->view = new Application_View();
 					Application_Base::executeObjectCallback($obj, $data['action'], $data['params']);
 					//break;
