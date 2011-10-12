@@ -4,9 +4,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	protected $observers = array();
 
-	public function __construct($params=NULL) {
-
-		$this->params = $params[0];
+	public function __construct() {
 
 		Application_Extensions::registerObservers($this);
 
@@ -128,12 +126,39 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 */
 	}
 
-	public function edit() {
+	public function edit($user_id=NULL) {
 
+		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 
-		if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
+		if($user_id === NULL) {
+			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+		}
 
-			$user = Modules_Session::getInstance()->getVar('userdata');
+		if($login_user_id) { // user is logged in?
+
+			// no user was specified or $user_id given equals login_user
+			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
+
+				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
+
+			// login_user_id is not user_id, check if login_user may edit others
+			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
+
+				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'other');
+
+			}
+
+		} else {
+
+			$allowed = false;
+
+		}
+
+		if($allowed === true) {
+
+			$user = new Model_User();
+			$userMapper = new Model_User_Mapper($this->userDB);
+			$userMapper->find($user_id, $user);
 
 			$form = new Modules_Form();
 			$form->data = $user;
@@ -174,6 +199,8 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 			}
 
+		} else {
+		#	$this->view->addSubview('main', Application_Error::error401());
 		}
 
 	}
@@ -224,13 +251,9 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$ug	= new Model_Usergroup_Gateway_PDO(Application_Registry::get('pdodb'));
 		$groups = $ug->getRecursiveUsergroupById(3);
 		$output = print_r($groups, true);
-		$output .= print_r($this->access, true);
-		$this->view->addSubview('main', new Application_View_String($output));
-		var_dump($this->access->access(__METHOD__, 'own'));
 
-		#$perm	= new Model_Permission_Gateway_PDO(Application_Registry::get('pdodb'));
-		#$perm	= new Model_Permission_Mapper($perm);
-		#$pid = $perm->findPermissionId('Admin_Controller_Photo', 'edit', 'other');
+		$this->view->addSubview('main', new Application_View_String($output));
+		var_dump($this->app->getGlobal('access')->check(__METHOD__, 'own'));
 
 	}
 

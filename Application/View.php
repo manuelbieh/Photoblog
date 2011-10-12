@@ -145,6 +145,7 @@ class Application_View {
 			if($instant == true) {
 				ob_start();
 				#$this->HTML = Modules_Filesys::read($filename);
+
 				include $filename;
 				$this->HTML = ob_get_contents();
 				ob_end_clean();

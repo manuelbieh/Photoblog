@@ -12,18 +12,14 @@ try {
 	include_once "Includes/Bootstrap.inc.php";
 
 	$router = new Application_Router(dirname(__FILE__).'/Includes/routes.xml');
-	$router->addParams(
-		array(
-			'access'=>$access,
-			'db'=>$pdodb
-		)
-	);
+	$router->addParams(array('app'=>$app));
 	$router->execute();
 
 #	include_once 'View/outro.php';
 
 } catch (Exception $e) {
 
+	var_dump($e);
 	echo $e->getMessage();
 
 }

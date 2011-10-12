@@ -11,7 +11,9 @@ class Application_Error {
 		$view = new Application_View();
 		$response = new Modules_Response_HTTP(); 
 		$response->setStatus(401);
-		$view->loadHTML('templates/errordocs/401.html')->render(true);
+		$view->loadHTML('templates/errordocs/401.html');
+		//$view->render(true);
+		return $view;
 
 	}
 
@@ -20,7 +22,9 @@ class Application_Error {
 		$view = new Application_View();
 		$response = new Modules_Response_HTTP(); 
 		$response->setStatus(404);
-		$view->loadHTML('templates/errordocs/404.html')->render(true);
+		$view->loadHTML('templates/errordocs/404.html');
+		$view->render(true);
+		return $view;
 
 	}
 
@@ -29,7 +33,9 @@ class Application_Error {
 		$view = new Application_View();
 		$response = new Modules_Response_HTTP(); 
 		$response->setStatus(500);
-		$view->loadHTML('templates/errordocs/500.html')->render(true);
+		$view->loadHTML('templates/errordocs/500.html');
+		$view->render(true);
+		return $view;
 
 	}
 
