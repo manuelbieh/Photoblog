@@ -9,8 +9,12 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 		$model->user_id = $id;
 
 		$data = $this->_db->getUserDataById($id);
-		foreach($data AS $prop => $value) {
-			$model->$prop = $value;
+		if(is_array($data)) {
+			foreach($data AS $prop => $value) {
+				$model->$prop = $value;
+			}
+		} else {
+			$model = false;
 		}
 
 		return $model;

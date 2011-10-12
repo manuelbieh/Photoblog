@@ -2,22 +2,21 @@
 
 class Admin_Application_Access {
 
-	public function setDatabase($db) {
-		$this->db = $db;
-	}
-
 	public function setPermissionMapper($permission) {
 		$this->permission = $permission;
 	}
 
 	public function hasAccess($user_id, $class, $method, $param=NULL) {
-		$permissionId = $this->permission->findPermissionId($class, $method, $param);
-		$users = $this->permission->findUsersByPermissionId($permissionId);
+
+		$permission_id = $this->permission->findPermissionId($class, $method, $param);
+		$users = $this->permission->findUsersByPermissionId($permission_id);
+
 		if(in_array($user_id, $users)) {
 			return true;
 		} else {
 			return false;
 		}
+
 	}
 
 	public function extract($string=NULL) {
@@ -44,7 +43,7 @@ class Admin_Application_Access {
 
 	}
 
-	public function access($classMethod, $param) {
+	public function check($classMethod, $param) {
 
 		$classMethod = $this->extract($classMethod);
 

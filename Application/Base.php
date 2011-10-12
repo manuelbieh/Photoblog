@@ -6,6 +6,7 @@ class Application_Base {
 	public static $action;
 	public static $controller;
 	public static $i18n;
+	private $globals = array(); 
 
 	public function __construct() {
 
@@ -15,6 +16,22 @@ class Application_Base {
 			define('__COREDIR__', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 		}
 
+	}
+
+	public function addGlobals($global) {
+		if(is_array($global)) {
+			foreach($global AS $key => $value) {
+				$this->addGlobal($key, $value);
+			}
+		}
+	}
+
+	public function addGlobal($key, $value) {
+		$this->globals[$key] = $value;
+	}
+
+	public function getGlobal($key) {
+		return isset($this->globals[$key]) ? $this->globals[$key] : NULL;
 	}
 
 	public static function addAutoloadDir($dir) {
