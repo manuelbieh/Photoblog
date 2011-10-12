@@ -11,7 +11,13 @@ class Admin_Application_Access {
 	}
 
 	public function hasAccess($user_id, $class, $method, $param=NULL) {
-		
+		$permissionId = $this->permission->findPermissionId($class, $method, $param);
+		$users = $this->permission->findUsersByPermissionId($permissionId);
+		if(in_array($user_id, $users)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function extract($string=NULL) {
@@ -42,7 +48,7 @@ class Admin_Application_Access {
 
 		$classMethod = $this->extract($classMethod);
 
-		$this->hasAccess($classMethod[0], $classMethod[1], $param);
+		return $this->hasAccess(Modules_Session::getInstance()->getVar('userdata')->user_id, $classMethod[0], $classMethod[1], $param);
 
 	}
 

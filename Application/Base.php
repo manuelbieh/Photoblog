@@ -2,7 +2,6 @@
 
 class Application_Base {
 
-	public $appDir;
 	public static $autoloadDirs = array();
 	public static $action;
 	public static $controller;
@@ -11,7 +10,7 @@ class Application_Base {
 	public function __construct() {
 
 		spl_autoload_register(array($this, '__autoload'));
-		$this->appDir = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
+
 		if(!defined('__COREDIR__')) {
 			define('__COREDIR__', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 		}

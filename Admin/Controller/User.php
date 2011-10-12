@@ -5,16 +5,13 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 	protected $observers = array();
 
 	public function __construct($params=NULL) {
-var_dump(func_get_args());
+
+		$this->params = $params[0];
+
 		Application_Extensions::registerObservers($this);
 
 		$this->userDB	= new Model_User_Gateway_PDO(Application_Registry::get('pdodb'));
 		$this->view		= new Application_View();
-		$this->access	= new Admin_Application_Access(
-							new Model_Permission_Mapper(
-								new Model_Permission_Gateway_PDO($params['database'])
-							)
-						);
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -226,11 +223,14 @@ var_dump(func_get_args());
 
 		$ug	= new Model_Usergroup_Gateway_PDO(Application_Registry::get('pdodb'));
 		$groups = $ug->getRecursiveUsergroupById(3);
-		$this->view->addSubview('main', new Application_View_String(print_r($groups, true)));
+		$output = print_r($groups, true);
+		$output .= print_r($this->access, true);
+		$this->view->addSubview('main', new Application_View_String($output));
+		var_dump($this->access->access(__METHOD__, 'own'));
 
-		$perm	= new Model_Permission_Gateway_PDO(Application_Registry::get('pdodb'));
-		$perm	= new Model_Permission_Mapper($perm);
-		$pid = $perm->findPermissionId('Admin_Controller_Photo', 'edit', 'other');
+		#$perm	= new Model_Permission_Gateway_PDO(Application_Registry::get('pdodb'));
+		#$perm	= new Model_Permission_Mapper($perm);
+		#$pid = $perm->findPermissionId('Admin_Controller_Photo', 'edit', 'other');
 
 	}
 

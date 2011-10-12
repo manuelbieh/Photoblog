@@ -144,10 +144,21 @@ echo "Action: " . $data['action'] . " <br />\n";
 					Application_Base::setController($data['controller']);
 					Application_Base::setAction($data['action']);
 
-					$constructorParams = $this->getParams();
+					//$constructorParams = $this->getParams();
+					$params = $this->getParams();
 
-					$obj = Application_Base::newObject($data['controller'], $constructorParams);
-					//$obj->view = new Application_View();
+					//$obj = Application_Base::newObject($data['controller'], $constructorParams);
+					$obj = Application_Base::newObject($data['controller'], array($params));
+					if(is_array($params)) {
+
+						foreach($params AS $member => $value) {
+
+							$obj->$member = $value;
+
+						}
+
+					}
+
 					Application_Base::executeObjectCallback($obj, $data['action'], $data['params']);
 					//break;
 					return;
