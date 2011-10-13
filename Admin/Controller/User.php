@@ -40,6 +40,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$offset			= (int) $offset;
 
 		$subview = new Application_View();
+		$subview->data['access'] = $this->app->getGlobal('access');
 		$subview->loadHTML('templates/user/view.html');
 
 		$subview->data['offset'] = (int) $offset;
@@ -250,6 +251,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				foreach($this->form->valueOf('data') AS $property => $value) {
 					$user->$property = $value;
 				}
+
 				$userMapper = new Model_User_Mapper($this->userDB);
 				$newUser = $userMapper->save($user);
 
@@ -277,7 +279,17 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	}
 
-	public function permissions($user_id) {
+	public function permissions($user_id=NULL) {
+
+		// doesn't yet check if a user actually exists
+		if($user_id == NULL) {
+
+			$subview = new Application_View();
+			$subview->loadHTML('templates/user/permissions.error.nouser.html');
+			$this->view->addSubview('main', $subview);
+			return;
+
+		}
 
 		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 
@@ -300,17 +312,40 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		if($allowed === true) {
 
 			$form = new Modules_Form();
+
+			$form->data['permissions']['selected'] = array();
+			$form->data['permissions']['options'] = array();
+
+			$permissionMapper = new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($this->app->getGlobal('pdodb')));
+			$permissions = $permissionMapper->fetchAll();
+
+			if(is_array($permissions)) {
+				foreach($permissions AS $permissionModel) {
+					$form->data['permissions']['options'][$permissionModel->permission_id] = $permissionModel->title;
+				}
+				$form->data['permissions']['selected'] = $permissionMapper->findPermissionsByUserId($user_id);
+			}
+
 			$form->loadTemplate('templates/user/permissions.form.html');
 
 			if($form->isSent(true)) {
 
-				foreach($form->valueOf('data') AS $prop => $value) {
+				$subview = new Application_View();
 
+				$userMapper = new Model_User_Mapper(new Model_User_Gateway_PDO($this->app->getGlobal('pdodb')));
+
+				// save permissions
+				if($userMapper->savePermissions($user_id, $form->valueOf('data[permissions]'))) {
+					$subview->loadHTML('templates/user/permissions.success.html');
+				} else {
+					$subview->loadHTML('templates/user/permissions.error.html');
 				}
 
-				$subview = new Application_View();
-				$subview->loadHTML('templates/user/permissions.success.html');
 				$this->view->addSubview('main', $subview);
+
+			} else {
+
+				$this->view->addSubview('main', $form);
 
 			}
 
@@ -318,6 +353,13 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$this->view->addSubview('main', Application_Error::error401());
 		}
 	
+	}
+
+	public function test() {
+
+		$permissionMapper = new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($this->app->getGlobal('pdodb')));
+		$permissionMapper->save(new Model_Permission(), array('class'=>'MyTest', 'method'=>'myMethod'));
+
 	}
 
 	/*

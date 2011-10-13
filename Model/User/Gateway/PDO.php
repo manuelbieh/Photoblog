@@ -152,10 +152,30 @@ class Model_User_Gateway_PDO {
 
 	}
 
-
 	public function setLoginhash($user_id, $loginhash) {
 		$s = $this->db->prepare("UPDATE cel_users SET loginhash = :loginhash WHERE user_id = :user_id");
 		$s->execute(array('loginhash'=>$loginhash, 'user_id'=>$user_id));
+	}
+
+	public function setPermissions($user_id, $permission_ids) {
+
+		if(is_array($permission_ids)) {
+
+			$s = $this->db->prepare("DELETE FROM cel_permissions_x_users WHERE user_id = :user_id");
+			$s->execute(array('user_id'=>$user_id));
+
+			foreach($permission_ids AS $permission_id) {
+				$i[] = '(' . (int) $user_id . ',' . (int) $permission_id . ')';
+			}
+			$values = join(',', $i);
+
+			$s = $this->db->prepare("INSERT INTO cel_permissions_x_users (user_id, permission_id) VALUES $values");
+			return $s->execute();
+
+		} else {
+			return false;
+		}
+
 	}
 
 	public function setProperty($user_id, $prop, $value) {

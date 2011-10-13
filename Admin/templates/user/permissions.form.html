@@ -8,7 +8,7 @@
 
 	<p>
 		<label for="data[permissions]"><?php echo __('Permission'); ?></label>
-		<?php echo $this->select(array('name'=>'data[permissions][]', 'id'=>'data[permissions]'), $options, $selected); ?>
+		<?php echo $this->select(array('name'=>'data[permissions][]', 'id'=>'data[permissions]', 'multiple'=>'multiple', 'size'=>30), $this->data['permissions']['options'], $this->data['permissions']['selected']); ?>
 	</p>
 
 </fieldset>

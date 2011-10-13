@@ -20,6 +20,19 @@ class Model_Permission_Gateway_PDO {
 
 	}
 
+	public function getPermissionsByUserId($user_id) {
+
+		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions_x_users WHERE user_id = :user_id ORDER BY permission_id ASC");
+		$s->execute(array('user_id'=>$user_id));
+		
+		foreach($s->fetchAll(PDO::FETCH_ASSOC) AS $permission) {
+			$permissions[] = $permission['permission_id']; 
+		}
+
+		return $permissions;
+
+	}
+
 	public function getUsersByPermissionId($permission_id) {
 
 		$s = $this->db->prepare("SELECT user_id FROM cel_permissions_x_users WHERE permission_id = :permission_id");
@@ -39,9 +52,7 @@ class Model_Permission_Gateway_PDO {
 		$s = $this->db->prepare("SELECT * FROM cel_permissions WHERE permission_id = :permission_id LIMIT 1");
 		$s->execute(array('permission_id'=>$permission_id));
 
-		$permissionData = $s->fetch(PDO::FETCH_ASSOC);
-
-		return $permissionData;
+		return $s->fetch(PDO::FETCH_ASSOC);
 
 	}
 
@@ -55,6 +66,46 @@ class Model_Permission_Gateway_PDO {
 
 		return (int) $permission_id['permission_id'];
 	
+	}
+
+	public function createPermission($model, $data) {
+
+		$s = $this->db->prepare("INSERT INTO cel_permissions (permission_id) VALUES ('')");
+		$s->execute();
+
+		$permission_id = $this->db->lastInsertId();
+		var_dump($permission_id);
+		if($permission_id != false) {
+			$this->setProperties($permission_id, $data);
+			return $permission_id;
+		} else {
+			return false;
+		}
+
+	}
+
+	public function setProperties($permission_id, $data) {
+
+		if(is_array($data)) {
+
+			$updates = array();
+			$binds = array();
+			foreach($data AS $field => $newValue) {
+				$field = preg_replace("([^a-zA-Z0-9_])", '', $field);
+				$updates[] = $field . " = :" . $field;
+				$binds[$field] = $newValue;
+			}
+			$updates = join(', ', $updates);
+			$s = $this->db->prepare("UPDATE cel_permissions SET " . $updates . " WHERE permission_id = :permission_id");
+
+			return $s->execute($binds);
+
+		} else {
+
+			return false;
+
+		}
+
 	}
 
 
