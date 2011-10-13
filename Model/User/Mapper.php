@@ -21,7 +21,6 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 
 	}
 
-
 	public function fetchAll() {
 
 		foreach($this->_db->fetchAll() AS $entry => $data) {
@@ -32,6 +31,11 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 
 	}
 
+	public function savePermissions($user_id, $permissionsArray) {
+
+		return $this->_db->setPermissions($user_id, $permissionsArray);
+
+	}
 
 	public function save(Model_User $model) {
 
