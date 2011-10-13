@@ -160,6 +160,15 @@ input[type="checkbox"], input[type="radio"] {
 	vertical-align: middle;
 }
 
+select {
+	vertical-align: middle;
+}
+
+option {
+	padding: 8px;
+	vertical-align: middle;
+}
+
 .i1 { width: 64px; }
 .i2 { width: 128px; }
 .i3 { width: 192px; }
@@ -264,6 +273,14 @@ input[type="checkbox"] + label {
 
 #imagelist ul li {
 	list-style: none;
+}
+
+#data_permissions {
+	height: 250px;
+}
+
+#data_permissions option {
+	border-bottom: 1px solid #666;
 }
 
 .exifTable {

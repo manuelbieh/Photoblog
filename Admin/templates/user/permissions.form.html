@@ -7,9 +7,36 @@
 	<legend><?php echo __('Select permissions'); ?></legend>
 
 	<p>
-		<label for="data[permissions]"><?php echo __('Permission'); ?></label>
-		<?php echo $this->select(array('name'=>'data[permissions][]', 'id'=>'data[permissions]', 'multiple'=>'multiple', 'size'=>30), $this->data['permissions']['options'], $this->data['permissions']['selected']); ?>
+		<label for="data_permissions"><?php echo __('Permission'); ?></label>
+		<?php echo $this->select(array('name'=>'data[permissions][]', 'id'=>'data_permissions', 'multiple'=>'multiple', 'size'=>5), $this->data['permissions']['options'], $this->data['permissions']['selected']); ?>
+		<button class="showmore">Show more</button>
 	</p>
+
+<script>
+$(function() {
+
+	$('.showmore').bind('click', function(e) {
+
+		e.preventDefault();
+
+		var	viewportHeight = $(document).height(),
+			permHeight = $('#data_permissions').outerHeight();
+
+		if((viewportHeight - 150) > permHeight) {
+			$('#data_permissions').height(permHeight + 60);
+			if((permHeight + 60) >= (viewportHeight - 150)) {
+				$(this).attr('disabled', true);
+			}
+		} else {
+			$(this).attr('disabled', true);
+		}
+
+		return false;
+
+	});
+
+});
+</script>
 
 </fieldset>
 
