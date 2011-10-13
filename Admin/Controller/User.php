@@ -6,9 +6,11 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	public function __construct($app=NULL) {
 
-		Application_Extensions::registerObservers($this);
+		#Application_Extensions::registerObservers($this);
+		$app->extensions()->registerObservers($this);
 
-		$this->userDB	= new Model_User_Gateway_PDO(Application_Registry::get('pdodb'));
+		$this->app = $app;
+		$this->userDB	= new Model_User_Gateway_PDO($app->getGlobal('pdodb'));
 		$this->view		= new Application_View();
 
 		if(!isset($_POST['ajax'])) {

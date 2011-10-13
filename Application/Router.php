@@ -147,10 +147,12 @@ echo "Action: " . $data['action'] . " <br />\n";
 					Application_Base::setAction($data['action']);
 
 					//$constructorParams = $this->getParams();
-					$params = $this->getParams();
+					$app = array($this->app);
+					$params = array_merge($app, array($this->getParams()));
+					
 
 					//$obj = Application_Base::newObject($data['controller'], $constructorParams);
-					$obj = Application_Base::newObject($data['controller'], array($params));
+					$obj = Application_Base::newObject($data['controller'], $params);
 					if(is_array($params)) {
 
 						foreach($params AS $member => $value) {

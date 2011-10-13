@@ -5,7 +5,9 @@ class Application_Base {
 	public static $autoloadDirs = array();
 	public static $action;
 	public static $controller;
-	public static $i18n;
+	protected $i18n;
+	protected $extensions;
+	protected $errors;
 	private $globals = array(); 
 
 	public function __construct() {
@@ -15,6 +17,9 @@ class Application_Base {
 		if(!defined('__COREDIR__')) {
 			define('__COREDIR__', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 		}
+
+		$this->extensions = new Application_Extensions();
+		$this->errors = new Application_Error();
 
 	}
 
@@ -35,7 +40,7 @@ class Application_Base {
 	}
 
 	public static function addAutoloadDir($dir) {
-		self::$autoloadDirs[] = $dir;
+		$this->autoloadDirs[] = $dir;
 	}
 
 	public static function __autoload($className) {
@@ -78,6 +83,14 @@ class Application_Base {
 		}
 
 
+	}
+
+	public function extensions() {
+		return $this->extensions;
+	}
+
+	public function errors() {
+		return $this->errors;
 	}
 
 	public function setLanguage($languageKey='de_DE') {
