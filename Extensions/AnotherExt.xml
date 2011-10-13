@@ -1,7 +1,0 @@
-<extension name="Usermail on Signup">
-	<class name="Extensions_Wefoundit_Another_Ext">
-		<hooks>
-			<item>Admin_Controller_User</item>
-		</hooks>
-	</class>
-</extension>

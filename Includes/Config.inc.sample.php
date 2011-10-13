@@ -6,6 +6,9 @@ $pdodb->query("SET CHARACTER SET 'utf8'");
 
 Application_Registry::load()->set('pdodb', $pdodb);
 
+define('__SALT__', 'ch4ng3m3!');
+
+
 //define('__LANG__', 'de_DE');
 //$translate = new i18n_Translate(new i18n_Adapter_Array());
 //$translate->setLocale(__LANG__);
