@@ -61,7 +61,7 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 			$model->user_id = $this->_db->createUser($model, $data);
 
 			if($model->user_id != false) {
-				return true;
+				return $model->user_id;
 			} else {
 				return false;
 			}

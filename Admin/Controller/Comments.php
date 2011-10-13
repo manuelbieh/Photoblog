@@ -2,7 +2,11 @@
 
 class Admin_Controller_Comments {
 
-	public function __construct() {
+	public function __construct($app=NULL) {
+
+		$app->extensions()->registerObservers($this);
+
+		$this->app = $app;
 
 		$this->view = new Application_View();
 
@@ -30,34 +34,40 @@ class Admin_Controller_Comments {
 
 	public function view($photo_id=NULL, $offset=0) {
 
-		$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
-		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
+		if($this->app->getGlobal('access')->check(__METHOD__)) {
 
-		if($photo_id == NULL || (int) $photo_id === 0) {
-			$allComments	= $commentMapper->fetchAll();
-		} else {
-			$allComments	= $commentMapper->findByPhoto($photo_id);
-		}
-		$itemsPerPage	= 10;
-		$totalItems		= count($allComments);
-		$offset			= (int) $offset;
+			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
+			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
 
-		$subview = new Application_View();
-		$subview->loadHTML('templates/comments/view.html');
-
-		$subview->data['photomapper'] = $photoMapper;
-		$subview->data['offset'] = (int) $offset;
-		for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-			if(isset($allComments[$i])) {
-				$subview->data['comments'][$i] = $allComments[$i];
+			if($photo_id == NULL || (int) $photo_id === 0) {
+				$allComments	= $commentMapper->fetchAll();
+			} else {
+				$allComments	= $commentMapper->findByPhoto($photo_id);
 			}
+			$itemsPerPage	= 10;
+			$totalItems		= count($allComments);
+			$offset			= (int) $offset;
+
+			$subview = new Application_View();
+			$subview->loadHTML('templates/comments/view.html');
+
+			$subview->data['photomapper'] = $photoMapper;
+			$subview->data['offset'] = (int) $offset;
+			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
+				if(isset($allComments[$i])) {
+					$subview->data['comments'][$i] = $allComments[$i];
+				}
+			}
+
+			$pagina = new Modules_Pagination;
+			$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+			$subview->data['pagination'] = $pagina->render();
+
+			$this->view->addSubview('main', $subview);
+
+		} else {
+			// no access
 		}
-
-		$pagina = new Modules_Pagination;
-		$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
-		$subview->data['pagination'] = $pagina->render();
-
-		$this->view->addSubview('main', $subview);
 
 	}
 
@@ -67,37 +77,42 @@ class Admin_Controller_Comments {
 		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
 		$comment		= $commentMapper->find($comment_id, new Model_Comment());
 
-		if($comment !== false) {
+		if($this->app->getGlobal('access')->check(__METHOD__)) {
 
-			$form = new Modules_Form();
+			if($comment !== false) {
 
-			if($form->isSent(true)) {
+				$form = new Modules_Form();
 
-				foreach($form->valueOf('data') AS $property => $value) {
-					$comment->$property = $value;
+				if($form->isSent(true)) {
+
+					foreach($form->valueOf('data') AS $property => $value) {
+						$comment->$property = $value;
+					}
+
+					$commentMapper->save($comment);
+					$subview = new Application_View();
+					$subview->loadHTML('templates/comments/edit.form.success.html');
+					$this->view->addSubview('main', $subview);
+
+				} else {
+
+					$form->data['comment'] = $comment;
+					$form->loadTemplate('templates/comments/edit.form.html');
+					$this->view->addSubview('main', $form);
+
 				}
-
-				$commentMapper->save($comment);
-				$subview = new Application_View();
-				$subview->loadHTML('templates/comments/edit.form.success.html');
-				$this->view->addSubview('main', $subview);
 
 			} else {
 
-				$form->data['comment'] = $comment;
-				$form->loadTemplate('templates/comments/edit.form.html');
-				$this->view->addSubview('main', $form);
+				$subview = new Application_View();
+				$subview->loadHTML('templates/comments/edit.error.notfound.html');
+				$this->view->addSubview('main', $subview);
 
 			}
 
 		} else {
-
-			$subview = new Application_View();
-			$subview->loadHTML('templates/comments/edit.error.notfound.html');
-			$this->view->addSubview('main', $subview);
-
+			// no access
 		}
-
 
 	}
 
@@ -108,62 +123,57 @@ class Admin_Controller_Comments {
 
 		$subview 		= new Application_View();
 
-		if($comment !== false && isset($_POST['confirm'])) {
+		if($this->app->getGlobal('access')->check(__METHOD__)) {
 
-			$deleted = $commentMapper->delete($comment_id);
+			if($comment !== false && isset($_POST['confirm'])) {
 
-			if($deleted == true) {
+				$deleted = $commentMapper->delete($comment_id);
 
-				if($_POST['ajax']) {
-					$subview->setHTML(__('{"response":"Comment was deleted successfully."}'));
+				if($deleted == true) {
+
+					if($_POST['ajax']) {
+						$subview->setHTML(__('{"response":"Comment was deleted successfully."}'));
+					} else {
+						$subview->loadHTML('templates/comments/delete.success.html');
+					}
+
 				} else {
-					$subview->loadHTML('templates/comments/delete.success.html');
+
+					if($_POST['ajax']) {
+						$subview->setHTML(__('{"error":"For some reason the comment could not be deleted."}'));
+					} else {
+						$subview->loadHTML('templates/comments/delete.success.html');
+					}
+
 				}
+
+				$this->view->addSubview('main', $subview);
+
+			} else if($comment === false) {
+
+				$subview = new Application_View();
+				$subview->loadHTML('templates/comments/delete.error.notfound.html');
+				$this->view->addSubview('main', $subview);
+			
+			} else if(isset($_POST['cancel'])) {
+
+				Application_Base::go($_POST['r']);
 
 			} else {
 
 				if($_POST['ajax']) {
-					$subview->setHTML(__('{"error":"Comment could, for some reason, not be deleted."}'));
+					
 				} else {
-					$subview->loadHTML('templates/comments/delete.success.html');
+					$form = new Modules_Form('templates/comments/delete.form.html');
+					$form->assign('web_name', $comment->web_name);
+					$this->view->addSubview('main', $form);
 				}
 
+				$deleted = false;
+
 			}
-
-			$this->view->addSubview('main', $subview);
-
-		} else if($comment === false) {
-
-			$subview = new Application_View();
-			$subview->loadHTML('templates/comments/delete.error.notfound.html');
-			$this->view->addSubview('main', $subview);
-		
-		} else if(isset($_POST['cancel'])) {
-
-			Application_Base::go($_POST['r']);
-
-		} else {
-
-			if($_POST['ajax']) {
-				
-			} else {
-				$form = new Modules_Form('templates/comments/delete.form.html');
-				$form->assign('web_name', $comment->web_name);
-				$this->view->addSubview('main', $form);
-			}
-
-			$deleted = false;
 
 		}
-
-		// getImageId() -> getOriginalName, getWebName
-		// delete uploads/source/image
-		// delete uploads/web/image
-		// delete uploads/thumbs/image
-		// delete uploads/mini/image
-		// delete db entry
-		// call stock api -> delete (blog_id, image_id)
-
 
 	}
 

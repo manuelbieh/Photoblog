@@ -1,3 +1,5 @@
 <h2><?php echo __('Profile was created successfully'); ?></h2>
 
-<p><?php echo __('New user profile was created successfully!'); ?></h2>
+<p><?php echo __('New user profile was created successfully!'); ?></p>
+
+<p>You should now <a href="<?php echo Application_Base::getBaseURL(); ?>User/permissions/<?php echo $this->data['user']->user_id; ?>">add some permissions</a>.</p>

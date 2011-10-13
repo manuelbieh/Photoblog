@@ -22,6 +22,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		$navi = new Application_View();
 		$navi->loadHTML("templates/main/navi.html");
+		$navi->app = $app;
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
@@ -258,6 +259,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 				$subview = new Application_View();
 				if($newUser != false) {
+					$subview->data['user']->user_id = $newUser;
 					$subview->loadHTML('templates/user/add.success.html');
 					$this->notify('addSuccess');
 					$this->view->addSubview('main', $subview);
@@ -324,6 +326,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				foreach($permissions AS $permissionModel) {
 					$form->data['permissions']['options'][$permissionModel->permission_id] = $permissionModel->title;
 				}
+				sort($form->data['permissions']['options']);
 				$form->data['permissions']['selected'] = $permissionMapper->findPermissionsByUserId($user_id);
 			}
 
