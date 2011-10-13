@@ -39,6 +39,10 @@ class Admin_Application_Access {
 
 			return array($string[0], $string[1]);
 
+		} else {
+
+			return array($string, '');
+
 		}
 
 	}

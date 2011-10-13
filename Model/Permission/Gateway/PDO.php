@@ -12,6 +12,7 @@ class Model_Permission_Gateway_PDO {
 
 	}
 
+
 	public function fetchAll() {
 
 		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions ORDER BY permission_id ASC");
@@ -19,6 +20,30 @@ class Model_Permission_Gateway_PDO {
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
 	}
+
+
+	public function getPermissionId($class, $method='', $param='') {
+
+		$where = "class = :class";
+		$binds['class'] = $class;
+		if($method !== '') {
+			$where .= " AND method = :method";
+			$binds['method'] = $method;
+		}
+		if($param !== '') {
+			$where .= " AND param = :param";
+			$binds['param'] = $param;
+		}
+
+		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions WHERE $where LIMIT 1");
+		$s->execute($binds);
+
+		$permission_id = $s->fetch(PDO::FETCH_ASSOC);
+
+		return (int) $permission_id['permission_id'];
+	
+	}
+
 
 	public function getPermissionsByUserId($user_id) {
 
@@ -56,17 +81,6 @@ class Model_Permission_Gateway_PDO {
 
 	}
 
-
-	public function getPermissionId($class, $method, $param) {
-
-		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions WHERE class = :class AND method = :method AND param = :param LIMIT 1");
-		$s->execute(array('class'=>$class, 'method'=>$method, 'param'=>$param));
-
-		$permission_id = $s->fetch(PDO::FETCH_ASSOC);
-
-		return (int) $permission_id['permission_id'];
-	
-	}
 
 	public function createPermission($model, $data) {
 

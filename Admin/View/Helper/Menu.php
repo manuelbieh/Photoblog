@@ -31,22 +31,30 @@ class Admin_View_Helper_Menu {
 
 			foreach($this->JSON AS $cnt => $main) {
 
-				$active	= $controller == $main['controller'] ? ' active ':'';
-				$id		= $main['id'] ? ' id="'. $main['id'] . '"' : '';
-				$class	= $main['class'] ? ' ' . $main['class'] . ' ' : '';
-				$open	= $main['open'] == "true" || in_array($main['title'], $this->open) ? ' open ':'';
+			#	if((isset($this->app) && $this->app->getGlobal('access')->check('Admin_Controller_' . $main['controller'])) || !isset($this->app)) {
 
-				$menu .= '<li ' . $id . ' class="' . $active . $class . $open . '"><a href="' . $url . $main['link'] . '">' . __($main['title']) . '</a>';
-				if(isset($main['sub']) && !empty($main['sub'])) {
-					$menu .= '<ul>';
-					foreach($main['sub'] AS $sub) {
-						$active	= (strtolower($controller . '/' . $action) == strtolower($sub['link']) || strpos(ltrim($currentURL, '/'), ltrim($sub['link']))  === 0) ? 'active':'';
-						$id		= $sub['id'] ? ' id="'. $sub['id'] . '"' : '';
-						$menu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . __($sub['title']) . '</a></li>';
+					$active	= $controller == $main['controller'] ? ' active ':'';
+					$id		= $main['id'] ? ' id="'. $main['id'] . '"' : '';
+					$class	= $main['class'] ? ' ' . $main['class'] . ' ' : '';
+					$open	= $main['open'] == "true" || in_array($main['title'], $this->open) ? ' open ':'';
+
+					$menu .= '<li ' . $id . ' class="' . $active . $class . $open . '"><a href="' . $url . $main['link'] . '">' . __($main['title']) . '</a>';
+					if(isset($main['sub']) && !empty($main['sub'])) {
+						$menu .= '<ul>';
+						foreach($main['sub'] AS $sub) {
+
+						#	if((isset($this->app) && $this->app->getGlobal('access')->check('Admin_Controller_' . $main['controller'] . '::' . strtolower(str_replace($controller . '/', '', $sub['link'])))) || !isset($this->app)) {
+								$active	= (strtolower($controller . '/' . $action) == strtolower($sub['link']) || strpos(ltrim($currentURL, '/'), ltrim($sub['link']))  === 0) ? 'active':'';
+								$id		= $sub['id'] ? ' id="'. $sub['id'] . '"' : '';
+								$menu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . __($sub['title']) . '</a></li>';
+						#	}
+						}
+						$menu .= '</ul>';
 					}
-					$menu .= '</ul>';
-				}
-				$menu .= '</li>';
+					$menu .= '</li>';
+
+			#	}
+
 			}
 
 			if(isset($options) && isset($options['wrap'])) {
