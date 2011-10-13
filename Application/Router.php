@@ -2,13 +2,15 @@
 
 class Application_Router {
 
+	protected $app;
 	protected $params = array();
 	protected $request;
 	protected $routes;
 	protected $ignore;
 
-	public function __construct($routes) {
+	public function __construct($routes, $app=NULL) {
 
+		$this->app = $app;
 		$this->request = new Modules_Request_HTTP();
 		$this->addRoutes($routes);
 

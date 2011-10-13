@@ -43,7 +43,7 @@ class Admin_Application_Access {
 
 	}
 
-	public function check($classMethod, $param) {
+	public function check($classMethod, $param='') {
 
 		$classMethod = $this->extract($classMethod);
 
