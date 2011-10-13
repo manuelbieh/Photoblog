@@ -56,7 +56,7 @@ class Model_Permission_Mapper extends Model_Mapper_Abstract {
 
 		if((int) $model->permission_id === 0) {
 
-			$model->permission_id = $this->_db->createPermission($data);
+			$model->permission_id = $this->_db->createPermission($model, $data);
 
 			if($model->permission_id != false) {
 				return true;

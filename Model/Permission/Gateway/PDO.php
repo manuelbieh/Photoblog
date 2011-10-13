@@ -74,7 +74,6 @@ class Model_Permission_Gateway_PDO {
 		$s->execute();
 
 		$permission_id = $this->db->lastInsertId();
-		var_dump($permission_id);
 		if($permission_id != false) {
 			$this->setProperties($permission_id, $data);
 			return $permission_id;
@@ -89,7 +88,7 @@ class Model_Permission_Gateway_PDO {
 		if(is_array($data)) {
 
 			$updates = array();
-			$binds = array();
+			$binds = array('permission_id'=>$permission_id);
 			foreach($data AS $field => $newValue) {
 				$field = preg_replace("([^a-zA-Z0-9_])", '', $field);
 				$updates[] = $field . " = :" . $field;
