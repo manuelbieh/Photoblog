@@ -1,0 +1,16 @@
+<h2><?php echo __('Edit permissions'); ?></h2>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend><?php echo __('Select permissions'); ?></legend>
+
+	<p>
+		<label for="data[permissions]"><?php echo __('Permission'); ?></label>
+		<?php echo $this->select(array('name'=>'data[permissions][]', 'id'=>'data[permissions]'), $options, $selected); ?>
+	</p>
+
+</fieldset>
+
+[[$SEND]]

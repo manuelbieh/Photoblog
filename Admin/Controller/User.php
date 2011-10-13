@@ -4,7 +4,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	protected $observers = array();
 
-	public function __construct() {
+	public function __construct($app=NULL) {
 
 		Application_Extensions::registerObservers($this);
 
@@ -135,23 +135,15 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 		if($login_user_id) { // user is logged in?
-
 			// no user was specified or $user_id given equals login_user
 			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
-
 				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
-
 			// login_user_id is not user_id, check if login_user may edit others
 			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
-
 				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'other');
-
 			}
-
 		} else {
-
 			$allowed = false;
-
 		}
 
 		if($allowed === true) {
@@ -200,52 +192,135 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			}
 
 		} else {
-		#	$this->view->addSubview('main', Application_Error::error401());
+			$this->view->addSubview('main', Application_Error::error401());
 		}
 
 	}
 
-	public function delete($user_id) {}
+	public function delete($user_id) {
+
+		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+
+		if($user_id === NULL) {
+			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+		}
+
+		if($login_user_id) { // user is logged in?
+			// no user was specified or $user_id given equals login_user
+			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
+				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
+			// login_user_id is not user_id, check if login_user may edit others
+			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
+				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'other');
+			}
+		} else {
+			$allowed = false;
+		}
+
+		if($allowed === true) {
+			// delete code here
+		} else {
+			$this->view->addSubview('main', Application_Error::error401());
+		}
+
+	}
 
 	public function add() {
 
-		$this->form = new Modules_Form('templates/user/add.form.html');
+		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 
-		$validation = new Admin_Controller_User_Validation();
-		$validation->checkUsername($this->form->valueOf('data[username]'));
-	//	$validation->checkEmail($form->valueOf('data[email]'));
+		if($login_user_id) { // user is logged in?
+			$allowed = $this->app->getGlobal('access')->check(__METHOD__);
+		} else {
+			$allowed = false;
+		}
 
-		$this->form->addValidation($validation);
+		if($allowed === true) {
+			
+			$this->form = new Modules_Form('templates/user/add.form.html');
 
-		if($this->form->isSent(true)) {
+			$validation = new Admin_Controller_User_Validation();
+			$validation->checkUsername($this->form->valueOf('data[username]'));
 
-			$user = new Model_User();
-			foreach($this->form->valueOf('data') AS $property => $value) {
-				$user->$property = $value;
-			}
-			$userMapper = new Model_User_Mapper($this->userDB);
-			$newUser = $userMapper->save($user);
+			$this->form->addValidation($validation);
 
-			$subview = new Application_View();
-			if($newUser != false) {
-				$subview->loadHTML('templates/user/add.success.html');
-				$this->notify('addSuccess');
-				$this->view->addSubview('main', $subview);
+			if($this->form->isSent(true)) {
+
+				$user = new Model_User();
+				foreach($this->form->valueOf('data') AS $property => $value) {
+					$user->$property = $value;
+				}
+				$userMapper = new Model_User_Mapper($this->userDB);
+				$newUser = $userMapper->save($user);
+
+				$subview = new Application_View();
+				if($newUser != false) {
+					$subview->loadHTML('templates/user/add.success.html');
+					$this->notify('addSuccess');
+					$this->view->addSubview('main', $subview);
+				} else {
+					$this->form->addError(__('An unknown error occured. Please try again.'));
+					$this->view->addSubview('main', $this->form);
+				}
+
+				//$this->notify('user saved successfully');
+
 			} else {
-				$this->form->addError(__('An unknown error occured. Please try again.'));
-				$this->view->addSubview('main', $this->form);
-			}
 
-			//$this->notify('user saved successfully');
+				$this->view->addSubview('main', $this->form);
+
+			}
 
 		} else {
-
-			$this->view->addSubview('main', $this->form);
-
+			$this->view->addSubview('main', Application_Error::error401());
 		}
 
 	}
 
+	public function permissions($user_id) {
+
+		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+
+		if($user_id === NULL) {
+			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+		}
+
+		if($login_user_id) { // user is logged in?
+			// no user was specified or $user_id given equals login_user
+			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
+				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
+			// login_user_id is not user_id, check if login_user may edit others
+			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
+				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'other');
+			}
+		} else {
+			$allowed = false;
+		}
+
+		if($allowed === true) {
+
+			$form = new Modules_Form();
+			$form->loadTemplate('templates/user/permissions.form.html');
+
+			if($form->isSent(true)) {
+
+				foreach($form->valueOf('data') AS $prop => $value) {
+
+				}
+
+				$subview = new Application_View();
+				$subview->loadHTML('templates/user/permissions.success.html');
+				$this->view->addSubview('main', $subview);
+
+			}
+
+		} else {
+			$this->view->addSubview('main', Application_Error::error401());
+		}
+	
+	}
+
+	/*
 	public function usergroups() {
 
 		$ug	= new Model_Usergroup_Gateway_PDO(Application_Registry::get('pdodb'));
@@ -256,6 +331,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		var_dump($this->app->getGlobal('access')->check(__METHOD__, 'own'));
 
 	}
+	*/
 
 	public function addObserver($observer) {
 

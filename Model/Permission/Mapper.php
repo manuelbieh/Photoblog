@@ -6,10 +6,10 @@ class Model_Permission_Mapper extends Model_Mapper_Abstract {
 
 	public function find($permission_id, Model_Permission $model) {
 
-		#$data = $this->_db->getUserDataById($id);
-		#foreach($data AS $prop => $value) {
-		#	$model->$prop = $value;
-		#}
+		$data = $this->_db->getPermissionDataById($id);
+		foreach($data AS $prop => $value) {
+			$model->$prop = $value;
+		}
 
 		return $model;
 
@@ -27,6 +27,15 @@ class Model_Permission_Mapper extends Model_Mapper_Abstract {
 
 	}
 
+	public function fetchAll() {
+
+		foreach($this->_db->fetchAll() AS $entry => $data) {
+			$users[] = $this->find($data['permission_id'], new Model_Permission);
+		}
+
+		return $users;
+
+	}
 
 	public function save(Model_User $model) {
 
