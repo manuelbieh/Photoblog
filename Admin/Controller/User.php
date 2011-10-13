@@ -19,7 +19,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$this->notify('templateLoaded');
 
 		$navi = new Application_View();
-
 		$navi->loadHTML("templates/main/navi.html");
 		$this->view->addSubview('navi', $navi);
 
@@ -35,7 +34,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$userMapper		= new Model_User_Mapper($this->userDB);
 		$allUsers		= $userMapper->fetchAll();
 
-		$itemsPerPage	= 10;
+		$itemsPerPage	= 3;
 		$totalItems		= count($allUsers);
 		$offset			= (int) $offset;
 
@@ -51,7 +50,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 		$pagina = new Modules_Pagination;
-		$pagina->setLink(Application_Base::getBaseURL() . "Photo/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+		$pagina->setLink(Application_Base::getBaseURL() . "User/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
 		$subview->data['pagination'] = $pagina->render();
 
 		$this->view->addSubview('main', $subview);
@@ -358,7 +357,9 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 	public function test() {
 
 		$permissionMapper = new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($this->app->getGlobal('pdodb')));
-		$permissionMapper->save(new Model_Permission(), array('class'=>'MyTest', 'method'=>'myMethod'));
+		$permission = new Model_Permission();
+		$permission->{'class'} = 'MyTest';
+		$permissionMapper->save($permission);
 
 	}
 
