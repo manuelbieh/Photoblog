@@ -19,6 +19,8 @@ class Modules_Login {
 			$this->setModel(new Model_User);
 		}
 
+		$this->enc = new Modules_Encryption_Md5();
+
 		$this->setGateway($gateway);
 
 		$this->cookieExpires = time()+60*60*24*183;
@@ -45,6 +47,10 @@ class Modules_Login {
 		$sessionKey = isset($options['sessionKey']) ? $options['sessionKey'] : 'userdata';
 
 		// Benutzer hat Login-Formular ausgefüllt
+		if($password !== NULL) {
+			$password = $this->enc->encryptWithSalt($password, __SALT__);
+		}
+
 		if(($username !== NULL && $password !== NULL) && 
 			($loginUser = $this->gateway->getUserDataByLogin($username, $password) ) != false) {
 			$this->loginUserByCredentials($loginUser);

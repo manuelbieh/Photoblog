@@ -4,10 +4,12 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 
 	protected $blacklist = array('user_id', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
 
+/*
 	public function __construct($db) {
 		parent::__construct($db);
 		$this->enc = new Modules_Encryption_Md5();
 	}
+*/
 
 	public function find($id, Model_User $model) {
 
@@ -58,7 +60,8 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 		);
 
 		if($model->password !== NULL) {
-			$data['password'] = $this->enc->encryptWithSalt($model->password, __SALT__);
+			#$data['password'] = $this->enc->encryptWithSalt($model->password, __SALT__);
+			$data['password'] = $model->password;
 		}
 
 		if($model->active !== NULL) {
