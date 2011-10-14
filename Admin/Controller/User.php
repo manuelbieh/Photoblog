@@ -83,7 +83,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
-
 	}
 
 	public function profile($username=NULL) {
@@ -137,41 +136,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		}
 
-	//	$this->view->render(true);
-
-/*
-		$user = new Model_User();
-		$userMapper = new Model_User_Mapper($this->userDB);
-		$userMapper->find(1, $user);
-		print_r($user);
-
-		$usergroups = $this->userDB->getUsersUsergroups(1);
-		foreach($usergroups AS $usergroup) {
-			$usergroups[$usergroup] = $this->group->getUsergroupsGathered($usergroup);
-		}
-		print_r($usergroups);
-*/
-
-#		$login = new Modules_Login($this->userDB);
-#		$login->loginUser('Manuel', '123');
-
-		#print_r($this->group->getUsergroupsGathered(0));
-		
-		#$this->userDB->getUserDataByField('username', 
-
-		#$userMapper->find(1, $user);
-		#print_r($user);
-		
-/*
-		$user->user_id = 1;
-		$user->firstname = 'Manuel';
-		$user->lastname = 'Bieh';
-
-		$userMapper->save($user);
-
-		$result = $userMapper->find(1, $user);
-		print_r($result);
-*/
 	}
 
 	public function edit($user_id=NULL) {
@@ -233,7 +197,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				}
 
 				#$userMapper = new Model_User_Mapper($this->userDB);
-				#$userMapper = $this->getUserMapper();
 				$userMapper = $this->app->objectManager->get('userMapper');
 				$userMapper->save($user);
 
@@ -248,7 +211,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			}
 
 		} else {
-#			$this->view->addSubview('main', Application_Error::error401());
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
@@ -256,25 +218,16 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	public function delete($user_id) {
 
-		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+		$login_user_id = (int) Modules_Session::getInstance()->getVar('userdata')->user_id;
 
 		if($user_id === NULL) {
 			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 		}
 
-		if($login_user_id) { // user is logged in?
-			// no user was specified or $user_id given equals login_user
-			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
-				$allowed = $this->access->check(__METHOD__, 'own');
-			// login_user_id is not user_id, check if login_user may edit others
-			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
-				$allowed = $this->access->check(__METHOD__, 'other');
-			}
-		} else {
-			$allowed = false;
-		}
-
-		if($allowed === true) {
+		if(
+			($login_user_id === $user_id && $this->access->check(__METHOD__, 'own') ||
+			($user_id !== $login_user_id && $this->access->check(__METHOD__, 'other'))
+		) {
 			// delete code here
 		} else {
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
