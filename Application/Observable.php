@@ -4,6 +4,6 @@ interface Application_Observable {
 
 	public function addObserver($observer);
 
-	public function notify($state);
+	public function notify($state, $additionalParams=NULL);
 
 }

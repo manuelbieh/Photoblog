@@ -5,6 +5,7 @@ class Application_Base {
 	public static $autoloadDirs = array();
 	public static $action;
 	public static $controller;
+	public $objectManager;
 	protected $i18n;
 	protected $extensions;
 	protected $errors;
@@ -18,8 +19,9 @@ class Application_Base {
 			define('__COREDIR__', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 		}
 
-		$this->extensions = new Application_Extensions();
-		$this->errors = new Application_Error();
+		$this->objectManager	= new Application_ObjectManager();
+		$this->extensions		= new Application_Extensions();
+		$this->errors			= new Application_Error();
 
 	}
 
@@ -262,6 +264,5 @@ class Application_Base {
 		exit;
 
 	}
-
 
 }

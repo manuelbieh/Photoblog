@@ -9,9 +9,14 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		#Application_Extensions::registerObservers($this);
 		$app->extensions()->registerObservers($this);
 
-		$this->app = $app;
+		$this->app 		= $app;
 		$this->userDB	= new Model_User_Gateway_PDO($app->getGlobal('pdodb'));
 		$this->view		= new Application_View();
+		$this->enc		= new Modules_Encryption_Md5();
+
+		$this->app->objectManager->set('userMapper', new Model_User_Mapper($this->userDB));
+
+		$this->setUserMapper(new Model_User_Mapper($this->userDB));
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -30,11 +35,23 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			exit;
 		}
 
+		$this->notify('constructorEnd');
+
+	}
+
+	public function setUserMapper($userMapper) {
+		$this->userMapper = $userMapper;
+		
+	}
+
+	protected function getUserMapper() {
+		return $this->userMapper;
 	}
 
 	public function view($offset=0) {
 
-		$userMapper		= new Model_User_Mapper($this->userDB);
+		//$userMapper		= new Model_User_Mapper($this->userDB);
+		$userMapper		= $this->getUserMapper();
 		$allUsers		= $userMapper->fetchAll();
 
 		$itemsPerPage	= 3;
@@ -152,7 +169,8 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		if($allowed === true) {
 
 			$user = new Model_User();
-			$userMapper = new Model_User_Mapper($this->userDB);
+			#$userMapper = new Model_User_Mapper($this->userDB);
+			$userMapper = $this->getUserMapper();
 			$userMapper->find($user_id, $user);
 
 			$form = new Modules_Form();
@@ -173,15 +191,20 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			if($form->isSent(true)) {
 
 				foreach($form->valueOf('data') AS $prop => $value) {
-					// ISSUE: password is removed since check fails
+
 					if(!in_array($prop, $blacklist)) {
-						if($prop != 'password' || ($prop === 'password' && strlen($value) > 0)) {
+
+						if($prop != 'password') {
 							$user->$prop = $value;
+						} else if ($prop === 'password' && strlen($value) > 0) {
+							$user->$prop = $this->enc->encryptWithSalt($value, __SALT__);
 						}
+
 					}
 				}
 
-				$userMapper = new Model_User_Mapper($this->userDB);
+				#$userMapper = new Model_User_Mapper($this->userDB);
+				$userMapper = $this->getUserMapper();
 				$userMapper->save($user);
 
 				$subview = new Application_View();
@@ -250,25 +273,32 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			if($this->form->isSent(true)) {
 
 				$user = new Model_User();
-				foreach($this->form->valueOf('data') AS $property => $value) {
-					$user->$property = $value;
+				foreach($this->form->valueOf('data') AS $prop => $value) {
+
+					if($prop !== 'password') {
+						$user->$prop = $value;
+					} else {
+						$user->$prop = $this->enc->encryptWithSalt($value, __SALT__);
+					}
+
 				}
 
-				$userMapper = new Model_User_Mapper($this->userDB);
+				#$userMapper = new Model_User_Mapper($this->userDB);
+				$userMapper = $this->getUserMapper();
 				$newUser = $userMapper->save($user);
 
-				$subview = new Application_View();
+				$this->subview = new Application_View();
+
 				if($newUser != false) {
-					$subview->data['user']->user_id = $newUser;
-					$subview->loadHTML('templates/user/add.success.html');
+					$this->subview->data['user']->user_id = $newUser;
+					$this->subview->loadHTML('templates/user/add.success.html');
 					$this->notify('addSuccess');
-					$this->view->addSubview('main', $subview);
+					$this->view->addSubview('main', $this->subview);
 				} else {
 					$this->form->addError(__('An unknown error occured. Please try again.'));
+					$this->notify('addError');
 					$this->view->addSubview('main', $this->form);
 				}
-
-				//$this->notify('user saved successfully');
 
 			} else {
 
@@ -336,7 +366,8 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 				$subview = new Application_View();
 
-				$userMapper = new Model_User_Mapper(new Model_User_Gateway_PDO($this->app->getGlobal('pdodb')));
+				#$userMapper = new Model_User_Mapper(new Model_User_Gateway_PDO($this->app->getGlobal('pdodb')));
+				$userMapper = $this->getUserMapper();
 
 				// save permissions
 				if($userMapper->savePermissions($user_id, $form->valueOf('data[permissions]'))) {
@@ -387,13 +418,13 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	}
 
-	public function notify($state) {
+	public function notify($state, $additionalParams=NULL) {
 
 		foreach((array) $this->observers AS $obs) {
 
 			if(method_exists($obs, $state)) {
 
-				$obs->$state(&$this);
+				$obs->$state(&$this, $additionalParams);
 
 			}
 
