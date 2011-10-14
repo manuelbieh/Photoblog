@@ -2,7 +2,9 @@
 
 class Admin_Controller_Login {
 
-	public function __construct() {
+	public function __construct($app=NULL) {
+
+		$this->app = $app;
 
 		$this->view		= new Application_View();
 		$this->login	= new Modules_Login( new Model_User_Gateway_PDO( Application_Registry::get('pdodb') ) );
