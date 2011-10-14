@@ -14,6 +14,8 @@ include_once $app->getProjectDir() . '../Includes/Functions.inc.php';
 $access = new Admin_Application_Access();
 $access->setPermissionMapper(new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($pdodb)));
 
+$app->objectManager->register('Admin_Application_Access', $access);
+
 $app->addGlobals(
 	array(
 		'access'=>$access,

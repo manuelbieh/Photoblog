@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Controller_Photo {
+class Admin_Controller_Photo extends Controller_Frontend implements Application_Observable {
 
 	public function __construct($app=NULL) {
 
@@ -8,7 +8,10 @@ class Admin_Controller_Photo {
 
 		$this->app = $app;
 
-		$this->view = new Application_View();
+		$this->view		= new Application_View();
+		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
+
+		$this->app->objectManager->register('photoMapper', new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb'))));
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -17,7 +20,7 @@ class Admin_Controller_Photo {
 		}
 
 		$navi = new Application_View();
-
+		$navi->app = $app;
 		$navi->loadHTML("templates/main/navi.html");
 		$this->view->addSubview('navi', $navi);
 
@@ -26,15 +29,13 @@ class Admin_Controller_Photo {
 			exit;
 		}
 
-	}
+		$this->notify('constructorEnd');
 
-	public function __destruct() {
-		$this->view->render(true);
 	}
 
 	public function add() {
 
-		if($this->app->getGlobal('access')->check(__METHOD__)) {
+		if($this->access->check(__METHOD__)) {
 
 			$val = new Modules_JSONValidation();
 			$val->setConfigByJSONFile('templates/photo/add.form.validation.json');
@@ -154,14 +155,14 @@ class Admin_Controller_Photo {
 			}
 
 		} else {
-			// no access
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 	}
 
 	public function view($offset=0) {
 
-		if($this->app->getGlobal('access')->check(__METHOD__)) {
+		if($this->access->check(__METHOD__)) {
 
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb')));
 			$allPhotos		= $photoMapper->fetchAll();
@@ -190,7 +191,7 @@ class Admin_Controller_Photo {
 			$this->view->addSubview('main', $subview);
 
 		} else {
-			// no access
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 	}
@@ -206,9 +207,9 @@ class Admin_Controller_Photo {
 
 		if($login_user_id) { 
 			if((int) $photo->user_id === (int) $login_user_id) {
-				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
+				$allowed = $this->access->check(__METHOD__, 'own');
 			} else if((int) $photo->user_id !== (int) $login_user_id) {
-				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'other');
+				$allowed = $this->access->check(__METHOD__, 'other');
 			}
 		} else {
 			$allowed = false;
@@ -249,7 +250,7 @@ class Admin_Controller_Photo {
 			}
 
 		} else {
-			// no access
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 	}
@@ -263,9 +264,9 @@ class Admin_Controller_Photo {
 
 		if($login_user_id) {
 			if((int) $photo->user_id === (int) $login_user_id) {
-				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
+				$allowed = $this->access->check(__METHOD__, 'own');
 			} else if((int) $photo->user_id !== (int) $login_user_id) {
-				$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'other');
+				$allowed = $this->access->check(__METHOD__, 'other');
 			}
 		} else {
 			$allowed = false;
@@ -331,7 +332,7 @@ class Admin_Controller_Photo {
 			}
 
 		} else {
-			// no access
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 		// getImageId() -> getOriginalName, getWebName
@@ -354,6 +355,26 @@ class Admin_Controller_Photo {
 
 	public function show($image_id) {
 		
+	}
+
+	public function addObserver($observer) {
+
+		array_push($this->observers, $observer);
+
+	}
+
+	public function notify($state, $additionalParams=NULL) {
+
+		foreach((array) $this->observers AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state(&$this, $additionalParams);
+
+			}
+
+		}
+
 	}
 
 }

@@ -20,6 +20,11 @@ class Application_Base {
 		}
 
 		$this->objectManager	= new Application_ObjectManager();
+
+		$this->objectManager->register('Application_Extensions', new Application_Extensions());
+		$this->objectManager->register('Application_Error', new Application_Error());
+		$this->objectManager->register('Application_View', new Application_View());
+
 		$this->extensions		= new Application_Extensions();
 		$this->errors			= new Application_Error();
 

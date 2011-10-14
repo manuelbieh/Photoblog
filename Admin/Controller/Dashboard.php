@@ -1,10 +1,15 @@
 <?php
 
-class Admin_Controller_Dashboard {
+class Admin_Controller_Dashboard extends Controller_Frontend {
 
-	public function __construct() {
+	public function __construct($app=NULL) {
 
-		$this->view = new Application_View();
+		$app->extensions()->registerObservers($this);
+
+		$this->app = $app;
+
+		$this->view		= new Application_View();
+		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -22,10 +27,6 @@ class Admin_Controller_Dashboard {
 			exit;
 		}
 
-	}
-
-	public function __destruct() {
-		$this->view->render(true);
 	}
 
 	public function index() {
