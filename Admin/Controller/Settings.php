@@ -1,10 +1,15 @@
 <?php
 
-class Admin_Controller_Settings {
+class Admin_Controller_Settings extends Controller_Frontend implements Application_Observable {
 
-	public function __construct() {
+	public function __construct($app=NULL) {
 
-		$this->view = new Application_View();
+		$app->extensions()->registerObservers($this);
+
+		$this->app = $app;
+
+		$this->view		= new Application_View();
+		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -24,92 +29,46 @@ class Admin_Controller_Settings {
 	
 	}
 
-	public function __destruct() {
-		$this->view->render(true);
-	}
-
 	public function edit($section) {
 
+		if($this->access->check(__METHOD__, $section)) {
 
-		$form = new Modules_Form("templates/settings/settings.form.html");
+			$form = new Modules_Form("templates/settings/settings.form.html");
 
-		if($form->isSent()) {
+			if($form->isSent()) {
 
-			$settings = new Modules_XML();
-			$settings->load(Application_Settings::getFile(1));
+				$settings = new Modules_XML();
+				$settings->load(Application_Settings::getFile(1));
 
-			$checkboxes = $settings->XPath()->query("//settings/" . $section . "//*[@type='checkbox']");
-			foreach($checkboxes AS $checkbox) {
-				$checkbox->nodeValue = 0;
+				$checkboxes = $settings->XPath()->query("//settings/" . $section . "//*[@type='checkbox']");
+				foreach($checkboxes AS $checkbox) {
+					$checkbox->nodeValue = 0;
+				}
+
+				foreach($form->valueOf('data') AS $xpath => $value) {
+
+					$node = $settings->XPath()->query("//settings/" . $section . $xpath);
+					$childnode = $node->item(0);
+					$childnode->nodeValue = $value;
+
+				}
+
+				$settings->save(Application_Settings::getFile(1));
+
 			}
 
-			foreach($form->valueOf('data') AS $xpath => $value) {
+			$form->assign('content', $this->getSettingsXML($section));
 
-				$node = $settings->XPath()->query("//settings/" . $section . $xpath);
-				$childnode = $node->item(0);
-				$childnode->nodeValue = $value;
+			$subview = new Application_View();
+			$subview->loadHTML('templates/settings/settings.html');
+			$subview->assign('form', $form->render());
+			$subview->assign('headline', 'Settings');
 
-			}
-
-			$settings->save(Application_Settings::getFile(1));
+			$this->view->addSubview('main', $subview);
 
 		}
 
-		$form->assign('content', $this->getSettingsXML($section));
-
-		$subview = new Application_View();
-		$subview->loadHTML('templates/settings/settings.html');
-		$subview->assign('form', $form->render());
-		$subview->assign('headline', 'Settings');
-
-		$this->view->addSubview('main', $subview);
-
 	}
-
-/*
-	public function system() {
-
-		#$settingsData = $this->getSettings('system');
-		#$settingsForm = new Modules_Form();
-		#$settingsForm->data['settings'] = $settingsData;
-		#$settingsForm->loadTemplate('templates/settings/settings.form.html');
-		#$this->view->addSubview('main', $settingsForm);
-
-		$form = new Modules_Form($this->getSettingsXML('system'));
-
-		$this->view->addSubview('main', $form);
-
-
-	}
-
-	public function general() {
-
-		$this->view->addSubview('main', new Application_View_String($this->getSettingsXML('general')));
-		
-		#$settingsData = $this->getSettings('general');
-		#$settingsForm = new Modules_Form();
-		#$settingsForm->data['settings'] = $settingsData;
-		#$settingsForm->loadTemplate('templates/settings/settings.form.html');
-		#$this->view->addSubview('main', $settingsForm);
-
-	}
-
-	public function url() {
-	
-	}
-
-	public function theme() {
-
-		$this->view->addSubview('main', new Application_View_String($this->getSettingsXML('theme')));
-
-		#$settingsData = $this->getSettings('theme');
-		#$settingsForm = new Modules_Form();
-		#$settingsForm->data['settings'] = $settingsData;
-		#$settingsForm->loadTemplate('templates/settings/settings.form.html');
-		#$this->view->addSubview('main', $settingsForm);
-
-	}
-*/
 
 	private function getSettingsXML($section) {
 
@@ -295,6 +254,26 @@ class Admin_Controller_Settings {
 		}
 
 		return $data;
+
+	}
+
+	public function addObserver($observer) {
+
+		array_push($this->observers, $observer);
+
+	}
+
+	public function notify($state, $additionalParams=NULL) {
+
+		foreach((array) $this->observers AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state(&$this, $additionalParams);
+
+			}
+
+		}
 
 	}
 

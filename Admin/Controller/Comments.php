@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Controller_Comments {
+class Admin_Controller_Comments extends Controller_Frontend {
 
 	public function __construct($app=NULL) {
 
@@ -8,7 +8,8 @@ class Admin_Controller_Comments {
 
 		$this->app = $app;
 
-		$this->view = new Application_View();
+		$this->view		= new Application_View();
+		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -28,13 +29,9 @@ class Admin_Controller_Comments {
 
 	}
 
-	public function __destruct() {
-		$this->view->render(true);
-	}
-
 	public function view($photo_id=NULL, $offset=0) {
 
-		if($this->app->getGlobal('access')->check(__METHOD__)) {
+		if($this->access->check(__METHOD__)) {
 
 			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
@@ -66,7 +63,7 @@ class Admin_Controller_Comments {
 			$this->view->addSubview('main', $subview);
 
 		} else {
-			// no access
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 	}
@@ -77,7 +74,7 @@ class Admin_Controller_Comments {
 		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
 		$comment		= $commentMapper->find($comment_id, new Model_Comment());
 
-		if($this->app->getGlobal('access')->check(__METHOD__)) {
+		if($this->access->check(__METHOD__)) {
 
 			if($comment !== false) {
 
@@ -111,7 +108,7 @@ class Admin_Controller_Comments {
 			}
 
 		} else {
-			// no access
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 	}
@@ -123,7 +120,7 @@ class Admin_Controller_Comments {
 
 		$subview 		= new Application_View();
 
-		if($this->app->getGlobal('access')->check(__METHOD__)) {
+		if($this->access->check(__METHOD__)) {
 
 			if($comment !== false && isset($_POST['confirm'])) {
 
@@ -173,6 +170,8 @@ class Admin_Controller_Comments {
 
 			}
 
+		} else {
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 
 	}
