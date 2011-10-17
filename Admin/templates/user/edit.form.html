@@ -28,9 +28,21 @@
 	<legend><?php echo __('Personal information'); ?></legend>
 
 	<p>
+		<label for="data[salutation]"><?php echo __('Salutation'); ?></label>
+		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Herr'=>'Herr', 'Frau'=>'Frau', 'Eure Majestät'=>'Eure Majestät'), $this->data->salutation); ?>
+	</p>
+
+	<p>
 		<label for="data[firstname]"><?php echo __('Firstname'); ?></label>
 		<?php echo $this->input(array('type'=>'text', 'name'=>'data[firstname]', 'id'=>'data[firstname]', 'value'=>$this->data->firstname)); ?>
 	</p>
+
+	<!--
+	<p>
+		<label for="data[testfoo]"><?php echo __('testfoo'); ?></label>
+		<?php echo $this->input(array('type'=>'text', 'name'=>'data[testfoo]', 'id'=>'data[testfoo]', 'value'=>$this->data->testfoo)); ?>
+	</p>
+	-->
 
 	<p>
 		<label for="data[lastname]"><?php echo __('Lastname'); ?></label>
@@ -42,7 +54,17 @@
 		<?php echo $this->input(array('type'=>'text', 'name'=>'data[birthname]', 'id'=>'data[birthname]', 'value'=>$this->data->birthname)); ?>
 	</p>
 
-
+	<p>
+		<span class="label"><?php echo __('Gender'); ?></span><br />
+		<label for="data[gender][m]">
+			<?php echo $this->input(array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]', 'checked'=>$this->data->gender == 'm' ? 'checked':'')); ?>
+			<?php echo __('Male'); ?>
+		</label>
+		<label for="data[gender][w]" class="nofloat">
+			<?php echo $this->input(array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]', 'checked'=>$this->data->gender == 'w' ? 'checked':'')); ?>
+			<?php echo __('Female'); ?>
+		</label>
+	</p>
 
 </fieldset>
 	<!--<input type="hidden" name="hash" value="[[hash]]" />-->

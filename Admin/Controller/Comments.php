@@ -41,9 +41,10 @@ class Admin_Controller_Comments extends Controller_Frontend {
 			} else {
 				$allComments	= $commentMapper->findByPhoto($photo_id);
 			}
-			$itemsPerPage	= 10;
-			$totalItems		= count($allComments);
-			$offset			= (int) $offset;
+			$allCommentsReverse	= array_reverse($allComments);
+			$itemsPerPage		= 10;
+			$totalItems			= count($allComments);
+			$offset				= (int) $offset;
 
 			$subview = new Application_View();
 			$subview->loadHTML('templates/comments/view.html');
@@ -52,7 +53,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 			$subview->data['offset'] = (int) $offset;
 			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
 				if(isset($allComments[$i])) {
-					$subview->data['comments'][$i] = $allComments[$i];
+					$subview->data['comments'][$i] = $allCommentsReverse[$i];
 				}
 			}
 

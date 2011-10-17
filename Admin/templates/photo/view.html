@@ -14,6 +14,8 @@ if(count($this->data['images']) > 0) {
 	<ul class="tools">
 		<li><a class="edit" href="<?php echo Application_Base::getBaseURL(); ?>Photo/edit/<?php echo $data->photo_id; ?>"><?php echo __('Edit details'); ?></a></li>
 		<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Photo/delete/<?php echo $data->photo_id; ?>"><?php echo __('Delete photo'); ?></a></li>
+		<li><strong><?php echo __('Uploaded'); ?>:</strong> <?php echo $data->date_uploaded; ?></li>
+		<li><strong><?php echo __('Original size'); ?>:</strong> <?php echo $data->original_width; ?>×<?php echo $data->original_height; ?></li>
 		<?php if($data->tags): ?>
 		<li><strong><?php echo __('Tags'); ?>:</strong> <?php echo $data->tags; ?></li>
 		<?php endif; ?>
