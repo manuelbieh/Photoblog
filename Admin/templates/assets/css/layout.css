@@ -5,7 +5,9 @@
 
 html, body {
 	background: white;
-	font-family: "Calibri", "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+	font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+	font-size: 13px;
+	line-height: 19px;
 	height: 100%;
 }
 
@@ -264,7 +266,7 @@ input[type="checkbox"] + label {
 	list-style: none;
 	max-width: 100%;
 	overflow: auto;
-	width: 320px;
+	width: 400px;
 }
 
 #imagelist > li:nth-child(even) {

@@ -49,14 +49,21 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 	}
 
 	public function save(Model_User $model) {
-
+/*
+		foreach($model->getKeys() AS $prop => $value) {
+			$data[$prop] = $value;
+		}
+*/
 		$data = array(
 			'username'=>$model->username,
 			'email'=>$model->email,
 			'firstname'=>$model->firstname,
 			'lastname'=>$model->lastname,
+			#'testfoo'=>$model->testfoo,
+			'birthname'=>$model->birthname,
 			'middlename'=>$model->middlename,
 			'passconf'=>$model->passconf,
+			'gender'=>$model->gender,
 		);
 
 		if($model->password !== NULL) {

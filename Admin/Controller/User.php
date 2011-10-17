@@ -225,8 +225,10 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 		if(
-			($login_user_id === $user_id && $this->access->check(__METHOD__, 'own') ||
-			($user_id !== $login_user_id && $this->access->check(__METHOD__, 'other'))
+			(
+				$login_user_id === $user_id && $this->access->check(__METHOD__, 'own') ||
+				($user_id !== $login_user_id && $this->access->check(__METHOD__, 'other'))
+			)
 		) {
 			// delete code here
 		} else {
