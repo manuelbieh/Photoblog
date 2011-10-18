@@ -239,7 +239,14 @@ class Model_User_Gateway_PDO {
 				$prop[$row['prop_name']] = $row['prop_id'];
 			}
 
-			#$this->db->query("DELETE FROM cel_userprops_x_users WHERE prop_id IN (" . join(',', $prop) . ")");
+			$newKeys = array_diff(array_keys($proplist), array_keys($prop));
+			if(is_array($newKeys)) {
+				foreach($newKeys AS $key) {
+					$s = $this->db->prepare("INSERT INTO cel_userprops (prop_name) VALUES (:prop_name)");
+					$s->execute(array('prop_name'=>$key));
+					$prop[$key] = $this->db->lastInsertId();
+				}
+			}
 
 			foreach($proplist AS $prop_name => $newValue) {
 				$prop_id = $prop[$prop_name];
