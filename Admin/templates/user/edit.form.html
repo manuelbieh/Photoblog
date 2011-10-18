@@ -57,11 +57,13 @@
 	<p>
 		<span class="label"><?php echo __('Gender'); ?></span><br />
 		<label for="data[gender][m]">
-			<?php echo $this->input(array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]', 'checked'=>$this->data->gender == 'm' ? 'checked':'')); ?>
+			<?php $m = $this->data->gender == 'm' ? array('checked'=>'checked') : array(); ?>
+			<?php echo $this->input(array_merge($m, array('type'=>'radio', 'value'=>'m', 'name'=>'data[gender]', 'id'=>'data[gender][m]'))); ?>
 			<?php echo __('Male'); ?>
 		</label>
 		<label for="data[gender][w]" class="nofloat">
-			<?php echo $this->input(array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]', 'checked'=>$this->data->gender == 'w' ? 'checked':'')); ?>
+			<?php $w = $this->data->gender == 'w' ? array('checked'=>'checked') : array(); ?>
+			<?php echo $this->input(array_merge($w, array('type'=>'radio', 'value'=>'w', 'name'=>'data[gender]', 'id'=>'data[gender][w]'))); ?>
 			<?php echo __('Female'); ?>
 		</label>
 	</p>

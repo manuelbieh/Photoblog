@@ -1,8 +1,10 @@
 <?php
 
-class Model_User_Mapper extends Model_Mapper_Abstract {
+class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Observable {
 
 	protected $blacklist = array('user_id', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
+	public $data;
+	public $observers = array();
 
 	public function find($id, Model_User $model) {
 
@@ -47,28 +49,35 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 			$data[$prop] = $value;
 		}
 */
-		$data = array(
+		$app = new Application_Base();
+		$app->extensions()->registerObservers($this);
+
+		$this->data = array(
 			'username'=>$model->username,
 			'email'=>$model->email,
 			'firstname'=>$model->firstname,
 			'lastname'=>$model->lastname,
 			'birthname'=>$model->birthname,
+			'salutation'=>$model->salutation,
 			'middlename'=>$model->middlename,
 			'passconf'=>$model->passconf,
 			'gender'=>$model->gender,
 		);
 
 		if($model->password !== NULL) {
-			$data['password'] = $model->password;
+			$this->data['password'] = $model->password;
 		}
 
 		if($model->active !== NULL) {
-			$data['active'] = $model->active;
+			$this->data['active'] = $model->active;
 		}
+
+		$this->notify('builtDataArray');
 
 		if((int) $model->user_id === 0) {
 
-			$model->user_id = $this->_db->createUser($model, $data);
+			$model->date_signup = date('Y-m-d H:i:s');
+			$model->user_id = $this->_db->createUser($model, $this->data);
 
 			if($model->user_id != false) {
 				return $model->user_id;
@@ -77,7 +86,27 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 			}
 
 		} else {
-			$this->_db->setProperties($model->user_id, $data);
+			$this->_db->setProperties($model->user_id, $this->data);
+		}
+
+	}
+
+	public function addObserver($observer) {
+
+		array_push($this->observers, $observer);
+
+	}
+
+	public function notify($state, $additionalParams=NULL) {
+
+		foreach((array) $this->observers AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state(&$this, $additionalParams);
+
+			}
+
 		}
 
 	}

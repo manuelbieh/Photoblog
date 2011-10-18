@@ -9,4 +9,7 @@
 	<class name="Application_View_Theme">
 		<item>Extensions_Wefoundit_Application_View</item>
 	</class>
+	<class name="Model_User_Mapper">
+		<item>Extensions_Wefoundit_Test</item>
+	</class>
 </hooks>
