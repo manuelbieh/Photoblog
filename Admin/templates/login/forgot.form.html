@@ -4,9 +4,18 @@
 
 <fieldset>
 	<legend><?php echo __('Please enter your username or email address:'); ?></legend>
-	<p><?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
-	<label for="data[username]"><?php echo __('Username'); ?></label></p>
-	<p><?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]')); ?>
-	<label for="data[email]"><?php echo __('Email'); ?></label></p>
+	<p>
+		<label for="data[username]"><?php echo __('Username'); ?></label>
+		<?php echo $this->input(array('name'=>'data[username]', 'id'=>'data[username]')); ?>
+	</p>
+
+	<p>
+		<label for="data[email]"><?php echo __('Email'); ?></label>
+		<?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]')); ?>
+	</p>
+
+	<p><a href="<?php echo Application_Base::getBaseUrl(); ?>Login"><?php echo __('Back to login'); ?></a></p>
+
 	[[$SEND]]
+
 </fieldset>
