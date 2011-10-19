@@ -18,7 +18,7 @@
 		<?php if(Modules_Session::getInstance()->getVar('userdata')->user_id) { ?>
 		<div class="info">
 			<div class="userimg" style="background: url(<?php echo Application_Base::getBaseURL(); ?>../uploads/avatars/<?php echo Modules_Session::getInstance()->getVar('userdata')->avatar; ?>_45.png) center center no-repeat;"></div><?php echo Modules_Session::getInstance()->getVar('userdata')->firstname; ?> <?php echo Modules_Session::getInstance()->getVar('userdata')->lastname; ?><br />
-			<small><a href="<?php echo Application_Base::getBaseURL(); ?>User/edit"><?php echo __('Edit profile'); ?></a> | <a href="<?php echo Application_Base::getBaseURL(); ?>Login/?logout"><?php echo __('Logout'); ?></a></small>
+			<span class="small"><a href="<?php echo Application_Base::getBaseURL(); ?>User/edit"><?php echo __('Edit profile'); ?></a> | <a href="<?php echo Application_Base::getBaseURL(); ?>Login/?logout"><?php echo __('Logout'); ?></a></span>
 			<br style="clear: both;" />
 		</div>
 		<?php } ?>

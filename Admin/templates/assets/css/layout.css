@@ -108,6 +108,10 @@ section#content {
 	padding: 16px 16px;
 }
 
+.small {
+	font-size: 11px;
+}
+
 header h1 {
 	font-weight: 400;
 	font-family: "Georgia", "Corsiva", "Times New Roman", Serif;
@@ -139,7 +143,7 @@ footer p {
 	border: 2px solid white;
 	float: left;
 	height: 45px;
-	margin: 0 4px 0px 0;
+	margin: 0 8px 0px 0;
 	outline: 1px solid #999;
 	width: 45px;
 }
