@@ -85,6 +85,7 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 			'birthname'=>$model->birthname,
 			'salutation'=>$model->salutation,
 			'middlename'=>$model->middlename,
+			'avatar'=>$model->avatar,
 			'gender'=>$model->gender,
 		);
 
