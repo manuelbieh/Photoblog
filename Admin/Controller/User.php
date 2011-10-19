@@ -2,15 +2,15 @@
 
 class Admin_Controller_User extends Controller_Frontend implements Application_Observable {
 
+	public $app;
 	protected $observers = array();
 
 	public function __construct($app=NULL) {
 
-		#Application_Extensions::registerObservers($this);
 		$app->extensions()->registerObservers($this);
 
 		$this->app 		= $app;
-		$this->userDB	= new Model_User_Gateway_PDO($app->getGlobal('pdodb'));
+		$this->userDB	= new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
 		$this->view		= new Application_View();
 		$this->enc		= new Modules_Encryption_Md5();
 
@@ -18,11 +18,14 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		$this->app->objectManager->register('userMapper', new Model_User_Mapper($this->userDB));
 
+		$this->notify('configEnd');
+
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
 		}
+
 		$this->notify('templateLoaded');
 
 		$navi = new Application_View();

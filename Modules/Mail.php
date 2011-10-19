@@ -7,7 +7,7 @@ abstract class Modules_Mail {
 	protected $Header;
 	protected $HTMLMessage;
 	protected $Message;
-	protected $Recipients;
+	protected $Recipient;
 	protected $Subject;
 	protected $Type = 'text';
 
@@ -30,7 +30,6 @@ abstract class Modules_Mail {
 	}
 
 	public function setRecipient($email, $name=NULL) {
-		$this->Recipient = array();
 		$this->Recipient[] = "$name <$email>";
 		return $this;
 	}

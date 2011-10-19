@@ -3,28 +3,14 @@
 class Modules_Login {
 
 	public $cookieExpires;
-	public $enableCookie 		= true;
 	public $loginCookieName 	= 'loginSession';
-	public $model				= NULL;
 	public $safetyCookieName 	= 'loginSessionCheck';
-	public $salt 				= 'xVf'; // use a random string here
 	protected $gateway			= NULL;
-	private $loginhash;
 
-	public function __construct($gateway, Model_User $userModel=NULL) {
-
-		if($userModel != NULL && $userModel instanceOf Model_User) {
-			$this->setModel($userModel);
-		} else {
-			$this->setModel(new Model_User);
-		}
-
-		$this->enc = new Modules_Encryption_Md5();
+	public function __construct($gateway) {
 
 		$this->setGateway($gateway);
-
 		$this->cookieExpires = time()+60*60*24*183;
-		return $this;
 
 	}
 
@@ -32,124 +18,74 @@ class Modules_Login {
 		$this->gateway = $gateway;
 	}
 
-	public function setModel(Model_User $userModel) {
-		$this->model = $userModel;
+	public function getGateway() {
+		return $this->gateway;
 	}
 
-	public function loginUser($username=NULL, $password=NULL, $options=array()) {
-
-		if(isset($options['enableCookie']) && $options['enableCookie'] == true) {
-			$this->enableCookie();
-		} else {
-			$this->disableCookie();
-		}
+	public function loginUser($username=false, $password=false, $options=array()) {
 
 		$sessionKey = isset($options['sessionKey']) ? $options['sessionKey'] : 'userdata';
 
-		// Benutzer hat Login-Formular ausgefüllt
-		if($password !== NULL) {
-			$password = $this->enc->encryptWithSalt($password, __SALT__);
-		}
+		if($username !== false && $password !== false) {
 
-		if(($username !== NULL && $password !== NULL) && 
-			($loginUser = $this->gateway->getUserDataByLogin($username, $password) ) != false) {
-			$this->loginUserByCredentials($loginUser);
-#echo '1';
+			$userMapper = new Model_User_Mapper($this->getGateway());
+			$user = $userMapper->findByLogin($username, $password);
 
-		// Benutzer ist bereits eingeloggt (Session ist aktiv)
+			if($user !== false) {
+
+				Modules_Session::getInstance()->setVar($sessionKey, $user);
+
+				$ua	= htmlentities($_SERVER['HTTP_USER_AGENT'], ENT_NOQUOTES);
+
+				$loginhash = $user->loginhash ? $user->loginhash : md5(md5(__SALT__) . md5($password) . $ua . md5($user->username) . mt_rand(0, time()));
+
+				if($options['enableCookie'] == true) {
+
+					$this->setCookie($this->loginCookieName, $user->user_id . '|' . $loginhash);
+					$this->setCookie($this->safetyCookieName, $this->createSafetyHash());
+
+					$user->loginhash = $loginhash;
+					$userMapper->save($user);
+
+				}
+
+				return true;
+
+			}
+
 		} else if($this->isLoggedIn($sessionKey)) {
 
-#echo '2';
 			return true;
 
-		// Benutzer ist nicht eingeloggt aber Cookie ist vorhanden
-		} else if($username == NULL && $password == NULL &&
-					/* $this->enableCookie == true && */
-					$this->cookieIsSet() === true && $_COOKIE[$this->safetyCookieName] === $this->createSafetyHash()) {
+		} else if($this->cookieIsSet() && $_COOKIE[$this->safetyCookieName] === $this->createSafetyHash()) {
 
-#echo '3';
-			$cred = $this->loginUserByCookie();
-			$loginUser = $this->gateway->getUserDataByCookieData($cred);
+			$cookieData = $this->getCookie($this->loginCookieName);
+			$cookieData = explode('|', $cookieData);
 
-		} else {
+			$user_id = $cookieData[0];
+			$loginhash = $cookieData[1];
 
-#echo '4';
-			$this->logout();
+			if($loginhash != '') {
 
-		}
+				$userMapper = new Model_User_Mapper($this->getGateway());
+				$user = $userMapper->findByFields(array('user_id'=>(int) $user_id, 'loginhash'=>$loginhash));
 
-		if(isset($loginUser) && (is_array($loginUser) || is_object($loginUser) )) {
-			foreach($loginUser AS $property => $value) {
-				$this->model->$property = $value;
+				if($user[0] !== false) {
+
+					Modules_Session::getInstance()->setVar($sessionKey, $user[0]);
+
+					return true;
+
+				}
+
 			}
-		}
-		/*
-		if($this->model instanceof Model_User) {
-			$this->model->user_id = $loginUser['user_id'];
-			$this->model->username = $loginUser['username'];
-			$this->model->email = $loginUser['email'];
-		}
-		*/
 
-		if(is_array($loginUser)) {
-			Modules_Session::getInstance()->setVar($sessionKey, $this->model);
-			return true;
-		} else {
-			$this->logout($sessionKey);
-			return false;
 		}
+
+		return false;
 
 	}
 
-	public function requestPassword($userData) {
-
-		$userData['active'] = 1;
-		$userData = $this->gateway->getEmailByUserData($userData);
-
-		if($userData != false) {
-
-			$hash = md5($userData['username'] . mt_rand(0, 9999999) . microtime(true) . $_SERVER['HTTP_USER_AGENT']);
-			$this->gateway->setProperty($userData['user_id'], 'passconf', $hash);
-
-			$mailtpl = new Application_View();
-			$mailtpl->loadHTML('templates/login/forgot.mail.txt');
-			$mailtpl->assign('username', $userData['username']);
-			$mailtpl->assign('resetlink', Application_Base::getBaseURL() . 'login/confirm/' . $userData['username'] . '/' . $hash);
-
-			$mail = new Modules_Mail_Mail();
-			#$mail->setFrom($_SERVER['SERVER_NAME'] . ': Passwort request');
-			$from = Application_Settings::get("//email/signup");
-			$mail->setFrom($from['address'], $from['name']);
-			$mail->setMessage($mailtpl->render());
-			$mail->setRecipient($userData['email']);
-			$mail->setSubject('You requested to reset your password');
-			$mail->send();
-			// new Email(); -> loadTemplate() -> send()
-			// return $userData;
-			return true;
-
-		} else {
-
-			return false;
-
-		}
-
-	}
-
-
-	public function resetPassword($identifier, $form) {
-
-		$user_id = $this->gateway->getPropertyByField('user_id', 'passconf', $identifier);
-
-		if((int) $user_id !== 0) {
-			return true;
-		} else {
-			return false;
-		}
-		// Variante 1: Formular, neues Passwort setzen, sofort aktiv
-		// Variante 2: "Danke"-Seite, neues Passwort per E-Mail
-
-	}
 
 	public function confirmAccount($user, $hash) {
 
@@ -189,49 +125,8 @@ class Modules_Login {
 
 	}
 
-
-
-	public function loginUserByCookie() {
-	#	echo $_COOKIE[$this->safetyCookieName];
-	#	echo '|';
-	#	echo $this->createSafetyHash();
-		if($_COOKIE[$this->safetyCookieName] === $this->createSafetyHash()) {
-			$this->loginhash = $_COOKIE[$this->loginCookieName];
-			return $this->loginhash;
-		} else {
-			return false;
-		}
-
-	}
-
-
-	public function loginUserByCredentials($userObject) {
-
-			$cred['email'] = $userObject['email'];
-			$cred['username'] = $userObject['username'];
-			$cred['password'] = $userObject['password'];
-
-			$cred['useragent'] = htmlentities($_SERVER['HTTP_USER_AGENT'], ENT_NOQUOTES);
-			
-			$cred['loginhash'] = $userObject['loginhash'] ? $userObject['loginhash'] : md5(md5($this->salt) . md5($userObject['password']) . $cred['useragent'] . md5($userObject['username']) . mt_rand(0, time()));
-
-			$cred['safetyhash'] = $this->createSafetyHash();
-
-			if($this->enableCookie === true) {
-
-				$this->setCookie($this->loginCookieName, $cred['username'] . '|' . $cred['loginhash']);
-				$this->setCookie($this->safetyCookieName, $cred['safetyhash']);
-
-				$this->gateway->setLoginhash($userObject['user_id'], $cred['loginhash']);
-				$loginUser->loginhash = $cred['loginhash'];
-
-			}
-
-	}
-
-
 	public function isLoggedIn($sessionKey='userdata') {
-		if(Modules_Session::getInstance()->getVar($sessionKey)->username == true) {
+		if((int) Modules_Session::getInstance()->getVar($sessionKey)->user_id !== 0) {
 			return true;
 		} else {
 			return false;
@@ -239,46 +134,41 @@ class Modules_Login {
 	}
 
 	public function createSafetyHash() {
-		return md5(md5($this->salt) . $_SERVER['HTTP_USER_AGENT'] . md5($this->salt . $this->salt));
-	}
-
-	public function enableCookie() {
-		$this->enableCookie = true;
-	}
-
-	public function disableCookie() {
-		$this->enableCookie = false;
+		return md5(md5(__SALT__) . $_SERVER['HTTP_USER_AGENT'] . md5(__SALT__ . __SALT__));
 	}
 
 	public function setCookie($cookieName, $data) {
-
 		setcookie($cookieName, $data, $this->cookieExpires, '/');
-
 	}
 
 	public function getCookie($cookieName) {
 		return $_COOKIE[$cookieName];
 	}
 
-
 	public function deleteCookie() {
 		$_COOKIE[$this->loginCookieName] = false;
-		setcookie($this->loginCookieName, '', 0);
+		$this->setCookie($this->loginCookieName, false);
 	}
 
-
 	public function cookieIsSet() {
-
 		return (isset($_COOKIE[$this->loginCookieName])) ? true : false;
-
 	}
 
 	public function logout($sessionKey='userdata') {
 
-		$s = Modules_Session::getInstance();
-		$this->gateway->setLoginhash($s->getVar($sessionKey)->user_id, '');
-		$s->removeVar($sessionKey);
+		if($this->isLoggedIn($sessionKey)) {
+
+			$user = Modules_Session::getInstance()->getVar($sessionKey);
+			$user->loginhash = '';
+
+			$userMapper = new Model_User_Mapper($this->getGateway());
+			$userMapper->save($user);
+
+		}
+
+		Modules_Session::getInstance()->removeVar($sessionKey);
 		$this->deleteCookie();
+
 		$request = new Modules_Request_HTTP();
 	#	$redirectTo = $request->removeQueryParams($request->getRequestURL(), array('logout'));
 	#	header("Location: " . $redirectTo);

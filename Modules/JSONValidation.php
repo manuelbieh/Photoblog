@@ -86,6 +86,9 @@ class Modules_JSONValidation extends Modules_Validation_Abstract {
 
 						foreach($validation AS $check => $params) {
 
+							if(isset($params['error'])) {
+								$params['error'] = __($params['error']);
+							}
 							array_unshift($params, $this->getValue($field));
 							if(is_callable(array($data['validation'], $check))) {
 

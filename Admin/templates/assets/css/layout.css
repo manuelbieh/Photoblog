@@ -88,6 +88,20 @@ section#content {
 	top: 0;
 }
 
+.errors {
+	background: #FFEEEE;
+	border: 1px solid #BA5050;
+	margin: 1em 0 1em 0;
+	padding: 3px;
+}
+
+.errors li {
+	background: url(/Admin/templates/assets/images/famfamfam/exclamation.png) no-repeat 6px center;
+	list-style: none;
+	margin: 5px 0;
+	padding-left: 32px;
+}
+
 .info {
 	background: #DADADA;
 	box-shadow: inset 0px 0 4px #999;
@@ -156,6 +170,10 @@ input, textarea {
 	font-size: 110%;
 	padding: 8px;
 	text-shadow: 2px 2px 0 #e6e6e6;
+}
+
+input[type="text"], input[type="email"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], select {
+	width: 300px;
 }
 
 input[type="checkbox"], input[type="radio"] {

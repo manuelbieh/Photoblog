@@ -24,7 +24,32 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 	}
 
 	public function findByField($fieldname, $value) {
-		return $this->find($this->_db->getUserDataByField($fieldname, $value), new Model_User);
+		$user_id = $this->_db->getUserIdByField($fieldname, $value);
+		return $this->find($user_id, new Model_User);
+	}
+
+	public function findByFields($fieldArray) {
+
+		$res = $this->_db->getUsersByMultipleFields($fieldArray);
+
+		$users = array();
+		if(is_array($res)) {
+			foreach($res AS $user_id) {
+				$users[] = $this->find($user_id, new Model_User);
+			}
+		}
+		return $users;
+
+	}
+
+	public function findByLogin($username, $password) {
+
+		$user = $this->_db->getUserDataByLogin($username, $password);
+		if($user != false) {
+			return $this->find($user['user_id'], new Model_User);
+		}
+		return false;
+
 	}
 
 	public function fetchAll() {
@@ -60,12 +85,19 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 			'birthname'=>$model->birthname,
 			'salutation'=>$model->salutation,
 			'middlename'=>$model->middlename,
-			'passconf'=>$model->passconf,
 			'gender'=>$model->gender,
 		);
 
 		if($model->password !== NULL) {
 			$this->data['password'] = $model->password;
+		}
+
+		if($model->passconf !== NULL) {
+			$this->data['passconf'] = $model->passconf;
+		}
+
+		if($model->loginhash !== NULL) {
+			$this->data['loginhash'] = $model->loginhash;
 		}
 
 		if($model->active !== NULL) {
@@ -86,7 +118,9 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 			}
 
 		} else {
+
 			$this->_db->setProperties($model->user_id, $this->data);
+
 		}
 
 	}
