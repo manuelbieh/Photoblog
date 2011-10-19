@@ -200,6 +200,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb')));
 		$photo 			= $photoMapper->find($photo_id, new Model_Photo());
+
 		$exifMapper		= new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->getGlobal('pdodb')));
 		$exif 			= $exifMapper->find($photo_id, new Model_Exif());
 
@@ -226,6 +227,9 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 					foreach($form->valueOf('data') AS $property => $value) {
 						$photo->$property = $value;
 					}
+
+					$photo->exif = $form->valueOf('data[exif]') == false ? 0 : $form->valueOf('data[exif]');
+					$photo->allow_comments = $form->valueOf('data[allow_comments]') == false ? 0 : $form->valueOf('data[allow_comments]');
 
 					$photo_id = $photoMapper->save($photo);
 					$subview = new Application_View();

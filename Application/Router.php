@@ -149,7 +149,6 @@ echo "Action: " . $data['action'] . " <br />\n";
 					//$constructorParams = $this->getParams();
 					$app = array($this->app);
 					$params = array_merge($app, array($this->getParams()));
-					
 
 					//$obj = Application_Base::newObject($data['controller'], $constructorParams);
 					$obj = Application_Base::newObject($data['controller'], $params);

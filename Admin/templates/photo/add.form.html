@@ -42,10 +42,16 @@
 	</p>
 
 	<p>
-		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[exif]', 'name'=>'data[exif]', 'checked'=>'checked', 'value'=>'1' )); ?>
-		<label for="data[exif]"><?php echo __('Publish exif data'); ?></label>
+		<?php 
+		$exif = Application_Settings::get('//general/exif/publishByDefault', 1) == 1 ? array('checked'=>'checked') : array();
+		echo $this->input(array_merge($exif, array('type'=>'checkbox', 'id'=>'data[exif]', 'name'=>'data[exif]', 'value'=>'1' ))); ?>
+		<label for="data[exif]"><?php echo __('Publish EXIF data?'); ?></label>
 	</p>
 
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[allow_comments]', 'name'=>'data[allow_comments]', 'checked'=>'checked', 'value'=>'1' )); ?>
+		<label for="data[allow_comments]"><?php echo __('Allow users to comment on this photo?'); ?></label>
+	</p>
 
 
 </fieldset>

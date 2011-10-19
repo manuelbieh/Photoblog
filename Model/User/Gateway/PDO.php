@@ -7,7 +7,7 @@ class Model_User_Gateway_PDO {
 		if($dbh) {
 			$this->db = $dbh;
 		} else {
-			throw new Model_Database_Exception('Type of $db is not "Database".');
+			throw new Model_Database_Exception('Type of $db is not "Database" in ' . basename(__FILE__));
 		}
 
 	}
