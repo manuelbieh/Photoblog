@@ -18,9 +18,12 @@ class Model_User_Gateway_PDO {
 		#$cryptPassword = crypt($password);
 		$s = $this->db->prepare("SELECT user_id, password FROM cel_users WHERE username = :username AND password = :password LIMIT 1");
 		$s->execute(array('username'=>$username, 'password'=>$password));
-		$user = $s->fetchAll(PDO::FETCH_ASSOC);
-
-		return $this->getUserDataById($user[0]['user_id']);
+		$user = $s->fetch(PDO::FETCH_ASSOC);
+		if($user != false) {
+			return $this->getUserDataById($user['user_id']);
+		} else {
+			return false;
+		}
 
 	}
 
@@ -76,6 +79,17 @@ class Model_User_Gateway_PDO {
 */
 	}
 
+	public function getUserIdByField($fieldName, $value) {
+
+		$fieldName = stripslashes($fieldName);
+		$fieldName = preg_replace("([^a-zA-Z0-9_])", '', $fieldName);
+
+		$s = $this->db->prepare("SELECT user_id FROM cel_users WHERE $fieldName = :value LIMIT 1");
+		$s->execute(array("value"=>$value));
+		$user = $s->fetch(PDO::FETCH_ASSOC);
+		return $user['user_id'];
+
+	}
 
 	public function getUsersByMultipleFields($fieldArray) {
 

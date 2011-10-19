@@ -1,15 +1,22 @@
-<?php
-if($this->isSent() && $this->valueOf('data[password]') != $this->valueOf('confirm')) {
-#	$this->addError('Passwort und Bestätigung stimmen nicht überein!');
-}
-?>
+<h2><?php echo __('Reset your password'); ?></h2>
+
 [[$ERRORS]]
+
 <fieldset>
+
 	<legend><?php echo __('Please choose a new password'); ?></legend>
-	<p><?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
-	<label for="data[password]"><?php echo __('New password'); ?></label></p>
-	<p><?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
-	<label for="confirm"><?php echo __('Repeat password'); ?></label></p>
+
+	<p>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'data[password]', 'id'=>'data[password]')); ?>
+		<label for="data[password]"><?php echo __('New password'); ?></label>
+	</p>
+
+	<p>
+		<?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
+		<label for="confirm"><?php echo __('Repeat password'); ?></label>
+	</p>
+
 	<input type="hidden" name="hash" value="[[hash]]" />
 	[[$SEND]]
+
 </fieldset>
