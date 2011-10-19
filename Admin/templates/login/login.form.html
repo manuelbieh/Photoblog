@@ -16,6 +16,10 @@
 		<?php echo $this->input(array('type'=>'checkbox', 'value'=>"1", "checked"=>"checked", "name"=>"data[enableCookie]", 'id'=>'data[enableCookie]')); ?>
 		<label for="data[enableCookie]"><?php echo __('Remember login'); ?></label>
 	</p>
+
+	<p class="small"><a href="<?php echo Application_Base::getBaseUrl(); ?>Login/forgot">I forgot my password</a></p>
+
+	[[$SEND]]
+
 </fieldset>
 
-[[$SEND]]
