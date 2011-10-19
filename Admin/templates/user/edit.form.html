@@ -21,6 +21,12 @@
 		<?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
 	</p>
 
+	<p>
+		<label for="upload[file]"><?php echo __('Select avatar'); ?></label>
+		<?php echo $this->input(array('type'=>'file', 'name'=>'avatar[]', 'id'=>'upload[file]')); ?>
+	</p>
+
+
 </fieldset>
 
 <fieldset>
