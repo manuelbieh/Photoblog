@@ -5,14 +5,14 @@
 <section class="content">
 
 	<p class="desc"><?php echo $this->data['photo']->description; ?></p>
-	<p><strong>Posted:</strong> <?php echo $this->data['photo']->date_publish; ?></p>
+	<p>Posted on <strong><?php echo $this->data['photo']->date_publish; ?></strong> by <strong><?php echo $this->data['photo']->photographer->username; ?></strong></p>
 
 	<section id="comments">
 
 		<h3><?php echo __('Comments'); ?></h3>
 
-		<?php if($this->data['comments']) { ?>
-			<?php foreach($this->data['comments'] AS $commentID => $comment) { ?>
+		<?php if($this->data['photo']->comments) { ?>
+			<?php foreach($this->data['photo']->comments AS $commentID => $comment) { ?>
 				<div class="comment">
 					<p class="comment-meta">
 						<small><?php echo $comment->datetime; ?></small><br />
@@ -26,6 +26,7 @@
 		<?php } ?>
 
 		<h3><?php echo __('Add comment'); ?></h3>
+
 		[[commentform]]
 
 	</section>

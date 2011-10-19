@@ -64,6 +64,8 @@ class Model_Photo_Mapper extends Model_Mapper_Abstract {
 			$data[$key] = $value;
 		}
 
+		$booleans = array('exif', 'allow_comments', 'active', 'deleted', 'released');
+
 		return $this->_db->setProperties($model->photo_id, $data);
 
 	}

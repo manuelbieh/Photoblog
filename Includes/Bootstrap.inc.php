@@ -11,4 +11,6 @@ $app->setProjectDir(dirname(__FILE__ . "/.."));
 include_once 'Config.inc.php';
 include_once 'Functions.inc.php';
 
+$app->objectManager->register('Datastore', $pdodb);
+
 #spl_autoload_register('Application_Base::__autoload');

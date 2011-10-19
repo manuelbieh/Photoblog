@@ -1,11 +1,21 @@
 <?php
 
-class Controller_Comment {
+class Controller_Comment implements Application_Observable {
 
 	protected $mapper;
 
-	public function __construct() {
-		$this->mapper		= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
+	public function __construct($app=NULL) {
+
+		$app->extensions()->registerObservers($this);
+
+		$this->app = $app;
+
+		$this->commentGateway	= new Model_Comment_Gateway_PDO($app->objectManager->get('Datastore'));
+		$this->commentMapper	= new Model_Comment_Mapper($this->commentGateway);
+
+		$this->view = new Application_View_Theme();
+		$this->view->loadHTML('index.html');
+
 	}
 
 	public function commentForm($photo_id) {
@@ -13,13 +23,15 @@ class Controller_Comment {
 		if((int) $photo_id !== 0) {
 
 			$this->commentForm = new Modules_Form();
-			$this->commentForm->loadTemplate(Application_Base::getPath(Application_View::getThemeDir() . '/comments/comment.form.html'));
+			$this->commentForm->loadTemplate($this->app->getPath(Application_View::getThemeDir() . '/comments/comment.form.html'));
 
 			if($this->commentForm->isSent()) {
 				$this->validation = new Controller_Comment_Validation();
 				$this->validation->checkRequiredFields($this->commentForm);
 				$this->commentForm->addValidation($this->validation);
+				$this->notify('commentFormSent');
 			}
+
 
 			if($this->commentForm->isSent(true)) {
 
@@ -39,6 +51,26 @@ class Controller_Comment {
 			} else {
 
 				return $this->commentForm->render();
+
+			}
+
+		}
+
+	}
+
+	public function addObserver($observer) {
+
+		array_push($this->observers, $observer);
+
+	}
+
+	public function notify($state, $additionalParams=NULL) {
+
+		foreach((array) $this->observers AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state(&$this, $additionalParams);
 
 			}
 

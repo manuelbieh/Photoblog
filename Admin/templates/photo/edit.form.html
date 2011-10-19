@@ -25,29 +25,38 @@
 	-->
 
 	<p>
-		<label for="data[tags]">Tags (kommasepariert)</label>
-		<?php echo $this->input(array('name'=>'data[tags]', 'class'=>'i5', 'id'=>'data[tags]', 'placeholder'=>'z.B. outdoor, landscape, body', 'value'=>$this->data['photo']->tags)); ?>
+		<label for="data[tags]"><?php echo __('Tags (comma separated)'); ?></label>
+		<?php echo $this->input(array('name'=>'data[tags]', 'class'=>'i5', 'id'=>'data[tags]', 'placeholder'=>__('e.g. outdoor, landscape, body'), 'value'=>$this->data['photo']->tags)); ?>
 	</p>
 
 </fieldset>
 
 <fieldset>
 
-	<legend>Optionen</legend>
+	<legend><?php echo __('Options'); ?></legend>
 
 	<p>
 		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'instant', 'name'=>'instant', 'value'=>'1' )); ?>
-		<label for="instant">Sofort veröffentlichen</label>
+		<label for="instant"><?php echo __('Publish instantly'); ?></label>
 	</p>
 
 	<p>
-		<label for="data[title]">Veröffentlichungsdatum (YYYY-MM-DD HH:MM)</label>
-		<?php echo $this->input(array('type'=>'datetime', 'name'=>'data[date_publish]', 'class'=>'i5', 'id'=>'data[date_publish]', 'Placeholder'=>'Sofort', 'value'=>$this->data['photo']->date_publish)); ?>
+		<label for="data[title]"><?php echo __('Timed publishing (YYYY-MM-DD HH:MM:SS)'); ?></label>
+		<?php echo $this->input(array('type'=>'datetime', 'name'=>'data[date_publish]', 'class'=>'i5', 'id'=>'data[date_publish]', 'Placeholder'=>__('Now'), 'value'=>$this->data['photo']->date_publish)); ?>
 	</p>
 
 	<p>
-		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[exif]', 'name'=>'data[exif]', 'checked'=>'checked', 'value'=>'1' )); ?>
-		<label for="data[exif]">EXIF-Daten veröffentlichen</label>
+		<?php 
+		$exif = $this->data['photo']->exif == 1 ? array('checked'=>'checked') : array();
+		echo $this->input(array_merge($exif, array('type'=>'checkbox', 'id'=>'data[exif]', 'name'=>'data[exif]', 'value'=>'1' ))); ?>
+		<label for="data[exif]"><?php echo __('Publish EXIF data?'); ?></label>
+	</p>
+
+	<p>
+		<?php
+		$allowComments = $this->data['photo']->allow_comments == 1 ? array('checked'=>'checked') : array();
+		echo $this->input(array_merge($allowComments, array('type'=>'checkbox', 'id'=>'data[allow_comments]', 'name'=>'data[allow_comments]', 'value'=>'1' ))); ?>
+		<label for="data[allow_comments]"><?php echo __('Allow users to comment on this photo?'); ?></label>
 	</p>
 
 </fieldset>
