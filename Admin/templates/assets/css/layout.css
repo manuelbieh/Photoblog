@@ -113,11 +113,15 @@ section#content {
 }
 
 header h1 {
-	font-weight: 400;
 	font-family: "Georgia", "Corsiva", "Times New Roman", Serif;
-	letter-spacing: 0.05em;
+	font-size: 22px;
+	font-variant: small-caps;
+	font-weight: 400;
+	letter-spacing: 0.07em;
+	line-height: 1.2em;
 	padding: 8px;
 }
+
 
 footer {
 	background: #e6e6e6;
