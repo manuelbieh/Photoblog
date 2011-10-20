@@ -35,6 +35,16 @@
 
 </fieldset>
 
+<fieldset>
+
+	<legend><?php echo __('Profile image'); ?></legend>
+
+	<p>
+		<label for="upload[avatar]"><?php echo __('Select file'); ?></label>
+		<?php echo $this->input(array('type'=>'file', 'name'=>'avatar[]', 'id'=>'upload[avatar]')); ?>
+	</p>
+
+</fieldset>
 
 <fieldset>
 
