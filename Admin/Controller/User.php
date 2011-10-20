@@ -184,53 +184,12 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 			$blacklist = array('user_id', 'username', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
 
-
-			if($form->isSent() && $_FILES && $_FILES['avatar']['error'][0] !== 0 && $_FILES['avatar']['error'][0] !== 4) {
-
-				$form->addError(__('Unable to upload avatar file.'));
-
-			} else if($form->isSent() && $_FILES['avatar'] && $_FILES['avatar']['error'][0] === 0) {
-
-				try {
-
-					$avatarImage		= new Modules_Image($_FILES['avatar']['tmp_name'][0]);
-					$avatarImageType	= $avatarImage->getImageMimeType();
-					$avatarImageSuffix	= Modules_Functions::getSuffixByMime($avatarImageType);
-					$avatarImageWidth	= $avatarImage->getImageWidth();
-					$avatarImageHeight	= $avatarImage->getImageHeight();
-
-					if(!in_array($avatarImageType, array('image/jpg', 'image/pjpeg', 'image/jpeg', 'image/gif', 'image/png'))) {
-
-						$form->addError(__('Unknown filetype. Please upload JPG, GIF or PNG only.'));
-
-					} else {
-
-						$avatarDir = rtrim($this->app->getProjectDir(), '/') . '/../uploads/avatars/';
-						$avatarFileName = md5(Modules_Session::getInstance()->getVar('userdata')->user_id) . '_' . time();
-
-						$avatarImage->setImageFormat('png');
-
-						$avatarImage->thumbnailImage(200, 200, true);
-						$avatarImage->writeImage($avatarDir . $avatarFileName . '_200.png');
-
-						$avatarImage->thumbnailImage(80, 80, true);
-						$avatarImage->writeImage($avatarDir . $avatarFileName . '_80.png');
-
-						$avatarImage->thumbnailImage(45, 45, true);
-						$avatarImage->writeImage($avatarDir . $avatarFileName . '_45.png');
-
-						$user->avatar = $avatarFileName;
-
-					}
-
-				} catch(Exception $e) {
-
-					$form->addError(__('Unable to upload avatar file.'));
-
-				}
-
+			$avatar = $this->handleAvatarUpload($form);
+			if($avatar !== false && $form->valueOf('avatar[delete]') != 1) {
+				$user->avatar = $avatar;
+			} else if($form->valueOf('avatar[delete]') == 1) {
+				$user->avatar = '';
 			}
-
 
 			if($form->isSent(true)) {
 
@@ -245,6 +204,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 						}
 
 					}
+
 				}
 
 				$userMapper = $this->app->objectManager->get('userMapper');
@@ -307,6 +267,11 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$validation->checkUsername($this->form->valueOf('data[username]'));
 
 			$this->form->addValidation($validation);
+
+			$avatar = $this->handleAvatarUpload($this->form);
+			if($avatar !== false) {
+				$user->avatar = $avatar;
+			}
 
 			if($this->form->isSent(true)) {
 
@@ -428,6 +393,60 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}
 	
+	}
+
+	protected function handleAvatarUpload(&$formObject) {
+
+		if($formObject->isSent() && $_FILES 
+			&& $_FILES['avatar']['error'][0] !== 0 && $_FILES['avatar']['error'][0] !== 4) {
+
+			$formObject->addError(__('Unable to upload avatar file.'));
+
+		} else if($formObject->isSent() && $_FILES['avatar'] 
+			&& $_FILES['avatar']['error'][0] === 0) {
+
+			try {
+
+				$avatarImage		= new Modules_Image($_FILES['avatar']['tmp_name'][0]);
+				$avatarImageType	= $avatarImage->getImageMimeType();
+				$avatarImageSuffix	= Modules_Functions::getSuffixByMime($avatarImageType);
+				$avatarImageWidth	= $avatarImage->getImageWidth();
+				$avatarImageHeight	= $avatarImage->getImageHeight();
+
+				if(!in_array($avatarImageType, array('image/jpg', 'image/pjpeg', 'image/jpeg', 'image/gif', 'image/png'))) {
+
+					$formObject->addError(__('Unknown filetype. Please upload JPG, GIF or PNG only.'));
+
+				} else {
+
+					$avatarDir = rtrim($this->app->getProjectDir(), '/') . '/../uploads/avatars/';
+					$avatarFileName = md5(Modules_Session::getInstance()->getVar('userdata')->user_id) . '_' . time();
+
+					$avatarImage->setImageFormat('png');
+
+					$avatarImage->thumbnailImage(200, 200, true);
+					$avatarImage->writeImage($avatarDir . $avatarFileName . '_200.png');
+
+					$avatarImage->thumbnailImage(80, 80, true);
+					$avatarImage->writeImage($avatarDir . $avatarFileName . '_80.png');
+
+					$avatarImage->thumbnailImage(45, 45, true);
+					$avatarImage->writeImage($avatarDir . $avatarFileName . '_45.png');
+
+					return $avatarFileName;
+
+				}
+
+			} catch(Exception $e) {
+
+				$formObject->addError(__('Unable to upload avatar file.'));
+
+			}
+
+		}
+
+		return false;
+
 	}
 
 	public function test() {

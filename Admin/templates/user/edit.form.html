@@ -21,11 +21,21 @@
 		<?php echo $this->input(array('type'=>'password', 'name'=>'confirm', 'id'=>'confirm')); ?>
 	</p>
 
+</fieldset>
+
+<fieldset>
+
+	<legend><?php echo __('Profile image'); ?></legend>
+
 	<p>
-		<label for="upload[file]"><?php echo __('Select avatar'); ?></label>
-		<?php echo $this->input(array('type'=>'file', 'name'=>'avatar[]', 'id'=>'upload[file]')); ?>
+		<label for="upload[avatar]"><?php echo __('Select file'); ?></label>
+		<?php echo $this->input(array('type'=>'file', 'name'=>'avatar[]', 'id'=>'upload[avatar]')); ?>
 	</p>
 
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'avatar[delete]', 'name'=>'avatar[delete]', 'value'=>'1' )); ?>
+		<label for="avatar[delete]"><?php echo __('Delete profile image?'); ?></label>
+	</p>
 
 </fieldset>
 
