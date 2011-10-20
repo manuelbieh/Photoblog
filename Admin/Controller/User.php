@@ -269,13 +269,15 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$this->form->addValidation($validation);
 
 			$avatar = $this->handleAvatarUpload($this->form);
-			if($avatar !== false) {
-				$user->avatar = $avatar;
-			}
 
 			if($this->form->isSent(true)) {
 
 				$user = new Model_User();
+
+				if($avatar !== false) {
+					$user->avatar = $avatar;
+				}
+
 				foreach($this->form->valueOf('data') AS $prop => $value) {
 
 					if($prop !== 'password') {
@@ -286,8 +288,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 				}
 
-				#$userMapper = new Model_User_Mapper($this->userDB);
-				#$userMapper = $this->getUserMapper();
 				$userMapper = $this->app->objectManager->get('userMapper');
 				$newUser = $userMapper->save($user);
 
