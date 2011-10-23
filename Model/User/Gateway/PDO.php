@@ -253,7 +253,11 @@ class Model_User_Gateway_PDO {
 				$prop[$row['prop_name']] = $row['prop_id'];
 			}
 
-			$newKeys = array_diff(array_keys($proplist), array_keys($prop));
+			if(!is_array($prop)) {
+				$newKeys = array_keys($proplist);
+			} else {
+				$newKeys = array_diff(array_keys($proplist), array_keys($prop));
+			}
 			if(is_array($newKeys)) {
 				foreach($newKeys AS $key) {
 					$s = $this->db->prepare("INSERT INTO cel_userprops (prop_name) VALUES (:prop_name)");
