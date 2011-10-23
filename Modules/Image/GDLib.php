@@ -5,6 +5,7 @@ class Modules_Image_GDLib {
 	public $filename = NULL;
 	protected $COMPRESSION_QUALITY = 90;
 	protected $filehandle = NULL;
+	protected $format;
 
 	public function __construct($filename=NULL) {
 
@@ -50,6 +51,27 @@ class Modules_Image_GDLib {
 		}
 	}
 
+	public function setImageFormat($format) {
+
+		switch($format) {
+
+			case 'png':
+				$this->format = 'image/png';
+				break;
+
+			case 'jpg':
+			case 'jpeg':
+				$this->format = 'image/jpg';
+				break;
+
+			case 'gif':
+				$this->format = 'image/gif';
+				break;
+
+		}
+
+	}
+
 	public function thumbnailImage($width, $height, $bestfit = false) {
 
 		$source_w = $this->getImageWidth();
@@ -91,7 +113,7 @@ class Modules_Image_GDLib {
 		if($this->filehandle !== NULL) {
 
 			$output = explode('.', $outputFilename);
-			$suffix = strtolower(end($output));
+			$suffix = isset($this->format) ? $this->format : strtolower(end($output));
 
 			switch($suffix) {
 
