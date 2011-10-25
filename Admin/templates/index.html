@@ -11,6 +11,8 @@
 
 	<section id="sidebar">
 
+		<div class="resizebar"></div>
+
 		<header>
 			<h1><a href="<?php echo Application_Base::getBaseURL(); ?>.."><?php echo Application_Settings::get('//settings/general/site/sitename', 1); ?></a></h1>
 		</header>
@@ -45,7 +47,25 @@
 	</footer>
 
 </div>
+<script>
+$(function() {
 
+	$('#sidebar .resizebar').bind('click', function() {
+
+		if($(this).parent().hasClass('closed')) {
+			$('#content').stop().animate({left: '300px'});
+			$('#sidebar').stop().animate({width: '300px'});
+		} else {
+			$('#sidebar').stop().animate({width: '8px'});
+			$('#content').stop().animate({left: '8px'});
+		}
+
+		$(this).parent().toggleClass('closed');
+
+	});
+
+});
+</script>
 </body>
 </html>
 

@@ -81,6 +81,26 @@ section#sidebar nav ul li ul li a {
 	text-shadow: none;
 }
 
+
+section#sidebar .resizebar {
+	bottom: 0;
+	top: 0;
+	width: 8px;
+	position: absolute;
+	right: 0;
+	cursor: pointer;
+}
+
+section#sidebar .resizebar:hover {
+	background: #ddd url(../images/foldin.png) center center no-repeat;
+}
+
+section#sidebar.closed .resizebar,
+section#sidebar.closed .resizebar:hover {
+	background: #ddd url(../images/foldout.png) center center no-repeat;
+}
+
+
 section#content {
 	left: 304px;
 	padding: 16px;
