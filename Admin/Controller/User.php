@@ -243,16 +243,22 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			)
 		) {
 
-			$userMapper = $this->app->objectManager->get('userMapper');#
+			$userMapper = $this->app->objectManager->get('userMapper');
+			$user = $userMapper->find($user_id, new Model_User);
 			$userCount = count($userMapper->fetchAll());
 			if($userCount > 1) {
+
 				if($userMapper->delete($user_id)) {
-					
+					// Delete avatar
+					// Delete photos
 				} else {
 				
 				}
+
 			} else {
+
 				// cannot delete last user
+
 			}
 
 		} else {
