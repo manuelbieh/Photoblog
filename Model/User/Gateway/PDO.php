@@ -341,7 +341,7 @@ class Model_User_Gateway_PDO {
 		$s = $this->db->prepare("DELETE FROM cel_permissions_x_users WHERE user_id = :user_id");
 		$res[] = $s->execute(array('user_id'=>(int) $user_id);
 
-		if(in_array('false', $res)) {
+		if(in_array(false, $res, true)) {
 			$this->db->rollBack();
 			return false;
 		} else {
@@ -366,7 +366,7 @@ class Model_User_Gateway_PDO {
 
 			$props = $this->setProperties($user_id, $data);
 
-			if(in_array('false', $props)) {
+			if(in_array(false, $props, true)) {
 
 				$this->db->rollBack();
 				return false;
