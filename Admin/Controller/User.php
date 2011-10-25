@@ -239,10 +239,22 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		if(
 			(
 				$login_user_id === $user_id && $this->access->check(__METHOD__, 'own') ||
-				($user_id !== $login_user_id && $this->access->check(__METHOD__, 'other'))
+				($login_user_id !== $user_id && $this->access->check(__METHOD__, 'other'))
 			)
 		) {
-			// delete code here
+
+			$userMapper = $this->app->objectManager->get('userMapper');#
+			$userCount = count($userMapper->fetchAll());
+			if($userCount > 1) {
+				if($userMapper->delete($user_id)) {
+					
+				} else {
+				
+				}
+			} else {
+				// cannot delete last user
+			}
+
 		} else {
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
 		}

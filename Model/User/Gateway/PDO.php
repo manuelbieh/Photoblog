@@ -328,6 +328,29 @@ class Model_User_Gateway_PDO {
 
 	}
 
+	public function delete($user_id) {
+
+		$this->db->beginTransaction();
+		
+		$s = $this->db->prepare("DELETE FROM cel_users WHERE user_id = :user_id");
+		$res[] = $s->execute(array('user_id'=>(int) $user_id));
+
+		$s = $this->db->prepare("DELETE FROM cel_userprops_x_users WHERE user_id = :user_id");
+		$res[] = $s->execute(array('user_id'=>(int) $user_id);
+
+		$s = $this->db->prepare("DELETE FROM cel_permissions_x_users WHERE user_id = :user_id");
+		$res[] = $s->execute(array('user_id'=>(int) $user_id);
+
+		if(in_array('false', $res)) {
+			$this->db->rollBack();
+			return false;
+		} else {
+			$this->db->commit();
+			return true;
+		}
+
+	}
+
 	public function createUser($model, $data) {
 
 		$this->db->beginTransaction();

@@ -68,6 +68,12 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 
 	}
 
+	public function delete($user_id) {
+
+		return $this->_db->delete($user_id);
+
+	}
+
 	public function save(Model_User $model) {
 /*
 		foreach($model->getKeys() AS $prop => $value) {
