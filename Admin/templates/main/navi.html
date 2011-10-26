@@ -44,7 +44,7 @@ $(function() {
 	$('ul#menu li:not(.active) ul').hide();
 	$('ul#menu > li:not(:first-child(ul)) > a').bind('click', function(e) {
 		e.preventDefault();
-		$(this).parent().find('ul').slideToggle();
+		$(this).parent().find('ul').slideToggle('fast');
 	});
 });
 </script>
