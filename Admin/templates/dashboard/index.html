@@ -4,9 +4,9 @@
 <p><?php printf(__("We currently have %s photos uploaded and %s comments received."), count($this->data['photos']), count($this->data['comments'])); ?></p>
 
 <h3><?php echo __('What do you want to do next?'); ?></h3>
-<ul>
-<li><a href="<?php echo Application_Base::getBaseURL(); ?>Photo/add"><?php echo __('Upload new photo'); ?></a></li>
-<li><a href="<?php echo Application_Base::getBaseURL(); ?>Comments/view"><?php echo __('View comments'); ?></a></li>
+<ul id="dashlist">
+<li class="dash-upload"><a href="<?php echo Application_Base::getBaseURL(); ?>Photo/add"><?php echo __('Upload new photo'); ?></a></li>
+<li class="dash-comments"><a href="<?php echo Application_Base::getBaseURL(); ?>Comments/view"><?php echo __('View comments'); ?></a></li>
 </ul>
 
 <h3><?php echo __('Recent comments'); ?></h3>
