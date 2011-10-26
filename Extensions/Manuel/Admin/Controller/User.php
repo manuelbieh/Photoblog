@@ -1,6 +1,6 @@
 <?php
 
-class Extensions_Wefoundit_Admin_Controller_User {
+class Extensions_Manuel_Admin_Controller_User {
 
 	public function __construct() {}
 

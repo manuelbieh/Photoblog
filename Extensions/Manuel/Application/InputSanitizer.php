@@ -1,6 +1,6 @@
 <?php
 
-class Extensions_Wefoundit_Application_InputSanitizer {
+class Extensions_Manuel_Application_InputSanitizer {
 
 	public function removeTags($string) {
 

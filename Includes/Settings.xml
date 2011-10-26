@@ -34,6 +34,7 @@
 
 		<backend label="Backend configuration">
 			<photosPerPage label="Photos per shown in backend list" type="range" min="1" max="50" default="15">15</photosPerPage>
+			<stylesheet label="Path to backend stylesheet. (Relative to /Admin/. Default: templates/assets/css/layout.css)." type="text">templates/assets/css/layout.css</stylesheet>
 		</backend>
 
 	</system>

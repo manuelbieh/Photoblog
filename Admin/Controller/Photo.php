@@ -65,7 +65,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 						if($form->isSent(true)) {
 
-							$source		= Extensions_Wefoundit_Helper::getSourceFolder();
+							$source		= Extensions_Manuel_Helper::getSourceFolder();
 							$sourceFile	= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
 							$webFile	= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
 
@@ -282,7 +282,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 				$files = array();
 
-				$files['original']	= Extensions_Wefoundit_Helper::getSourceFolder() . '/' . $photo->original_name;
+				$files['original']	= Extensions_Manuel_Helper::getSourceFolder() . '/' . $photo->original_name;
 				$files['web']		= rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $photo->web_name;
 				$files['thumb']		= rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $photo->web_name;
 				$files['mini']		= rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $photo->web_name;

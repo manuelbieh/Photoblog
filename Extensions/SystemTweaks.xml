@@ -2,13 +2,13 @@
 
 	<options></options>
 
-	<class name="Extensions_Wefoundit_Admin_Controller_User">
+	<class name="Extensions_Manuel_Admin_Controller_User">
 		<hooks>
 			<item>Admin_Controller_User</item>
 		</hooks>
 	</class>
 
-	<class name="Extensions_Wefoundit_Controller_Comment">
+	<class name="Extensions_Manuel_Controller_Comment">
 		<hooks>
 			<item>Controller_Comment</item>
 		</hooks>

@@ -1,6 +1,6 @@
 <?php
 
-class Extensions_Wefoundit_Helper {
+class Extensions_Manuel_Helper {
 
 	public function getSourceFolder() {
 

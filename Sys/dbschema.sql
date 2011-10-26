@@ -135,6 +135,28 @@ CREATE TABLE IF NOT EXISTS `cel_permissions_x_users` (
   UNIQUE KEY `user_id` (`user_id`,`permission_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `cel_permissions_x_users` (`user_id`, `permission_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(1, 16),
+(1, 17),
+(1, 18),
+(1, 19),
+(1, 20),
+(1, 21);
 -- --------------------------------------------------------
 
 --
@@ -310,6 +332,7 @@ CREATE TABLE IF NOT EXISTS `cel_users` (
   `password` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `loginhash` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `passconf` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `avatar` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `last_login` datetime NOT NULL,
   `loggedin` tinyint(1) NOT NULL,
   `date_signup` datetime NOT NULL,
@@ -322,6 +345,8 @@ CREATE TABLE IF NOT EXISTS `cel_users` (
   KEY `passconf` (`passconf`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+INSERT INTO `cel_users` (`user_id`, `username`, `email`, `password`, `loginhash`, `passconf`, `avatar`, `last_login`, `loggedin`, `date_signup`, `active`) VALUES
+(1, 'Manuel', 'info@localhost', '', '', '', '', '0000-00-00 00:00:00', 0, NOW(), 1);
 -- --------------------------------------------------------
 
 --

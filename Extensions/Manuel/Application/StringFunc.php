@@ -1,6 +1,6 @@
 <?php
 
-class Extensions_Wefoundit_Application_StringFunc {
+class Extensions_Manuel_Application_StringFunc {
 
 	public function capitalize($string) {
 

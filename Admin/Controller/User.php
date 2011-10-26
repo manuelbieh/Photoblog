@@ -413,6 +413,72 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 	
 	}
 
+
+	public function settings($user_id=NULL) {
+
+		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+
+		if($user_id === NULL) {
+			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
+		}
+
+		if($login_user_id) { // user is logged in?
+			// no user was specified or $user_id given equals login_user
+			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
+				#$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
+				$allowed = $this->access->check(__METHOD__, 'own');
+			// login_user_id is not user_id, check if login_user may edit others
+			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
+				$allowed = $this->access->check(__METHOD__, 'other');
+			}
+		} else {
+			$allowed = false;
+		}
+
+		if($allowed === true) {
+
+			$user = new Model_User();
+			$userMapper = $this->app->objectManager->get('userMapper');
+			$userMapper->find($user_id, $user);
+
+			$form = new Modules_Form();
+			$form->data = $user;
+			$form->loadTemplate('templates/user/settings.form.html');
+
+			if($form->isSent(true)) {
+
+				$this->whitelist = array('adminstyle');
+				foreach($form->valueOf('data') AS $prop => $value) {
+
+					if(in_array($prop, $this->whitelist)) {
+
+						$user->$prop = $value;
+
+					}
+
+				}
+
+				$userMapper->save($user, array_keys($form->valueOf('data')));
+
+				Modules_Session::getInstance()->setVar('userdata', $user);
+
+				$subview = new Application_View();
+				$subview->loadHTML('templates/user/settings.success.html');
+				$this->view->addSubview('main', $subview);
+
+			} else {
+
+				$this->view->addSubview('main', $form);
+
+			}
+
+		} else {
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
+		}
+
+	}
+
+
 	protected function handleAvatarUpload(&$formObject) {
 
 		if($formObject->isSent() && $_FILES 
