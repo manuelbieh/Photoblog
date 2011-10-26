@@ -9,7 +9,7 @@ class Application_Base {
 	protected $i18n;
 	protected $extensions;
 	protected $errors;
-	private $globals = array(); 
+	private $globals = array();
 
 	public function __construct() {
 
@@ -156,7 +156,6 @@ class Application_Base {
 
 	public function getPath($filepath) {
 
-		// Experimental
 		$docroot = self::getProjectDir();
 		$coredir = self::getCoreDir();
 

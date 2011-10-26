@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../Includes/Bootstrap.inc.php";
 ?><!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@ include "../Includes/Bootstrap.inc.php";
 		<h1>Install</h1>
 
 		<?php
-			$form = new Modules_Form('../../templates/install/install.form.html');
+			$form = new Modules_Form(dirname(__FILE__) . '/../templates/install/install.form.html');
 
 			$validate = new Modules_Validation_Basechecks();
 			if($form->isSent()) {
@@ -44,7 +45,7 @@ include "../Includes/Bootstrap.inc.php";
 					$config = Modules_Functions::patternReplace($config, array('db['.$key.']'=>$value));
 				}
 
-				file_put_contents('../Includes/Config.inc.php', $config);
+				//file_put_contents('../Includes/Config.inc.php', $config);
 				// mysql table import
 				// admin user creation
 				$uploadFolders = glob('../uploads/*', GLOB_ONLYDIR);

@@ -2,7 +2,7 @@
 
 	<options></options>
 
-	<class name="Extensions_Wefoundit_Application_View">
+	<class name="Extensions_Manuel_Application_View">
 		<hooks>
 			<item>Application_View</item>
 		</hooks>

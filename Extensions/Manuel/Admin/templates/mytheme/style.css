@@ -1,0 +1,390 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	background: white;
+	font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+	font-size: 13px;
+	line-height: 19px;
+	height: 100%;
+}
+
+body {
+	background: #ddd;
+	display: table;
+	width: 100%;
+}
+
+ul, ol, dl {
+	margin: 0.5em 0 0.5em 1.5em;
+}
+
+
+section#sidebar, section#content {
+	bottom: 40px;
+	min-height: 10px;
+	position: absolute;
+	overflow: auto;
+}
+
+section#sidebar {
+	background: #E6E6E6;
+	box-shadow: inset -0px 0px 4px #999;
+	left: 0;
+	padding-top: 8px;
+	top: 0;
+	width: 304px;
+}
+
+section#sidebar nav ul {
+	font-weight: 700;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-shadow: 1px 1px 2px #aaa;
+}
+
+section#sidebar nav > ul {
+	margin: 1em 0 0 0;
+}
+
+section#sidebar nav ul li a {
+	color: #555;
+	display: block;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+section#sidebar nav > ul > li {
+	border-top: 1px solid #c9c9c9;
+	padding-left: 32px;
+}
+
+section#sidebar nav > ul > li > a {
+	border-top: 1px solid #f0f0f0;
+	padding: 6px 0;
+}
+
+section#sidebar nav ul li a:hover {
+	color: #00264F;
+}
+
+section#sidebar nav ul li ul {
+	margin-left: -32px;
+	margin-bottom: 8px;
+}
+
+section#sidebar nav ul li ul li a {
+	font-weight: 400;
+	padding: 3px 0 3px 48px;
+	text-shadow: none;
+}
+
+
+section#sidebar .resizebar {
+	bottom: 0;
+	top: 0;
+	width: 8px;
+	position: absolute;
+	right: 0;
+	cursor: pointer;
+}
+
+section#sidebar .resizebar:hover {
+	background: #ddd url(../images/foldin.png) center center no-repeat;
+}
+
+section#sidebar.closed .resizebar,
+section#sidebar.closed .resizebar:hover {
+	background: #ddd url(../images/foldout.png) center center no-repeat;
+}
+
+
+section#content {
+	left: 304px;
+	padding: 16px;
+	right: 0;
+	top: 0;
+}
+
+.errors {
+	background: #FFEEEE;
+	border: 1px solid #BA5050;
+	margin: 1em 0 1em 0;
+	padding: 3px;
+}
+
+.errors li {
+	background: url(/Admin/templates/assets/images/famfamfam/exclamation.png) no-repeat 6px center;
+	list-style: none;
+	margin: 5px 0;
+	padding-left: 32px;
+}
+
+.info {
+	background: #DADADA;
+	box-shadow: inset 0px 0 4px #999;
+	padding: 16px 16px;
+}
+
+.small {
+	font-size: 11px;
+}
+
+header h1 {
+	font-family: "Georgia", "Corsiva", "Times New Roman", Serif;
+	font-size: 22px;
+	font-variant: small-caps;
+	font-weight: 400;
+	letter-spacing: 0.07em;
+	line-height: 1.2em;
+	padding: 8px;
+}
+
+
+footer {
+	background: #e6e6e6;
+	color: #999;
+	bottom: 0;
+	height: 24px;
+	left: 0;
+	line-height: 24px;
+	position: absolute;
+	padding: 8px 0;
+	right: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+footer p {
+	margin: 0;
+}
+
+
+.userimg {
+	background: url(/Admin/templates/assets/images/user.png) no-repeat center center;
+	border: 2px solid white;
+	float: left;
+	height: 45px;
+	margin: 0 8px 0px 0;
+	outline: 1px solid #999;
+	width: 45px;
+}
+
+p {
+	margin: 1em 0;
+}
+
+label {
+	display: block;
+	vertical-align: middle;
+}
+
+fieldset {
+	border: 1px solid #e6e6e6;
+	margin: 0.5em 0;
+	padding: 0 24px 16px 32px;
+}
+
+legend {
+	font-weight: 700;
+	margin: 0 -16px;
+	padding: 0 16px;
+}
+
+input, textarea {
+	font-family: inherit;
+	font-size: 110%;
+	padding: 8px;
+	text-shadow: 2px 2px 0 #e6e6e6;
+}
+
+input[type="text"], input[type="email"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], select {
+	width: 300px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+	vertical-align: middle;
+}
+
+select {
+	vertical-align: middle;
+}
+
+option {
+	padding: 8px;
+	vertical-align: middle;
+}
+
+.i1 { width: 64px; }
+.i2 { width: 128px; }
+.i3 { width: 192px; }
+.i4 { width: 256px; }
+.i5 { width: 384px; }
+.i6 { width: 512px; }
+.i7 { width: 640px; }
+.i8 { width: 768px; }
+.i9 { width: 960px; }
+.i10 { width: 100%px; }
+
+input[type="checkbox"] + label {
+	display: inline; 
+}
+
+.icon-pics {
+	background: url(../images/famfamfam/camera.png) no-repeat 8px 8px;
+}
+
+.icon-user {
+	background: url(../images/famfamfam/user.png) no-repeat 8px 8px;
+}
+
+.icon-comments {
+	background: url(../images/famfamfam/comments.png) no-repeat 8px 8px;
+}
+
+.icon-dashboard {
+	background: url(../images/famfamfam/report.png) no-repeat 8px 8px;
+}
+
+.icon-settings {
+	background: url(../images/famfamfam/cog.png) no-repeat 8px 8px;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	height: 1px;
+	width: 1px; 
+}
+
+.thumb {
+	float: left;
+	height: 200px;
+	margin: 5px 10px 5px 0;
+	text-align: center;
+	width: 300px;
+}
+
+.mini {
+	float: left;
+	height: 100px;
+	margin: 5px 10px 5px 0;
+	text-align: center;
+	width: 150px;
+}
+
+.zebra {
+	border-top: 1px solid #e6e6e6;
+	list-style: none;
+	margin: 0;
+}
+
+.zebra > li:nth-child(even) {
+	background: #e6e6e6;
+}
+
+.zebra > li {
+	border-bottom: 1px solid #e6e6e6;
+	clear: both;
+}
+
+.meta {
+	float: left;
+}
+
+#menu li.active > a {
+	font-weight: 700;
+}
+
+#dashlist {
+	margin: 0;
+}
+
+#dashlist li {
+	list-style: none;
+	display: inline-block;
+}
+
+#dashlist li a {
+	background-repeat: no-repeat;
+	border: 2px solid #ccc;
+	border-radius: 8px;
+	display: block;
+	margin: 1em 1em 1em 0;
+	padding-top: 124px;
+	text-align: center;
+	width: 144px;
+}
+
+#dashlist li a:hover {
+	border-color: #666;
+	background-color: #d9d9d9;
+}
+
+#dashlist .dash-upload a {
+	background-image: url(../images/icons/image.png);
+}
+
+#dashlist .dash-comments a {
+	background-image: url(../images/icons/comments.png);
+}
+
+#dashlist .dash-profile a {
+	background-image: url(../images/icons/useredit.png);
+}
+
+#imagelist {
+	border-top: 1px solid #e6e6e6;
+	margin: 0;
+	padding: 0;
+}
+
+#imagelist > li {
+	border-bottom: 1px solid #e6e6e6;
+	clear: none !important;
+	float: left;
+	height: 200px;
+	list-style: none;
+	max-width: 100%;
+	overflow: auto;
+	width: 400px;
+}
+
+#imagelist > li:nth-child(even) {
+	background: #e6e6e6;
+}
+
+#imagelist ul li {
+	list-style: none;
+}
+
+#data_permissions {
+	height: 250px;
+}
+
+#data_permissions option {
+	border-bottom: 1px solid #666;
+}
+
+.exifTable {
+	background: #e1e1e1;
+	border-collapse: collapse;
+	font-size: 12px;
+	width: 100%;
+}
+
+.exifTable td {
+	border: 2px solid white;
+	padding: 2px;
+	vertical-align: top;
+}
+
+.exifTable .exifTable {
+	background: #d1d1d1;
+	margin: -4px;
+}
+
+

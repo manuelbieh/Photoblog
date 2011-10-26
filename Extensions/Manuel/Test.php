@@ -1,6 +1,6 @@
 <?php
 
-class Extensions_Wefoundit_Test {
+class Extensions_Manuel_Test {
 
 	public function builtDataArray($obj) {
 

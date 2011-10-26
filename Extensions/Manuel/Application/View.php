@@ -1,6 +1,6 @@
 <?php
 
-class Extensions_Wefoundit_Application_View {
+class Extensions_Manuel_Application_View {
 
 	public function __construct() {}
 
