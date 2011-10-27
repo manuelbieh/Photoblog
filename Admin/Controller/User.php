@@ -61,7 +61,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$userMapper		= $this->app->objectManager->get('userMapper');
 			$allUsers		= $userMapper->fetchAll();
 
-			$itemsPerPage	= 3;
+			$itemsPerPage	= 10;
 			$totalItems		= count($allUsers);
 			$offset			= (int) $offset;
 
@@ -210,7 +210,9 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				$userMapper = $this->app->objectManager->get('userMapper');
 				$userMapper->save($user);
 
-				Modules_Session::getInstance()->setVar('userdata', $user);
+				if($user_id === $login_user_id) {
+					Modules_Session::getInstance()->setVar('userdata', $user);
+				}
 
 				$subview = new Application_View();
 				$subview->loadHTML('templates/user/edit.success.html');

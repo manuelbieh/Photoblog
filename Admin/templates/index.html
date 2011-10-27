@@ -1,13 +1,24 @@
-<?php
-$adminDir = Application_Base::getProjectDir();
-$adminStyle = Application_Settings::get('//settings/system/backend/stylesheet', 1);
-$styleFile = Modules_Filesys::isFile($adminDir . $adminStyle) ? $adminStyle : 'templates/assets/css/layout.css';
-?>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Photoblog</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<?php
+
+$adminDir = Application_Base::getProjectDir();
+
+$adminStyle = Application_Settings::get('//settings/system/backend/stylesheet', 1);
+$userStyle = Modules_Session::getInstance()->getVar('userdata')->adminstyle;
+
+if(Modules_Filesys::isFile($adminDir . $userStyle)) {
+	$styleFile = $userStyle;
+} else if(Modules_Filesys::isFile($adminDir . $adminStyle)) {
+	$styleFile = $adminStyle;
+} else {
+	$styleFile = 'templates/assets/css/layout.css';
+}
+
+?>
 <link href="<?php echo Application_Base::getBaseURL() . $styleFile; ?>?d=<?php echo (int) filemtime($adminDir . $styleFile); ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo Application_Base::getBaseURL(); ?>templates/assets/css/famfamfam.css?d=<?php echo (int) filemtime(dirname(__FILE__) . '/assets/css/famfamfam.css'); ?>" rel="stylesheet" type="text/css" />
 </head>
