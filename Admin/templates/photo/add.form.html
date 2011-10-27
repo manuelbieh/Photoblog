@@ -15,10 +15,28 @@
 		<?php echo $this->textarea(array('name'=>'data[description]', 'class'=>'i6', 'rows'=>5, 'cols'=>45, 'id'=>'data[description]')); ?>
 	</p>
 
-	<p>
-		<label for="upload[file]"><?php echo __('Select image'); ?></label>
-		<?php echo $this->input(array('type'=>'file', 'name'=>'upload[]', 'id'=>'upload[file]')); ?>
-	</p>
+	<div class="tabs">
+
+		<section title="<?php echo __('Upload'); ?>">
+
+			<p>
+				<label for="upload[file]"><?php echo __('Select image'); ?></label>
+				<?php echo $this->input(array('type'=>'file', 'name'=>'upload[]', 'id'=>'upload[file]')); ?>
+			</p>
+
+		</section>
+<!--
+		<section title="<?php echo __('Load from web'); ?>">
+
+			<p>
+				<label for="download[url]"><?php echo __('Enter URL'); ?></label>
+				<?php echo $this->input(array('type'=>'url', 'name'=>'download[]', 'id'=>'download[url]', 'placeholder'=>'http://')); ?>
+			</p>
+
+		</section>
+-->
+
+	</div>
 
 	<p>
 		<label for="data[tags]"><?php echo __('Tags (comma separated)'); ?></label>

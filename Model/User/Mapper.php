@@ -78,6 +78,7 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 	 * $additional = temporarily allow to set some more properties
 	 */
 	public function save(Model_User $model, $additional=array()) {
+
 /*
 		foreach($model->getKeys() AS $prop => $value) {
 			$data[$prop] = $value;
@@ -85,12 +86,6 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 */
 		$app = new Application_Base();
 		$app->extensions()->registerObservers($this);
-
-		if(is_array($additional)) {
-			foreach($additional AS $prop) {
-				$this->data[$prop] = $model->$prop;
-			}
-		}
 
 		$this->data = array(
 			'username'=>$model->username,
@@ -103,6 +98,12 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 			'avatar'=>$model->avatar,
 			'gender'=>$model->gender,
 		);
+
+		if(is_array($additional)) {
+			foreach($additional AS $prop) {
+				$this->data[$prop] = $model->$prop;
+			}
+		}
 
 		if($model->password !== NULL) {
 			$this->data['password'] = $model->password;

@@ -14,31 +14,31 @@
 		</path>
 
 		<path>
-			<pattern><![CDATA[/Admin/(S|s)ettings/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[/(A|a)dmin/(S|s)ettings/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_Settings</controller>
 			<action>edit</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/Admin/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>%action%</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/Admin/(?<controller>.*)/(?<action>.*)]]></pattern>
+			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/(?<action>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>%action%</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/Admin/(?<controller>.*)]]></pattern>
+			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>index</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/Admin]]></pattern>
+			<pattern><![CDATA[/(A|a)dmin]]></pattern>
 			<controller>Admin_Controller_Dashboard</controller>
 			<action>index</action>
 		</path>
