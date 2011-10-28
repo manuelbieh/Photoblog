@@ -29,13 +29,13 @@ class Modules_Functions {
 
 		if(is_array($data)) {
 			foreach($data AS $key => $array) {
-				if(is_array($array)) {	// Mehrdimensionales Array
+				if(is_array($array)) {	// Multidimensional array
 					foreach($array AS $marker => $content) {
 						$search[$key][] = $delim[0] . $marker . $delim[1];
 						$replace[$key][] = $content;
 					}
 					$output .= str_replace($search[$key], $replace[$key], $pattern);
-				} else {  // Eindimensionales Array
+				} else {  // Onedimensional array
 					$search[] = $delim[0] . $key . $delim[1];
 					$replace[] = $array;
 					$output = str_replace($search, $replace, $pattern);
@@ -91,6 +91,7 @@ class Modules_Functions {
 
 	}
 
+
 	function datatable($data, $class='') {
 
 		if(is_array($data)) {
@@ -121,9 +122,11 @@ class Modules_Functions {
 
 	}
 
-	/* Returns a "unique" name, compared to a reference array
+	/*
+	 * Returns a "unique" name, compared to a reference array
 	 * e.g: $name = 'foobar', data = array('foobar', 'foobar_1', 'foobar_2')
-	 * The return value then is foobar_3
+	 * The return value will then be foobar_3
+	 *
 	 * @param name String to be checked
 	 * @param array Collection of values to be checked against
 	 * @param string optional devider
@@ -146,6 +149,7 @@ class Modules_Functions {
 		}
 
 	}
+
 
 	function cleanURL($string) {
 
@@ -172,6 +176,5 @@ class Modules_Functions {
 
 	}
 
+
 }
-
-

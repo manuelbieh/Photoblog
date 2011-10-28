@@ -42,8 +42,6 @@ class Modules_Form {
 		$this->sendButton(array('name'=>'send', 'value'=>_('Abschicken')));
 		$this->addSend('save');
 
-		//$this->tpl = $tpl;
-
 		$this->__token = md5(mt_rand(0, 9999999));
 
 		$oldToken = Modules_Session::getInstance()->getVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']');
@@ -66,7 +64,6 @@ class Modules_Form {
 
 			$tplFile = Application_Base::getPath($tpl);
 
-			#if(Modules_Filesys::isFile($tpl)) {
 			if($tplFile !== false) {
 				ob_start();
 				include $tplFile;
@@ -93,10 +90,11 @@ class Modules_Form {
 		$this->validation[] = $validation;
 	}
 
+/*
 	public function __set($member, $value) {
 		$this->$member = $value;
 	}
-
+*/
 
 	/**
 	 * Erzeugt ein einfaches Inputfeld mit den Attributen aus $attrib
@@ -206,6 +204,41 @@ class Modules_Form {
 		$options = (is_array($options)) ? $this->optionsFromArray($options, $active) : $options;
 
 		return sprintf('<select name="%s" id="%s" %s>%s</select>', $attrib['name'], $attrib['id'], $d, $options);
+
+	}
+
+
+
+	/**
+	 * Creates a HTML5 Datalist
+	 *
+	 * @param    array    attribute list as array ('attribute'=>'value')
+	 * @param    mixed    array/string: Options. Can be specified as array ('value'=>'label') or string (<option value="">label</option>)
+	 * @return   string   Generated list
+	 */
+	public function datalist(array $attrib, $options) {
+
+		if(!isset($options)) {
+			$options = array();
+		}
+
+		if(empty($attrib['name'])) {
+			throw new Exception(__('Found unknown form element.'));
+		} else {
+			$attrib['name'] = htmlspecialchars($attrib['name']);
+		}
+		$attrib['id'] = (!empty($attrib['id'])) ? htmlspecialchars($attrib['id']) : NULL;
+
+		if($this->isSent()) {
+			$active = $this->valueOf($attrib['name']);
+		}
+
+		$exclude = array('name', 'id');
+		$d = $this->getAttributeList($attrib, $exclude);
+
+		$options = (is_array($options)) ? $this->optionsFromArray($options) : $options;
+
+		return sprintf('<datalist name="%s" id="%s" %s>%s</datalist>', $attrib['name'], $attrib['id'], $d, $options);
 
 	}
 

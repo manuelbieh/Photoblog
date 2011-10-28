@@ -3,14 +3,14 @@
 class Modules_Pagination {
 
 	/**
-	 * Anzahl der Items die pro Seite angezeigt werden sollen.
+	 * Number of icons per page
 	 *
 	 * @var int
 	*/
 	public $itemsPerPage 	= 10;
 
 	/**
-	 * Anzahl der Insgesamt vorhandenen Datensätze
+	 * Total number of available items
 	 *
 	 * @var int
 	 *
@@ -166,7 +166,7 @@ class Modules_Pagination {
 	*/
 	public function currentPageNum($page=0) {
 
-		self::getPageCount();
+		$this->getPageCount();
 
 		if($this->usePages === TRUE) {
 			$this->currentPageNum = (int) $page + 1;
@@ -282,7 +282,7 @@ class Modules_Pagination {
 	*/
 	private function getInternalPageNum($offset) {
 
-		self::getFactor();
+		$this->getFactor();
 		$page = (int) floor( ($offset-1) * $this->factor);
 		return $page;
 
@@ -343,10 +343,10 @@ class Modules_Pagination {
 
 			$markers = array(
 				'%link%' => $this->link, 
-				'%pagenum%' => self::getInternalPageNum($pageOffset),
+				'%pagenum%' => $this->getInternalPageNum($pageOffset),
 				'%label%' => $label
 				);
-			$link = self::replace($markers, $this->linkPattern);
+			$link = $this->replace($markers, $this->linkPattern);
 
 			$link .= $divider;
 
@@ -363,7 +363,7 @@ class Modules_Pagination {
 	*/
 	public function render() {
 
-		self::getPageCount();
+		$this->getPageCount();
 
 		for($i=1; $i<=$this->pageCount; $i++) {
 
@@ -376,12 +376,12 @@ class Modules_Pagination {
 				if($this->atLeast >= $i) {
 
 					$addPlaceholder = true;
-					$this->pagination[50] .= self::getLink($i);
+					$this->pagination[50] .= $this->getLink($i);
 
 				} else if($this->pageCount-$this->atLast < $i) {
 
 					$addPlaceholder = true;
-					$this->pagination[50] .= self::getLink($i);
+					$this->pagination[50] .= $this->getLink($i);
 
 				} else if( 
 							($this->currentPageNum - $this->cropBefore <= $i) && 
@@ -389,7 +389,7 @@ class Modules_Pagination {
 						) {
 
 					$addPlaceholder = true;
-					$this->pagination[50] .= self::getLink($i);
+					$this->pagination[50] .= $this->getLink($i);
 				} else if (
 							$this->showMiddle === true &&
 							(
@@ -398,7 +398,7 @@ class Modules_Pagination {
 							)								
 						) {
 					$addPlaceholder = true;
-					$this->pagination[50] .= self::getLink($i);
+					$this->pagination[50] .= $this->getLink($i);
 				} else {
 
 					if($addPlaceholder === true) {
@@ -408,18 +408,18 @@ class Modules_Pagination {
 
 				}
 			} else {
-				$this->pagination[50] .= self::getLink($i);
+				$this->pagination[50] .= $this->getLink($i);
 			}
 
 		}
 
-		$this->pagination[0] = self::getLink(1, $this->labelStart);
+		$this->pagination[0] = $this->getLink(1, $this->labelStart);
 
 		if($this->currentPageNum !== NULL) {
-			$this->pagination[25] = ($this->currentPageNum > 1) ? self::getLink($this->currentPageNum-1, $this->labelPrev) : $this->labelPrev . $this->divider;
-			$this->pagination[75] = ($this->currentPageNum < $this->pageCount) ? self::getLink($this->currentPageNum+1, $this->labelNext) : $this->labelNext . $this->divider;
+			$this->pagination[25] = ($this->currentPageNum > 1) ? $this->getLink($this->currentPageNum-1, $this->labelPrev) : $this->labelPrev . $this->divider;
+			$this->pagination[75] = ($this->currentPageNum < $this->pageCount) ? $this->getLink($this->currentPageNum+1, $this->labelNext) : $this->labelNext . $this->divider;
 		}
-		$this->pagination[100] = self::getLink($this->pageCount, $this->labelEnd, 0);
+		$this->pagination[100] = $this->getLink($this->pageCount, $this->labelEnd, 0);
 
 		ksort($this->pagination);
 		return join($this->pagination);

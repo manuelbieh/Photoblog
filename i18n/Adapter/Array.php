@@ -2,9 +2,12 @@
 
 class i18n_Adapter_Array {
 
+	protected $app;
 	protected $locale;
 
-	public function __construct() {}
+	public function __construct($app=NULL) {
+		$this->app = $app;
+	}
 
 	public function setLocale($locale) {
 
