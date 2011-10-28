@@ -15,4 +15,8 @@ class Modules_XPath {
 
 	}
 
+	public function __call($method) {
+		return call_user_func_array(array($this->XPath, $method), func_get_args());
+	}
+
 }
