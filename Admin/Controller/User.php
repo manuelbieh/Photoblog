@@ -248,11 +248,19 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$userMapper = $this->app->objectManager->get('userMapper');
 			$user = $userMapper->find($user_id, new Model_User);
 			$userCount = count($userMapper->fetchAll());
+
 			if($userCount > 1) {
 
 				if($userMapper->delete($user_id)) {
-					// Delete avatar
-					// Delete photos
+
+					$avatarDir = rtrim($this->app->getProjectDir(), '/') . '/../uploads/avatars/';
+					foreach(glob($avatarDir . $user->avatar . '*') AS $avatarFile) {
+						unlink($avatarFile)
+					}
+
+					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore'));
+					$photoMapper->fetchWhere(array('user_id'=>$user_id));
+
 				} else {
 				
 				}
