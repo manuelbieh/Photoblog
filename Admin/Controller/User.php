@@ -255,7 +255,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 					$avatarDir = rtrim($this->app->getProjectDir(), '/') . '/../uploads/avatars/';
 					foreach(glob($avatarDir . $user->avatar . '*') AS $avatarFile) {
-						unlink($avatarFile)
+						unlink($avatarFile);
 					}
 
 					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore'));
