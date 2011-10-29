@@ -258,7 +258,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 						unlink($avatarFile);
 					}
 
-					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore'));
+					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore')));
 					$photoMapper->fetchWhere(array('user_id'=>$user_id));
 
 				} else {
