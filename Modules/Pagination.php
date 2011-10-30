@@ -335,6 +335,7 @@ class Modules_Pagination {
 	private function getLink($pageOffset, $altLabel=NULL, $addDivider=true) {
 
 		$label = ($altLabel === NULL) ? (int) $pageOffset : $altLabel;
+		$label = '<span class="pLabel">' . $label . '</span>';
 		$divider = ($addDivider === true) ? $this->divider : '';
 
 		if((int) $pageOffset === $this->currentPageNum && $this->selfLinked === false) {
@@ -362,6 +363,11 @@ class Modules_Pagination {
 	 * @return string Die erzeugte Pagination unter Berücksichtigung aller Parameter
 	*/
 	public function render() {
+
+		$this->labelNext = '<span class="pLabel pNext">' . $this->labelNext . '</span>';
+		$this->labelPrev = '<span class="pLabel pPrev">' . $this->labelPrev . '</span>';
+		$this->labelStart = '<span class="pLabel pStart">' . $this->labelStart . '</span>';
+		$this->labelEnd = '<span class="pLabel pEnd">' . $this->labelEnd . '</span>';
 
 		$this->getPageCount();
 
