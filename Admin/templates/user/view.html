@@ -15,11 +15,11 @@ $login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 		<ul class="tools">
 
 			<?php if( ($login_user_id == $data->user_id && $this->data['access']->check('Admin_Controller_User::edit', 'own')) || ($login_user_id != $data->user_id && $this->data['access']->check('Admin_Controller_User::edit', 'other'))) { ?>
-			<li><a class="edit" href="<?php echo Application_Base::getBaseURL(); ?>User/edit/<?php echo $data->user_id; ?>"><?php echo __('Edit profile'); ?></a></li>
+			<li><a class="edituser" href="<?php echo Application_Base::getBaseURL(); ?>User/edit/<?php echo $data->user_id; ?>"><?php echo __('Edit profile'); ?></a></li>
 			<?php } ?>
 
 			<?php if( ($login_user_id == $data->user_id && $this->data['access']->check('Admin_Controller_User::permissions', 'own')) || ($login_user_id != $data->user_id && $this->data['access']->check('Admin_Controller_User::permissions', 'other'))) { ?>
-			<li><a class="permissions" href="<?php echo Application_Base::getBaseURL(); ?>User/permissions/<?php echo $data->user_id; ?>"><?php echo __('Edit permissions'); ?></a></li>
+			<li><a class="editpermissions" href="<?php echo Application_Base::getBaseURL(); ?>User/permissions/<?php echo $data->user_id; ?>"><?php echo __('Edit permissions'); ?></a></li>
 			<?php } ?>
 
 			<?php if( ($login_user_id == $data->user_id && $this->data['access']->check('Admin_Controller_User::delete', 'own')) || ($login_user_id != $data->user_id && $this->data['access']->check('Admin_Controller_User::delete', 'other'))) { ?>
