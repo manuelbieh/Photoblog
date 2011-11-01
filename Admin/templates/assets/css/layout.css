@@ -304,7 +304,7 @@ border-left-width: 2px;*/
 	font-family: inherit;
 	font-size: 110%;
 	padding: 8px;
-	text-shadow: 2px 2px 0 #e6e6e6;
+	text-shadow: 1px 1px 0 #e6e6e6;
 }
 
 input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], select {
@@ -316,7 +316,6 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 input[disabled="disabled"] {
-	background: #ccc;
 	border-color: #000;
 }
 

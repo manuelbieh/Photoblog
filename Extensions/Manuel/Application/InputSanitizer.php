@@ -2,9 +2,9 @@
 
 class Extensions_Manuel_Application_InputSanitizer {
 
-	public function removeTags($string) {
+	public function removeTags($string, $allowed=NULL) {
 
-		return strip_tags($string);
+		return strip_tags($string, $allowed);
 
 	}
 
