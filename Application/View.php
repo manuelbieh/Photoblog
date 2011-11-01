@@ -25,11 +25,11 @@ class Application_View {
 	}
 
 	public function getThemeURL() {
-		return Application_Base::getBaseURL() . 'templates/themes/' . rtrim(Application_Settings::get("//theme/main"), '/') . '/';
+		return Application_Base::getBaseURL() . 'templates/themes/' . rtrim(Application_Settings::get("//theme//main"), '/') . '/';
 	}
 
 	public function getThemeDir($public=0) {
-		return 'templates/themes/' . rtrim(Application_Settings::get("//theme/main"), '/') . '/';
+		return 'templates/themes/' . rtrim(Application_Settings::get("//theme//main"), '/') . '/';
 	}
 
 	public function setCharset($charset='UTF-8') {

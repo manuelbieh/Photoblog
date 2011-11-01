@@ -69,7 +69,7 @@ class Modules_Pagination {
 	 *
 	 * @var string
 	*/
-	public $divider			= ' | ';
+	public $divider			= '  ';
 
 	/**
 	 * Seiten die vorne mindestens angezeigt werden (Start | 1 | 2 | 3 | ... | )
@@ -335,7 +335,7 @@ class Modules_Pagination {
 	private function getLink($pageOffset, $altLabel=NULL, $addDivider=true) {
 
 		$label = ($altLabel === NULL) ? (int) $pageOffset : $altLabel;
-		$label = '<span class="pLabel">' . $label . '</span>';
+		#$label = '<span class="pLabel">' . $label . '</span>';
 		$divider = ($addDivider === true) ? $this->divider : '';
 
 		if((int) $pageOffset === $this->currentPageNum && $this->selfLinked === false) {
@@ -373,6 +373,8 @@ class Modules_Pagination {
 
 		for($i=1; $i<=$this->pageCount; $i++) {
 
+			$numLabel = '<span class="pLabel">' . $i . '</span>';
+
 			if($this->currentPageNum !== NULL) {
 
 				if($this->atLeast === 0 && $i === 1) {
@@ -382,12 +384,12 @@ class Modules_Pagination {
 				if($this->atLeast >= $i) {
 
 					$addPlaceholder = true;
-					$this->pagination[50] .= $this->getLink($i);
+					$this->pagination[50] .= $this->getLink($i, $numLabel);
 
 				} else if($this->pageCount-$this->atLast < $i) {
 
 					$addPlaceholder = true;
-					$this->pagination[50] .= $this->getLink($i);
+					$this->pagination[50] .= $this->getLink($i, $numLabel);
 
 				} else if( 
 							($this->currentPageNum - $this->cropBefore <= $i) && 
@@ -395,7 +397,7 @@ class Modules_Pagination {
 						) {
 
 					$addPlaceholder = true;
-					$this->pagination[50] .= $this->getLink($i);
+					$this->pagination[50] .= $this->getLink($i, $numLabel);
 				} else if (
 							$this->showMiddle === true &&
 							(
@@ -404,7 +406,7 @@ class Modules_Pagination {
 							)								
 						) {
 					$addPlaceholder = true;
-					$this->pagination[50] .= $this->getLink($i);
+					$this->pagination[50] .= $this->getLink($i, $numLabel);
 				} else {
 
 					if($addPlaceholder === true) {
@@ -414,7 +416,7 @@ class Modules_Pagination {
 
 				}
 			} else {
-				$this->pagination[50] .= $this->getLink($i);
+				$this->pagination[50] .= $this->getLink($i, $numLabel);
 			}
 
 		}

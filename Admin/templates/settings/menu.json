@@ -1,0 +1,22 @@
+{
+	"title":"Settings",
+	"order":"2048",
+	"id":"p-settings",
+	"controller":"Settings",
+	"class":"icon-settings",
+	"link":"#",
+	"sub":[
+			{
+				"title":"General",
+				"link":"Settings/general"
+			},
+			{
+				"title":"System",
+				"link":"Settings/system"
+			},
+			{
+				"title":"Theme",
+				"link":"Settings/theme"
+			}
+		]
+}

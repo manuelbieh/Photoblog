@@ -1,13 +1,13 @@
 {
 	"title":"Comments",
 	"order":"-96",
-	"id":"p-pics",
+	"id":"p-comments",
 	"controller":"Comments",
 	"class":"icon-comments",
 	"link":"#",
 	"sub":[
 			{
-				"title":"Manage",
+				"title":"Manage comments",
 				"link":"Comments/view"
 			}
 		]

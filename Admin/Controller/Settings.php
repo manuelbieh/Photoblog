@@ -131,12 +131,13 @@ class Admin_Controller_Settings extends Controller_Frontend implements Applicati
 
 			case 'checkbox':
 
-				$data .= '';
+				$data .= '<p>';
 				$data .= '<label for="data[' . $xpath . ']">';
 				$checked = ($node->textContent == 1) ? ' checked="checked" ' : '';
 				$data .= '<input type="checkbox" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="1" ' . $checked . ' /> ';
 				$data .= $label . '</label>';
 				$data .= $node->getAttribute('break') == 'true' ? '<br />' : '';
+				$data .= '</p>';
 				break;
 
 
