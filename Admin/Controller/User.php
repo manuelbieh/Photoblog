@@ -53,6 +53,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 	}
 */
 
+
 	public function view($offset=0) {
 
 		if($this->access->check(__METHOD__)) {
@@ -87,6 +88,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 	}
+
 
 	public function profile($username=NULL) {
 
@@ -141,6 +143,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	}
 
+
 	public function edit($user_id=NULL) {
 
 		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
@@ -165,62 +168,71 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		if($allowed === true) {
 
 			$user = new Model_User();
-			#$userMapper = new Model_User_Mapper($this->userDB);
+			$subview = new Application_View();
+
 			$userMapper = $this->app->objectManager->get('userMapper');
-			$userMapper->find($user_id, $user);
+			$user = $userMapper->find($user_id, $user);
 
-			$form = new Modules_Form();
-			$form->data = $user;
-			$form->loadTemplate('templates/user/edit.form.html');
+			if($user->user_id !== NULL) {
 
-			$v = new Modules_JSONValidation();
-			$v->setConfigByJSONFile('templates/user/edit.main.json');
+				$form = new Modules_Form();
+				$form->data = $user;
+				$form->loadTemplate('templates/user/edit.form.html');
 
-			if($form->isSent() && $form->valueOf('data[password]') != '') {
-				$v->setConfigByJSONFile('templates/user/edit.password.json');
-			}
+				$v = new Modules_JSONValidation();
+				$v->setConfigByJSONFile('templates/user/edit.main.json');
 
-			$form->setValidation($v);
+				if($form->isSent() && $form->valueOf('data[password]') != '') {
+					$v->setConfigByJSONFile('templates/user/edit.password.json');
+				}
 
-			$blacklist = array('user_id', 'username', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
+				$form->setValidation($v);
 
-			$avatar = $this->handleAvatarUpload($form);
-			if($avatar !== false && $form->valueOf('avatar[delete]') != 1) {
-				$user->avatar = $avatar;
-			} else if($form->valueOf('avatar[delete]') == 1) {
-				$user->avatar = '';
-			}
+				$blacklist = array('user_id', 'username', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
 
-			if($form->isSent(true)) {
+				$avatar = $this->handleAvatarUpload($form);
+				if($avatar !== false && $form->valueOf('avatar[delete]') != 1) {
+					$user->avatar = $avatar;
+				} else if($form->valueOf('avatar[delete]') == 1) {
+					$user->avatar = '';
+				}
 
-				foreach($form->valueOf('data') AS $prop => $value) {
+				if($form->isSent(true)) {
 
-					if(!in_array($prop, $blacklist)) {
+					foreach($form->valueOf('data') AS $prop => $value) {
 
-						if($prop != 'password') {
-							$user->$prop = $value;
-						} else if ($prop === 'password' && strlen($value) > 0) {
-							$user->$prop = $this->enc->encryptWithSalt($value, __SALT__);
+						if(!in_array($prop, $blacklist)) {
+
+							if($prop != 'password') {
+								$user->$prop = $value;
+							} else if ($prop === 'password' && strlen($value) > 0) {
+								$user->$prop = $this->enc->encryptWithSalt($value, __SALT__);
+							}
+
 						}
 
 					}
 
+					$userMapper = $this->app->objectManager->get('userMapper');
+					$userMapper->save($user);
+
+					if($user_id === $login_user_id) {
+						Modules_Session::getInstance()->setVar('userdata', $user);
+					}
+
+					$subview->loadHTML('templates/user/edit.success.html');
+					$this->view->addSubview('main', $subview);
+
+				} else {
+
+					$this->view->addSubview('main', $form);
+
 				}
-
-				$userMapper = $this->app->objectManager->get('userMapper');
-				$userMapper->save($user);
-
-				if($user_id === $login_user_id) {
-					Modules_Session::getInstance()->setVar('userdata', $user);
-				}
-
-				$subview = new Application_View();
-				$subview->loadHTML('templates/user/edit.success.html');
-				$this->view->addSubview('main', $subview);
 
 			} else {
 
-				$this->view->addSubview('main', $form);
+				$subview->loadHTML('templates/user/edit.error.usernotfound.html');
+				$this->view->addSubview('main', $subview);
 
 			}
 
@@ -229,6 +241,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 	}
+
 
 	public function delete($user_id) {
 
@@ -276,6 +289,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 	}
+
 
 	public function add() {
 
@@ -343,6 +357,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		}
 
 	}
+
 
 	public function permissions($user_id=NULL) {
 
@@ -543,14 +558,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	}
 
-	public function test() {
 
-		$permissionMapper = new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($this->app->getGlobal('pdodb')));
-		$permission = new Model_Permission();
-		$permission->{'class'} = 'MyTest';
-		$permissionMapper->save($permission);
-
-	}
 
 	/*
 	public function usergroups() {

@@ -297,11 +297,10 @@ input[type="button"], input[type="submit"] {
 }
 
 input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], textarea {
-	background: white;
 	border: 1px solid #2b4e69;
 	border-radius: 8px;
-border-top-width: 2px;
-border-left-width: 2px;
+/*border-top-width: 2px;
+border-left-width: 2px;*/
 	font-family: inherit;
 	font-size: 110%;
 	padding: 8px;
