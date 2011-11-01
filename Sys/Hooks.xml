@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <hooks>
 	<class name="Admin_Controller_User">
-		<item>Extensions_Wefoundit_Admin_Controller_User</item>
+		<item>Extensions_Manuel_Admin_Controller_User</item>
 	</class>
 	<class name="Application_View">
-		<item>Extensions_Wefoundit_Application_View</item>
+		<item>Extensions_Manuel_Application_View</item>
 	</class>
 	<class name="Application_View_Theme">
-		<item>Extensions_Wefoundit_Application_View</item>
+		<item>Extensions_Manuel_Application_View</item>
 	</class>
 	<class name="Model_User_Mapper">
-		<item>Extensions_Wefoundit_Test</item>
+		<item>Extensions_Manuel_Test</item>
 	</class>
 </hooks>

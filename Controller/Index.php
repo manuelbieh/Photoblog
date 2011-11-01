@@ -22,7 +22,7 @@ class Controller_Index extends Controller_Frontend {
 	//	$photoMapper		= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
 		$allPhotos			= $this->photoMapper->fetchAll();
 
-		$photosPerPage		= (int) Application_Settings::get('//theme/photosPerPage');
+		$photosPerPage		= (int) Application_Settings::get('//theme//photosPerPage');
 		$photosPerPage		= $photosPerPage < 1 ? 1 : $photosPerPage;
 		$totalPhotos		= count($allPhotos);
 
