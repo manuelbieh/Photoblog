@@ -7,11 +7,11 @@
 	"link":"#",
 	"sub":[
 			{
-				"title":"New",
+				"title":"Publish new photo",
 				"link":"Photo/add"
 			},
 			{
-				"title":"Manage",
+				"title":"Manage uploaded photos",
 				"link":"Photo/view"
 			}
 		]

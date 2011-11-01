@@ -5,13 +5,11 @@ if(count($this->data['images']) > 0) {
 ?>
 <p class="pagination"><?php echo $this->data['pagination']; ?></p>
 
-<ul id="photos" class="itemlist">
+<ul id="imagelist">
 <?php foreach($this->data['images'] AS $image => $data) { ?>
 
 <li style="clear: both;" class="<?php echo $data->active == 1 ? 'active':'inactive'; ?>">
-
-	<div class="mini"><img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/mini/<?php echo $data->web_name; ?>" alt="" /></div> 
-
+	<div class="mini"> <img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/mini/<?php echo $data->web_name; ?>" alt="" /></div> 
 	<h4><?php echo $data->title; ?></h4>
 	<ul class="tools">
 		<li><a class="editimage" href="<?php echo Application_Base::getBaseURL(); ?>Photo/edit/<?php echo $data->photo_id; ?>"><?php echo __('Edit details'); ?></a></li>
@@ -30,7 +28,6 @@ if(count($this->data['images']) > 0) {
 			<?php } ?>
 		</li>
 	</ul>
-	
 	<span class="clear"></span>
 </li>
 <?php } ?>

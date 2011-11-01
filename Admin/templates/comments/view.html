@@ -6,7 +6,7 @@
 		<?php echo $this->data['pagination']; ?>
 	</p>
 
-	<ul class="zebra">
+	<ul class="itemlist" id="commentlist">
 	<?php
 	foreach($this->data['comments'] AS $num => $comment) {
 	$photo = $this->data['photomapper']->find($comment->photo_id, new Model_Photo);

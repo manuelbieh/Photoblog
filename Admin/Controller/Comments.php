@@ -35,31 +35,42 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
+			$subview		= new Application_View();
 
 			if($photo_id == NULL || (int) $photo_id === 0) {
 				$allComments	= $commentMapper->fetchAll();
 			} else {
 				$allComments	= $commentMapper->findByPhoto($photo_id);
 			}
-			$allCommentsReverse	= array_reverse($allComments);
-			$itemsPerPage		= 10;
-			$totalItems			= count($allComments);
-			$offset				= (int) $offset;
 
-			$subview = new Application_View();
-			$subview->loadHTML('templates/comments/view.html');
+			if(is_array($allComments)) {
 
-			$subview->data['photomapper'] = $photoMapper;
-			$subview->data['offset'] = (int) $offset;
-			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-				if(isset($allComments[$i])) {
-					$subview->data['comments'][$i] = $allCommentsReverse[$i];
+				$subview->loadHTML('templates/comments/view.html');
+
+				$allCommentsReverse	= array_reverse($allComments);
+
+				$itemsPerPage		= 10;
+				$totalItems			= count($allComments);
+				$offset				= (int) $offset;
+
+
+				$subview->data['photomapper'] = $photoMapper;
+				$subview->data['offset'] = (int) $offset;
+				for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
+					if(isset($allComments[$i])) {
+						$subview->data['comments'][$i] = $allCommentsReverse[$i];
+					}
 				}
-			}
 
-			$pagina = new Modules_Pagination;
-			$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
-			$subview->data['pagination'] = $pagina->render();
+				$pagina = new Modules_Pagination;
+				$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+				$subview->data['pagination'] = $pagina->render();
+
+			} else {
+
+				$subview->loadHTML('templates/comments/error.nocommentsfound.html');
+
+			}
 
 			$this->view->addSubview('main', $subview);
 

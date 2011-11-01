@@ -11,12 +11,12 @@
 				"link":"User/edit"
 			},
 			{
-				"title":"New",
-				"link":"User/add"
+				"title":"View userlist",
+				"link":"User/view"
 			},
 			{
-				"title":"Manage",
-				"link":"User/view"
+				"title":"Create new user",
+				"link":"User/add"
 			}
 		]
 }
