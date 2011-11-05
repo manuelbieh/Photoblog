@@ -7,8 +7,11 @@
 <ul class="itemlist" id="extensions-active">
 	<?php foreach($this->data['active'] AS $ext) { ?>
 	<li>
+		<?php if($ext['icon'] != '') { ?>
+		<img src="<?php echo $ext['icon']; ?>" alt="" class="ext-icon" />
+		<?php } ?>
 		<h4><?php echo $ext['name']; ?></h4>
-		<ul>
+		<ul class="tools">
 
 			<?php if($ext['desc'] != '') { ?><li class="plugin-desc"><?php echo $ext['desc']; ?></li><?php } ?>
 			<?php if($ext['deps'] != '') { ?><li class="plugin-deps"><?php echo $ext['deps']; ?></li><?php } ?>
@@ -17,6 +20,9 @@
 			<li class="plugin-deactivate"><a href="<?php $this->app->getBaseURL(); ?>Extensions/deactivate/<?php echo $ext->extKey; ?>"></a></li>
 			<?php } else { ?>
 			<li class="note"><em>System extension</em></li>
+			<?php } ?>
+			<?php if($ext['hasSettings']) { ?>
+			<li><a href="<?php $this->app->getBaseURL(); ?>Extensions/settings/<?php echo $ext->extKey; ?>">Configure</a></li>
 			<?php } ?>
 
 		</ul>
@@ -29,11 +35,11 @@
 
 <h3><?php echo __('Inactive extensions'); ?></h3>
 
-<ul class="itemlist" id="extensions-active">
+<ul class="itemlist" id="extensions-inactive">
 	<?php foreach($this->data['inactive'] AS $ext) { ?>
 	<li>
 		<h4><?php echo $ext['name']; ?></h4>
-		<ul>
+		<ul class="tools">
 
 			<?php if($ext['desc'] != '') { ?><li class="plugin-desc"><?php echo $ext['desc']; ?></li><?php } ?>
 			<?php if($ext['deps'] != '') { ?><li class="plugin-deps"><?php echo $ext['deps']; ?></li><?php } ?>
@@ -42,6 +48,9 @@
 			<li class="plugin-deactivate"><a href="<?php $this->app->getBaseURL(); ?>Extensions/deactivate/<?php echo $ext->extKey; ?>"></a></li>
 			<?php } else { ?>
 			<li class="note"><em>System extension</em></li>
+			<?php } ?>
+			<?php if($ext['hasSettings']) { ?>
+			<li><a href="<?php $this->app->getBaseURL(); ?>Extensions/settings/<?php echo $ext->extKey; ?>">Configure</a></li>
 			<?php } ?>
 
 		</ul>

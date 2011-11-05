@@ -59,13 +59,21 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 			$core = $xml->XPath()->query("//extension/@core");
 			$icon = $xml->XPath()->query("//extension/@icon");
 
+			$settings = $xml->XPath()->query("//extension/settings/*");
+			if($settings->length > 0) {
+				$hasSettings = true;
+			} else {
+				$hasSettings = false;
+			}
+
 			$extData = array(
 				'extKey'=>$extKey, 
 				'name'=>$name->item(0)->textContent, 
 				'desc'=>$desc->item(0)->textContent, 
 				'deps'=>$deps->item(0)->textContent, 
 				'core'=>$core->item(0)->textContent, 
-				'icon'=>$icon->item(0)->textContent
+				'icon'=>$icon->item(0)->textContent,
+				'hasSettings'=>$hasSettings
 			);
 
 			if($ext != NULL) {
@@ -101,7 +109,78 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 	public function settings($extension_key) {
 
-		$settings = new Modules_XML();
+		$ext = new Application_Extension($this->app);
+
+		$form = new Modules_Form("templates/extensions/settings.form.html");
+
+		$settingsFile = $this->app->getPath('/Extensions/' . $extension_key . '.xml');
+
+		if($form->isSent()) {
+
+			$settings = new Modules_XML();
+			$settings->load($settingsFile);
+
+			$checkboxes = $settings->XPath()->query("//settings//*[@type='checkbox']");
+			if($checkboxes->length > 0) {
+				foreach($checkboxes AS $checkbox) {
+					$checkbox->nodeValue = 0;
+				}
+			}
+
+
+			if(is_array($form->valueOf('data'))) {
+
+				foreach($form->valueOf('data') AS $xpath => $value) {
+
+					$node = $settings->XPath()->query("//settings/" . $xpath);
+					$childnode = $node->item(0);
+					$childnode->nodeValue = $value;
+
+				}
+
+			}
+
+			$subview = $this->app->createView();
+
+			if($settings->save($settingsFile) !== false) {
+
+				$subview->loadHTML('templates/extensions/settings.edit.success.html');
+				$this->view->addSubview('main', $subview);
+
+			} else {
+
+				$subview->loadHTML('templates/extensionss/settings.edit.error.html');
+				$this->view->addSubview('main', $subview);
+
+			}
+
+
+		} else {
+
+			#$form->assign('content', $this->getSettingsXML($section));
+
+			$settings = new Modules_XML();
+			$settings->load($settingsFile);
+			$nodes = $settings->XPath()->query("//settings/*");
+
+			if($nodes->length > 0) {
+
+				$xmlForm = new Modules_XMLSimpleForm();
+				$settingsForm = '';
+
+				foreach($nodes AS $node) {
+
+					$settingsForm .= $xmlForm->renderNode($node, $settings);
+
+				}
+
+			}
+
+			$form->assign('content', $settingsForm);
+
+			$this->view->addSubview('main', $form);
+
+		}
 		
 	}
 

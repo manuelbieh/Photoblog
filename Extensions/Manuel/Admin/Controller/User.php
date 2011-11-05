@@ -1,17 +1,17 @@
 <?php
 
-class Extensions_Manuel_Admin_Controller_User {
+class Extensions_Manuel_Admin_Controller_User extends Application_Extension {
 
-	public function __construct() {}
+	protected $configFile = "SystemTweaks.xml";
 
 	public function addSuccess(Admin_Controller_User $userController) {
 
 		$user = $userController->form->valueOf('data');
 
-		if(!empty($user)) {
+		if(!empty($user) && $this->get("//settings/adminUser/sendAddNotification", $this->configFile) == 1) {
 
-			$sitename = Application_Settings::get('//general/site/sitename', 1);
-			$signupInfo = Application_Settings::get('//system/email/signup', 1);
+			$sitename	= Application_Settings::get('//general/site/sitename', 1);
+			$signupInfo	= Application_Settings::get('//system/email/signup', 1);
 
 			$mail = new Modules_Mail_Mail();
 
@@ -25,7 +25,7 @@ class Extensions_Manuel_Admin_Controller_User {
 						$sitename, 
 						$user['username'], 
 						$user['password'], 
-						Application_Base::getBaseURL() 
+						$this->app->getBaseURL() 
 				) 
 			);
 

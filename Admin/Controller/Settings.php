@@ -40,8 +40,10 @@ class Admin_Controller_Settings extends Controller_Frontend {
 				$settings->load(Application_Settings::getFile(1));
 
 				$checkboxes = $settings->XPath()->query("//settings/" . $section . "//*[@type='checkbox']");
-				foreach($checkboxes AS $checkbox) {
-					$checkbox->nodeValue = 0;
+				if($checkboxes->length > 0) {
+					foreach($checkboxes AS $checkbox) {
+						$checkbox->nodeValue = 0;
+					}
 				}
 
 				foreach($form->valueOf('data') AS $xpath => $value) {
