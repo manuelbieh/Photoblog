@@ -1,4 +1,4 @@
-<extension name="System Tweaks" desc="Configurable System Tweaks" deps="" core="1" icon="">
+<extension name="System Tweaks" desc="Configurable System Tweaks" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/cog_edit.png">
 
 	<class name="Extensions_Manuel_Admin_Controller_User">
 		<hooks>
@@ -18,7 +18,9 @@
 	</files>
 
 	<settings>
-		
+		<adminUser label="Admin/User/add" type="group">
+			<sendAddNotification type="checkbox" label="Send notification email to new users when their accounts are created?">1</sendAddNotification>
+		</adminUser>
 	</settings>
 
 </extension>

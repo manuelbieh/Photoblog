@@ -44,7 +44,7 @@ class Modules_XMLSimpleForm {
 			case 'checkbox':
 
 				$data .= '<p>';
-				$data .= '<label for="data[' . $xpath . ']">';
+				$data .= '<label for="data[' . $xpath . ']" class="fullwidth">';
 				$checked = ($node->textContent == 1) ? ' checked="checked" ' : '';
 				$data .= '<input type="checkbox" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="1" ' . $checked . ' /> ';
 				$data .= $label . '</label>';

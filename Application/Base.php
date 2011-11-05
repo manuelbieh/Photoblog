@@ -21,7 +21,7 @@ class Application_Base {
 
 		$this->objectManager	= new Application_ObjectManager();
 
-		$this->objectManager->register('Application_Extensions', new Application_Extensions());
+		$this->objectManager->register('Application_ExtensionManager', new Application_ExtensionManager($this));
 		$this->objectManager->register('Application_Error', new Application_Error($this));
 		$this->objectManager->register('Application_View', $this->createView());
 
@@ -74,7 +74,7 @@ class Application_Base {
 	}
 
 	public function extensions() {
-		return $this->objectManager->get('Application_Extensions');
+		return $this->objectManager->get('Application_ExtensionManager');
 	}
 
 	public function errors() {

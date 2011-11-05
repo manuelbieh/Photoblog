@@ -143,18 +143,21 @@ class Application_View {
 
 			#$filename = $this->getPath($filename);
 
-			$filename = Application_Base::getPath($filename);
+			$origfilename = $filename;
+			$filename = $this->app->getPath($filename);
 
 			$this->outputType = 'HTML';
 			$this->HTMLFile = $filename;
 
 			if($instant == true) {
-				ob_start();
-				#$this->HTML = Modules_Filesys::read($filename);
-
-				include $filename;
-				$this->HTML = ob_get_contents();
-				ob_end_clean();
+				if(Modules_Filesys::isFile($filename)) {
+					ob_start();
+					include $filename;
+					$this->HTML = ob_get_contents();
+					ob_end_clean();
+				} else {
+					#throw new Exception(__('Template not found: ' . $origFilename . '/' . $this->HTMLFile));
+				}
 			}
 
 		#} else {

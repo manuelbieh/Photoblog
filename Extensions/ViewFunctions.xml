@@ -1,4 +1,4 @@
-<extension name="View Functions" desc="Custom functions for application views" deps="" core="1">
+<extension name="View Functions" desc="Custom functions for application views" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/domain_template.png">
 
 	<options></options>
 

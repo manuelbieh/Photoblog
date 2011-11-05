@@ -64,6 +64,7 @@ h3 {
 	font-size: 18px;
 	font-family: Georgia, sans-serif;
 	font-weight: normal;
+	letter-spacing: 0.1em;
 	margin: 1.5em 0 0.75em 0;
 }
 
@@ -299,9 +300,14 @@ fieldset p label:first-child {
 	width: 180px;
 }
 
+fieldset p label.fullwidth {
+	width: auto;
+}
+
 fieldset label, fieldset .label {
 	font-weight: bold;
 }
+
 
 input[type="button"], input[type="submit"] {
 	padding: 8px;
@@ -598,6 +604,11 @@ input[type="checkbox"] + label {
 
 #userprofile .col1 {
 	width: 240px;
+}
+
+.ext-icon {
+	float: left;
+	margin: 0 10px 10px 0;
 }
 
 .exifTable {

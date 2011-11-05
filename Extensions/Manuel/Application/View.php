@@ -2,7 +2,7 @@
 
 class Extensions_Manuel_Application_View {
 
-	public function __construct() {}
+	protected $configFile = "ViewFunctions.xml";
 
 	public function init(Application_View $applicationView) {
 

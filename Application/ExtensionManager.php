@@ -1,6 +1,6 @@
 <?php
 
-class Application_Extensions {
+class Application_ExtensionManager {
 
 	protected $app;
 	public $observers = array();
@@ -140,7 +140,7 @@ class Application_Extensions {
 
 		foreach($ext AS $obs) {
 
-			$this->addObserver(get_class($obj), new $obs());
+			$this->addObserver(get_class($obj), new $obs($this->app));
 
 		}
 
