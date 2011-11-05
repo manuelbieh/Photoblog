@@ -9,7 +9,7 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 		#Application_Extensions::registerObservers($this);
 
 		$this->db		= new Model_Usergroup_Gateway_PDO(Application_Registry::get('pdodb'));
-		$this->view		= new Application_View();
+		$this->view		= $this->app->createView();
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -24,8 +24,7 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			header("Location: " . Application_Base::getBaseURL() . 'Login');
-			exit;
+			$this->app->go('Login');
 		}
 
 	}
@@ -39,7 +38,7 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 		$totalItems			= count($allUsergroups);
 		$offset				= (int) $offset;
 
-		$subview = new Application_View();
+		$subview = $this->app->createView();
 		$subview->loadHTML('templates/usergroup/view.html');
 
 		$subview->data['offset'] = (int) $offset;
@@ -93,7 +92,7 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 				$userMapper = new Model_User_Mapper($this->userDB);
 				$userMapper->save($user);
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/user/edit.success.html');
 				$this->view->addSubview('main', $subview);
 
@@ -126,7 +125,7 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 			$usergroupMapper = new Model_Usergroup_Mapper($this->db);
 			$newUsergroup = $usergroupMapper->save($usergroup);
 
-			$subview = new Application_View();
+			$subview = $this->app->createView();
 			if($newUsergroup != false) {
 				$subview->loadHTML('templates/usergroup/add.success.html');
 				$this->view->addSubview('main', $subview);

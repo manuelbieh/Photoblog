@@ -2,9 +2,11 @@
 
 class Admin_Controller_Page {
 
-	public function __construct() {
+	public function __construct($app) {
 
-		$this->view = new Application_View();
+		$this->app = $app;
+
+		$this->view		= $this->app->objectManager->get('Application_View');
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -12,14 +14,13 @@ class Admin_Controller_Page {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = new Application_View();
-
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			Application_Base::go('Login');
-			exit;
+			$this->app->go('Login');
 		}
 
 	}
@@ -33,7 +34,7 @@ class Admin_Controller_Page {
 		$pageMapper		= new Model_Page_Mapper(new Model_Page_Gateway_PDO(Application_Registry::get('pdodb')));
 		$allPages		= $pageMapper->fetchAll();
 
-		$subview = new Application_View();
+		$subview = $this->app->createView();
 		$subview->loadHTML('templates/page/view.html');
 
 		$subview->data['pages'] = $allPages;

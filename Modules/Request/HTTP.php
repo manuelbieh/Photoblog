@@ -113,6 +113,7 @@ class Modules_Request_HTTP {
 
 
 	public function buildURL($url) {
+
 		$ret = NULL;
 
 		if($url['scheme']) {
@@ -129,7 +130,7 @@ class Modules_Request_HTTP {
 			$ret .= $url['host'];
 		}
 
-		if($url['port']) {
+		if($url['port'] && $url['port'] != '80' || ($url['port'] && $url['scheme'] == 'https' && $url['port'] != '443'])) {
 			$ret .= ':' . $url['port'];
 		}
 

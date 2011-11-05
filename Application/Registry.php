@@ -44,4 +44,3 @@ class Application_Registry {
 }
 
 #$registry =& registry::load();
-?>

@@ -3,7 +3,8 @@
 
 class Application_Error {
 
-	public function __construct() {
+	public function __construct($app=NULL) {
+		$this->app = $app;
 	}
 
 	public static function error401() {

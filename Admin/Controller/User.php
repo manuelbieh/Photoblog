@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Controller_User extends Controller_Frontend implements Application_Observable {
+class Admin_Controller_User extends Controller_Frontend {
 
 	public $app;
 	protected $observers = array();
@@ -10,15 +10,16 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$app->extensions()->registerObservers($this);
 
 		$this->app 		= $app;
-		$this->userDB	= new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
-		$this->view		= new Application_View();
-		$this->enc		= new Modules_Encryption_Md5();
 
+		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
+
+		$this->userDB	= new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
+		$this->enc		= new Modules_Encryption_Md5();
 
 		$this->app->objectManager->register('userMapper', new Model_User_Mapper($this->userDB));
 
-		$this->notify('configEnd');
+		$this->app->extensions()->notify($this, 'configEnd');
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -26,39 +27,26 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$this->notify('templateLoaded');
+		$this->app->extensions()->notify($this, 'templateLoaded');
 
-		$navi = new Application_View();
+		$navi = $app->createView();
 		$navi->loadHTML("templates/main/navi.html");
-		$navi->app = $app;
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			header("Location: " . Application_Base::getBaseURL() . 'Login');
-			exit;
+			$this->app->go('Login');
 		}
 
-		$this->notify('constructorEnd');
+		$this->app->extensions()->notify($this, 'constructorEnd');
 
 	}
-
-/*
-	public function setUserMapper($userMapper) {
-		$this->userMapper = $userMapper;
-		
-	}
-
-	protected function getUserMapper() {
-		return $this->userMapper;
-	}
-*/
 
 
 	public function view($offset=0) {
 
 		if($this->access->check(__METHOD__)) {
 
-			//$userMapper		= new Model_User_Mapper($this->userDB);
 			$userMapper		= $this->app->objectManager->get('userMapper');
 			$allUsers		= $userMapper->fetchAll();
 
@@ -66,7 +54,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$totalItems		= count($allUsers);
 			$offset			= (int) $offset;
 
-			$subview = new Application_View();
+			$subview = $this->app->createView();
 			$subview->data['access'] = $this->app->objectManager->get('Admin_Application_Access');
 			$subview->loadHTML('templates/user/view.html');
 
@@ -92,7 +80,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	public function profile($username=NULL) {
 
-		$subview = new Application_View();
+		$subview = $this->app->createView();
 
 		if($username == NULL) {
 
@@ -112,14 +100,15 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			if($login_user_id) { // user is logged in?
 				// no user was specified or $user_id given equals login_user
 				if($subview->data['user_id'] === NULL || ($subview->data['user_id'] !== NULL && $login_user_id === $user_id) ) {
-					#$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
 					$allowed = $this->access->check(__METHOD__, 'own');
 				// login_user_id is not user_id, check if login_user may edit others
 				} else if($subview->data['user_id'] !== NULL && ($subview->data['user_id'] !== $login_user_id)) {
 					$allowed = $this->access->check(__METHOD__, 'other');
 				}
 			} else {
+
 				$allowed = false;
+
 			}
 
 			if($allowed === true) {
@@ -155,7 +144,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		if($login_user_id) { // user is logged in?
 			// no user was specified or $user_id given equals login_user
 			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
-				#$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
 				$allowed = $this->access->check(__METHOD__, 'own');
 			// login_user_id is not user_id, check if login_user may edit others
 			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
@@ -168,7 +156,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		if($allowed === true) {
 
 			$user = new Model_User();
-			$subview = new Application_View();
+			$subview = $this->app->createView();
 
 			$userMapper = $this->app->objectManager->get('userMapper');
 			$user = $userMapper->find($user_id, $user);
@@ -295,13 +283,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 
-		if($login_user_id) { // user is logged in?
-			$allowed = $this->access->check(__METHOD__);
-		} else {
-			$allowed = false;
-		}
-
-		if($allowed === true) {
+		if($login_user_id && $this->access->check(__METHOD__)) {
 			
 			$this->form = new Modules_Form('templates/user/add.form.html');
 
@@ -333,16 +315,16 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				$userMapper = $this->app->objectManager->get('userMapper');
 				$newUser = $userMapper->save($user);
 
-				$this->subview = new Application_View();
+				$this->subview = $this->app->createView();
 
 				if($newUser != false) {
 					$this->subview->data['user']->user_id = $newUser;
 					$this->subview->loadHTML('templates/user/add.success.html');
-					$this->notify('addSuccess');
+					$this->app->extensions()->notify($this, 'addSuccess');
 					$this->view->addSubview('main', $this->subview);
 				} else {
 					$this->form->addError(__('An unknown error occured. Please try again.'));
-					$this->notify('addError');
+					$this->extensions()->notify($this, 'addError');
 					$this->view->addSubview('main', $this->form);
 				}
 
@@ -361,10 +343,14 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 	public function permissions($user_id=NULL) {
 
-		// doesn't yet check if a user actually exists
-		if($user_id == NULL) {
+		$userMapper = $this->app->objectManager->get('userMapper');
 
-			$subview = new Application_View();
+		$user = $userMapper->find($user_id, new Model_User);
+
+		// doesn't yet check if a user actually exists
+		if($user_id == NULL || $user == NULL) {
+
+			$subview = $this->app->createView();
 			$subview->loadHTML('templates/user/permissions.error.nouser.html');
 			$this->view->addSubview('main', $subview);
 			return;
@@ -396,7 +382,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$form->data['permissions']['selected'] = array();
 			$form->data['permissions']['options'] = array();
 
-			$permissionMapper = new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($this->app->getGlobal('pdodb')));
+			$permissionMapper = new Model_Permission_Mapper(new Model_Permission_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$permissions = $permissionMapper->fetchAll();
 
 			if(is_array($permissions)) {
@@ -407,15 +393,12 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 				$form->data['permissions']['selected'] = $permissionMapper->findPermissionsByUserId($user_id);
 			}
 
+			$form->data['user'] = $user;
 			$form->loadTemplate('templates/user/permissions.form.html');
 
 			if($form->isSent(true)) {
 
-				$subview = new Application_View();
-
-				#$userMapper = new Model_User_Mapper(new Model_User_Gateway_PDO($this->app->getGlobal('pdodb')));
-				#$userMapper = $this->getUserMapper();
-				$userMapper = $this->app->objectManager->get('userMapper');
+				$subview = $this->app->createView();
 
 				// save permissions
 				if($userMapper->savePermissions($user_id, $form->valueOf('data[permissions]'))) {
@@ -447,10 +430,10 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 		}
 
-		if($login_user_id) { // user is logged in?
+		// user is logged in?
+		if($login_user_id) { 
 			// no user was specified or $user_id given equals login_user
 			if($user_id === NULL || ($user_id !== NULL && $login_user_id === $user_id) ) {
-				#$allowed = $this->app->getGlobal('access')->check(__METHOD__, 'own');
 				$allowed = $this->access->check(__METHOD__, 'own');
 			// login_user_id is not user_id, check if login_user may edit others
 			} else if($user_id !== NULL && ($user_id !== $login_user_id)) {
@@ -487,7 +470,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 
 				Modules_Session::getInstance()->setVar('userdata', $user);
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/user/settings.success.html');
 				$this->view->addSubview('main', $subview);
 
@@ -559,7 +542,6 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 	}
 
 
-
 	/*
 	public function usergroups() {
 
@@ -568,30 +550,7 @@ class Admin_Controller_User extends Controller_Frontend implements Application_O
 		$output = print_r($groups, true);
 
 		$this->view->addSubview('main', new Application_View_String($output));
-		var_dump($this->app->getGlobal('access')->check(__METHOD__, 'own'));
-
 	}
 	*/
-
-	public function addObserver($observer) {
-
-		array_push($this->observers, $observer);
-
-	}
-
-	public function notify($state, $additionalParams=NULL) {
-
-		foreach((array) $this->observers AS $obs) {
-
-			if(method_exists($obs, $state)) {
-
-				$obs->$state(&$this, $additionalParams);
-
-			}
-
-		}
-
-	}
-
 
 }

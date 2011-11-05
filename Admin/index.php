@@ -1,7 +1,7 @@
 <?php
 set_time_limit(10);
 
-include_once "Application/Benchmark.php";
+include_once "../Application/Benchmark.php";
 
 $benchmark = new Application_Benchmark();
 $benchmark->start();

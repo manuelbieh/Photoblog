@@ -1,17 +1,27 @@
 <?php
 
-class Admin_Controller_Photo extends Controller_Frontend implements Application_Observable {
+class Admin_Controller_Photo extends Controller_Frontend {
 
-	public function __construct($app=NULL) {
+	protected $access;
+	protected $app;
+	protected $exif;
+	protected $photo;
+	protected $sourceFile;
+	protected $sourceFolder;
+	protected $uploadImage;
+	protected $webFile;
+	protected $view;
+
+	public function __construct($app) {
 
 		$app->extensions()->registerObservers($this);
 
 		$this->app = $app;
 
-		$this->view		= new Application_View();
+		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
-
-		$this->app->objectManager->register('photoMapper', new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb'))));
+		
+		$this->app->objectManager->register('photoMapper', new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore'))));
 
 		if(!isset($_POST['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
@@ -19,73 +29,77 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = new Application_View();
-		$navi->app = $app;
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			Application_Base::go('Login');
-			exit;
+			$this->app->go('Login');
 		}
 
-		$this->notify('constructorEnd');
+		$this->app->extensions()->notify($this, 'constructorEnd');
 
 	}
 
 	public function add() {
+
+		$subview = $this->app->createView();
 
 		if($this->access->check(__METHOD__)) {
 
 			$val = new Modules_JSONValidation();
 			$val->setConfigByJSONFile('templates/photo/add.form.validation.json');
 
-			$form = new Modules_Form('templates/photo/add.form.html');
-			$form->setValidation($val);
+			$this->form = new Modules_Form('templates/photo/add.form.html');
+			$this->form->setValidation($val);
 
-			if($form->isSent()) {
+			if($this->form->isSent()) {
 
 				if(!$_FILES['upload'] || $_FILES['upload']['error'][0] !== 0) {
 
-					$form->addError(__('Unable to upload file.'));
+					$this->view->addSubview('main', $this->form);
+					$this->form->addError(__('Unable to upload file.'));
 
 				} else {
 
 					try {
 
-						$uploadImage		= new Modules_Image($_FILES['upload']['tmp_name'][0]);
-						$uploadImageType	= $uploadImage->getImageMimeType();
+						$this->uploadImage	= new Modules_Image($_FILES['upload']['tmp_name'][0]);
+						$uploadImageType	= $this->uploadImage->getImageMimeType();
 						$uploadImageSuffix	= Modules_Functions::getSuffixByMime($uploadImageType);
-						$uploadImageWidth	= $uploadImage->getImageWidth();
-						$uploadImageHeight	= $uploadImage->getImageHeight();
+						$uploadImageWidth	= $this->uploadImage->getImageWidth();
+						$uploadImageHeight	= $this->uploadImage->getImageHeight();
 
 						if(!in_array($uploadImageType, array('image/jpg', 'image/pjpeg', 'image/jpeg', 'image/gif', 'image/png'))) {
-							$form->addError(__('Unknown filetype. Please upload JPG, GIF or PNG only.'));
+							$this->form->addError(__('Unknown filetype. Please upload JPG, GIF or PNG only.'));
 						}
 
-						if($form->isSent(true)) {
+						if($this->form->isSent(true)) {
 
-							$source		= Extensions_Manuel_Helper::getSourceFolder();
-							$sourceFile	= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
-							$webFile	= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
+							$this->sourceFolder	= Extensions_Manuel_Helper::getSourceFolder();
+							$this->sourceFile	= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
+							$this->webFile		= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
 
-							move_uploaded_file($_FILES['upload']['tmp_name'][0], $source . DIRECTORY_SEPARATOR . $sourceFile);
+							$this->app->extensions()->notify($this, 'uploadSuccessful');
+
+							move_uploaded_file($_FILES['upload']['tmp_name'][0], $this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile);
 
 							$webSize	= Application_Settings::get("//settings/defaults/image/web");
 							$thumbSize	= Application_Settings::get("//settings/defaults/image/thumb");
 							$miniSize	= Application_Settings::get("//settings/defaults/image/mini");
 
-							$uploadImage->thumbnailImage($webSize['maxwidth'], $webSize['maxheight'], true);
-							$uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $webFile);
+							$this->uploadImage->thumbnailImage($webSize['maxwidth'], $webSize['maxheight'], true);
+							$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $this->webFile);
 
-							$uploadImage->thumbnailImage($thumbSize['maxwidth'], $thumbSize['maxheight'], true);
-							$uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $webFile);
+							$this->uploadImage->thumbnailImage($thumbSize['maxwidth'], $thumbSize['maxheight'], true);
+							$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $this->webFile);
 
-							$uploadImage->thumbnailImage($miniSize['maxwidth'], $miniSize['maxheight'], true);
-							$uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $webFile);
+							$this->uploadImage->thumbnailImage($miniSize['maxwidth'], $miniSize['maxheight'], true);
+							$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $this->webFile);
 
 							$photo = new Model_Photo();
-							$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb')));
+							$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 
 							$cleanTitles = array();
 							$allPhotos = $photoMapper->fetchAll();
@@ -95,67 +109,84 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 								}
 							}
 
-							foreach($form->valueOf('data') AS $key => $value) {
+							foreach($this->form->valueOf('data') AS $key => $value) {
 								$photo->$key = $value;
 							}
 
 							$photo->date_uploaded = date('Y-m-d H:i:s');
 
-							if($form->valueOf('instant') == 1 || $photo->date_publish == '') {
+							if($this->form->valueOf('instant') == 1 || $photo->date_publish == '') {
 								$photo->date_publish = $photo->date_uploaded;
 							}
 
-							$photo->original_name	= $sourceFile;
+							$photo->original_name	= $this->sourceFile;
 							$photo->original_width	= $uploadImageWidth;
 							$photo->original_height	= $uploadImageHeight;
-							$photo->web_name		= $webFile;
+							$photo->web_name		= $this->webFile;
 							$photo->user_id			= Modules_Session::getInstance()->getVar('userdata')->user_id;
 							$photo->active			= 1;
 							$photo->clean_title		= Modules_Functions::cleanURL($photo->title);
 							$photo->clean_title		= Modules_Functions::getUniqueName($photo->clean_title, $cleanTitles);
 
-							// Save the file!
-							$photo_id = $photoMapper->save($photo);
+							$this->photo = $photo;
+							$this->app->extensions()->notify($this, 'savePhoto');
 
-							if($photo_id != false && in_array($uploadImageType, array('image/jpeg', 'image/pjpeg', 'image/jpg'))) {
+							// Now save the file!
+							$photo_id = $photoMapper->save($this->photo);
 
-								$exifMapper = new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->getGlobal('pdodb')));
-								$exifData = json_encode(exif_read_data($source . DIRECTORY_SEPARATOR . $sourceFile));
+							if($photo_id == false) {
 
-								$exif = new Model_Exif();
-								$exif->photo_id = $photo_id;
-								$exif->exif_data = $exifData;
+								$subview->loadHTML('templates/photo/add.error.html');
 
-								$exifMapper->save($exif);
+							} else {
+
+								if($photo_id != false && in_array($uploadImageType, array('image/jpeg', 'image/pjpeg', 'image/jpg'))) {
+
+									$exifMapper = new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->objectManager->get('Datastore')));
+									$exifData = json_encode(exif_read_data($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile));
+
+									$exif = new Model_Exif();
+									$exif->photo_id = $photo_id;
+									$exif->exif_data = $exifData;
+
+									$this->exif = $exif;
+									$this->app->extensions()->notify($this, 'saveExif');
+
+									$exifMapper->save($this->exif);
+
+								}
+
+								$subview->loadHTML('templates/photo/add.success.html');
 
 							}
 
+							$this->view->addSubview('main', $subview);
+
+						} else {
+
+							$this->view->addSubview('main', $this->form);
+
 						}
+
 
 					} catch(Exception $e) {
 
-						$form->addError(__('Unable to upload file.'));
+						$this->form->addError(__('Unable to upload file.'));
 
 					}
 
 				}
 
-			}
-
-			if($form->isSent(true)) {
-
-				$subview = new Application_View();
-				$subview->loadHTML('templates/photo/add.success.html');
-				$this->view->addSubview('main', $subview);
-
 			} else {
 
-				$this->view->addSubview('main', $form);
+				$this->view->addSubview('main', $this->form);
 
 			}
 
 		} else {
+
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error401());
+
 		}
 
 	}
@@ -164,7 +195,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 		if($this->access->check(__METHOD__)) {
 
-			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb')));
+			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$allPhotos		= $photoMapper->fetchAll();
 			$allPhotosReverse	= is_array($allPhotos) ? array_reverse($allPhotos) : array();
 
@@ -174,7 +205,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 			$totalItems		= count($allPhotos);
 			$offset			= (int) $offset;
 
-			$subview = new Application_View();
+			$subview = $this->app->createView();
 			$subview->loadHTML('templates/photo/view.html');
 
 			$subview->data['offset'] = (int) $offset;
@@ -198,10 +229,10 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 	public function edit($photo_id) {
 
-		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb')));
+		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 		$photo 			= $photoMapper->find($photo_id, new Model_Photo());
 
-		$exifMapper		= new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->getGlobal('pdodb')));
+		$exifMapper		= new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->objectManager->get('Datastore')));
 		$exif 			= $exifMapper->find($photo_id, new Model_Exif());
 
 		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
@@ -232,7 +263,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 					$photo->allow_comments = $form->valueOf('data[allow_comments]') == false ? 0 : $form->valueOf('data[allow_comments]');
 
 					$photo_id = $photoMapper->save($photo);
-					$subview = new Application_View();
+					$subview = $this->app->createView();
 					$subview->loadHTML('templates/photo/edit.form.success.html');
 					$this->view->addSubview('main', $subview);
 
@@ -247,7 +278,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 			} else {
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/photo/edit.error.notfound.html');
 				$this->view->addSubview('main', $subview);
 
@@ -261,7 +292,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 	public function delete($photo_id) {
 
-		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->getGlobal('pdodb')));
+		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 		$photo 			= $photoMapper->find($photo_id, new Model_Photo());
 
 		$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
@@ -299,7 +330,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 			} else if($photo === false) {
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/photo/delete.error.notfound.html');
 				$this->view->addSubview('main', $subview);
 			
@@ -321,7 +352,7 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 			if($_POST['ajax']) {
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				if($deleted == true) {
 					$subview->setHTML(__('File was deleted successfully.'));
 				} else {
@@ -359,26 +390,6 @@ class Admin_Controller_Photo extends Controller_Frontend implements Application_
 
 	public function show($image_id) {
 		
-	}
-
-	public function addObserver($observer) {
-
-		array_push($this->observers, $observer);
-
-	}
-
-	public function notify($state, $additionalParams=NULL) {
-
-		foreach((array) $this->observers AS $obs) {
-
-			if(method_exists($obs, $state)) {
-
-				$obs->$state(&$this, $additionalParams);
-
-			}
-
-		}
-
 	}
 
 }

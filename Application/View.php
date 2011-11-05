@@ -4,6 +4,7 @@ class Application_View {
 
 	public $data;
 	public $observers = array();
+	public $app;
 	protected $charset='UTF-8';
 	protected $mime='text/html';
 	protected $HTML;
@@ -14,11 +15,16 @@ class Application_View {
 	protected $XSL;
 	protected $outputType;
 
-	public function __construct() {
+	public function __construct($app=NULL) {
 
-		Application_Extensions::registerObservers($this);
-		$this->notify('init');
-		
+		if($app == NULL) {
+			$app = new Application_Base();
+		}
+
+		$this->app = $app;
+		$this->app->extensions()->registerObservers($this);
+		$this->app->extensions()->notify($this, 'init');
+
 		$this->XML = new DOMDocument;
 		$this->XSL = new XSLTProcessor();
 	
@@ -306,26 +312,6 @@ class Application_View {
 		}
 
 		return $output;
-
-	}
-
-	public function addObserver($observer) {
-
-		array_push($this->observers, $observer);
-
-	}
-
-	public function notify($state) {
-
-		foreach((array) $this->observers AS $obs) {
-
-			if(method_exists($obs, $state)) {
-
-				$obs->$state(&$this);
-
-			}
-
-		}
 
 	}
 

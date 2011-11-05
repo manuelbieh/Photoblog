@@ -15,7 +15,7 @@ class Application_Log_Writer_File extends Application_Log_Writer {
 		if(is_writable($this->path)) {
 			file_put_contents($this->path, $data, FILE_APPEND);
 		} else {
-			throw new Exception('Logfile not writable');
+			throw new Exception(__('Logfile not writable'));
 		}
 
 	}

@@ -49,9 +49,13 @@ class Model_Photo_Gateway_PDO {
 			if((int) $s->errorCode() === 0) {
 
 				if((int) $photo_id !== 0) {
+
 					return $photo_id;
+
 				} else {
+
 					return $this->db->lastInsertId();
+
 				}
 
 			} else {

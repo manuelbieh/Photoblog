@@ -8,7 +8,7 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 
 		$this->app = $app;
 
-		$this->view		= new Application_View();
+		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
 		if(!isset($_POST['ajax'])) {
@@ -17,14 +17,13 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = new Application_View();
-
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			Application_Base::go('Login');
-			exit;
+			$this->app->go('Login');
 		}
 
 	}
@@ -32,10 +31,11 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 	public function index() {
 
 		if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
-			$subview = new Application_View();
+
+			$subview = $this->app->createView();
 			$subview->loadHTML('templates/dashboard/index.html');
 
-			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
+			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$allPhotos		= $photoMapper->fetchAll();
 
 			if(is_array($allPhotos)) {
@@ -44,16 +44,15 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 				}
 			}
 
-			$CommentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
+			$CommentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$allComments	= $CommentMapper->fetchAll();
 
 			$subview->data['photos'] = $photos;
 			$subview->data['comments'] = $allComments;
 			$this->view->addSubview('main', $subview);
-			//echo 'Hallo Admin';
-			//Application_Base::go('Photo/add');
+
 		} else {
-			Application_Base::go('Login');
+			$this->app->go('Login');
 		}
 
 	}
