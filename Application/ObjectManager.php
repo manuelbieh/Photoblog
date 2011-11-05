@@ -17,9 +17,10 @@ class Application_ObjectManager {
 
 	public function set($key, $object) {
 		$this->objectStore[$key] = $object;
-		$this->notify('setObject', $key);
+		#$this->notify('setObject', $key);
 	}
 
+/*
 	public function addObserver($observer) {
 		array_push($this->observers, $observer);
 	}
@@ -37,5 +38,6 @@ class Application_ObjectManager {
 		}
 
 	}
+*/
 
 }

@@ -2,13 +2,13 @@
 
 class Admin_Controller_Comments extends Controller_Frontend {
 
-	public function __construct($app=NULL) {
+	public function __construct($app) {
 
 		$app->extensions()->registerObservers($this);
 
 		$this->app = $app;
 
-		$this->view		= new Application_View();
+		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
 		if(!isset($_POST['ajax'])) {
@@ -17,14 +17,13 @@ class Admin_Controller_Comments extends Controller_Frontend {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = new Application_View();
-
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			Application_Base::go('Login');
-			exit;
+			$this->app->go('Login');
 		}
 
 	}
@@ -35,7 +34,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
-			$subview		= new Application_View();
+			$subview		= $this->app->createView();
 
 			if($photo_id == NULL || (int) $photo_id === 0) {
 				$allComments	= $commentMapper->fetchAll();
@@ -99,7 +98,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 					}
 
 					$commentMapper->save($comment);
-					$subview = new Application_View();
+					$subview = $this->app->createView();
 					$subview->loadHTML('templates/comments/edit.form.success.html');
 					$this->view->addSubview('main', $subview);
 
@@ -113,7 +112,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 			} else {
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/comments/edit.error.notfound.html');
 				$this->view->addSubview('main', $subview);
 
@@ -130,7 +129,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 		$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
 		$comment		= $commentMapper->find($comment_id, new Model_Comment());
 
-		$subview 		= new Application_View();
+		$subview 		= $this->app->createView();
 
 		if($this->access->check(__METHOD__)) {
 
@@ -160,7 +159,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 			} else if($comment === false) {
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/comments/delete.error.notfound.html');
 				$this->view->addSubview('main', $subview);
 			

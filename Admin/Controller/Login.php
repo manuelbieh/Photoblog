@@ -1,32 +1,32 @@
 <?php
 
-class Admin_Controller_Login extends Controller_Frontend implements Application_Observable {
+class Admin_Controller_Login extends Controller_Frontend {
 
-	public function __construct($app=NULL) {
+	public function __construct($app) {
 
 		$app->extensions()->registerObservers($this);
 
 		$this->app = $app;
 
-		$this->view			= new Application_View();
+		$this->view			= $this->app->objectManager->get('Application_View');
 		$this->userGateway	= new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
 		$this->userMapper	= new Model_User_Mapper($this->userGateway);
 		$this->login		= new Modules_Login($this->userGateway);
 		$this->enc			= new Modules_Encryption_Md5();
 
-		$this->notify('configEnd');
+		$this->app->extensions()->notify($this, 'configEnd');
 
 		$this->view->loadHTML('templates/index.html');
 
-		$this->notify('templateLoaded');
+		$this->app->extensions()->notify($this, 'templateLoaded');
 
 		if(isset($_GET['logout']) || $_POST['logout']) {
 			$this->login->logout();
 		}
 
-		$navi = new Application_View();
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
-		$navi->app = $app;
+
 		$this->view->addSubview('navi', $navi);
 
 	}
@@ -92,7 +92,7 @@ class Admin_Controller_Login extends Controller_Frontend implements Application_
 				$user->passconf = $hash;
 				$this->userMapper->save($user);
 
-				$mailtpl = new Application_View();
+				$mailtpl = $this->app->createView();
 				$mailtpl->loadHTML('templates/login/forgot.mail.txt');
 				$mailtpl->assign('username', $user->username);
 				$mailtpl->assign('resetlink', $this->app->getBaseURL() . 'Login/reset/' . $user->user_id . '/' . $hash);
@@ -105,7 +105,7 @@ class Admin_Controller_Login extends Controller_Frontend implements Application_
 				$mail->setRecipient($user->email);
 				$mail->send();
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/login/forgot.success.html');
 				$this->view->addSubview('main', $subview);
 			
@@ -150,7 +150,7 @@ class Admin_Controller_Login extends Controller_Frontend implements Application_
 				$user->passconf = '';
 				$this->userMapper->save($user);
 
-				$subview = new Application_View();
+				$subview = $this->app->createView();
 				$subview->loadHTML('templates/login/reset.success.html');
 				$this->view->addSubview('main', $subview);
 
@@ -162,29 +162,9 @@ class Admin_Controller_Login extends Controller_Frontend implements Application_
 
 		} else {
 
-			$subview = new Application_View();
+			$subview = $this->app->createView();
 			$subview->loadHTML('templates/login/reset.error.notfound.html');
 			$this->view->addSubview('main', $subview);
-
-		}
-
-	}
-
-	public function addObserver($observer) {
-
-		array_push($this->observers, $observer);
-
-	}
-
-	public function notify($state, $additionalParams=NULL) {
-
-		foreach((array) $this->observers AS $obs) {
-
-			if(method_exists($obs, $state)) {
-
-				$obs->$state(&$this, $additionalParams);
-
-			}
 
 		}
 

@@ -3,18 +3,6 @@
 	<domain name="*">
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/addObserver/?(?<params>.*)]]></pattern>
-			<controller>Admin_%controller%</controller>
-			<action>index</action>
-		</path>
-
-		<path>
-			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/notify/?(?<params>.*)]]></pattern>
-			<controller>Admin_%controller%</controller>
-			<action>index</action>
-		</path>
-
-		<path>
 			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
 			<controller>Admin_%controller%</controller>
 			<action>%action%</action>

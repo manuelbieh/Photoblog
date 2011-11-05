@@ -7,8 +7,8 @@ class Application_Base {
 	public static $controller;
 	public $objectManager;
 	protected $i18n;
-	protected $extensions;
-	protected $errors;
+	#protected $extensions;
+	#protected $errors;
 	private $globals = array();
 
 	public function __construct() {
@@ -22,28 +22,9 @@ class Application_Base {
 		$this->objectManager	= new Application_ObjectManager();
 
 		$this->objectManager->register('Application_Extensions', new Application_Extensions());
-		$this->objectManager->register('Application_Error', new Application_Error());
-		$this->objectManager->register('Application_View', new Application_View());
+		$this->objectManager->register('Application_Error', new Application_Error($this));
+		$this->objectManager->register('Application_View', $this->createView());
 
-		$this->extensions		= new Application_Extensions();
-		$this->errors			= new Application_Error();
-
-	}
-
-	public function addGlobals($global) {
-		if(is_array($global)) {
-			foreach($global AS $key => $value) {
-				$this->addGlobal($key, $value);
-			}
-		}
-	}
-
-	public function addGlobal($key, $value) {
-		$this->globals[$key] = $value;
-	}
-
-	public function getGlobal($key) {
-		return isset($this->globals[$key]) ? $this->globals[$key] : NULL;
 	}
 
 	public static function addAutoloadDir($dir) {
@@ -93,15 +74,21 @@ class Application_Base {
 	}
 
 	public function extensions() {
-		return $this->extensions;
+		return $this->objectManager->get('Application_Extensions');
 	}
 
 	public function errors() {
-		return $this->errors;
+		return $this->objectManager->get('Application_Errors');
+	}
+
+	public function createView() {
+		return new Application_View($this);
 	}
 
 	public function setLanguage($languageKey='de_DE') {
-		
+		if(is_dir($dir) && !defined('__LANG__')) {
+			define('__LANG__', $languageKey);
+		}
 	}
 
 	public function setController($controller) {
@@ -132,6 +119,7 @@ class Application_Base {
 		if(defined('__PROJECTDIR__')) {
 			return __PROJECTDIR__;
 		}
+
 		$project	= rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME'])), DIRECTORY_SEPARATOR);
 		$dirs		= explode('/', rtrim($project, '/'));
 		$project	= end($dirs) == 'Admin' ? realpath($project . '/..') : $project;

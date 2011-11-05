@@ -8,7 +8,7 @@ class Admin_Controller_Settings extends Controller_Frontend implements Applicati
 
 		$this->app = $app;
 
-		$this->view		= new Application_View();
+		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
 		if(!isset($_POST['ajax'])) {
@@ -18,13 +18,12 @@ class Admin_Controller_Settings extends Controller_Frontend implements Applicati
 		}
 
 		$navi = new Application_View();
-
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			Application_Base::go('Login');
-			exit;
+			$this->app->go('Login');
 		}
 	
 	}

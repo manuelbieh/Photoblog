@@ -1,6 +1,6 @@
 <?php
 
-class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Observable {
+class Model_User_Mapper extends Model_Mapper_Abstract {
 
 	protected $blacklist = array('user_id', 'passconf', 'loginhash', 'active', 'date_signup', 'last_login', 'loggedin');
 	public $data;
@@ -121,7 +121,7 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 			$this->data['active'] = $model->active;
 		}
 
-		$this->notify('builtDataArray');
+		$app->extensions()->notify($this, 'builtDataArray');
 
 		if((int) $model->user_id === 0) {
 
@@ -137,26 +137,6 @@ class Model_User_Mapper extends Model_Mapper_Abstract implements Application_Obs
 		} else {
 
 			$this->_db->setProperties($model->user_id, $this->data);
-
-		}
-
-	}
-
-	public function addObserver($observer) {
-
-		array_push($this->observers, $observer);
-
-	}
-
-	public function notify($state, $additionalParams=NULL) {
-
-		foreach((array) $this->observers AS $obs) {
-
-			if(method_exists($obs, $state)) {
-
-				$obs->$state(&$this, $additionalParams);
-
-			}
 
 		}
 

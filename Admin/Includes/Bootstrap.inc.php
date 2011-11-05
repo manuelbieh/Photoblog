@@ -16,10 +16,3 @@ $access->setPermissionMapper(new Model_Permission_Mapper(new Model_Permission_Ga
 
 $app->objectManager->register('Admin_Application_Access', $access);
 $app->objectManager->register('Datastore', $pdodb);
-
-$app->addGlobals(
-	array(
-		'access'=>$access,
-		'pdodb'=>$pdodb
-	)
-);

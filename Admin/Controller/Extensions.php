@@ -2,21 +2,21 @@
 
 class Admin_Controller_Extensions extends Controller_Frontend {
 
-	public function __construct() {
+	public function __construct($app=NULL) {
 
+		$this->app = $app;
 		#$this->userDB	= new Model_Extension_Gateway_PDO(Application_Registry::get('pdodb'));
-		$this->view		= new Application_View();
+		$this->view		= $this->app->objectManager->get('Application_View');
 
 		$this->view->loadHTML('templates/index.html');
 
-		$navi = new Application_View();
-
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			header("Location: " . Application_Base::getBaseURL() . 'Login');
-			exit;
+			$this->app->go('Login');
 		}
 
 	}

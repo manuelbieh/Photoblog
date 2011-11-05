@@ -2,6 +2,15 @@
 
 class Application_Extensions {
 
+	protected $app;
+	public $observers = array();
+
+	public function setApplication($app) {
+
+		$this->application = $app;
+
+	}
+
 	public function buildIndex($dest=0) {
 
 		$core		= Application_Base::getCoreDir();
@@ -122,7 +131,29 @@ class Application_Extensions {
 		$ext = self::getExtensions(get_class($obj));
 
 		foreach($ext AS $obs) {
-			$obj->addObserver(new $obs());
+
+			$this->addObserver(get_class($obj), new $obs());
+
+		}
+
+	}
+
+	public function addObserver($className, $obs, $dest=0) {
+
+		$this->observers[$className][] = $obs;
+
+	}
+
+	public function notify(&$obj, $state, $additionalParams=NULL) {
+
+		foreach((array) $this->observers[get_class($obj)] AS $obs) {
+
+			if(method_exists($obs, $state)) {
+
+				$obs->$state($obj, $additionalParams);
+
+			}
+
 		}
 
 	}

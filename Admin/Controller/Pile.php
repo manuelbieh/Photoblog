@@ -12,14 +12,13 @@ class Admin_Controller_Pile {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = new Application_View();
-
+		$navi = $this->app->createView();
 		$navi->loadHTML("templates/main/navi.html");
+
 		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			Application_Base::go('Login');
-			exit;
+			$this->app->go('Login');
 		}
 
 	}
@@ -154,7 +153,7 @@ class Admin_Controller_Pile {
 
 		if($form->isSent(true)) {
 
-			$subview = new Application_View();
+			$subview = $this->app->createView();
 			$subview->loadHTML('templates/photo/add.success.html');
 			$this->view->addSubview('main', $subview);
 
@@ -172,7 +171,7 @@ class Admin_Controller_Pile {
 		$totalItems		= count($allImages);
 		$offset			= (int) $offset;
 
-		$subview = new Application_View();
+		$subview = $this->app->createView();
 		$subview->loadHTML('templates/photo/view.html');
 
 		$subview->data['offset'] = (int) $offset;

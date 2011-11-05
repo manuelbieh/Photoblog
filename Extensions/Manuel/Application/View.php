@@ -8,6 +8,7 @@ class Extensions_Manuel_Application_View {
 
 		$applicationView->stringFunc = new Extensions_Manuel_Application_StringFunc();
 		$applicationView->sanitize = new Extensions_Manuel_Application_InputSanitizer();
+		$applicationView->helper = new Extensions_Manuel_Application_View_Helper();
 
 	}
 

@@ -7,7 +7,7 @@
 	<legend><?php echo __('Select permissions'); ?></legend>
 
 	<p>
-		<label for="data_permissions"><?php echo __('Permission'); ?></label>
+		<label for="data_permissions"><?php echo __('Permission for user') . ' ' . $this->data['user']->username; ?></label>
 		<?php echo $this->select(array('name'=>'data[permissions][]', 'id'=>'data_permissions', 'multiple'=>'multiple', 'size'=>5), $this->data['permissions']['options'], $this->data['permissions']['selected']); ?>
 		<button class="showmore">Show more</button>
 	</p>

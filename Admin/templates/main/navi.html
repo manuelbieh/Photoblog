@@ -17,27 +17,6 @@ if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
 
 
 ?>
-<!--
-<ul id="menu">
-	<li id="p-pics" class="icon-pics <?php echo $controller == 'Post' ? 'active':''; ?>"><a href="#">Fotos</a>
-		<ul>
-			<li class="<?php echo $action == 'add' && $controller == 'Post' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Post/add">Neu</a></li>
-			<li class="<?php echo $action == 'view' && $controller == 'Post' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Post/view">Verwalten</a></li>
-		</ul>		
-	</li>
-	<li id="p-cats" class="icon-cats <?php echo $controller == 'Categories' ? 'active':''; ?>"><a href="#">Kategorien</a>
-		<ul>
-			<li class="<?php echo $action == 'add' && $controller == 'Categories' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Categories/add">Neu</a></li>
-			<li class="<?php echo $action == 'view' && $controller == 'Categories' ? 'active':''; ?>"><a href="<?php echo getURL(); ?>Categories/view">Verwalten</a></li>
-		</ul>		
-	</li>
-	<li><a href="">Seiten</a></li>
-	<li><a href="">Kommentare</a></li>
-	<li><a href="">Benutzer</a></li>
-	<li><a href="">Plugins</a></li>
-	<li><a href="">Einstellungen</a></li>
-</ul>
--->
 
 <script>
 $(function() {
