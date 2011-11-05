@@ -5,9 +5,8 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 	public function __construct($app=NULL) {
 
 		$this->app = $app;
-		#$this->userDB	= new Model_Extension_Gateway_PDO(Application_Registry::get('pdodb'));
-		$this->view		= $this->app->objectManager->get('Application_View');
 
+		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->view->loadHTML('templates/index.html');
 
 		$navi = $this->app->createView();
@@ -22,17 +21,24 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 	}
 
 	public function view() {
-		$foo = Application_Extensions::buildIndex();
-		var_dump($foo);
+		#$foo = Application_Extensions::buildIndex();
+		#var_dump($foo);
 		//$this->view->addSubview('main', new Application_View_String('foo'));
 		
 	}
 
-	public function activate($pluginkey) {
-	
+	public function manage() {
+
+		$extensionGateway	= new Model_Extension_Gateway_PDO($this->app->objectManager->get('Datastore'));
+		$extensionMapper	= new Model_Extension_Mapper($extensionGateway);
+
+#		$ext = $extensionMapper->find('SystemTweaks', new Model_Extension);
+		$this->app->extensions()->buildIndex();
+
+
 	}
 
-	public function deactivate($pluginkey) {
+	public function browse() {
 	
 	}
 

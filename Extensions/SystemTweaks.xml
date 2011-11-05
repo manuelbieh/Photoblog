@@ -14,4 +14,9 @@
 		</hooks>
 	</class>
 
+	<files>
+		<file>/Extensions/Manuel/Admin/Controller/mail.txt</file>
+		<file>/Extensions/Manuel/Admin/Controller/User.php</file>
+	</files>
+
 </extension>

@@ -96,18 +96,19 @@ section#sidebar nav > ul {
 section#sidebar nav ul li a {
 	color: #555;
 	display: block;
+	padding-left: 32px;
+	outline: none;
 	text-decoration: none;
 	vertical-align: middle;
 }
 
 section#sidebar nav > ul > li {
 	border-top: 1px solid #c9c9c9;
-	padding-left: 32px;
 }
 
 section#sidebar nav > ul > li > a {
 	border-top: 1px solid #f0f0f0;
-	padding: 6px 0;
+	padding: 6px 0 6px 32px;
 }
 
 section#sidebar nav ul li a:hover {
@@ -115,7 +116,6 @@ section#sidebar nav ul li a:hover {
 }
 
 section#sidebar nav ul li ul {
-	margin-left: -32px;
 	margin-bottom: 8px;
 }
 
@@ -366,6 +366,10 @@ input[type="checkbox"] + label {
 
 .icon-settings {
 	background: url(../images/famfamfam/cog.png) no-repeat 8px 8px;
+}
+
+.icon-extensions {
+	background: url(../images/fugue/application--plus.png) no-repeat 8px 8px;
 }
 
 

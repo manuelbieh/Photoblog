@@ -5,13 +5,16 @@ class Application_Extensions {
 	protected $app;
 	public $observers = array();
 
-	public function setApplication($app) {
+	public function __construct($app) {
 
-		$this->application = $app;
+		$this->app = $app;
 
 	}
 
 	public function buildIndex($dest=0) {
+
+		$extensionGateway	= new Model_Extension_Gateway_PDO($this->app->objectManager->get('Datastore'));
+		$extensionMapper	= new Model_Extension_Mapper($extensionGateway);
 
 		$core		= Application_Base::getCoreDir();
 		$project	= Application_Base::getProjectDir();
@@ -31,16 +34,21 @@ class Application_Extensions {
 
 		foreach($files AS $extMeta) {
 
-			$xml->load($extMeta);
-			$classNodes = $xml->XPath()->query("//class/@name");
+			$ext = $extensionMapper->find(basename($extMeta, '.xml'), new Model_Extension);
+			if($ext != NULL) {
 
-			foreach($classNodes AS $extClass) {
+				$xml->load($extMeta);
+				$classNodes = $xml->XPath()->query("//class/@name");
 
-				$hooks = array();
-				$hookNodes = $xml->XPath()->query("../hooks/item", $extClass);
+				foreach($classNodes AS $extClass) {
 
-				foreach($hookNodes AS $extHook) {
-					$base[$extHook->textContent][] = $extClass->textContent;
+					$hooks = array();
+					$hookNodes = $xml->XPath()->query("../hooks/item", $extClass);
+
+					foreach($hookNodes AS $extHook) {
+						$base[$extHook->textContent][] = $extClass->textContent;
+					}
+
 				}
 
 			}
