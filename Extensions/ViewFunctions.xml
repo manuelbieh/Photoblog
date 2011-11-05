@@ -1,4 +1,4 @@
-<extension name="Custom functions for application views">
+<extension name="View Functions" desc="Custom functions for application views" deps="" core="1">
 
 	<options></options>
 

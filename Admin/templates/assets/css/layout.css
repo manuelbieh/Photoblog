@@ -60,6 +60,13 @@ h2 {
 	margin-bottom: 1em;
 }
 
+h3 {
+	font-size: 18px;
+	font-family: Georgia, sans-serif;
+	font-weight: normal;
+	margin: 1.5em 0 0.75em 0;
+}
+
 ul, ol, dl {
 	margin: 0.5em 0 0.5em 1.5em;
 }
@@ -210,7 +217,7 @@ footer p {
 }
 
 
-.userimg {
+.userimg, .userimg_80, .userimg_200 {
 	background: url(/Admin/templates/assets/images/user.png) no-repeat center center;
 	border: 2px solid white;
 	float: left;
@@ -218,6 +225,11 @@ footer p {
 	margin: 0 8px 0px 0;
 	outline: 1px solid #999;
 	width: 45px;
+}
+
+.userimg_200 {
+	width: 200px;
+	height: 200px;
 }
 
 p {
@@ -578,6 +590,14 @@ input[type="checkbox"] + label {
 
 #data_permissions option {
 	border-bottom: 1px solid #666;
+}
+
+#userprofile .col1, #userprofile .col2 {
+	float: left;
+}
+
+#userprofile .col1 {
+	width: 240px;
 }
 
 .exifTable {

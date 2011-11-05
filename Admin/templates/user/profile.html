@@ -1,8 +1,21 @@
 <h2><?php echo __('User'); ?>: <?php echo $this->data['firstname']; ?> <?php echo $this->data['lastname']; ?></h2>
 
-<fieldset>
+<fieldset id="userprofile">
 	<legend><?php echo __('Contact'); ?></legend>
-	<p><strong>Username: </strong><?php echo $this->data['username']; ?></p>
-	<p><strong>Name: </strong><?php echo $this->data['firstname']; ?> <?php echo $this->data['lastname']; ?></p>
-	<p><strong>E-Mail: </strong><?php echo $this->data['email']; ?></p>
+	<?php 
+	$style = Modules_Filesys::isFile($this->app->getProjectDir() . '../uploads/avatars/' . $this->data['avatar'] . '_200.png') ? 
+		' style="background: url(' . Application_Base::getBaseURL() . '../uploads/avatars/'. $this->data['avatar'] . '_200.png) center center no-repeat;"' :
+		'';
+	?>
+
+	<div class="col1">
+		<div class="userimg_200"<?php echo $style; ?>></div>
+	</div>
+
+	<div class="col2">
+		<p><strong>Username: </strong><?php echo $this->data['username']; ?></p>
+		<p><strong>Name: </strong><?php echo $this->data['firstname']; ?> <?php echo $this->data['lastname']; ?></p>
+		<p><strong>E-Mail: </strong><?php echo $this->data['email']; ?></p>
+	</div>
+
 </fieldset>
