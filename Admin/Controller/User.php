@@ -43,12 +43,14 @@ class Admin_Controller_User extends Controller_Frontend {
 	}
 
 
-	public function view($offset=0) {
+	public function view($offset=0, $order='ASC') {
 
 		if($this->access->check(__METHOD__)) {
 
-			$userMapper		= $this->app->objectManager->get('userMapper');
-			$allUsers		= $userMapper->fetchAll();
+			$order				= $order == 'DESC' ? 'DESC' : 'ASC';
+			$userMapper			= $this->app->objectManager->get('userMapper');
+			$allUsers			= $userMapper->fetchAll();
+			$allUsersReverse	= array_reverse($allUsers);
 
 			$itemsPerPage	= 10;
 			$totalItems		= count($allUsers);
@@ -60,13 +62,22 @@ class Admin_Controller_User extends Controller_Frontend {
 
 			$subview->data['offset'] = (int) $offset;
 			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-				if(isset($allUsers[$i])) {
-					$subview->data['users'][$i] = $allUsers[$i];
+				if($order == 'ASC') {
+					if(isset($allUsers[$i])) {
+						$subview->data['users'][$i] = $allUsers[$i];
+					}
+				} else {
+					if(isset($allUsers[$i])) {
+						$subview->data['users'][$i] = $allUsersReverse[$i];
+					}
 				}
 			}
 
 			$pagina = new Modules_Pagination;
 			$pagina->setLink(Application_Base::getBaseURL() . "User/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+			if($order == 'DESC') {
+				$pagina->setParams('/' . $order);
+			}
 			$subview->data['pagination'] = $pagina->render();
 
 			$this->view->addSubview('main', $subview);

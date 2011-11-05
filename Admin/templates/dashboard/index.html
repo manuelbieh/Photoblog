@@ -22,10 +22,7 @@ if(is_array($this->data['comments'])) {
 		<?php $comment = $this->data['comments'][$i];?>
 		<?php if($comment != NULL) { ?>
 		<li>
-			<?php echo $comment->name; ?> 
-			<?php if($comment->url != '') { ?>
-				<a href="<?php echo $comment->url; ?>">(<?php echo __('website'); ?>)</a>
-			<?php } ?>
+			<?php echo $this->helper->link($comment->name, $comment->url); ?>
 			<?php echo __('commented on'); ?> 
 			<?php echo $this->data['photos'][$comment->photo_id]->title; ?>
 			<a href="<?php echo Application_Base::getBaseURL(); ?>comments/edit/<?php echo $comment->comment_id; ?>"><?php echo __('edit'); ?></a>

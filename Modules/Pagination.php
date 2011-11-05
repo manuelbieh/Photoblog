@@ -54,7 +54,7 @@ class Modules_Pagination {
 	 *
 	 * @var string
 	*/
-	public $linkPattern		= '<a href="%link%%pagenum%">%label%</a>';
+	public $linkPattern		= '<a href="%link%%pagenum%%params%">%label%</a>';
 
 	/**
 	 * Seite, auf die Verlinkt werden soll. Der Seitencounter-Parameter wird
@@ -63,6 +63,13 @@ class Modules_Pagination {
 	 * @var string
 	*/
 	public $link		 	= '?offset=';
+
+	/**
+	 * Additional string to be replaced inside the linkpattern (use %params% as placeholder)
+	 *
+	 * @var string
+	*/
+	public $params		 	= '';
 
 	/**
 	 * Trennsymbol zwischen den einzelnen Seiten.
@@ -216,6 +223,17 @@ class Modules_Pagination {
 	}
 
 	/**
+	 * Defined additional parameters after %pagenum%
+	 *
+	 * @param int Anzahl der angezeigten Datensätze
+	 * @return $this
+	*/
+	public function setParams($params) {
+		$this->params = $params;
+		return $this;
+	}
+
+	/**
 	 * Legt fest ob der Offset in Pages umgerechnet werden soll
 	 * Also /?offset=0,5,10,... wird zu /?offset=0,1,2
 	 *
@@ -345,6 +363,7 @@ class Modules_Pagination {
 			$markers = array(
 				'%link%' => $this->link, 
 				'%pagenum%' => $this->getInternalPageNum($pageOffset),
+				'%params%' => $this->params,
 				'%label%' => $label
 				);
 			$link = $this->replace($markers, $this->linkPattern);
