@@ -1,0 +1,51 @@
+<h2><?php echo __('Manage extensions'); ?></h2>
+
+<?php if(is_array($this->data['active'])) { ?>
+
+<h3><?php echo __('Active extensions'); ?></h3>
+
+<ul class="itemlist" id="extensions-active">
+	<?php foreach($this->data['active'] AS $ext) { ?>
+	<li>
+		<h4><?php echo $ext['name']; ?></h4>
+		<ul>
+
+			<?php if($ext['desc'] != '') { ?><li class="plugin-desc"><?php echo $ext['desc']; ?></li><?php } ?>
+			<?php if($ext['deps'] != '') { ?><li class="plugin-deps"><?php echo $ext['deps']; ?></li><?php } ?>
+
+			<?php if((int) $ext['core'] === 0) { ?>
+			<li class="plugin-deactivate"><a href="<?php $this->app->getBaseURL(); ?>Extensions/deactivate/<?php echo $ext->extKey; ?>"></a></li>
+			<?php } else { ?>
+			<li class="note"><em>System extension</em></li>
+			<?php } ?>
+
+		</ul>
+	</li>
+	<?php } ?>
+</ul>
+<?php } ?>
+
+<?php if(is_array($this->data['inactive'])) { ?>
+
+<h3><?php echo __('Inactive extensions'); ?></h3>
+
+<ul class="itemlist" id="extensions-active">
+	<?php foreach($this->data['inactive'] AS $ext) { ?>
+	<li>
+		<h4><?php echo $ext['name']; ?></h4>
+		<ul>
+
+			<?php if($ext['desc'] != '') { ?><li class="plugin-desc"><?php echo $ext['desc']; ?></li><?php } ?>
+			<?php if($ext['deps'] != '') { ?><li class="plugin-deps"><?php echo $ext['deps']; ?></li><?php } ?>
+
+			<?php if((int) $ext['core'] === 0) { ?>
+			<li class="plugin-deactivate"><a href="<?php $this->app->getBaseURL(); ?>Extensions/deactivate/<?php echo $ext->extKey; ?>"></a></li>
+			<?php } else { ?>
+			<li class="note"><em>System extension</em></li>
+			<?php } ?>
+
+		</ul>
+	</li>
+	<?php } ?>
+</ul>
+<?php } ?>

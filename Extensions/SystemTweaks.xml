@@ -1,6 +1,4 @@
-<extension name="Configurable System Tweaks">
-
-	<options></options>
+<extension name="System Tweaks" desc="Configurable System Tweaks" deps="" core="1" icon="">
 
 	<class name="Extensions_Manuel_Admin_Controller_User">
 		<hooks>
@@ -18,5 +16,9 @@
 		<file>/Extensions/Manuel/Admin/Controller/mail.txt</file>
 		<file>/Extensions/Manuel/Admin/Controller/User.php</file>
 	</files>
+
+	<settings>
+		
+	</settings>
 
 </extension>

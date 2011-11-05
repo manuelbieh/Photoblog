@@ -27,10 +27,10 @@ class Application_Extensions {
 
 		$xml = new Modules_XML();
 
-		$coreFiles		= glob($core . '/Extensions/*.xml');
-		$projectFiles	= glob($project . '/Extensions/*.xml');
+		$coreFiles		= glob(realpath($core) . '/Extensions/*.xml');
+		$projectFiles	= glob(realpath($project) . '/Extensions/*.xml');
 
-		$files			= array_merge($coreFiles, $projectFiles);
+		$files				= array_unique(array_merge($coreFiles, $projectFiles));
 
 		foreach($files AS $extMeta) {
 
