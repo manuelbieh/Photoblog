@@ -6,11 +6,18 @@ $login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 
 	<p class="pagination"><?php echo $this->data['pagination']; ?></p>
 
-	<ul id="userlist">
+	<ul id="userlist" class="itemlist">
 	<?php foreach($this->data['users'] AS $user => $data) { ?>
 	<li style="clear: both;" class="<?php echo $data->active == 1 ? 'active':'inactive'; ?>">
 
 		<h4><a href="<?php echo Application_Base::getBaseURL(); ?>User/profile/<?php echo $data->username; ?>"><?php echo $data->username; ?></a></h4>
+
+<?php 
+	$style = Modules_Filesys::isFile($this->app->getProjectDir() . '../uploads/avatars/' . $data->avatar . '_45.png') ? 
+		' style="background: url(' . Application_Base::getBaseURL() . '../uploads/avatars/'. $data->avatar . '_45.png) center center no-repeat;"' :
+		'';
+?>
+		<div class="userimg"<?php echo $style; ?>></div>
 
 		<ul class="tools">
 

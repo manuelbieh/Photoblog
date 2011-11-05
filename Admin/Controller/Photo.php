@@ -191,12 +191,16 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 	}
 
-	public function view($offset=0) {
+	public function view($offset=0, $order='DESC') {
 
 		if($this->access->check(__METHOD__)) {
 
+			$order			= $order == 'ASC' ? 'ASC' : 'DESC';
+
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
-			$allPhotos		= $photoMapper->fetchAll();
+			$userMapper		= new Model_User_Mapper(new Model_User_Gateway_PDO($this->app->objectManager->get('Datastore')));
+
+			$allPhotos			= $photoMapper->fetchAll();
 			$allPhotosReverse	= is_array($allPhotos) ? array_reverse($allPhotos) : array();
 
 			$itemsPerPage	= Application_Settings::get("//settings/system/backend/photosPerPage", 1);
@@ -210,13 +214,24 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			$subview->data['offset'] = (int) $offset;
 			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-				if(isset($allPhotosReverse[$i])) {
-					$subview->data['images'][$i] = $allPhotosReverse[$i];
+				if($order == 'DESC') {
+					if(isset($allPhotosReverse[$i])) {
+						$subview->data['images'][$i] = $allPhotosReverse[$i];
+						$subview->data['images'][$i]->photographer = $userMapper->find($allPhotosReverse[$i]->user_id, new Model_User);
+					}
+				} else {
+					if(isset($allPhotos[$i])) {
+						$subview->data['images'][$i] = $allPhotos[$i];
+						$subview->data['images'][$i]->photographer = $userMapper->find($allPhotos[$i]->user_id, new Model_User);
+					}					
 				}
 			}
 
 			$pagina = new Modules_Pagination;
 			$pagina->setLink(Application_Base::getBaseURL() . "Photo/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+			if($order == 'ASC') {
+				$pagina->setParams('/' . $order);
+			}
 			$subview->data['pagination'] = $pagina->render();
 
 			$this->view->addSubview('main', $subview);

@@ -28,12 +28,13 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 	}
 
-	public function view($photo_id=NULL, $offset=0) {
+	public function view($photo_id=NULL, $offset=0, $order='DESC') {
 
 		if($this->access->check(__METHOD__)) {
 
-			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
-			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
+			$order			= $order == 'ASC' ? 'ASC' : 'DESC';
+			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO($this->app->objectManager->get('Datastore')));
+			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$subview		= $this->app->createView();
 
 			if($photo_id == NULL || (int) $photo_id === 0) {
@@ -56,13 +57,22 @@ class Admin_Controller_Comments extends Controller_Frontend {
 				$subview->data['photomapper'] = $photoMapper;
 				$subview->data['offset'] = (int) $offset;
 				for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-					if(isset($allComments[$i])) {
-						$subview->data['comments'][$i] = $allCommentsReverse[$i];
+					if($order == 'DESC') {
+						if(isset($allCommentsReverse[$i])) {
+							$subview->data['comments'][$i] = $allCommentsReverse[$i];
+						}
+					} else {
+						if(isset($allComments[$i])) {
+							$subview->data['comments'][$i] = $allComments[$i];
+						}
 					}
 				}
 
 				$pagina = new Modules_Pagination;
-				$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+				$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/" . (int) $photo_id . '/')->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
+				if($order == 'ASC') {
+					$pagina->setParams('/' . $order);
+				}
 				$subview->data['pagination'] = $pagina->render();
 
 			} else {

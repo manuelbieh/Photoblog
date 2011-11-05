@@ -509,6 +509,19 @@ input[type="checkbox"] + label {
 	background-image: url(../images/icons/useredit.png), -moz-radial-gradient(center, ellipse cover, rgba(102,102,102,1) 0%, rgba(224,224,224,0) 70%, rgba(255,255,255,0) 100%);
 }
 
+#userlist > li {
+	clear: both;
+}
+
+#userlist .userimg {
+	margin: 5px 10px 0 0;
+}
+
+#userlist .tools {
+	list-style: none;
+	margin-top: 0;
+}
+
 .itemlist {
 	border-top: 1px solid #e6e6e6;
 	margin: 0;

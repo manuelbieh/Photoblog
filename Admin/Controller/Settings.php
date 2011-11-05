@@ -17,7 +17,7 @@ class Admin_Controller_Settings extends Controller_Frontend implements Applicati
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = new Application_View();
+		$navi = $app->createView();
 		$navi->loadHTML("templates/main/navi.html");
 
 		$this->view->addSubview('navi', $navi);
@@ -52,18 +52,34 @@ class Admin_Controller_Settings extends Controller_Frontend implements Applicati
 
 				}
 
-				$settings->save(Application_Settings::getFile(1));
+				$subview = $this->app->createView();
+
+				if($settings->save(Application_Settings::getFile(1)) !== false) {
+
+					$subview->loadHTML('templates/settings/edit.success.html');
+					$this->view->addSubview('main', $subview);
+
+				} else {
+
+					$subview->loadHTML('templates/settings/edit.error.html');
+					$this->view->addSubview('main', $subview);
+
+				}
+
+
+			} else {
+
+				$form->assign('content', $this->getSettingsXML($section));
+
+				$subview = $this->app->createView();
+				$subview->loadHTML('templates/settings/settings.html');
+
+				$subview->assign('form', $form->render());
+				$subview->assign('headline', 'Settings');
+
+				$this->view->addSubview('main', $subview);
 
 			}
-
-			$form->assign('content', $this->getSettingsXML($section));
-
-			$subview = new Application_View();
-			$subview->loadHTML('templates/settings/settings.html');
-			$subview->assign('form', $form->render());
-			$subview->assign('headline', 'Settings');
-
-			$this->view->addSubview('main', $subview);
 
 		}
 
