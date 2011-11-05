@@ -21,7 +21,7 @@ class Modules_FormTest extends PHPUnit_Framework_TestCase {
 	public function testInput() {
 		$result = $this->form->input(array('name'=>'test_name', 'id'=>'test_id', 'class'=>'test_class', 'data-attribute'=>'test_data-attribute', 'value'=>'value'));
         $expected = '<input type="text" name="test_name" id="test_id" value="value" class="test_class" data-attribute="test_data-attribute" />';
-        $this->assertTrue($result == $expected);
+        $this->assertEquals($result, $expected);
 	}
 
 	#public function testSelect() {}

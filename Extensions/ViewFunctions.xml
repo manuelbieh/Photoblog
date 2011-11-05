@@ -8,4 +8,11 @@
 		</hooks>
 	</class>
 
+	<files>
+		<file>/Extensions/Manuel/Application/View.php</file>
+		<file>/Extensions/Manuel/Application/StringFunc.php</file>
+		<file>/Extensions/Manuel/Application/InputSanitizer.php</file>
+		<file>/Extensions/Manuel/Application/View/Helper.php</file>
+	</files>
+
 </extension>

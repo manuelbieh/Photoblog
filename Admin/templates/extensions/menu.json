@@ -1,0 +1,18 @@
+{
+	"title":"Extensions",
+	"order":"1536",
+	"id":"p-extensions",
+	"controller":"Extensions",
+	"class":"icon-extensions",
+	"link":"#",
+	"sub":[
+			{
+				"title":"Manage",
+				"link":"Extensions/manage"
+			},
+			{
+				"title":"Browse",
+				"link":"Extensions/browse"
+			}
+		]
+}

@@ -29,7 +29,7 @@ class Controller_Comment implements Application_Observable {
 				$this->validation = new Controller_Comment_Validation();
 				$this->validation->checkRequiredFields($this->commentForm);
 				$this->commentForm->addValidation($this->validation);
-				$this->notify('commentFormSent');
+				$this->app->extensions()->notify($this, 'commentFormSent');
 			}
 
 
@@ -51,26 +51,6 @@ class Controller_Comment implements Application_Observable {
 			} else {
 
 				return $this->commentForm->render();
-
-			}
-
-		}
-
-	}
-
-	public function addObserver($observer) {
-
-		array_push($this->observers, $observer);
-
-	}
-
-	public function notify($state, $additionalParams=NULL) {
-
-		foreach((array) $this->observers AS $obs) {
-
-			if(method_exists($obs, $state)) {
-
-				$obs->$state(&$this, $additionalParams);
 
 			}
 
