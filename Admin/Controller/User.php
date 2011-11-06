@@ -495,6 +495,12 @@ class Admin_Controller_User extends Controller_Frontend {
 	}
 
 
+	public function savePreference($pref, $key, $val='') {
+
+		
+
+	}
+
 	protected function handleAvatarUpload(&$formObject) {
 
 		if($formObject->isSent() && $_FILES 

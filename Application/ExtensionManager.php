@@ -90,8 +90,8 @@ class Application_ExtensionManager {
 
 	public function getExtensions($class, $dest=0) {
 
-		$core		= Application_Base::getCoreDir();
-		$project	= Application_Base::getProjectDir();
+		$core		= $this->app->getCoreDir();
+		$project	= $this->app->getProjectDir();
 
 		$dirs		= explode('/', rtrim($project, '/'));
 		$project	= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
@@ -131,7 +131,7 @@ class Application_ExtensionManager {
 
 	public function registerObservers(&$obj, $dest=0) {
 
-		$ext = self::getExtensions(get_class($obj));
+		$ext = $this->getExtensions(get_class($obj));
 
 		foreach($ext AS $obs) {
 
@@ -143,7 +143,7 @@ class Application_ExtensionManager {
 
 	public function addObserver($className, $obs, $dest=0) {
 
-		$this->observers[$className][] = $obs;
+		$this->observers[$className][get_class($obs)] = $obs;
 
 	}
 
