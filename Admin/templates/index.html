@@ -18,11 +18,6 @@ if(Modules_Filesys::isFile($adminDir . $userStyle)) {
 	$styleFile = 'templates/assets/css/layout.css';
 }
 
-
-$navi = $this->app->createView();
-$navi->loadHTML("templates/main/navi.html");
-$this->addSubview('navi', $navi);
-
 ?>
 <link href="<?php echo Application_Base::getBaseURL() . $styleFile; ?>?d=<?php echo (int) filemtime($adminDir . $styleFile); ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo Application_Base::getBaseURL(); ?>templates/assets/css/famfamfam.css?d=<?php echo (int) filemtime(dirname(__FILE__) . '/assets/css/famfamfam.css'); ?>" rel="stylesheet" type="text/css" />

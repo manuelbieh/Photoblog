@@ -185,6 +185,8 @@ section#content {
 
 .infobox {
 	background: #e7e9ea;
+	-moz-box-shadow: inset 0px 0 4px #999;
+	-webkit-box-shadow: inset 0px 0 4px #999;
 	box-shadow: inset 0px 0 4px #999;
 	padding: 16px 16px;
 }
@@ -694,7 +696,7 @@ input[type="checkbox"] + label {
 	margin-left: -24px;
 }
 
-.ui-tabs ul li{
+.ui-tabs ul li {
 	border-top: 1px solid #799AA5;
 	border-right: 1px solid #799AA5;
 	border-bottom: 1px solid #fff;
@@ -720,4 +722,3 @@ input[type="checkbox"] + label {
 .ui-tabs section:nth-of-type(1) {
 	display: block;
 }
-

@@ -1,0 +1,24 @@
+<extension name="Mobile Styles" deps="" core="0" icon="/Extensions/Manuel/Admin/assets/icons/phone_sound.png">
+
+	<description>
+		Adds aditional stylesheets to optimize for iPhone, Android and other mobile devices.
+	</description>
+
+	<class name="Extensions_Manuel_Mobile_Styles">
+		<hooks>
+			<item>Application_View</item>
+		</hooks>
+	</class>
+
+	<files>
+		<file>/Extensions/Manuel/Mobile/Styles.php</file>
+		<file>/Extensions/Manuel/Mobile/assets/*</file>
+	</files>
+
+	<credits>
+	<![CDATA[ 
+		Icon is from fatcow.com, licensed under Creative Commons Attribution 3.0
+	]]>
+	</credits>
+
+</extension>

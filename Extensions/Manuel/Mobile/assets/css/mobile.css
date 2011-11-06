@@ -1,0 +1,74 @@
+header {
+	padding: 0;
+	background: transparent;
+}
+
+footer {
+	height: auto;
+}
+
+section#sidebar, section#content, footer {
+	position: static;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+section#content > * {
+	/*margin-left: 4px;
+	margin-right: 4px;*/
+}
+
+section#sidebar, section#content {
+	width: 100%;
+}
+
+section#sidebar #menu {
+	margin: 0 !important;
+}
+
+.resizebar {
+	display: none;
+}
+
+fieldset {
+	padding: 4px;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+legend {
+	margin: 0;
+}
+
+
+fieldset p {
+	margin-left: 0;
+	margin-right: 0;
+	padding: 4px;
+}
+
+fieldset p label:first-child {
+	float: none;
+	display: block;
+}
+
+input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], select, textarea {
+	width: auto !important;
+	display: block;
+}
+
+.ui-tabs ul {
+	margin-bottom: 0;
+	margin-left: 0px;
+}
+
+.ui-tabs section {
+	padding: 4px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.ext-icon {
+	float: left;
+	margin: 0 10px 0px 0;
+}
