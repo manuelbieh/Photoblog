@@ -1,6 +1,8 @@
-<extension name="View Functions" desc="Custom functions for application views" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/domain_template.png">
+<extension name="View Functions" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/domain_template.png">
 
-	<options></options>
+	<description>
+		Custom functions for application views
+	</description>
 
 	<class name="Extensions_Manuel_Application_View">
 		<hooks>
@@ -14,5 +16,11 @@
 		<file>/Extensions/Manuel/Application/InputSanitizer.php</file>
 		<file>/Extensions/Manuel/Application/View/Helper.php</file>
 	</files>
+
+	<credits>
+	<![CDATA[ 
+		Icon is from fatcow.com, licensed under Creative Commons Attribution 3.0
+	]]>
+	</credits>
 
 </extension>

@@ -17,9 +17,9 @@
 			</div>
 			<div class="meta">
 				<strong><?php if(isset($comment->url)) { ?><a href="<?php echo $comment->url; ?>"><?php echo $comment->name; ?></a><?php } else { ?><?php echo $comment->name; ?><?php } ?></strong> <?php echo __('at'); ?> <?php echo $comment->datetime; ?>
-				<p><?php echo nl2br($comment->text); ?></p>
+				<p><?php echo nl2br($this->sanitize->removeTags($comment->text)); ?></p>
 				<ul class="tools">
-					<li><a class="edit" href="<?php echo Application_Base::getBaseURL(); ?>Comments/edit/<?php echo $comment->comment_id; ?>"><?php echo __('Edit comment'); ?></a></li>
+					<li><a class="editcomment" href="<?php echo Application_Base::getBaseURL(); ?>Comments/edit/<?php echo $comment->comment_id; ?>"><?php echo __('Edit comment'); ?></a></li>
 					<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Comments/delete/<?php echo $comment->comment_id; ?>"><?php echo __('Delete comment'); ?></a></li>
 				</ul>
 			</div>

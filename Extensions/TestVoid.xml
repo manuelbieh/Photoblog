@@ -1,0 +1,27 @@
+<extension name="Extension Test Void" deps="" core="0" icon="/Extensions/Manuel/Admin/assets/icons/applications-science.png">
+
+	<description>
+		Test extension. Does nothing.
+	</description>
+
+	<class name="Extensions_Manuel_Admin_Controller_DashboardTest">
+		<hooks>
+			<item>Admin_Controller_Dashboard</item>
+		</hooks>
+	</class>
+
+	<files>
+		<file>/Extensions/Manuel/Application/View.php</file>
+	</files>
+
+	<credits>
+	<![CDATA[ 
+		Icon: Human o2 by Oliver Scholtz
+	]]>
+	</credits>
+
+	<settings>
+		<test></test>
+	</settings>
+
+</extension>

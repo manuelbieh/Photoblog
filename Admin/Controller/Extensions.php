@@ -8,14 +8,10 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->view->loadHTML('templates/index.html');
+		$this->app->extensions()->buildIndex();
 
 		$this->extGateway	= new Model_Extension_Gateway_PDO($this->app->objectManager->get('Datastore'));
 		$this->extMapper	= new Model_Extension_Mapper($this->extGateway);
-
-		$navi = $this->app->createView();
-		$navi->loadHTML("templates/main/navi.html");
-
-		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
@@ -23,26 +19,9 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 	}
 
-	public function view() {
-		#$foo = Application_Extensions::buildIndex();
-		#var_dump($foo);
-		//$this->view->addSubview('main', new Application_View_String('foo'));
-		
-	}
-
 	public function manage() {
 
-#		$this->app->extensions()->buildIndex();
-
-		$core				= $this->app->getCoreDir();
-		$project			= $this->app->getProjectDir();
-
-		$dirs				= explode('/', rtrim($project, '/'));
-		$project			= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
-
-		$coreFiles			= glob(realpath($core) . '/Extensions/*.xml');
-		$projectFiles		= glob($project . '/Extensions/*.xml');
-		$files				= array_unique(array_merge($coreFiles, $projectFiles));
+		$files = $this->getExtFiles();
 
 		$xml = new Modules_XML();
 
@@ -54,7 +33,7 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 			$xml->load($extMeta);
 
 			$name = $xml->XPath()->query("//extension/@name");
-			$desc = $xml->XPath()->query("//extension/@desc");
+			$desc = $xml->XPath()->query("//extension/description");
 			$deps = $xml->XPath()->query("//extension/@deps");
 			$core = $xml->XPath()->query("//extension/@core");
 			$icon = $xml->XPath()->query("//extension/@icon");
@@ -76,7 +55,19 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 				'hasSettings'=>$hasSettings
 			);
 
-			if($ext != NULL) {
+			if($ext == false) {
+
+				$newExt = new Model_Extension();
+				$newExt->core = (int) $extData['core'];
+				$newExt->deps = $extData['deps'];
+				$newExt->active = 0;
+				$newExt->extension_key = $extData['extKey'];
+
+				$this->extMapper->save($newExt);
+
+			}
+
+			if($ext != NULL && $ext->active == 1) {
 				$active[] = $extData;
 			} else {
 				$inactive[] = $extData;
@@ -95,93 +86,209 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 	}
 
+
 	public function activate($extKey) {
-		$ext = $this->extMapper->find($extKey, new Model_Extension);
+
+		$subview = $this->app->createView();
+
+		$files = $this->getExtFiles();
+		if(is_array($files)) {
+			foreach($files AS $num => $extFile) {
+				$files[$num] = basename($extFile, '.xml');
+			}
+		}
+
+		if(in_array($extKey, $files)) {
+
+			$ext = $this->extMapper->find($extKey, new Model_Extension);
+			$ext->active = 1;
+			$this->extMapper->save($ext);
+			$this->app->extensions()->buildIndex();
+
+			$extFile = $this->getExtFile($extKey);
+
+			$xml = new Modules_XML();
+			$xml->load($extFile);
+
+			$extSettings = $xml->XPath()->query("//extension/settings");
+			$name = $xml->XPath()->query("//extension/@name");
+
+			$subview->data['ext']->extKey = $extKey;
+			$subview->data['ext']->name = $name->item(0)->textContent;
+			$subview->data['ext']->hasSettings = ((int) $extSettings->length === 0) ? false : true;
+
+			$subview->loadHTML('templates/extensions/activate.success.html');
+
+		} else {
+
+			$subview->loadHTML('templates/extensions/activate.error.notfound.html');
+
+		}
+
+		$this->view->addSubview('main', $subview);
 	}
 
+
 	public function deactivate($extKey) {
-		$ext = $this->extMapper->find($extKey, new Model_Extension);
+
+		$subview = $this->app->createView();
+
+		$files = $this->getExtFiles();
+		if(is_array($files)) {
+			foreach($files AS $num => $extFile) {
+				$files[$num] = basename($extFile, '.xml');
+			}
+		}
+
+		if(in_array($extKey, $files)) {
+
+			$ext = $this->extMapper->find($extKey, new Model_Extension);
+			$ext->active = 0;
+			$this->extMapper->save($ext);
+			$this->app->extensions()->buildIndex();
+
+			$subview->loadHTML('templates/extensions/deactivate.success.html');
+
+		} else {
+
+			$subview->loadHTML('templates/extensions/deactivate.error.notfound.html');
+
+		}
+
+		$this->view->addSubview('main', $subview);
+
 	}
+
 
 	public function browse() {
 	
 	}
 
+
 	public function settings($extension_key) {
 
-		$ext = new Application_Extension($this->app);
+		$subview	= $this->app->createView();
+		$ext		= new Application_Extension($this->app);
+		$form		= new Modules_Form("templates/extensions/settings.form.html");
 
-		$form = new Modules_Form("templates/extensions/settings.form.html");
+		$extensionFile = $this->app->getPath('/Extensions/' . $extension_key . '.xml');
 
-		$settingsFile = $this->app->getPath('/Extensions/' . $extension_key . '.xml');
+		if($extensionFile != false) {
 
-		if($form->isSent()) {
+			$extension = new Modules_XML();
+			$extension->load($extensionFile);
+			$extensions = $extension->XPath()->query("//extension/settings/*");
 
-			$settings = new Modules_XML();
-			$settings->load($settingsFile);
+			if($extensions->length > 0) {
 
-			$checkboxes = $settings->XPath()->query("//settings//*[@type='checkbox']");
-			if($checkboxes->length > 0) {
-				foreach($checkboxes AS $checkbox) {
-					$checkbox->nodeValue = 0;
+				if($form->isSent()) {
+
+					$checkboxes = $extension->XPath()->query("//settings//*[@type='checkbox']");
+					if($checkboxes->length > 0) {
+						foreach($checkboxes AS $checkbox) {
+							$checkbox->nodeValue = 0;
+						}
+					}
+
+
+					if(is_array($form->valueOf('data'))) {
+
+						foreach($form->valueOf('data') AS $xpath => $value) {
+
+							$node = $extension->XPath()->query("//settings/" . $xpath);
+							$childnode = $node->item(0);
+							$childnode->nodeValue = $value;
+
+						}
+
+					}
+
+					if($extension->save($extensionFile) !== false) {
+
+						$subview->loadHTML('templates/extensions/settings.edit.success.html');
+						$this->view->addSubview('main', $subview);
+
+					} else {
+
+						$subview->loadHTML('templates/extensions/settings.edit.error.html');
+						$this->view->addSubview('main', $subview);
+
+					}
+
+
+				} else {
+
+					$nodes = $extension->XPath()->query("//settings/*");
+
+					if($nodes->length > 0) {
+
+						$xmlForm = new Modules_XMLSimpleForm();
+						$extensionForm = '';
+
+						foreach($nodes AS $node) {
+
+							$extensionForm .= $xmlForm->renderNode($node, $extension);
+
+						}
+
+					}
+
+					$form->assign('content', $extensionForm);
+
+					$this->view->addSubview('main', $form);
+
 				}
-			}
-
-
-			if(is_array($form->valueOf('data'))) {
-
-				foreach($form->valueOf('data') AS $xpath => $value) {
-
-					$node = $settings->XPath()->query("//settings/" . $xpath);
-					$childnode = $node->item(0);
-					$childnode->nodeValue = $value;
-
-				}
-
-			}
-
-			$subview = $this->app->createView();
-
-			if($settings->save($settingsFile) !== false) {
-
-				$subview->loadHTML('templates/extensions/settings.edit.success.html');
-				$this->view->addSubview('main', $subview);
 
 			} else {
 
-				$subview->loadHTML('templates/extensionss/settings.edit.error.html');
+				$subview->loadHTML('templates/extensions/settings.error.noneavailable.html');
 				$this->view->addSubview('main', $subview);
 
 			}
 
-
 		} else {
 
-			#$form->assign('content', $this->getSettingsXML($section));
+			$subview->loadHTML('templates/extensions/settings.error.notfound.html');
+			$this->view->addSubview('main', $subview);
 
-			$settings = new Modules_XML();
-			$settings->load($settingsFile);
-			$nodes = $settings->XPath()->query("//settings/*");
 
-			if($nodes->length > 0) {
+		}
+		
+	}
 
-				$xmlForm = new Modules_XMLSimpleForm();
-				$settingsForm = '';
+	protected function getExtFiles() {
 
-				foreach($nodes AS $node) {
+		$core				= $this->app->getCoreDir();
+		$project			= $this->app->getProjectDir();
 
-					$settingsForm .= $xmlForm->renderNode($node, $settings);
+		$dirs				= explode('/', rtrim($project, '/'));
+		$project			= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
 
+		$coreFiles			= glob(realpath($core) . '/Extensions/*.xml');
+		$projectFiles		= glob($project . '/Extensions/*.xml');
+
+		$files				= array_unique(array_merge($coreFiles, $projectFiles));
+
+		return $files;
+
+	}
+
+	protected function getExtFile($extKey) {
+
+		$files = $this->getExtFiles();
+
+		if(is_array($files)) {
+
+			foreach($files AS $extFile) {
+
+				if(basename($extFile, '.xml') == $extKey) {
+					return $extFile;
 				}
 
 			}
 
-			$form->assign('content', $settingsForm);
-
-			$this->view->addSubview('main', $form);
-
 		}
-		
+
 	}
 
 }

@@ -18,6 +18,11 @@ if(Modules_Filesys::isFile($adminDir . $userStyle)) {
 	$styleFile = 'templates/assets/css/layout.css';
 }
 
+
+		$navi = $this->app->createView();
+		$navi->loadHTML("templates/main/navi.html");
+$this->addSubview('navi', $navi);
+
 ?>
 <link href="<?php echo Application_Base::getBaseURL() . $styleFile; ?>?d=<?php echo (int) filemtime($adminDir . $styleFile); ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo Application_Base::getBaseURL(); ?>templates/assets/css/famfamfam.css?d=<?php echo (int) filemtime(dirname(__FILE__) . '/assets/css/famfamfam.css'); ?>" rel="stylesheet" type="text/css" />
@@ -34,7 +39,7 @@ if(Modules_Filesys::isFile($adminDir . $userStyle)) {
 		</header>
 
 		<?php if(Modules_Session::getInstance()->getVar('userdata')->user_id) { ?>
-		<div class="info">
+		<div class="infobox">
 		<?php 
 		if(Modules_Session::getInstance()->getVar('userdata')->avatar != '') {
 			$style = ' style="background: url(' . Application_Base::getBaseURL() . '../uploads/avatars/'. Modules_Session::getInstance()->getVar('userdata')->avatar . '_45.png) center center no-repeat;"';
@@ -47,7 +52,17 @@ if(Modules_Filesys::isFile($adminDir . $userStyle)) {
 		<?php } ?>
 
 		<nav>
-		[sub:[navi]]
+
+<?php
+if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
+
+	$menu = new Admin_Application_View_MenuHelper($this->app);
+	$menu->gatherJSON(dirname(__FILE__));
+	echo $menu->create();
+
+}
+
+?>
 		</nav>
 
 	</section>
@@ -58,13 +73,19 @@ if(Modules_Filesys::isFile($adminDir . $userStyle)) {
 
 	<footer>
 
-		<p>© wefoundit UG (haftungsbeschränkt)</p>
+		<p>Exhibit Blog was created by <a href="http://www.manuel-bieh.de/">Manuel Bieh</a> and is licensed under <a href="http://mit-license.org/">MIT License</a>.</p>
 
 	</footer>
 
 </div>
 <script>
 $(function() {
+
+	$('ul#menu li:not(.active) ul').hide();
+	$('ul#menu > li:not(:first-child(ul)) > a').bind('click', function(e) {
+		e.preventDefault();
+		$(this).parent().find('ul').slideToggle('fast');
+	});
 
 	$('#sidebar .resizebar').bind('click', function() {
 

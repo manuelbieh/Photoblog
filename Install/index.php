@@ -37,6 +37,27 @@ include "../Includes/Bootstrap.inc.php";
 
 			$form->addValidation($validate);
 
+			$perm777 = array(
+				'Admin/templates',
+				'uploads',
+				'uploads/avatars',
+				'uploads/mini',
+				'uploads/pile',
+				'uploads/source',
+				'uploads/thumbs',
+				'uploads/web',
+				'uploads/Sys',
+				'Includes/Config.inc.php',
+				'Includes/Settings.xml',
+				'Extensions'
+			);
+
+			foreach($perm777 AS $permCheck) {
+				if(!is_writable($permCheck)) {
+					$form->addError($permCheck . ' ' __('is not writable (CHMOD 777 is required).'));
+				}
+			}
+
 			if($form->isSent(true)) {
 
 				$config = file_get_contents('config.tpl');

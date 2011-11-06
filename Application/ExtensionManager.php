@@ -11,31 +11,26 @@ class Application_ExtensionManager {
 
 	}
 
-	public function buildIndex($dest=0) {
+	public function buildIndex($dest=1) {
 
 		$extensionGateway	= new Model_Extension_Gateway_PDO($this->app->objectManager->get('Datastore'));
 		$extensionMapper	= new Model_Extension_Mapper($extensionGateway);
 
-		$core		= Application_Base::getCoreDir();
-		$project	= Application_Base::getProjectDir();
+		$core				= Application_Base::getCoreDir();
+		$project			= Application_Base::getProjectDir();
 
-		$dirs		= explode('/', rtrim($project, '/'));
+		$dirs				= explode('/', rtrim($project, '/'));
+		$project			= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
+		$xml 				= new Modules_XML();
 
-		$project	= end($dirs) == 'Admin' ? realpath(rtrim($project, '/') . '/..') : $project;
-		//$project	= strpos('Admin', $project
-		//var_dump($project);
-
-		$xml = new Modules_XML();
-
-		$coreFiles		= glob(realpath($core) . '/Extensions/*.xml');
-		$projectFiles	= glob(realpath($project) . '/Extensions/*.xml');
-
+		$coreFiles			= glob(realpath($core) . '/Extensions/*.xml');
+		$projectFiles		= glob(realpath($project) . '/Extensions/*.xml');
 		$files				= array_unique(array_merge($coreFiles, $projectFiles));
 
 		foreach($files AS $extMeta) {
 
 			$ext = $extensionMapper->find(basename($extMeta, '.xml'), new Model_Extension);
-			if($ext != NULL) {
+			if($ext != NULL && $ext->active == 1) {
 
 				$xml->load($extMeta);
 				$classNodes = $xml->XPath()->query("//class/@name");

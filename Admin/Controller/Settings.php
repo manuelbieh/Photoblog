@@ -17,11 +17,6 @@ class Admin_Controller_Settings extends Controller_Frontend {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = $app->createView();
-		$navi->loadHTML("templates/main/navi.html");
-
-		$this->view->addSubview('navi', $navi);
-
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
 		}
@@ -82,6 +77,10 @@ class Admin_Controller_Settings extends Controller_Frontend {
 				$this->view->addSubview('main', $subview);
 
 			}
+
+		} else {
+
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error403());
 
 		}
 

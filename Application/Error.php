@@ -18,6 +18,18 @@ class Application_Error {
 
 	}
 
+	public static function error403() {
+
+		$view = new Application_View();
+		$response = new Modules_Response_HTTP(); 
+		$response->setStatus(403);
+		$view->loadHTML('templates/errordocs/403.html');
+		//$view->render(true);
+		return $view;
+
+	}
+
+
 	public static function error404() {
 
 		$view = new Application_View();

@@ -176,6 +176,14 @@ section#content {
 }
 
 .info {
+	background: #EEEEFF url(../images/fugue/information.png) no-repeat 6px center;
+	border: 1px solid #5078ba;
+	border-radius: 8px;
+	margin: 1em 0 1.5em 0;
+	padding: 3px 3px 3px 32px;
+}
+
+.infobox {
 	background: #e7e9ea;
 	box-shadow: inset 0px 0 4px #999;
 	padding: 16px 16px;
@@ -406,9 +414,28 @@ input[type="checkbox"] + label {
 	padding-left: 20px;
 }
 
-
 .edituser {
 	background: url(../images/fugue/user--pencil.png) no-repeat;
+	padding-left: 20px;
+}
+
+.editcomment {
+	background: url(../images/fugue/balloon--pencil.png) no-repeat;
+	padding-left: 20px;
+}
+
+.extension-activate {
+	background: url(../images/fugue/application--plus.png) no-repeat;
+	padding-left: 20px;
+}
+
+.extension-deactivate {
+	background: url(../images/fugue/application--minus.png) no-repeat;
+	padding-left: 20px;
+}
+
+.extension-configure {
+	background: url(../images/fugue/gear--pencil.png) no-repeat;
 	padding-left: 20px;
 }
 
@@ -490,6 +517,33 @@ input[type="checkbox"] + label {
 
 #dashlist li {
 	list-style: none;
+}
+
+#dashlist li a {
+	padding: 2px 2px 2px 20px;
+	display: inline-block;
+}
+
+#dashlist .dash-upload a {
+	background: url(../images/fugue/picture--plus.png) no-repeat 0px center;
+}
+
+#dashlist .dash-comments a {
+	background: url(../images/fugue/balloon-white-left.png) no-repeat 0px center;
+}
+
+#dashlist .dash-profile a {
+	background: url(../images/fugue/user--pencil.png) no-repeat 0px center;
+}
+
+/*
+
+#dashlist {
+	margin: 0;
+}
+
+#dashlist li {
+	list-style: none;
 	display: inline-block;
 }
 
@@ -506,6 +560,7 @@ input[type="checkbox"] + label {
 #dashlist li a:hover {
 	border-color: #666;
 }
+
 
 #dashlist .dash-upload a {
 	background-image: url(../images/icons/image.png);
@@ -530,6 +585,8 @@ input[type="checkbox"] + label {
 #dashlist .dash-profile a:hover {
 	background-image: url(../images/icons/useredit.png), -moz-radial-gradient(center, ellipse cover, rgba(102,102,102,1) 0%, rgba(224,224,224,0) 70%, rgba(255,255,255,0) 100%);
 }
+
+*/
 
 #userlist > li {
 	clear: both;
@@ -628,3 +685,39 @@ input[type="checkbox"] + label {
 	background: #d1d1d1;
 	margin: -4px;
 }
+
+
+
+
+.ui-tabs ul {
+	margin-bottom: 0;
+	margin-left: -24px;
+}
+
+.ui-tabs ul li{
+	border-top: 1px solid #799AA5;
+	border-right: 1px solid #799AA5;
+	border-bottom: 1px solid #fff;
+	border-left: 1px solid #799AA5;
+	display: inline-block;
+	list-style: none;
+	margin-right: 2px;
+	margin-bottom: -1px;
+	padding: 8px 8px;
+}
+
+.ui-tabs section {
+	border: 1px solid #799AA5;
+	display: none;
+	margin-left: -24px;
+	margin-right: -16px;
+	margin-top: 0;
+	margin-bottom: 1em;
+	padding-left: 24px;
+	padding-right: 16px;
+}
+
+.ui-tabs section:nth-of-type(1) {
+	display: block;
+}
+

@@ -78,7 +78,7 @@ class Application_Base {
 	}
 
 	public function errors() {
-		return $this->objectManager->get('Application_Errors');
+		return $this->objectManager->get('Application_Error');
 	}
 
 	public function createView() {
