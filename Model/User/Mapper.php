@@ -97,6 +97,7 @@ class Model_User_Mapper extends Model_Mapper_Abstract {
 			'middlename'=>$model->middlename,
 			'avatar'=>$model->avatar,
 			'gender'=>$model->gender,
+			'last_login'=>$model->last_login,
 		);
 
 		if(is_array($additional)) {
