@@ -29,11 +29,6 @@ class Admin_Controller_User extends Controller_Frontend {
 
 		$this->app->extensions()->notify($this, 'templateLoaded');
 
-		$navi = $app->createView();
-		$navi->loadHTML("templates/main/navi.html");
-
-		$this->view->addSubview('navi', $navi);
-
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
 		}

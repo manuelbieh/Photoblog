@@ -15,9 +15,14 @@
 		<?php echo $this->textarea(array('name'=>'data[description]', 'class'=>'i6', 'rows'=>5, 'cols'=>45, 'id'=>'data[description]')); ?>
 	</p>
 
-	<div class="tabs">
+	<div class="ui-tabs radio">
 
-		<section title="<?php echo __('Upload'); ?>">
+		<ul>
+			<li><label><?php echo $this->input(array('type'=>'radio', 'name'=>'source', 'value'=>'upload', 'checked'=>'checked')); ?> <?php echo __('Upload'); ?></label></li>
+			<li><label><?php echo $this->input(array('type'=>'radio', 'name'=>'source', 'value'=>'web')); ?> <?php echo __('From the web'); ?></label></li>
+		</ul>
+
+		<section data-value="upload">
 
 			<p>
 				<label for="upload[file]"><?php echo __('Select image'); ?></label>
@@ -25,16 +30,15 @@
 			</p>
 
 		</section>
-<!--
-		<section title="<?php echo __('Load from web'); ?>">
+
+		<section data-value="web">
 
 			<p>
 				<label for="download[url]"><?php echo __('Enter URL'); ?></label>
-				<?php echo $this->input(array('type'=>'url', 'name'=>'download[]', 'id'=>'download[url]', 'placeholder'=>'http://')); ?>
+				<?php echo $this->input(array('type'=>'url', 'name'=>'download[url]', 'id'=>'download[url]', 'placeholder'=>'http://')); ?>
 			</p>
 
 		</section>
--->
 
 	</div>
 
@@ -88,6 +92,19 @@ $(function() {
 		
 		}
 
+	});
+
+	$.each($('.ui-tabs.radio > ul > li input:radio'), function(i, el) {
+		if($(el).is(':checked')) {
+			$(el).parents('.ui-tabs').find('section').hide();
+			$(el).parents('.ui-tabs').find('section[data-value="' + $(el).val() + '"]').show();
+		}
+	});
+
+	$('.ui-tabs.radio > ul > li input:radio').bind('click', function() {
+		$$ = $(this);
+		$$.parents('.ui-tabs').find('section').hide();
+		$$.parents('.ui-tabs').find('section[data-value="' + $$.val() + '"]').show();
 	});
 
 });

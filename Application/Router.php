@@ -143,6 +143,9 @@ echo "Action: " . $data['action'] . " <br />\n";
 					}
 
 					//$obj = Application_Base::executeObjectCallback($controller, $action, $rawParams);
+					$this->app->setController($data['controller']);
+					$this->app->setAction($data['action']);
+
 					Application_Base::setController($data['controller']);
 					Application_Base::setAction($data['action']);
 

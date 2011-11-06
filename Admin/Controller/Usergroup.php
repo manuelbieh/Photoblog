@@ -18,11 +18,6 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 		}
 		#$this->notify('templateLoaded');
 
-		$navi = new Application_View();
-
-		$navi->loadHTML("templates/main/navi.html");
-		$this->view->addSubview('navi', $navi);
-
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
 		}

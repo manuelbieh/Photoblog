@@ -29,6 +29,11 @@ class Admin_Controller_Photo extends Controller_Frontend {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
+		$navi = $this->app->createView();
+		$navi->loadHTML("templates/main/navi.html");
+
+		$this->view->addSubview('navi', $navi);
+
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
 		}
@@ -51,169 +56,126 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			if($this->form->isSent()) {
 
-				if($this->form->valueOf('source') == 'web') {
+				if($form->valueOf('source') == 'upload' && (!$_FILES['upload'] || $_FILES['upload']['error'][0] !== 0)) {
 
-					$curlObj = new Modules_Curl();
-					$curlObj->setOption(CURLOPT_FOLLOWLOCATION, true);
-					$curlObj->setOption(CURLOPT_MAXREDIRS, 3);
-					$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 60);
-
-					$curlObj->connect($this->form->valueOf('download[url]'));
-					$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
-
-					if($httpStatus > 400) {
-
-						$this->view->addSubview('main', $this->form);
-						$this->form->addError(__('Downloading the file from the URL you specified was not successful.'));
-						return;
-
-					} else {
-
-						$tmpFolder = rtrim($this->app->getProjectDir(), '/') . '/../uploads/temp/';
-
-						$imageSourceName = md5(base64_encode($this->form->valueOf('download[url]')));
-						$imageSource = $tmpFolder . $imageSourceName;
-
-						$imageFile = $curlObj->output();
-						file_put_contents($tmpFolder . $imageSourceName, $imageFile);
-
-					}
+					$this->view->addSubview('main', $this->form);
+					$this->form->addError(__('Unable to upload file.'));
 
 				} else {
 
-					if(!$_FILES['upload'] || $_FILES['upload']['error'][0] !== 0) {
+					try {
 
-						$this->view->addSubview('main', $this->form);
-						$this->form->addError(__('Unable to upload file.'));
-						return;
+						$this->uploadImage	= new Modules_Image($_FILES['upload']['tmp_name'][0]);
+						$uploadImageType	= $this->uploadImage->getImageMimeType();
+						$uploadImageSuffix	= Modules_Functions::getSuffixByMime($uploadImageType);
+						$uploadImageWidth	= $this->uploadImage->getImageWidth();
+						$uploadImageHeight	= $this->uploadImage->getImageHeight();
 
-					} else {
+						if(!in_array($uploadImageType, array('image/jpg', 'image/pjpeg', 'image/jpeg', 'image/gif', 'image/png'))) {
+							$this->form->addError(__('Unknown filetype. Please upload JPG, GIF or PNG only.'));
+						}
 
-						$imageSourceName = $_FILES['upload']['name'][0];
-						$imageSource = $_FILES['upload']['tmp_name'][0];
+						if($this->form->isSent(true)) {
 
-					}
-				
-				}
+							$this->sourceFolder	= Extensions_Manuel_Helper::getSourceFolder();
+							$this->sourceFile	= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
+							$this->webFile		= time() . base64_encode($_FILES['upload']['name'][0]) .'.'. $uploadImageSuffix;
 
-				try {
+							$this->app->extensions()->notify($this, 'uploadSuccessful');
 
-					$this->uploadImage	= new Modules_Image($imageSource);
-					$uploadImageType	= $this->uploadImage->getImageMimeType();
-					$uploadImageSuffix	= Modules_Functions::getSuffixByMime($uploadImageType);
-					$uploadImageWidth	= $this->uploadImage->getImageWidth();
-					$uploadImageHeight	= $this->uploadImage->getImageHeight();
-
-					if(!in_array($uploadImageType, array('image/jpg', 'image/pjpeg', 'image/jpeg', 'image/gif', 'image/png'))) {
-						$this->form->addError(__('Unknown filetype. Please upload JPG, GIF or PNG only.'));
-					}
-
-					if($this->form->isSent(true)) {
-
-						$this->sourceFolder	= Extensions_Manuel_Helper::getSourceFolder();
-						$this->sourceFile	= time() . base64_encode($imageSourceName) .'.'. $uploadImageSuffix;
-						$this->webFile		= time() . base64_encode($imageSourceName) .'.'. $uploadImageSuffix;
-
-						$this->app->extensions()->notify($this, 'uploadSuccessful');
-
-						if($this->form->valueOf('source') == 'web') {
-							file_put_contents($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile, $imageFile);
-							unlink($imageSource);
-						} else {
 							move_uploaded_file($_FILES['upload']['tmp_name'][0], $this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile);
-						}
 
-						$webSize	= Application_Settings::get("//settings/defaults/image/web");
-						$thumbSize	= Application_Settings::get("//settings/defaults/image/thumb");
-						$miniSize	= Application_Settings::get("//settings/defaults/image/mini");
+							$webSize	= Application_Settings::get("//settings/defaults/image/web");
+							$thumbSize	= Application_Settings::get("//settings/defaults/image/thumb");
+							$miniSize	= Application_Settings::get("//settings/defaults/image/mini");
 
-						$this->uploadImage->thumbnailImage($webSize['maxwidth'], $webSize['maxheight'], true);
-						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $this->webFile);
+							$this->uploadImage->thumbnailImage($webSize['maxwidth'], $webSize['maxheight'], true);
+							$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $this->webFile);
 
-						$this->uploadImage->thumbnailImage($thumbSize['maxwidth'], $thumbSize['maxheight'], true);
-						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $this->webFile);
+							$this->uploadImage->thumbnailImage($thumbSize['maxwidth'], $thumbSize['maxheight'], true);
+							$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $this->webFile);
 
-						$this->uploadImage->thumbnailImage($miniSize['maxwidth'], $miniSize['maxheight'], true);
-						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $this->webFile);
+							$this->uploadImage->thumbnailImage($miniSize['maxwidth'], $miniSize['maxheight'], true);
+							$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $this->webFile);
 
-						$photo = new Model_Photo();
-						$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
+							$photo = new Model_Photo();
+							$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 
-						$cleanTitles = array();
-						$allPhotos = $photoMapper->fetchAll();
-						if(is_array($allPhotos)) {
-							foreach($allPhotos AS $photoObject) {
-								$cleanTitles[] = $photoObject->clean_title;
+							$cleanTitles = array();
+							$allPhotos = $photoMapper->fetchAll();
+							if(is_array($allPhotos)) {
+								foreach($allPhotos AS $photoObject) {
+									$cleanTitles[] = $photoObject->clean_title;
+								}
 							}
-						}
 
-						foreach($this->form->valueOf('data') AS $key => $value) {
-							$photo->$key = $value;
-						}
+							foreach($this->form->valueOf('data') AS $key => $value) {
+								$photo->$key = $value;
+							}
 
-						$photo->date_uploaded = date('Y-m-d H:i:s');
+							$photo->date_uploaded = date('Y-m-d H:i:s');
 
-						if($this->form->valueOf('instant') == 1 || $photo->date_publish == '') {
-							$photo->date_publish = $photo->date_uploaded;
-						}
+							if($this->form->valueOf('instant') == 1 || $photo->date_publish == '') {
+								$photo->date_publish = $photo->date_uploaded;
+							}
 
-						$photo->original_name	= $this->sourceFile;
-						$photo->original_width	= $uploadImageWidth;
-						$photo->original_height	= $uploadImageHeight;
-						$photo->web_name		= $this->webFile;
-						$photo->user_id			= Modules_Session::getInstance()->getVar('userdata')->user_id;
-						$photo->active			= 1;
-						$photo->clean_title		= Modules_Functions::cleanURL($photo->title);
-						$photo->clean_title		= Modules_Functions::getUniqueName($photo->clean_title, $cleanTitles);
+							$photo->original_name	= $this->sourceFile;
+							$photo->original_width	= $uploadImageWidth;
+							$photo->original_height	= $uploadImageHeight;
+							$photo->web_name		= $this->webFile;
+							$photo->user_id			= Modules_Session::getInstance()->getVar('userdata')->user_id;
+							$photo->active			= 1;
+							$photo->clean_title		= Modules_Functions::cleanURL($photo->title);
+							$photo->clean_title		= Modules_Functions::getUniqueName($photo->clean_title, $cleanTitles);
 
-						$this->photo = $photo;
-						$this->app->extensions()->notify($this, 'savePhoto');
+							$this->photo = $photo;
+							$this->app->extensions()->notify($this, 'savePhoto');
 
-						// Now save the file!
-						$photo_id = $photoMapper->save($this->photo);
+							// Now save the file!
+							$photo_id = $photoMapper->save($this->photo);
 
-						if($photo_id == false) {
+							if($photo_id == false) {
 
-							$subview->loadHTML('templates/photo/add.error.html');
+								$subview->loadHTML('templates/photo/add.error.html');
+
+							} else {
+
+								if($photo_id != false && in_array($uploadImageType, array('image/jpeg', 'image/pjpeg', 'image/jpg'))) {
+
+									$exifMapper = new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->objectManager->get('Datastore')));
+									$exifData = json_encode(exif_read_data($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile));
+
+									$exif = new Model_Exif();
+									$exif->photo_id = $photo_id;
+									$exif->exif_data = $exifData;
+
+									$this->exif = $exif;
+									$this->app->extensions()->notify($this, 'saveExif');
+
+									$exifMapper->save($this->exif);
+
+								}
+
+								$subview->loadHTML('templates/photo/add.success.html');
+
+							}
+
+							$this->view->addSubview('main', $subview);
 
 						} else {
 
-							if($photo_id != false && in_array($uploadImageType, array('image/jpeg', 'image/pjpeg', 'image/jpg'))) {
-
-								$exifMapper = new Model_Exif_Mapper(new Model_Exif_Gateway_PDO($this->app->objectManager->get('Datastore')));
-								$exifData = json_encode(exif_read_data($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile));
-
-								$exif = new Model_Exif();
-								$exif->photo_id = $photo_id;
-								$exif->exif_data = $exifData;
-
-								$this->exif = $exif;
-								$this->app->extensions()->notify($this, 'saveExif');
-
-								$exifMapper->save($this->exif);
-
-							}
-
-							$subview->loadHTML('templates/photo/add.success.html');
+							$this->view->addSubview('main', $this->form);
 
 						}
 
-						$this->view->addSubview('main', $subview);
 
-					} else {
+					} catch(Exception $e) {
 
-						$this->view->addSubview('main', $this->form);
+						$this->form->addError(__('Unable to upload file.'));
 
 					}
 
-
-				} catch(Exception $e) {
-
-					$this->form->addError(__('Unable to upload file.'));
-
 				}
-
-
 
 			} else {
 

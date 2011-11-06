@@ -1,4 +1,8 @@
-<extension name="System Tweaks" desc="Configurable System Tweaks" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/cog_edit.png">
+<extension name="System Tweaks" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/cog_edit.png">
+
+	<description>
+		Configurable system tweaks and improvements
+	</description>
 
 	<class name="Extensions_Manuel_Admin_Controller_User">
 		<hooks>
@@ -19,8 +23,14 @@
 
 	<settings>
 		<adminUser label="Admin/User/add" type="group">
-			<sendAddNotification type="checkbox" label="Send notification email to new users when their accounts are created?">1</sendAddNotification>
+			<sendAddNotification type="checkbox" label="Send notification email to new users when their account is created?">1</sendAddNotification>
 		</adminUser>
 	</settings>
+
+	<credits>
+	<![CDATA[ 
+		Icon is from fatcow.com, licensed under Creative Commons Attribution 3.0
+	]]>
+	</credits>
 
 </extension>

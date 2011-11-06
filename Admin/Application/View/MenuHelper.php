@@ -1,9 +1,17 @@
 <?php
 
-class Admin_View_Helper_Menu {
+class Admin_Application_View_MenuHelper {
 
 	public $JSON;
 	public $open = array();
+
+	public function __construct($app) {
+
+		$this->app = $app;
+
+		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
+
+	}
 
 	/*
 	 * Creates a menu from several different menu.json files collected by $this->gatherJSON()
@@ -23,9 +31,11 @@ class Admin_View_Helper_Menu {
 			$this->gatherJSON();
 		}
 
-		usort($this->JSON, 'Admin_View_Helper_Menu::sort');
+		usort($this->JSON, 'Admin_Application_View_MenuHelper::sort');
 
 		if(is_array($this->JSON)) {
+
+			$user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 
 			$menu = '';
 
@@ -44,6 +54,7 @@ class Admin_View_Helper_Menu {
 						foreach($main['sub'] AS $sub) {
 
 						#	if((isset($this->app) && $this->app->getGlobal('access')->check('Admin_Controller_' . $main['controller'] . '::' . strtolower(str_replace($controller . '/', '', $sub['link'])))) || !isset($this->app)) {
+
 								$active	= (strtolower($controller . '/' . $action) == strtolower($sub['link']) || strpos(ltrim($currentURL, '/'), ltrim($sub['link']))  === 0) ? 'active':'';
 								$id		= $sub['id'] ? ' id="'. $sub['id'] . '"' : '';
 								$menu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . __($sub['title']) . '</a></li>';

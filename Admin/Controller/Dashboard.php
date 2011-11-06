@@ -17,10 +17,6 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = $this->app->createView();
-		$navi->loadHTML("templates/main/navi.html");
-
-		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
@@ -47,8 +43,14 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 			$CommentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$allComments	= $CommentMapper->fetchAll();
 
+			$this->additionalContent = '';
+
+			$this->app->extensions()->notify($this, 'beforeRenderOutput');
+
 			$subview->data['photos'] = $photos;
 			$subview->data['comments'] = $allComments;
+			$subview->data['additionalContent'] = $this->additionalContent;
+
 			$this->view->addSubview('main', $subview);
 
 		} else {

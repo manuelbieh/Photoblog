@@ -1,0 +1,7 @@
+<h2><?php echo __('Extension activated successfully'); ?></h2>
+
+<p><?php printf(__('The extension %s was activated successfully.'), $this->data['ext']->name); ?> <a href="<?php echo htmlentities($_SERVER['HTTP_REFERER'], ENT_NOQUOTES, 'UTF-8'); ?>"><?php echo __('Go back'); ?></a></p>
+
+<?php if($this->data['ext']->hasSettings === true) { ?>
+<p class="info"><?php echo __('Extension is configurable.'); ?> <a href="<?php echo $this->app->getBaseUrl(); ?>Extensions/settings/<?php echo $this->data['ext']->extKey; ?>"><?php echo __('Click here to configure it now.'); ?></a></p>
+<?php } ?>

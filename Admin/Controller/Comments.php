@@ -17,10 +17,6 @@ class Admin_Controller_Comments extends Controller_Frontend {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		$navi = $this->app->createView();
-		$navi->loadHTML("templates/main/navi.html");
-
-		$this->view->addSubview('navi', $navi);
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
