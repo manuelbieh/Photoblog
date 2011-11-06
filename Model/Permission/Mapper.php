@@ -33,6 +33,12 @@ class Model_Permission_Mapper extends Model_Mapper_Abstract {
 
 	}
 
+	public function findPermissionsByLink($link='') {
+
+		return $this->_db->getPermissionsByLink($link);
+
+	}
+
 	public function findPermissionsByUserId($user_id) {
 
 		return $this->_db->getPermissionsByUserId($user_id);

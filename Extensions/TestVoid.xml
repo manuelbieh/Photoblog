@@ -14,14 +14,18 @@
 		<file>/Extensions/Manuel/Application/View.php</file>
 	</files>
 
+	<permissions>
+		<permission controller="Admin_Controller_User" method="test" param="foo" link="User/test" title="User → test" />
+	</permission>
+
+	<settings>
+		<test></test>
+	</settings>
+
 	<credits>
 	<![CDATA[ 
 		Icon: Human o2 by Oliver Scholtz
 	]]>
 	</credits>
-
-	<settings>
-		<test></test>
-	</settings>
 
 </extension>

@@ -81,6 +81,18 @@ class Model_Permission_Gateway_PDO {
 
 	}
 
+	public function getPermissionsByLink($link) {
+
+		$s = $this->db->prepare("SELECT permission_id FROM cel_permissions WHERE link = :link");
+		$s->execute(array('link'=>$link));
+
+		foreach($s->fetchAll(PDO::FETCH_ASSOC) AS $permission) {
+			$permissions[] = $permission['permission_id']; 
+		}
+
+		return $permissions;
+
+	}
 
 	public function createPermission($model, $data) {
 
