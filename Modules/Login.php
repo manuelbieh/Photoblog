@@ -26,6 +26,7 @@ class Modules_Login {
 
 		$sessionKey = isset($options['sessionKey']) ? $options['sessionKey'] : 'userdata';
 
+		// Login via form
 		if($username !== false && $password !== false) {
 
 			$userMapper = new Model_User_Mapper($this->getGateway());
@@ -45,18 +46,22 @@ class Modules_Login {
 					$this->setCookie($this->safetyCookieName, $this->createSafetyHash());
 
 					$user->loginhash = $loginhash;
-					$userMapper->save($user);
 
 				}
+
+				$user->last_login = date('Y-m-d H:i:s');
+				$userMapper->save($user);
 
 				return true;
 
 			}
 
+		// Login via valid session
 		} else if($this->isLoggedIn($sessionKey)) {
 
 			return true;
 
+		// Login via valid cookie
 		} else if($this->cookieIsSet() && $_COOKIE[$this->safetyCookieName] === $this->createSafetyHash()) {
 
 			$cookieData = $this->getCookie($this->loginCookieName);
@@ -71,6 +76,9 @@ class Modules_Login {
 				$user = $userMapper->findByFields(array('user_id'=>(int) $user_id, 'loginhash'=>$loginhash));
 
 				if($user[0] !== false) {
+
+					$user[0]->last_login = date('Y-m-d H:i:s');
+					$userMapper->save($user[0]);
 
 					Modules_Session::getInstance()->setVar($sessionKey, $user[0]);
 
