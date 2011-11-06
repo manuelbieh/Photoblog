@@ -43,9 +43,9 @@ class Model_Photo_Mapper extends Model_Mapper_Abstract {
 	}
 
 
-	public function fetchWhere($where, $limit=NULL) {
+	public function fetchWhere($where, $op='AND') {
 
-		foreach($this->_db->fetchWhere($where) AS $entry => $data) {
+		foreach($this->_db->fetchWhere($where, $op) AS $entry => $data) {
 			$photo = new Model_Photo;
 			#$photo->photo_id = $entry['photo_id'];
 			foreach($data AS $key => $value) {

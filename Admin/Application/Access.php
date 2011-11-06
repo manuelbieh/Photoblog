@@ -19,6 +19,21 @@ class Admin_Application_Access {
 
 	}
 
+	public function hasLinkAccess($user_id, $link) {
+
+		$userPermissions = $this->permission->findPermissionsByUserId($user_id);
+		$linkPermissions = $this->permission->findPermissionsByLink($link);
+
+		// no permission id for link exists
+		if(count($linkPermissions) === 0 && $link != '#') {
+			return true;
+		}
+
+		$intersection = array_intersect((array) $userPermissions, (array) $linkPermissions);
+		return count($intersection) > 0 ? true : false;
+
+	}
+
 	public function extract($string=NULL) {
 
 		if($string === NULL) {

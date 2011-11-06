@@ -265,11 +265,13 @@ class Admin_Controller_User extends Controller_Frontend {
 						unlink($avatarFile);
 					}
 
-					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore')));
+					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 					$photoMapper->fetchWhere(array('user_id'=>$user_id));
+					// user delete success
 
 				} else {
 				
+					// user delete error
 				}
 
 			} else {

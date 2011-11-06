@@ -43,26 +43,47 @@ class Admin_Application_View_MenuHelper {
 
 			#	if((isset($this->app) && $this->app->getGlobal('access')->check('Admin_Controller_' . $main['controller'])) || !isset($this->app)) {
 
+					
+
 					$active	= $controller == $main['controller'] ? ' active ':'';
 					$id		= $main['id'] ? ' id="'. $main['id'] . '"' : '';
 					$class	= $main['class'] ? ' ' . $main['class'] . ' ' : '';
 					$open	= $main['open'] == "true" || in_array($main['title'], $this->open) ? ' open ':'';
+					$hasVisibleChildren = false;
 
-					$menu .= '<li ' . $id . ' class="' . $active . $class . $open . '"><a href="' . $url . $main['link'] . '">' . __($main['title']) . '</a>';
+					$mainmenu = '<li ' . $id . ' class="' . $active . $class . $open . '"><a href="' . $url . $main['link'] . '">' . __($main['title']) . '</a>';
 					if(isset($main['sub']) && !empty($main['sub'])) {
-						$menu .= '<ul>';
+
+						$subSection = false;
+						$submenu = '<ul>';
+
 						foreach($main['sub'] AS $sub) {
 
-						#	if((isset($this->app) && $this->app->getGlobal('access')->check('Admin_Controller_' . $main['controller'] . '::' . strtolower(str_replace($controller . '/', '', $sub['link'])))) || !isset($this->app)) {
+							if($this->access->hasLinkAccess($user_id, $sub['link'])) {
 
 								$active	= (strtolower($controller . '/' . $action) == strtolower($sub['link']) || strpos(ltrim($currentURL, '/'), ltrim($sub['link']))  === 0) ? 'active':'';
 								$id		= $sub['id'] ? ' id="'. $sub['id'] . '"' : '';
-								$menu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . __($sub['title']) . '</a></li>';
-						#	}
+								$submenu .= '<li ' . $id . ' class="' . $active . '"><a href="' . $url . $sub['link'] . '">' . __($sub['title']) . '</a></li>';
+								$subSection = true;
+								$hasVisibleChildren = true;
+
+							}
+
 						}
-						$menu .= '</ul>';
+						$submenu .= '</ul>';
+
+						if($subSection == true) {
+							$mainmenu .= $submenu;
+						}
+
 					}
-					$menu .= '</li>';
+					$mainmenu .= '</li>';
+
+
+					if($hasVisibleChildren == true || $this->access->hasLinkAccess($user_id, $main['link'])) {
+						$menu .= $mainmenu;
+					}
+					
 
 			#	}
 

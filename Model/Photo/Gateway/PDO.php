@@ -72,11 +72,14 @@ class Model_Photo_Gateway_PDO {
 
 		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos ORDER BY photo_id ASC");
 		$s->execute();
+
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
 	}
 
-	public function fetchWhere($where, $limit=NULL) {
+	public function fetchWhere($where, $op='AND') {
+
+		$op = $op == 'OR' ? ' OR ' : ' AND ';
 
 		if(is_array($where)) {
 			$w = array();
@@ -84,10 +87,12 @@ class Model_Photo_Gateway_PDO {
 				$w[] = preg_replace("([^a-zA-Z0-9_])", '', $field) . ' = :' . preg_replace("([^a-zA-Z0-9_])", '', $field);
 				$prep[preg_replace("([^a-zA-Z0-9_])", '', $field)] = $value;
 			}
-			$w = " WHERE " . join(' AND ', $w);
+			$w = " WHERE " . join($op, $w);
 		}
+
 		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos $w ORDER BY photo_id ASC");
 		$s->execute($prep);
+
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
 	}
@@ -95,6 +100,7 @@ class Model_Photo_Gateway_PDO {
 	public function deletePhoto($photo_id) {
 
 		$s = $this->db->prepare("DELETE FROM cel_photo_photos WHERE photo_id = :photo_id");
+
 		return $s->execute(array('photo_id'=>$photo_id));
 
 	}
