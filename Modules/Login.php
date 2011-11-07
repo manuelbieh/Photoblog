@@ -75,7 +75,7 @@ class Modules_Login {
 				$userMapper = new Model_User_Mapper($this->getGateway());
 				$user = $userMapper->findByFields(array('user_id'=>(int) $user_id, 'loginhash'=>$loginhash));
 
-				if($user[0] !== false) {
+				if($user[0] != false) {
 
 					$user[0]->last_login = date('Y-m-d H:i:s');
 					$userMapper->save($user[0]);
