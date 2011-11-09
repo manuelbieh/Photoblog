@@ -70,7 +70,6 @@ class Application_Base {
 
 		}
 
-
 	}
 
 	public function extensions() {

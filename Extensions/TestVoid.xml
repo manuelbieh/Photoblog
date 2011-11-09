@@ -1,7 +1,7 @@
 <extension name="Extension Test Void" deps="" core="0" icon="/Extensions/Manuel/Admin/assets/icons/applications-science.png">
 
 	<description>
-		Test extension. Does nothing.
+		Test extension. Does nothing specific. Just Chuck Testa.
 	</description>
 
 	<class name="Extensions_Manuel_Admin_Controller_DashboardTest">
@@ -10,13 +10,20 @@
 		</hooks>
 	</class>
 
+	<class name="Extensions_Manuel_Admin_Controller_Photo">
+		<hooks>
+			<item>Modules_Form</item>
+		</hooks>
+	</class>
+
 	<files>
 		<file>/Extensions/Manuel/Application/View.php</file>
+		<file>/Extensions/Manuel/Admin/Controller/Photo</file>
 	</files>
 
 	<permissions>
 		<permission controller="Admin_Controller_User" method="test" param="foo" link="User/test" title="User → test" />
-	</permission>
+	</permissions>
 
 	<settings>
 		<test></test>
