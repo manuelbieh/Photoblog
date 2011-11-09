@@ -1,38 +1,70 @@
 <extension name="Extension Test Void" deps="" core="0" icon="/Extensions/Manuel/Admin/assets/icons/applications-science.png">
 
-	<description>
-		Test extension. Does nothing specific. Just Chuck Testa.
-	</description>
+	<config>
 
-	<class name="Extensions_Manuel_Admin_Controller_DashboardTest">
-		<hooks>
-			<item>Admin_Controller_Dashboard</item>
-		</hooks>
-	</class>
+		<class name="Extensions_Manuel_Admin_Controller_DashboardTest">
+			<hooks>
+				<item>Admin_Controller_Dashboard</item>
+			</hooks>
+		</class>
 
-	<class name="Extensions_Manuel_Admin_Controller_Photo">
-		<hooks>
-			<item>Modules_Form</item>
-		</hooks>
-	</class>
+		<class name="Extensions_Manuel_Admin_Controller_Photo">
+			<hooks>
+				<item>Modules_Form</item>
+			</hooks>
+		</class>
 
-	<files>
-		<file>/Extensions/Manuel/Application/View.php</file>
-		<file>/Extensions/Manuel/Admin/Controller/Photo</file>
-	</files>
+		<description>
+			Test extension. Does nothing specific. Just Chuck Testa.
+		</description>
 
-	<permissions>
-		<permission controller="Admin_Controller_User" method="test" param="foo" link="User/test" title="User → test" />
-	</permissions>
+		<compat>
+			<min></min>
+			<max></max>
+		</compat>
 
-	<settings>
-		<test></test>
-	</settings>
+		<dependencies>
+			<item></item>
+		</dependencies>
 
-	<credits>
-	<![CDATA[ 
-		Icon: Human o2 by Oliver Scholtz
-	]]>
-	</credits>
+		<files>
+			<file>/Extensions/Manuel/Application/View.php</file>
+			<file>/Extensions/Manuel/Admin/Controller/Photo</file>
+		</files>
+
+		<permissions>
+			<permission controller="Admin_Controller_User" method="test" param="foo" link="User/test" title="User → test" />
+		</permissions>
+
+		<settings>
+			<test></test>
+		</settings>
+
+	</config>
+
+	<meta>
+
+		<author>
+			<name>Manuel Bieh</name>
+			<email>manuel@exhibit-blog.net</email>
+			<url>http://www.manuelbieh.com/</url>
+			<github>http://github.com/manuelbieh</github>
+		</author>
+
+		<credits>
+		<![CDATA[ 
+			Icon: Human o2 by Oliver Scholtz
+		]]>
+		</credits>
+
+		<tags>
+			<tag>Admin</tag>
+			<tag>Photo</tag>
+			<tag>Upload</tag>
+			<tag>Example</tag>
+		</tags>
+
+	</meta>
+
 
 </extension>
