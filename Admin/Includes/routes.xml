@@ -14,6 +14,12 @@
 		</path>
 
 		<path>
+			<pattern><![CDATA[/(A|a)dmin/(C|c)ontent/(?<params>.*)]]></pattern>
+			<controller>Admin_Controller_Content</controller>
+			<action>index</action>
+		</path>
+
+		<path>
 			<pattern><![CDATA[/(A|a)dmin/(S|s)ettings/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_Settings</controller>
 			<action>edit</action>

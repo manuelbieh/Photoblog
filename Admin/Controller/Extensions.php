@@ -280,14 +280,18 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 
 		}
-		
+
+	}
+
+	public function details($extKey) {
+	
 	}
 
 	public function install($extKey, $version='') {
-
 		
-
 	}
+
+
 
 	protected function getExtFiles() {
 

@@ -308,7 +308,7 @@ class Application_View {
 
 		}
 
-		header("Content-Type: " . $this->mime . "; charset=" . $this->charset);
+		@header("Content-Type: " . $this->mime . "; charset=" . $this->charset);
 
 		if($echo == true) {
 			echo $output;
