@@ -72,6 +72,17 @@ ul, ol, dl {
 	margin: 0.5em 0 0.5em 1.5em;
 }
 
+dt {
+	font-weight: bold;
+}
+
+dt:not(:first-child) {
+	margin-top: 1em;
+}
+
+dd {
+	margin-left: 1.5em;
+}
 
 section#sidebar, section#content {
 	bottom: 40px;
@@ -158,41 +169,6 @@ section#content {
 	padding: 16px;
 	right: 0;
 	top: 0;
-}
-
-.errors {
-	background: #FFEEEE;
-	border: 1px solid #BA5050;
-	border-radius: 8px;
-	margin: 1em 0 1.5em 0;
-	padding: 3px;
-}
-
-.errors li {
-	background: url(/Admin/templates/assets/images/famfamfam/exclamation.png) no-repeat 6px center;
-	list-style: none;
-	margin: 5px 0;
-	padding-left: 32px;
-}
-
-.info {
-	background: #EEEEFF url(../images/fugue/information.png) no-repeat 6px center;
-	border: 1px solid #5078ba;
-	border-radius: 8px;
-	margin: 1em 0 1.5em 0;
-	padding: 3px 3px 3px 32px;
-}
-
-.infobox {
-	background: #e7e9ea;
-	-moz-box-shadow: inset 0px 0 4px #999;
-	-webkit-box-shadow: inset 0px 0 4px #999;
-	box-shadow: inset 0px 0 4px #999;
-	padding: 16px 16px;
-}
-
-.small {
-	font-size: 11px;
 }
 
 header {
@@ -376,6 +352,51 @@ input[type="checkbox"] + label {
 	display: inline; 
 }
 
+
+.errors {
+	background: #FFEEEE;
+	border: 1px solid #BA5050;
+	border-radius: 8px;
+	margin: 1em 0 1.5em 0;
+	padding: 3px;
+}
+
+.errors li {
+	background: url(/Admin/templates/assets/images/famfamfam/exclamation.png) no-repeat 6px center;
+	list-style: none;
+	margin: 5px 0;
+	padding-left: 32px;
+}
+
+.info {
+	background: #EEEEFF url(../images/fugue/information.png) no-repeat 6px center;
+	border: 1px solid #5078ba;
+	border-radius: 8px;
+	margin: 1em 0 1.5em 0;
+	padding: 3px 3px 3px 32px;
+}
+
+.infobox {
+	background: #e7e9ea;
+	-moz-box-shadow: inset 0px 0 4px #999;
+	-webkit-box-shadow: inset 0px 0 4px #999;
+	box-shadow: inset 0px 0 4px #999;
+	padding: 16px 16px;
+}
+
+.small {
+	font-size: 11px;
+}
+
+.legible.fulltext {
+	max-width: 640px;
+	padding-right: 16px;
+	text-rendering: optimizeLegibility;
+	width: auto;
+}
+
+
+
 .icon-pics {
 	background: url(../images/famfamfam/camera.png) no-repeat 8px 8px;
 }
@@ -505,7 +526,9 @@ input[type="checkbox"] + label {
 	cursor: pointer;
 	font-weight: bold;
 	font-family: verdana, sans-serif;
+	margin-right: 3px;
 	padding: 2px 6px;
+	
 }
 
 

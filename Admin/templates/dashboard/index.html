@@ -1,4 +1,4 @@
-<?php $greetings = array('Hello', 'Hi', 'Hola', 'Salut', 'Hallo', 'Nǐhǎo', 'Bonjour', 'Dia duit'); ?>
+<?php $greetings = array('Hello', 'Hi', 'Hola', 'Salut', 'Hallo', 'Nihao', 'Bonjour', 'Dia duit'); ?>
 <h2><?php echo $greetings[mt_rand(0, count($greetings)-1)]; ?> <?php echo Modules_Session::getInstance()->getVar('userdata')->username; ?>!</h2>
 
 <p><?php printf(__("We currently have %s photos uploaded and %s comments received."), count($this->data['photos']), count($this->data['comments'])); ?></p>

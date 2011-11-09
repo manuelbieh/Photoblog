@@ -76,7 +76,7 @@ class Modules_Pagination {
 	 *
 	 * @var string
 	*/
-	public $divider			= '  ';
+	public $divider			= '';
 
 	/**
 	 * Seiten die vorne mindestens angezeigt werden (Start | 1 | 2 | 3 | ... | )
