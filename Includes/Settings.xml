@@ -35,6 +35,7 @@
 		<backend label="Backend configuration">
 			<photosPerPage label="Photos per page shown in backend list" type="range" min="1" max="50" default="15">15</photosPerPage>
 			<stylesheet label="Path to backend stylesheet." type="text" info="(Relative to /Admin/. Default: templates/assets/css/layout.css)" >templates/assets/css/layout.css</stylesheet>
+			<extRepoUrl label="URL to the extension repository" type="text">http://extensions.exhibit-blog.net/1.0/</extRepoUrl>
 		</backend>
 
 	</system>

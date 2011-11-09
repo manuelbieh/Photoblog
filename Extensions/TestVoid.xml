@@ -1,4 +1,4 @@
-<extension name="Extension Test Void" deps="" core="0" icon="/Extensions/Manuel/Admin/assets/icons/applications-science.png">
+<extension name="Extension Test Void" core="0" icon="/Extensions/Manuel/Admin/assets/icons/applications-science.png" version="1.0.0">
 
 	<config>
 
@@ -14,23 +14,19 @@
 			</hooks>
 		</class>
 
-		<description>
-			Test extension. Does nothing specific. Just Chuck Testa.
-		</description>
+		<files>
+			<file>/Extensions/Manuel/Application/View.php</file>
+			<file>/Extensions/Manuel/Admin/Controller/Photo</file>
+		</files>
 
 		<compat>
-			<min></min>
+			<min>0.5</min>
 			<max></max>
 		</compat>
 
 		<dependencies>
 			<item></item>
 		</dependencies>
-
-		<files>
-			<file>/Extensions/Manuel/Application/View.php</file>
-			<file>/Extensions/Manuel/Admin/Controller/Photo</file>
-		</files>
 
 		<permissions>
 			<permission controller="Admin_Controller_User" method="test" param="foo" link="User/test" title="User → test" />
@@ -44,6 +40,10 @@
 
 	<meta>
 
+		<description>
+			Test extension. Does nothing specific. Just Chuck Testa.
+		</description>
+
 		<author>
 			<name>Manuel Bieh</name>
 			<email>manuel@exhibit-blog.net</email>
@@ -51,18 +51,18 @@
 			<github>http://github.com/manuelbieh</github>
 		</author>
 
-		<credits>
-		<![CDATA[ 
-			Icon: Human o2 by Oliver Scholtz
-		]]>
-		</credits>
-
 		<tags>
 			<tag>Admin</tag>
 			<tag>Photo</tag>
 			<tag>Upload</tag>
 			<tag>Example</tag>
 		</tags>
+
+		<credits>
+		<![CDATA[ 
+			Icon: Human o2 by Oliver Scholtz
+		]]>
+		</credits>
 
 	</meta>
 
