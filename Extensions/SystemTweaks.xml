@@ -1,36 +1,44 @@
-<extension name="System Tweaks" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/cog_edit.png">
+<extension name="System Tweaks" deps="" core="1" icon="/Extensions/Manuel/Admin/assets/icons/cog_edit.png" version="1.0.0">
 
-	<description>
-		Configurable system tweaks and improvements
-	</description>
+	<config>
 
-	<class name="Extensions_Manuel_Admin_Controller_User">
-		<hooks>
-			<item>Admin_Controller_User</item>
-		</hooks>
-	</class>
+		<class name="Extensions_Manuel_Admin_Controller_User">
+			<hooks>
+				<item>Admin_Controller_User</item>
+			</hooks>
+		</class>
 
-	<class name="Extensions_Manuel_Controller_Comment">
-		<hooks>
-			<item>Controller_Comment</item>
-		</hooks>
-	</class>
+		<class name="Extensions_Manuel_Controller_Comment">
+			<hooks>
+				<item>Controller_Comment</item>
+			</hooks>
+		</class>
 
-	<files>
-		<file>/Extensions/Manuel/Admin/Controller/mail.txt</file>
-		<file>/Extensions/Manuel/Admin/Controller/User.php</file>
-	</files>
+		<files>
+			<file>/Extensions/Manuel/Admin/Controller/mail.txt</file>
+			<file>/Extensions/Manuel/Admin/Controller/User.php</file>
+		</files>
 
-	<settings>
-		<adminUser label="Admin/User/add" type="group">
-			<sendAddNotification type="checkbox" label="Send notification email to new users when their account is created?">1</sendAddNotification>
-		</adminUser>
-	</settings>
+		<settings>
+			<adminUser label="Admin/User/add" type="group">
+				<sendAddNotification type="checkbox" label="Send notification email to new users when their account is created?">1</sendAddNotification>
+			</adminUser>
+		</settings>
 
-	<credits>
-	<![CDATA[ 
-		Icon is from fatcow.com, licensed under Creative Commons Attribution 3.0
-	]]>
-	</credits>
+	</config>
+
+	<meta>
+
+		<description>
+			Configurable system tweaks and improvements
+		</description>
+
+		<credits>
+		<![CDATA[ 
+			Icon is from fatcow.com, licensed under Creative Commons Attribution 3.0
+		]]>
+		</credits>
+
+	</meta>
 
 </extension>

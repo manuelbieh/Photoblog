@@ -33,12 +33,12 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 			$xml->load($extMeta);
 
 			$name = $xml->XPath()->query("//extension/@name");
-			$desc = $xml->XPath()->query("//extension/description");
+			$desc = $xml->XPath()->query("//extension/meta/description");
 			$deps = $xml->XPath()->query("//extension/@deps");
 			$core = $xml->XPath()->query("//extension/@core");
 			$icon = $xml->XPath()->query("//extension/@icon");
 
-			$settings = $xml->XPath()->query("//extension/settings/*");
+			$settings = $xml->XPath()->query("//extension/config/settings/*");
 			if($settings->length > 0) {
 				$hasSettings = true;
 			} else {
@@ -110,7 +110,7 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 			$xml = new Modules_XML();
 			$xml->load($extFile);
 
-			$extSettings = $xml->XPath()->query("//extension/settings");
+			$extSettings = $xml->XPath()->query("//extension/config/settings");
 			$name = $xml->XPath()->query("//extension/@name");
 
 			$subview->data['ext']->extKey = $extKey;
@@ -161,7 +161,34 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 
 	public function browse() {
-	
+
+		$subview	= $this->app->createView();
+
+		$repo = Application_Settings::get("//system/backend/extRepoUrl", 1);
+
+		$curlObj = new Modules_Curl();
+		$curlObj
+			->setOption(CURLOPT_CONNECTTIMEOUT, 60)
+			->setOption(CURLOPT_USERAGENT, 'EXHIBIT - Extension Repo/1.0 (http://extensions.exhibit-blog.net)')
+			->connect($repo . 'browse');
+
+		$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+		if($httpStatus < 400) {
+
+			$exts = json_decode($curlObj->exec(), true);
+
+			if($exts != NULL && count($exts) > 0) {
+
+				$subview->data = $exts;
+				$subview->loadHTML('templates/extensions/browse.html');
+
+			}
+
+		}
+
+		$this->view->addSubview('main', $subview);
+
+
 	}
 
 
@@ -177,7 +204,7 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 			$extension = new Modules_XML();
 			$extension->load($extensionFile);
-			$extensions = $extension->XPath()->query("//extension/settings/*");
+			$extensions = $extension->XPath()->query("//extension/config/settings/*");
 
 			if($extensions->length > 0) {
 
@@ -254,6 +281,12 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 		}
 		
+	}
+
+	public function install($extKey, $version='') {
+
+		
+
 	}
 
 	protected function getExtFiles() {
