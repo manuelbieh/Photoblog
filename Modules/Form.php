@@ -44,6 +44,10 @@ class Modules_Form {
 
 		$this->__token = md5(mt_rand(0, 9999999));
 
+		// GLOBALS === BAD!!		
+		$this->app = $GLOBALS['app'] instanceof Application_Base ? $GLOBALS['app'] : new Application_Base();
+		$this->app->extensions()->registerObservers($this);
+
 		$oldToken = Modules_Session::getInstance()->getVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']');
 		$oldToken = $oldToken[0];
 
@@ -62,7 +66,7 @@ class Modules_Form {
 
 		if($tpl !== '') {
 
-			$tplFile = Application_Base::getPath($tpl);
+			$tplFile = $this->app->getPath($tpl);
 
 			if($tplFile !== false) {
 				ob_start();

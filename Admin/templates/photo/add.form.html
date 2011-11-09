@@ -20,6 +20,7 @@
 		<ul>
 			<li><label><?php echo $this->input(array('type'=>'radio', 'name'=>'source', 'value'=>'upload', 'checked'=>'checked')); ?> <?php echo __('Upload'); ?></label></li>
 			<li><label><?php echo $this->input(array('type'=>'radio', 'name'=>'source', 'value'=>'web')); ?> <?php echo __('From the web'); ?></label></li>
+			<?php $this->app->extensions()->notify($this, 'adminPhotoAddTabLabel'); ?>
 		</ul>
 
 		<section data-value="upload">
@@ -39,6 +40,8 @@
 			</p>
 
 		</section>
+
+	<?php $this->app->extensions()->notify($this, 'adminPhotoAddTabSection'); ?>
 
 	</div>
 
