@@ -19,7 +19,7 @@ class Modules_Filereader {
 	}
 
 
-	public static function getFoldersRecursive($start, $tree=array()) {
+	public function getFoldersRecursive($start, $blacklist=array(), $tree=array()) {
 
 		$folders = glob(rtrim($start,'/') . '/*', GLOB_ONLYDIR);
 
@@ -28,7 +28,7 @@ class Modules_Filereader {
 			foreach($folders AS $num => $dir) {
 
 				if(glob(rtrim($dir, '/'), GLOB_ONLYDIR) . '/*') {
-					$tree[basename($start)][basename($dir)] = self::getFoldersRecursive($dir, $tree[basename($start)][basename($dir)]);
+					$tree[basename($start)][basename($dir)] = $this->getFoldersRecursive($dir, $blacklist, $tree[basename($start)][basename($dir)]);
 				} else {
 					$tree[basename($start)][basename($dir)] = array();
 				}
@@ -36,12 +36,45 @@ class Modules_Filereader {
 			}
 
 		} else {
+
 			$tree[basename($start)] = true;
+
 		}
 
 		return $tree[basename($start)];
 
 	}
+
+	public function copyRecursive($source, $dest, $diffDir = ''){
+
+		$sourceHandle = opendir($source);
+
+		if(!$diffDir) {
+			$diffDir = $source;
+		}
+	   
+		mkdir($dest . '/' . $diffDir);
+	   
+		while($res = readdir($sourceHandle)){
+
+			if($res == '.' || $res == '..') {
+				continue;
+			}
+		   
+			if(is_dir($source . '/' . $res)) {
+
+				$this->copyRecursive($source . '/' . $res, $dest, $diffDir . '/' . $res);
+
+			} else {
+
+				copy($source . '/' . $res, $dest . '/' . $diffDir . '/' . $res);
+
+			}
+
+		}
+
+	} 
+
 
 
 	public function getFileInfo($file) {

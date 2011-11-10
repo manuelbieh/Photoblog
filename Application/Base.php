@@ -10,6 +10,7 @@ class Application_Base {
 	#protected $extensions;
 	#protected $errors;
 	private $globals = array();
+	private $version = '0.8.0';
 
 	public function __construct() {
 
@@ -25,6 +26,10 @@ class Application_Base {
 		$this->objectManager->register('Application_Error', new Application_Error($this));
 		$this->objectManager->register('Application_View', $this->createView());
 
+	}
+
+	public function getVersion() {
+		return $this->version;
 	}
 
 	public static function addAutoloadDir($dir) {
