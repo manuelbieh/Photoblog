@@ -54,15 +54,19 @@ class Application_ExtensionManager {
 		$rootEl		= $hooksFile->createElement('hooks');
 		$hooksFile->appendChild($rootEl);
 
-		foreach($base AS $classToHook => $extensions) {
+		if(is_array($base)) {
 
-			$classEl = $hooksFile->createElement('class');
-			$classEl->setAttribute('name', $classToHook);
-			$rootEl->appendChild($classEl);
+			foreach($base AS $classToHook => $extensions) {
 
-			foreach($extensions AS $extClass) {
-				$itemEl = $hooksFile->createElement('item', $extClass);
-				$classEl->appendChild($itemEl);
+				$classEl = $hooksFile->createElement('class');
+				$classEl->setAttribute('name', $classToHook);
+				$rootEl->appendChild($classEl);
+
+				foreach($extensions AS $extClass) {
+					$itemEl = $hooksFile->createElement('item', $extClass);
+					$classEl->appendChild($itemEl);
+				}
+
 			}
 
 		}

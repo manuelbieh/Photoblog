@@ -160,20 +160,41 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 	}
 
 
-	public function browse() {
+	public function browse($param1=NULL, $param2=NULL, $param3=NULL, $param4=NULL, $param5=NULL) {
 
 		$subview	= $this->app->createView();
 
-		$repo = Application_Settings::get("//system/backend/extRepoUrl", 1);
+		$repoUrl = Application_Settings::get("//system/backend/extRepoUrl", 1);
 
 		$curlObj = new Modules_Curl();
-		$curlObj
-			->setOption(CURLOPT_CONNECTTIMEOUT, 60)
-			->setOption(CURLOPT_USERAGENT, 'EXHIBIT - Extension Repo/1.0 (http://extensions.exhibit-blog.net)')
-			->connect($repo . 'browse');
+		$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 60)
+				->setOption(CURLOPT_USERAGENT, 'EXHIBIT - Extension Repo/1.0 (http://extensions.exhibit-blog.net)');
+
+		$curlObj->connect($repoUrl);
 
 		$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
 		if($httpStatus < 400) {
+
+			switch($param1) {
+
+				case 'index':
+				case 'start':
+				default:
+					$curlObj->connect($repoUrl . 'browse/index');
+					break;
+
+				case 'tags':
+					$curlObj->connect($repoUrl . 'browse/tags/' . $param2);
+					break;
+
+				case 'popular':
+					$curlObj->connect($repoUrl . 'browse/popular');
+					break;
+			
+				case '':
+					break;
+
+			}
 
 			$exts = json_decode($curlObj->exec(), true);
 
@@ -187,7 +208,6 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 		}
 
 		$this->view->addSubview('main', $subview);
-
 
 	}
 
@@ -284,13 +304,33 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 	}
 
 	public function details($extKey) {
-	
+
+		
+
 	}
 
 	public function install($extKey, $version='') {
-		
+
+		$repoUrl = Application_Settings::get("//system/backend/extRepoUrl", 1);
+
+		$curlObj = new Modules_Curl();
+		$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 60)
+				->setOption(CURLOPT_USERAGENT, 'EXHIBIT - Extension Repo/1.0 (http://extensions.exhibit-blog.net)');
+
+		$curlObj->connect($repoUrl . '/download/' . $extKey . '/' . $version);
+
+		$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+		if($httpStatus < 400) {
+		}
+
+
 	}
 
+	public function uninstall($extkey) {
+
+		
+
+	}
 
 
 	protected function getExtFiles() {
