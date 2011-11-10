@@ -130,7 +130,7 @@ class Modules_Request_HTTP {
 			$ret .= $url['host'];
 		}
 
-		if($url['port'] && $url['port'] != '80' || ($url['port'] && $url['scheme'] == 'https' && $url['port'] != '443'])) {
+		if($url['port'] && $url['port'] != '80' || ($url['port'] && $url['scheme'] == 'https' && $url['port'] != '443')) {
 			$ret .= ':' . $url['port'];
 		}
 
