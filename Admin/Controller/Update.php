@@ -5,7 +5,9 @@ class Admin_Controller_Update extends Controller_Frontend {
 	public $app;
 	protected $observers = array();
 
-	public function __construct($app=NULL) {
+	public function __construct($app) {
+
+		require_once($core . '/Sys/libs/pclzip/pclzip.lib.php');
 
 		$app->extensions()->registerObservers($this);
 
@@ -26,13 +28,33 @@ class Admin_Controller_Update extends Controller_Frontend {
 
 	}
 
-	public function backup() {
+	public function index() {
+		
+	}
 
-		$fr = new Modules_Filereader();
-		print_r($fr->getFoldersRecursive($this->app->getCoreDir()));
-		mkdir($this->app->getCoreDir() . '/Sys/backup/bak_' . date('Y-m-d_H:i:s'));
-		#$backupFolders = 
-		#foreach($
+	protected function backup() {
+
+		$core		= $this->app->getCoreDir();
+		$version	= $this->app->getVersion();
+
+		$filename = 'backup_'.date('Ymd-His').'.zip';
+		$fullname = $core . '/Sys/backup/' . $filename;
+
+		$archive = new PclZip($fullname);
+
+		if($archive->create($core, PCLZIP_OPT_REMOVE_PATH, $core) == 0) {
+
+			return false;
+
+		} else {
+
+			$blacklist = array('uploads/', 'uploads', 'Sys/backup/');
+			$archive->delete(PCLZIP_OPT_BY_NAME, $blacklist);
+			$archive->delete(PCLZIP_OPT_BY_EREG, '(\.svn)');
+
+			return true;
+
+		}
 
 	}
 

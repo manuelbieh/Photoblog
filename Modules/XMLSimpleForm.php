@@ -12,7 +12,9 @@ class Modules_XMLSimpleForm {
 		}
 
 		$label = $node->getAttribute('label') != '' ? $node->getAttribute('label') : ucfirst($node->localName);
-		$label = __($label);
+		$label = html_entity_decode(__($label));
+
+		$info = ($node->getAttribute('info') != '') ? '<span class="infotooltip"><span>' . html_entity_decode(__($node->getAttribute('info'))) . '</span></span>':'';
 
 		$xpath .= '/' . $node->localName;
 
@@ -35,8 +37,9 @@ class Modules_XMLSimpleForm {
 			case 'email':
 
 				$data .= '<p>';
-				$data .= '<label for="data[' . $xpath . ']">' . $label . '</label>';
+				$data .= '<label for="data[' . $xpath . ']">' . ($label) . '</label>';
 				$data .= '<input type="email" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="' . $node->textContent . '" />';
+				$data .= $info;
 				$data .= '</p>';
 				break;
 
@@ -47,7 +50,8 @@ class Modules_XMLSimpleForm {
 				$data .= '<label for="data[' . $xpath . ']" class="fullwidth">';
 				$checked = ($node->textContent == 1) ? ' checked="checked" ' : '';
 				$data .= '<input type="checkbox" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="1" ' . $checked . ' /> ';
-				$data .= $label . '</label>';
+				$data .= ($label) . '</label>';
+				$data .= $info;
 				$data .= $node->getAttribute('break') == 'true' ? '<br />' : '';
 				$data .= '</p>';
 				break;
@@ -56,16 +60,24 @@ class Modules_XMLSimpleForm {
 			case 'range':
 
 				$data .= '<p>';
-				$data .= '<label for="data[' . $xpath . ']">' . $label . '</label>';
+				$data .= '<label for="data[' . $xpath . ']">' . ($label) . '</label>';
 				$data .= '<input type="range" min="' . (int) $node->getAttribute('min') . '" max="' . (int) $node->getAttribute('max') . '" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="' . $node->textContent . '" />';
+				$data .= $info;
 				$data .= '</p>';
+				break;
+
+
+			case 'hidden':
+			case 'shy':
+
+				$data .= '<input type="hidden" name="data[' . $xpath . ']" value="' . $node->textContent . '" />';
 				break;
 
 
 			case 'select':
 
 				$data .= '<p>';
-				$data .= '<label for="' . $node->localName . '">' . $label . '</label>';
+				$data .= '<label for="' . $node->localName . '">' . ($label) . '</label>';
 				$data .= '<select name="data['.$xpath.']">';
 
 				if($node->getAttribute('list') != '') {
@@ -106,14 +118,17 @@ class Modules_XMLSimpleForm {
 
 				}
 				$data .= '</select>';
+				$data .= $info;
+				$data .= '</p>';
 				break;
 
 
 			case 'text':
 			default:
 				$data .= '<p>';
-				$data .= '<label for="data[' . $xpath . ']">' . $node->getAttribute('label') . '</label>';
+				$data .= '<label for="data[' . $xpath . ']">' . $label . '</label>';
 				$data .= '<input type="text" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="' . $node->textContent . '" />';
+				$data .= $info;
 				$data .= '</p>';
 
 		}

@@ -295,7 +295,7 @@ class Admin_Controller_User extends Controller_Frontend {
 			
 			$this->form = new Modules_Form('templates/user/add.form.html');
 
-			$validation = new Admin_Controller_User_Validation();
+			$validation = new Admin_Controller_User_Validation($this->app);
 			$validation->checkUsername($this->form->valueOf('data[username]'));
 
 			$this->form->addValidation($validation);
