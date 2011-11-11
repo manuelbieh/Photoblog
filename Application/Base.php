@@ -10,7 +10,7 @@ class Application_Base {
 	#protected $extensions;
 	#protected $errors;
 	private $globals = array();
-	private $version = '0.8.0';
+	private $version = '0.8.1 beta';
 
 	public function __construct() {
 

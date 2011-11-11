@@ -15,21 +15,23 @@
 	</general>
 
 	<system label="System">
+
 		<email label="Email" type="group">
+
 			<default label="Default" type="group">
 				<name label="From" type="text">[[Sitename]]</name>
 				<address label="Address" type="email">info@scenito.de</address>
 			</default>
+
 			<signup label="Signup">
-				<name label="From">[[Sitename]] Anmeldung</name>
+				<name label="From">[[Sitename]] Signup</name>
 				<address label="Address" type="email">signup@scenito.de</address>
 			</signup>
+
 		</email>
 
 		<notifications label="Notifications" type="group">
-			<comments label="Comment notifications" type="group">
-				<new type="checkbox" label="Send notification for new comments">1</new>
-			</comments>
+			<comments type="checkbox" label="Send notification emails on new comments">1</comments>
 		</notifications>
 
 		<backend label="Backend configuration">
@@ -37,6 +39,12 @@
 			<stylesheet label="Path to backend stylesheet." type="text" info="(Relative to /Admin/. Default: templates/assets/css/layout.css)" >templates/assets/css/layout.css</stylesheet>
 			<extRepoUrl label="URL to the extension repository" type="text">http://extensions.exhibit-blog.net/1.0/</extRepoUrl>
 		</backend>
+
+		<update label="Update">
+			<autoupdate label="Enable automatic updates to keep your software up-to-date?" type="checkbox">1</autoupdate>
+			<interval label="Check for updates every x days" type="input">7</interval>
+			<backup label="Make backups before updating (strongly recommended!)" type="checkbox">1</backup>
+		</update>
 
 	</system>
 

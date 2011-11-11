@@ -8,15 +8,20 @@ $benchmark->start();
 
 try {
 
-	#include_once 'View/intro.php';
+	if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
+		ob_start('ob_gzhandler');
+	} else {
+		ob_start();
+	}
+
 	include_once "Includes/Bootstrap.inc.php";
 
 	$router = new Application_Router(dirname(__FILE__).'/Includes/routes.xml', $app);
 	$router->execute();
 
-	#include_once 'View/outro.php';
-
 	echo $benchmark->end();
+
+	ob_end_flush();
 
 
 } catch (Exception$e) {
