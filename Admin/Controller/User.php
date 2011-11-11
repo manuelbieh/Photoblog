@@ -261,8 +261,12 @@ class Admin_Controller_User extends Controller_Frontend {
 				if($userMapper->delete($user_id)) {
 
 					$avatarDir = rtrim($this->app->getProjectDir(), '/') . '/../uploads/avatars/';
-					foreach(glob($avatarDir . $user->avatar . '*') AS $avatarFile) {
-						unlink($avatarFile);
+					if($user->avatar != '') {
+
+						foreach(glob($avatarDir . $user->avatar . '*') AS $avatarFile) {
+							unlink($avatarFile);
+						}
+
 					}
 
 					$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
