@@ -87,8 +87,8 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 	public function edit($comment_id) {
 
-		$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
-		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
+		$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO($this->app->objectManager->get('Datastore')));
+		$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 		$comment		= $commentMapper->find($comment_id, new Model_Comment());
 
 		if($this->access->check(__METHOD__)) {
@@ -132,7 +132,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 	public function delete($comment_id) {
 
-		$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO(Application_Registry::get('pdodb')));
+		$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO($this->app->objectManager->get('Datastore')));
 		$comment		= $commentMapper->find($comment_id, new Model_Comment());
 
 		$subview 		= $this->app->createView();
