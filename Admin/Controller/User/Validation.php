@@ -6,9 +6,10 @@ class Admin_Controller_User_Validation extends Modules_Validation_Abstract {
 	public $object = __CLASS__;
 	public $errors = array();
 
-	public function __construct() {
+	public function __construct($app) {
 
-		$this->db = new Model_User_Gateway_PDO(Application_Registry::get('pdodb'));
+		$this->app = $app;
+		$this->db = new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
 
 	}
 
