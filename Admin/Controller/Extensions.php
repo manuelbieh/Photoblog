@@ -7,6 +7,8 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 		$this->app = $app;
 
 		$this->view		= $this->app->objectManager->get('Application_View');
+		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
+
 		$this->view->loadHTML('templates/index.html');
 		$this->app->extensions()->buildIndex();
 
@@ -21,68 +23,71 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 	public function manage() {
 
-		$files = $this->getExtFiles();
+		if($this->access->check(__METHOD__)) {
 
-		$xml = new Modules_XML();
+			$files = $this->getExtFiles();
 
-		foreach($files AS $extMeta) {
+			$xml = new Modules_XML();
 
-			$extKey = basename($extMeta, '.xml');
-			$ext = $this->extMapper->find($extKey, new Model_Extension);
+			foreach($files AS $extMeta) {
 
-			$xml->load($extMeta);
+				$extKey = basename($extMeta, '.xml');
+				$ext = $this->extMapper->find($extKey, new Model_Extension);
 
-			$name = $xml->XPath()->query("//extension/@name");
-			$desc = $xml->XPath()->query("//extension/meta/description");
-			$deps = $xml->XPath()->query("//extension/@deps");
-			$core = $xml->XPath()->query("//extension/@core");
-			$icon = $xml->XPath()->query("//extension/@icon");
+				$xml->load($extMeta);
 
-			$settings = $xml->XPath()->query("//extension/config/settings/*");
-			if($settings->length > 0) {
-				$hasSettings = true;
-			} else {
-				$hasSettings = false;
+				$name = $xml->XPath()->query("//extension/@name");
+				$desc = $xml->XPath()->query("//extension/meta/description");
+				$deps = $xml->XPath()->query("//extension/@deps");
+				$core = $xml->XPath()->query("//extension/@core");
+				$icon = $xml->XPath()->query("//extension/@icon");
+
+				$settings = $xml->XPath()->query("//extension/config/settings/*");
+				if($settings->length > 0) {
+					$hasSettings = true;
+				} else {
+					$hasSettings = false;
+				}
+
+				$extData = array(
+					'extKey'=>$extKey, 
+					'name'=>$name->item(0)->textContent, 
+					'desc'=>$desc->item(0)->textContent, 
+					'deps'=>$deps->item(0)->textContent, 
+					'core'=>$core->item(0)->textContent, 
+					'icon'=>$icon->item(0)->textContent,
+					'hasSettings'=>$hasSettings
+				);
+
+				if($ext == false) {
+
+					$newExt = new Model_Extension();
+					$newExt->core = (int) $extData['core'];
+					$newExt->deps = $extData['deps'];
+					$newExt->active = 0;
+					$newExt->extension_key = $extData['extKey'];
+
+					$this->extMapper->save($newExt);
+
+				}
+
+				if($ext != NULL && $ext->active == 1) {
+					$active[] = $extData;
+				} else {
+					$inactive[] = $extData;
+				}
+
 			}
 
-			$extData = array(
-				'extKey'=>$extKey, 
-				'name'=>$name->item(0)->textContent, 
-				'desc'=>$desc->item(0)->textContent, 
-				'deps'=>$deps->item(0)->textContent, 
-				'core'=>$core->item(0)->textContent, 
-				'icon'=>$icon->item(0)->textContent,
-				'hasSettings'=>$hasSettings
-			);
+			$subview = $this->app->createView();
+			$subview->loadHTML('templates/extensions/manage.html');
 
-			if($ext == false) {
+			$subview->data['active'] = $active;
+			$subview->data['inactive'] = $inactive;
 
-				$newExt = new Model_Extension();
-				$newExt->core = (int) $extData['core'];
-				$newExt->deps = $extData['deps'];
-				$newExt->active = 0;
-				$newExt->extension_key = $extData['extKey'];
-
-				$this->extMapper->save($newExt);
-
-			}
-
-			if($ext != NULL && $ext->active == 1) {
-				$active[] = $extData;
-			} else {
-				$inactive[] = $extData;
-			}
+			$this->view->addSubview('main', $subview);
 
 		}
-
-		$subview = $this->app->createView();
-		$subview->loadHTML('templates/extensions/manage.html');
-
-		$subview->data['active'] = $active;
-		$subview->data['inactive'] = $inactive;
-
-		$this->view->addSubview('main', $subview);
-
 
 	}
 
