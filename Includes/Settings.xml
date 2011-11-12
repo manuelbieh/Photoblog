@@ -44,6 +44,7 @@
 			<autoupdate label="Enable automatic updates to keep your software up-to-date?" type="checkbox">1</autoupdate>
 			<interval label="Check for updates every x days" type="input">7</interval>
 			<backup label="Make backups before updating (strongly recommended!)" type="checkbox">1</backup>
+			<updateServerUrl type="hidden">http://update.exhibit-blog.net/</updateServerUrl>
 			<lastcheck type="hidden"></lastcheck>
 		</update>
 
