@@ -1,0 +1,9 @@
+/update
+/sql
+/changelog
+
+/updates/update_:version.zip
+
+/update/:from/(:to)
+/sql/:from/(:to)
+/changelog/:from/(:to)
