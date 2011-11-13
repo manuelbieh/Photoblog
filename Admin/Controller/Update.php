@@ -7,7 +7,7 @@ class Admin_Controller_Update extends Controller_Frontend {
 
 	public function __construct($app) {
 
-		require_once($core . '/Sys/libs/pclzip/pclzip.lib.php');
+		require_once($app->getCoreDir() . 'Sys/libs/pclzip/pclzip.lib.php');
 
 		$app->extensions()->registerObservers($this);
 
@@ -58,5 +58,13 @@ class Admin_Controller_Update extends Controller_Frontend {
 
 	}
 
+	public function update() {
+
+		$updateManager = new Sys_Helper_Update($this->app);
+		if($updateManager->checkForUpdates() === -1) {
+			$this->view->addSubview('main', new Application_View_String('New version is available'));
+		}
+
+	}
 
 }

@@ -2,9 +2,9 @@
 set_time_limit(0);
 include_once "Application/Benchmark.php";
 
-$benchmark = new Application_Benchmark();
+#$benchmark = new Application_Benchmark();
 
-$benchmark->start();
+#$benchmark->start();
 
 try {
 
@@ -19,7 +19,7 @@ try {
 	$router = new Application_Router(dirname(__FILE__).'/Includes/routes.xml', $app);
 	$router->execute();
 
-	echo $benchmark->end();
+#	echo $benchmark->end();
 
 	ob_end_flush();
 
