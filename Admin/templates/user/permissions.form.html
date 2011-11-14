@@ -23,8 +23,8 @@ $(function() {
 			permHeight = $('#data_permissions').outerHeight();
 
 		if((viewportHeight - 150) > permHeight) {
-			$('#data_permissions').height(permHeight + 60);
-			if((permHeight + 60) >= (viewportHeight - 150)) {
+			$('#data_permissions').height(permHeight + (viewportHeight/5));
+			if((permHeight + (viewportHeight/5)) >= (viewportHeight - 150)) {
 				$(this).attr('disabled', true);
 			}
 		} else {

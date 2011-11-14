@@ -321,6 +321,7 @@ input[type="checkbox"], input[type="radio"] {
 
 input[disabled="disabled"] {
 	border-color: #000;
+	
 }
 
 textarea:focus, input:focus {
@@ -834,4 +835,11 @@ input[type="checkbox"] + label {
 	-ms-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
 	-o-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
 	box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee; 
+}
+
+.button[disabled="disabled"], button[disabled="disabled"], input[type="submit"][disabled="disabled"], input[type="button"][disabled="disabled"] {
+	border: 1px solid #000;
+	color: #666;
+	background: #ccc;
+	box-shadow: none;
 }
