@@ -69,6 +69,8 @@ class Admin_Controller_System extends Controller_Frontend {
 			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error403());
 		}
 
+		$this->view->addSubview('main', $subview);
+
 	}
 
 	protected function _backup() {
