@@ -14,7 +14,11 @@ class Model_Update_Gateway_PDO {
 
 	public function query($query) {
 
-		return $this->db->query($query);
+		if($this->db->query($query) === false) {
+			$error = $this->db->errorInfo();
+			return $error[2];
+		}
+		return true;
 
 	}
 

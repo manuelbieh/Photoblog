@@ -2,6 +2,8 @@
 
 class Sys_Helper_Update {
 
+	protected $latest;
+
 	public function __construct($app) {
 
 		require_once $app->getCoreDir() . "Sys/libs/pclzip/pclzip.lib.php";
@@ -10,34 +12,70 @@ class Sys_Helper_Update {
 	}
 
 
-	public function update($version='latest') {
+	public function update($version=NULL) {
 
 		$core = $this->app->getCoreDir();
 
-		if($version=='latest') {
+		if($this->checkForUpdates() === true) {
 
-			$updateFiles = glob($core . '/Sys/update/update*.zip');
+			// there are updates available
+			$files = $this->download($version);
 
-			if(is_array($updateFiles)) {
-				usort($updateFiles, 'self::sortVersionFiles');
-				$updateFiles = array_map($updateFiles, 'basename');
-				$updateFile = end($updateFiles);
-			} else {
-				// throw new UpdateException('No update files found.');
-				return;
+			if(is_array($files['sql'])) {
+
+				foreach($files['sql'] AS $sqlFile) {
+
+					if(Modules_Filesys::isFile($sqlFile)) {
+
+						$queries = explode('-- QUERY END', trim(Modules_Filesys::read($sqlFile)));
+
+						if(is_array($queries)) {
+
+							$sqlMapper = new Model_Update_Mapper(new Model_Update_Gateway_PDO($this->app->objectManager->get('Datastore')));
+							foreach($queries AS $query) {
+
+								if($query != '') {
+
+									$qryStatus = $sqlMapper->query($query);
+									if($qryStatus !== true) {
+										// ROLLBACK
+										return array('error'=>__('Failed to perform database upgrade. ') . '(' . $qryStatus . ')');
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
 			}
 
-		}
+			if(is_array($files['update'])) {
 
-		$archive = new PclZip($updateFile);
+				foreach($files['update'] AS $updateFile) {
 
-		if($archive->extract(PCLZIP_OPT_PATH, $core, PCLZIP_OPT_REPLACE_NEWER) == 0) {
+					$archive = new PclZip($updateFile);
 
-			throw new UpdateException($archive->errorInfo(true));
+					if($archive->extract(PCLZIP_OPT_PATH, $core, PCLZIP_OPT_REPLACE_NEWER) == 0) {
+						// SQL ROLLBACK
+						return array('error'=>__('Failed to unzip file. Make sure the directory permissions are set properly'));
+					}
+
+				}
+
+			}
+
+			// SQL COMMIT
+			$this->app->setVersion($this->latest);
+			return array('info'=>__('Update was successful! New version is ') . $this->latest);
 
 		} else {
 
-			return true;
+			return array('info'=>__('No updates available'));
 
 		}
 
@@ -71,11 +109,95 @@ class Sys_Helper_Update {
 	}
 
 
-	public function download($version, $serverURL=NULL) {
+	public function download($version=NULL) {
 
 		$updateServer = Application_Settings::get('//system/update/updateServerUrl', 1);
+		$core = $this->app->getCoreDir();
+
+		$curlObj = new Modules_Curl();
+		$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 120)
+				->connect($updateServer . '/update/' . $this->app->getVersion() . '/' . $version);
+
+		$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+
+		if($httpStatus >= 400) {
+			// Error
+			// throw new UpdateException();
+			return false;
+
+		} else {
+			
+			$response = json_decode($curlObj->exec(), true);
+			if(is_array($response)) {
+
+				foreach($response AS $version => $data) {
+
+					$updateFilename = $core . 'Sys/update/' . basename($data['url']);
+					if(isset($data['sql'])) {
+						$sqlFilename = $core . 'Sys/update/' . basename($data['sql']);
+					}
+
+					if(!Modules_Filesys::isFile($updateFilename)) {
+
+						$curlObj = new Modules_Curl();
+						$curlObj->connect($updateServer . $data['url']);
+						$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+						$updateData = $curlObj->exec();
+
+						if($httpStatus < 400 && $updateData != 'null') {
+							file_put_contents($updateFilename, $updateData);
+						}
+
+					}
+
+					if(isset($sqlFilename) && !Modules_Filesys::isFile($sqlFilename)) {
+
+						$curlObj = new Modules_Curl();
+						$curlObj->connect($updateServer . $data['sql']);
+						$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+						$sqlData = $curlObj->exec();
+
+						if($httpStatus < 400 && $sqlData != 'null') {
+							file_put_contents($sqlFilename, $sqlData);
+						}
+
+					}
+
+					if(isset($updateFilename) && Modules_Filesys::isFile($updateFilename)) {
+						$updateFiles['update'][]= $updateFilename;
+					}
+					if(isset($sqlFilename)) {
+						$updateFiles['sql'][] = $sqlFilename;
+					}
+
+					$this->latest = $version;
+
+				}
+
+			}
+
+			return $updateFiles;
+
+		}
 
 	}
+
+
+	public function getLatest() {
+
+		$curlObj = new Modules_Curl();
+
+		$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 60)
+				->connect($updateServer);
+
+		$response = $curlObj->exec();
+		$response = json_decode($response, true);
+		$this->latest = $response['latest'];
+
+		return $this->latest;
+
+	}
+
 
 	public function checkForUpdates() {
 
@@ -95,21 +217,25 @@ class Sys_Helper_Update {
 
 		} else {
 
-
 			$response = $curlObj->exec();
 			$response = json_decode($response, true);
 
 			$installed = $this->app->getVersion();
-			$available = $response['currentVersion'];
+			$available = $response['latest'];
 
 			// -1 = installed is older
 			// 0 = installed is current
 			// 1 = installed is newer
-			return $this->compareVersion($installed, $available);
+			if($this->compareVersion($installed, $available) === -1) {
+				return true;
+			} else {
+				return false;
+			}
 
 		}
 
 	}
+
 
 	public function compareVersion($a, $b) {
 

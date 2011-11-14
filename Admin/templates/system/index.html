@@ -1,0 +1,11 @@
+<h2><?php echo __('System information'); ?></h2>
+
+<?php if($this->data['update'] === true) { ?>
+<p class="info"><?php echo __('There are updates available on the update server. Do you wish to upgrade now?'); ?></p>
+<ul>
+	<li class="yes"><a href="<?php echo $this->app->getBaseURL(); ?>System/update">Yes, please!</a></li>
+	<li class="no"><a href="<?php echo $this->app->getBaseURL(); ?>Dashboard">No, maybe later</a></li>
+</ul>
+<?php } else { ?>
+<p><?php echo __('Currently there is no update available. Your system is already up-to-date!'); ?></p>
+<?php }?>
