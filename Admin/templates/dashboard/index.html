@@ -1,6 +1,14 @@
 <?php $greetings = array('Hello', 'Hi', 'Hola', 'Salut', 'Hallo', 'Nihao', 'Bonjour', 'Dia duit'); ?>
 <h2><?php echo $greetings[mt_rand(0, count($greetings)-1)]; ?> <?php echo Modules_Session::getInstance()->getVar('userdata')->username; ?>!</h2>
 
+<?php if(isset($this->data['info'])) { ?>
+	<?php foreach($this->data['info'] AS $key => $info) { ?>
+		<p class="info"><?php echo $info; ?> 
+		<?php if($key == 'update') { ?><a href="<?php echo $this->app->getBaseURL(); ?>System/update">Yes, please!</a><?php } ?>
+		</p>
+	<?php } ?>
+<?php } ?>
+
 <p><?php printf(__("We currently have %s photos uploaded and %s comments received."), count($this->data['photos']), count($this->data['comments'])); ?></p>
 
 <h3><?php echo __('What do you want to do next?'); ?></h3>

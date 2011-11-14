@@ -10,7 +10,6 @@ class Application_Base {
 	#protected $extensions;
 	#protected $errors;
 	private $globals = array();
-	private $version = '0.8.1 beta';
 
 	public function __construct() {
 
@@ -29,7 +28,14 @@ class Application_Base {
 	}
 
 	public function getVersion() {
-		return $this->version;
+		$dir = $this->getCoreDir();
+		$version = Modules_Filesys::read($dir . 'Includes/VERSION');
+		return $version;
+	}
+
+	public function setVersion($version) {
+		$dir = $this->getCoreDir();
+		return Modules_Filesys::write($dir . 'Includes/VERSION', $version);
 	}
 
 	public static function addAutoloadDir($dir) {

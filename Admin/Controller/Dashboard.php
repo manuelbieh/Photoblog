@@ -51,6 +51,16 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 			$subview->data['comments'] = $allComments;
 			$subview->data['additionalContent'] = $this->additionalContent;
 
+			if($this->access->check('Admin_Controller_System::update')) {
+
+				$updateManager	= new Sys_Helper_Update($this->app);
+
+				if($updateManager->checkForUpdates() === true) {
+					$subview->data['info']['update'] = __('There are updates available on the update server. Do you wish to upgrade now?');
+				}
+
+			}
+
 			$this->view->addSubview('main', $subview);
 
 		} else {
