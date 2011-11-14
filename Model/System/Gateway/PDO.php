@@ -1,6 +1,6 @@
 <?php
 
-class Model_Update_Gateway_PDO {
+class Model_System_Gateway_PDO {
 
 	public function __construct($dbh) {
 

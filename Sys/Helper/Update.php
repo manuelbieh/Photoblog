@@ -31,7 +31,7 @@ class Sys_Helper_Update {
 
 						if(is_array($queries)) {
 
-							$sqlMapper = new Model_Update_Mapper(new Model_Update_Gateway_PDO($this->app->objectManager->get('Datastore')));
+							$sqlMapper = new Model_System_Mapper(new Model_System_Gateway_PDO($this->app->objectManager->get('Datastore')));
 							foreach($queries AS $query) {
 
 								if($query != '') {
