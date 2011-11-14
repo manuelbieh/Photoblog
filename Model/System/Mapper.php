@@ -1,6 +1,6 @@
 <?php
 
-class Model_Update_Mapper extends Model_Mapper_Abstract {
+class Model_System_Mapper extends Model_Mapper_Abstract {
 
 	public function query($query) {
 
