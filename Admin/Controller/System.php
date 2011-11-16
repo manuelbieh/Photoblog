@@ -72,6 +72,7 @@ class Admin_Controller_System extends Controller_Frontend {
 			} else {
 
 				$subview->data['info'] = $update['info'];
+				$subview->data['warning'] = $update['warning'];
 				$subview->loadHTML('templates/system/update.success.html');
 
 			}

@@ -2,6 +2,8 @@
 
 class Model_System_Gateway_PDO {
 
+	public $queryDelimiter = "\n-- QUERY END\n\n";
+
 	public function __construct($dbh) {
 
 		if($dbh) {
@@ -37,15 +39,16 @@ class Model_System_Gateway_PDO {
 
 	public function exportTables() {
 
-		$tables = $this->getAllTables();
+		$tables		= $this->getAllTables();
+		$creates	= array();
+
 		foreach($tables AS $table) {
 
 			$s = $this->db->prepare("SHOW CREATE TABLE $table");
 			$s->execute();
 
-			$creates = array();
 			foreach($s->fetchAll(PDO::FETCH_NUM) AS $createTableStatement) {
-				$creates[] = $createTableStatement[1];
+				$creates[] = $createTableStatement[1] .';' . $this->queryDelimiter;
 			}
 
 		}
@@ -66,12 +69,37 @@ class Model_System_Gateway_PDO {
 
 			foreach($tblStmt->fetchAll(PDO::FETCH_ASSOC) AS $data) {
 				// addslashes to values!!!
-				$inserts[] = "INSERT INTO $table (`" . join('`,`', array_keys($data)) . "`) VALUES ('" . join("','", $data) ."');";
+				$data = array_map('addslashes', $data);
+				$inserts[] = "INSERT INTO $table (`" . join('`,`', array_keys($data)) . "`) VALUES ('" . join("','", $data) ."');" . $this->queryDelimiter;
 			}
 
 		}
 
 		return $inserts;
+
+	}
+
+	public function importDump($dump) {
+
+		$queries = explode($this->queryDelimiter, $dump);
+		$status = true;
+
+		foreach($queries AS $query) {
+
+			$i++;
+
+			if($i%200 == 0) {
+				usleep(250000); // wait 250ms
+			}
+
+			$q = $this->query($query);
+			if($q !== true) {
+				$status[] = $q;
+			}
+
+		}
+
+		return $status;
 
 	}
 
