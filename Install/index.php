@@ -4,7 +4,7 @@ include "../Includes/Bootstrap.inc.php";
 ?><!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<title>Exhibit Blog » Installation</title>
 <link href="//<?php echo $_SERVER['SERVER_NAME'] . '/' . trim(str_replace($_SERVER['DOCUMENT_ROOT'], '', rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME']) . '/..'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR . '/'); ?>Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
