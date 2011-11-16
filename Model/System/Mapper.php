@@ -24,4 +24,8 @@ class Model_System_Mapper extends Model_Mapper_Abstract {
 		return $this->_db->exportTableData();
 	}
 
+	public function importDump($dump) {
+		return $this->_db->importDump($dump);
+	}
+
 }

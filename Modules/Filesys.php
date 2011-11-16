@@ -28,15 +28,7 @@ class Modules_Filesys {
 
 	public static function write($filename, $content, $flags=NULL) {
 
-		if(is_writable($filename)) {
-
-			return file_put_contents($filename, $content, $flags);
-
-		} else {
-
-			return false;
-
-		}
+		return file_put_contents($filename, $content, $flags);
 
 	}
 

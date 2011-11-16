@@ -1,5 +1,17 @@
 <?php
 
+function backupPreAddCallback($p_event, &$p_header) {
+
+	if(strpos($p_header['stored_filename'], 'Sys/backup') === 0) {
+		return 0;
+	//} else if(strpos($p_header['stored_filename'], 'uploads') === 0) {
+	//	return 0;
+	} else {
+		return 1;
+	}
+
+}
+
 class Sys_Helper_Update {
 
 	protected $latest;
@@ -20,7 +32,16 @@ class Sys_Helper_Update {
 
 	public function test() {
 
+		$core		= $this->app->getCoreDir();
+		$version	= $this->app->getVersion();
+		$path		= $core . 'Sys/backup/';
 		#print_r($sqlMapper->exportTableData());
+		$archive	= new PclZip($path . 'test.zip');
+		$archive->create($core, 
+							PCLZIP_OPT_REMOVE_PATH, $core,
+							PCLZIP_CB_PRE_ADD, 'backupPreAddCallback'
+						);
+		var_dump($archive->errorInfo(true));
 
 	}
 
@@ -40,7 +61,7 @@ class Sys_Helper_Update {
 
 					if(Modules_Filesys::isFile($sqlFile)) {
 
-						$queries = explode('-- QUERY END', trim(Modules_Filesys::read($sqlFile)));
+						$queries = explode($this->queryDelimiter, trim(Modules_Filesys::read($sqlFile)));
 
 						if(is_array($queries)) {
 
@@ -51,7 +72,7 @@ class Sys_Helper_Update {
 									$qryStatus = $this->systemMapper->query($query);
 									if($qryStatus !== true) {
 										// ROLLBACK
-										return array('error'=>__('Failed to perform database upgrade. ') . '(' . $qryStatus . ')');
+										$status['warning'] = __('Failed to perform database upgrade. ') . '(' . $qryStatus . ')';
 									}
 
 								}
@@ -74,22 +95,27 @@ class Sys_Helper_Update {
 
 					if($archive->extract(PCLZIP_OPT_PATH, $core, PCLZIP_OPT_REPLACE_NEWER) == 0) {
 						// SQL ROLLBACK
-						return array('error'=>__('Failed to unzip file. Make sure the directory permissions are set properly'));
+						$status['error'] = __('Failed to unzip file. Make sure the directory permissions are set properly');
+						break;
 					}
 
 				}
 
 			}
 
-			// SQL COMMIT
-			$this->app->setVersion($this->latest);
-			return array('info'=>__('Update was successful! New version is ') . $this->latest);
+			if(!isset($status['error'])) {
+				// SQL COMMIT
+				$this->app->setVersion($this->latest);
+				$status['info'] = __('Update was successful! New version is ') . $this->latest;
+			}
 
 		} else {
 
-			return array('info'=>__('No updates available'));
+			$status['info'] = __('No updates available');
 
 		}
+
+		return $status;
 
 	}
 
@@ -108,21 +134,21 @@ class Sys_Helper_Update {
 		$tables		= $this->systemMapper->exportTables();
 		$inserts	= $this->systemMapper->exportTableData();
 
-		$sqlDump = join("\n-- QUERY END\n", $tables);
-		$sqlDump .= join("\n-- QUERY END\n", $inserts);
+		$sqlDump = join('', $tables);
+		$sqlDump .= join('', $inserts);
 
 		file_put_contents($path . $sqlFile, $sqlDump);
 		#Modules_Filesys::write($path . $sqlFile, $sqlDump);
 
-		if($archive->create($core, PCLZIP_OPT_REMOVE_PATH, $core) == 0) {
+		if($archive->create($core, PCLZIP_OPT_REMOVE_PATH, $core, PCLZIP_CB_PRE_ADD, 'backupPreAddCallback') == 0) {
 
 			return false;
 
 		} else {
 
 			$blacklist = array('uploads/', 'uploads', 'Sys/backup/');
-			$archive->delete(PCLZIP_OPT_BY_NAME, $blacklist);
-			$archive->delete(PCLZIP_OPT_BY_EREG, '(\.svn)');
+		//	$archive->delete(PCLZIP_OPT_BY_NAME, $blacklist);
+		//	$archive->delete(PCLZIP_OPT_BY_EREG, '(\.svn)');
 
 			return true;
 
