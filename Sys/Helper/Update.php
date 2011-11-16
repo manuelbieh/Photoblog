@@ -7,13 +7,19 @@ class Sys_Helper_Update {
 	public function __construct($app) {
 
 		require_once $app->getCoreDir() . "Sys/libs/pclzip/pclzip.lib.php";
+
 		$this->app = $app;
+
+		$this->systemMapper = new Model_System_Mapper(
+			new Model_System_Gateway_PDO(
+				$this->app->objectManager->get('Datastore')
+			)
+		);
 
 	}
 
 	public function test() {
 
-		$sqlMapper = new Model_System_Mapper(new Model_System_Gateway_PDO($this->app->objectManager->get('Datastore')));
 		#print_r($sqlMapper->exportTableData());
 
 	}
@@ -38,12 +44,11 @@ class Sys_Helper_Update {
 
 						if(is_array($queries)) {
 
-							$sqlMapper = new Model_System_Mapper(new Model_System_Gateway_PDO($this->app->objectManager->get('Datastore')));
 							foreach($queries AS $query) {
 
 								if($query != '') {
 
-									$qryStatus = $sqlMapper->query($query);
+									$qryStatus = $this->systemMapper->query($query);
 									if($qryStatus !== true) {
 										// ROLLBACK
 										return array('error'=>__('Failed to perform database upgrade. ') . '(' . $qryStatus . ')');
@@ -94,20 +99,20 @@ class Sys_Helper_Update {
 		$core		= $this->app->getCoreDir();
 		$version	= $this->app->getVersion();
 
-		$filename = 'backup_'.date('Ymd-His').'.zip';
-		$fullname = $core . '/Sys/backup/' . $filename;
+		$path		= $core . 'Sys/backup/';
+		$files		= 'files_'.date('Ymd-His').'.zip';
+		$sqlFile	= 'database_'.date('Ymd-His').'.sql';
 
-		$archive = new PclZip($fullname);
+		$archive	= new PclZip($path . $files);
 
-		$sqlMapper = new Model_System_Mapper(new Model_System_Gateway_PDO($this->app->objectManager->get('Datastore')));
-		#print_r($sqlMapper->exportTableData());
-		$tables = $sqlMapper->exportTables();
-		$inserts = $sqlMapper->exportTableData();
+		$tables		= $this->systemMapper->exportTables();
+		$inserts	= $this->systemMapper->exportTableData();
 
-		$sqlFile = join("\n-- QUERY END\n", $tables);
-		$sqlFile .= join("\n-- QUERY END\n", $inserts);
+		$sqlDump = join("\n-- QUERY END\n", $tables);
+		$sqlDump .= join("\n-- QUERY END\n", $inserts);
 
-		#Modules_Filesys::write('sqldump_' . 
+		file_put_contents($path . $sqlFile, $sqlDump);
+		#Modules_Filesys::write($path . $sqlFile, $sqlDump);
 
 		if($archive->create($core, PCLZIP_OPT_REMOVE_PATH, $core) == 0) {
 

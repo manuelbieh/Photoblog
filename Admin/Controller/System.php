@@ -62,7 +62,7 @@ class Admin_Controller_System extends Controller_Frontend {
 			$subview		= $this->app->createView();
 			$update			= $updateManager->update();
 
-			$this->_backup();
+			$updateManager->backup();
 
 			if(isset($update['error'])) {
 
@@ -88,9 +88,10 @@ class Admin_Controller_System extends Controller_Frontend {
 
 		if($this->access->check(__METHOD__)) {
 
+			$updateManager	= new Sys_Helper_Update($this->app);
 			$subview = $this->app->createView();
 
-			if($this->_backup() == true) {
+			if($updateManager->backup() == true) {
 
 				$subview->loadHTML('templates/system/backup.success.html');
 
@@ -105,34 +106,6 @@ class Admin_Controller_System extends Controller_Frontend {
 		}
 
 		$this->view->addSubview('main', $subview);
-
-	}
-
-	protected function _backup() {
-
-		$core		= $this->app->getCoreDir();
-		$version	= $this->app->getVersion();
-
-		$filename = 'backup_'.date('Ymd-His').'.zip';
-		$fullname = $core . '/Sys/backup/' . $filename;
-
-		$archive = new PclZip($fullname);
-
-		if($archive->create($core, PCLZIP_OPT_REMOVE_PATH, $core) == 0) {
-
-			// CREATE SQL BACKUP HERE!!
-
-			return false;
-
-		} else {
-
-			$blacklist = array('uploads/', 'uploads', 'Sys/backup/');
-			$archive->delete(PCLZIP_OPT_BY_NAME, $blacklist);
-			$archive->delete(PCLZIP_OPT_BY_EREG, '(\.svn)');
-
-			return true;
-
-		}
 
 	}
 
