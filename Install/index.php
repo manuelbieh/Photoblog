@@ -30,10 +30,18 @@ include "../Includes/Bootstrap.inc.php";
 					$form->addError(__('Class <strong>DOMDocument</strong> was not found.'));
 				}
 
-				$extensionsNeeded = array('libxml', 'zlib', 'foo');
+				$extensionsNeeded = array(
+					'libxml', 
+					'zlib', 
+					'foo'
+				);
 
 				foreach($extensionsNeeded AS $ext) {
 					if(!extension_loaded($ext)) { $form->addError(sprintf(__('Required PHP extension <strong>%s</strong> could not be found.'), $ext)); }
+				}
+
+				if(!extension_loaded('gd') && !extension_loaded('imagick')) {
+					$form->addError(__('Either GDLib or PECL-Imagick extension is required. Could not found either of them.'));
 				}
 
 				$minPHPVersion = '5.2.1';
@@ -110,10 +118,12 @@ include "../Includes/Bootstrap.inc.php";
 					//file_put_contents('../Includes/Config.inc.php', $config);
 					// mysql table import
 					// admin user creation
+					/*
 					$uploadFolders = glob('../uploads/*', GLOB_ONLYDIR);
 					foreach($uploadFolders AS $folder) {
 						chmod($folder, 0666);
 					}
+					*/
 
 				} else {
 					echo $form->render();
