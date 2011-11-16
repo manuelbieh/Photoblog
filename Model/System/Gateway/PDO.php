@@ -22,4 +22,57 @@ class Model_System_Gateway_PDO {
 
 	}
 
+	public function getAllTables() {
+
+		$s = $this->db->prepare("SHOW TABLES");
+		$s->execute();
+		$tbls = array();
+		foreach($s->fetchAll(PDO::FETCH_COLUMN) AS $tbl) {
+			$tbls[] = $tbl;
+		}
+
+		return $tbls;
+
+	}
+
+	public function exportTables() {
+
+		$tables = $this->getAllTables();
+		foreach($tables AS $table) {
+
+			$s = $this->db->prepare("SHOW CREATE TABLE $table");
+			$s->execute();
+
+			$creates = array();
+			foreach($s->fetchAll(PDO::FETCH_NUM) AS $createTableStatement) {
+				$creates[] = $createTableStatement[1];
+			}
+
+		}
+
+		return $create;
+
+	}
+
+	public function exportTableData() {
+
+		$tables		= $this->getAllTables();
+		$inserts	= array();
+
+		foreach($tables AS $table) {
+
+			$tblStmt = $this->db->prepare("SELECT * FROM " . $table);
+			$tblStmt->execute();
+
+			foreach($tblStmt->fetchAll(PDO::FETCH_ASSOC) AS $data) {
+				// addslashes to values!!!
+				$inserts[] = "INSERT INTO $table (`" . join('`,`', array_keys($data)) . "`) VALUES ('" . join("','", $data) ."');";
+			}
+
+		}
+
+		return $inserts;
+
+	}
+
 }

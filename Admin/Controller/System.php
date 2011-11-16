@@ -49,6 +49,41 @@ class Admin_Controller_System extends Controller_Frontend {
 
 	}
 
+	public function test() {
+		$updateManager	= new Sys_Helper_Update($this->app);	
+		$updateManager->test();
+	}
+
+	public function update() {
+
+		if($this->access->check(__METHOD__)) {
+
+			$updateManager	= new Sys_Helper_Update($this->app);
+			$subview		= $this->app->createView();
+			$update			= $updateManager->update();
+
+			$this->_backup();
+
+			if(isset($update['error'])) {
+
+				$subview->data['error'] = $update['error'];
+				$subview->loadHTML('templates/system/update.error.html');
+
+			} else {
+
+				$subview->data['info'] = $update['info'];
+				$subview->loadHTML('templates/system/update.success.html');
+
+			}
+
+		} else {
+			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error403());
+		}
+
+		$this->view->addSubview('main', $subview);
+
+	}
+
 	public function backup() {
 
 		if($this->access->check(__METHOD__)) {
@@ -98,36 +133,6 @@ class Admin_Controller_System extends Controller_Frontend {
 			return true;
 
 		}
-
-	}
-
-	public function update() {
-
-		if($this->access->check(__METHOD__)) {
-
-			$updateManager	= new Sys_Helper_Update($this->app);
-			$subview		= $this->app->createView();
-			$update			= $updateManager->update();
-
-			$this->_backup();
-
-			if(isset($update['error'])) {
-
-				$subview->data['error'] = $update['error'];
-				$subview->loadHTML('templates/system/update.error.html');
-
-			} else {
-
-				$subview->data['info'] = $update['info'];
-				$subview->loadHTML('templates/system/update.success.html');
-
-			}
-
-		} else {
-			$this->view->addSubview('main', $this->app->objectManager->get('Application_Error')->error403());
-		}
-
-		$this->view->addSubview('main', $subview);
 
 	}
 
