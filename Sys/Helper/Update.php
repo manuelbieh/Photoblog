@@ -11,6 +11,13 @@ class Sys_Helper_Update {
 
 	}
 
+	public function test() {
+
+		$sqlMapper = new Model_System_Mapper(new Model_System_Gateway_PDO($this->app->objectManager->get('Datastore')));
+		#print_r($sqlMapper->exportTableData());
+
+	}
+
 
 	public function update($version=NULL) {
 
@@ -91,6 +98,16 @@ class Sys_Helper_Update {
 		$fullname = $core . '/Sys/backup/' . $filename;
 
 		$archive = new PclZip($fullname);
+
+		$sqlMapper = new Model_System_Mapper(new Model_System_Gateway_PDO($this->app->objectManager->get('Datastore')));
+		#print_r($sqlMapper->exportTableData());
+		$tables = $sqlMapper->exportTables();
+		$inserts = $sqlMapper->exportTableData();
+
+		$sqlFile = join("\n-- QUERY END\n", $tables);
+		$sqlFile .= join("\n-- QUERY END\n", $inserts);
+
+		#Modules_Filesys::write('sqldump_' . 
 
 		if($archive->create($core, PCLZIP_OPT_REMOVE_PATH, $core) == 0) {
 
