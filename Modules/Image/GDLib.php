@@ -35,6 +35,10 @@ class Modules_Image_GDLib {
 		return $size[1];
 	}
 
+	public function getImageMimeType() {
+		return $this->getImageType();
+	}
+
 	public function getImageType() {
 		$size = $this->getImageSize();
 		return $size['mime'];
