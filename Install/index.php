@@ -1,11 +1,32 @@
 <?php
 session_start();
+$projectURL = $_SERVER['SERVER_NAME'] . '/' . trim(str_replace($_SERVER['DOCUMENT_ROOT'], '', rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME']) . '/..'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR . '/');
 include "../Includes/Bootstrap.inc.php";
 ?><!DOCTYPE html>
 <html>
 <head>
 <title>Exhibit Blog » Installation</title>
-<link href="//<?php echo $_SERVER['SERVER_NAME'] . '/' . trim(str_replace($_SERVER['DOCUMENT_ROOT'], '', rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME']) . '/..'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR . '/'); ?>Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<link href="//<?php echo $projectURL; ?>Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
+<script>
+$(function() {
+
+	$('fieldset.optional').hide();
+
+	$.each($('fieldset.optional'), function(key, el) {
+		$$ = $(el);
+		$$.before('<button class="showopt">' + $$.find('>legend').text() + '</button>');
+	});
+
+	$('.showopt').bind('click', function(e) {
+		e.preventDefault();
+		$$ = $(this);
+		$$.next('fieldset').toggle();
+		return false;
+	});
+
+});
+</script>
 </head>
 <body>
 
@@ -21,7 +42,6 @@ include "../Includes/Bootstrap.inc.php";
 
 				$form = new Modules_Form(dirname(__FILE__) . '/../templates/install/install.form.html');
 
-
 				if(!class_exists('DOMXPath')) {
 					$form->addError(__('Required class <strong>DOMXPath</strong> was not found.'));
 				}
@@ -31,9 +51,9 @@ include "../Includes/Bootstrap.inc.php";
 				}
 
 				$extensionsNeeded = array(
-					'libxml', 
-					'zlib', 
-					'foo'
+					'libxml',
+					'curl', 
+					'zlib'
 				);
 
 				foreach($extensionsNeeded AS $ext) {
@@ -64,12 +84,18 @@ include "../Includes/Bootstrap.inc.php";
 					}
 
 					try {
-						$dbcx = new PDO("mysql:dbname=".$form->valueOf('db[name]').";host=".$form->valueOf('data[host]'), $form->valueOf('db[user]'), $form->valueOf('db[pass]'));
+						$dsn		= 'mysql:dbname='.$form->valueOf('db[name]').';host='..$form->valueOf('db[host]');
+						$user		= $form->valueOf('db[user]');
+						$password	= $form->valueOf('db[pass]');
+						$dbcx = new PDO($dsn, $user, $password);
+						#$dbcx = new PDO("mysql:dbname=51985m41841_3;host=localhost", "51985m41841_3", "WWeP6nPt");
+						
 					} catch(Exception $e) {
 						$validate->addError('Establishing connection to database failed (wrong credentials?)');
 					}
 
 				}
+
 
 				$form->assign('db[host]', $form->input(array('name'=>'db[host]', 'id'=>'db[host]')));
 				$form->assign('db[name]', $form->input(array('name'=>'db[name]', 'id'=>'db[name]')));
@@ -109,25 +135,40 @@ include "../Includes/Bootstrap.inc.php";
 
 				if($form->isSent(true)) {
 
-					$config = file_get_contents('config.tpl');
+					// config generation
+					$config = Module_Filesys::read('config.tpl');
 
 					foreach($form->valueOf('db') AS $key => $value) {
 						$config = Modules_Functions::patternReplace($config, array('db['.$key.']'=>$value));
 					}
 
-					//file_put_contents('../Includes/Config.inc.php', $config);
+					file_put_contents(dirname(__FILE__) . '/../Includes/Config.inc.php', $config);
+					include_once dirname(__FILE__) . '/../Includes/Config.inc.php';
+
 					// mysql table import
+					$sysGateway	= new Model_System_Gateway_PDO($pdodb);
+					$sysMapper	= new Model_System_Mapper($sysGateway);
+
+					$installSQL = Modules_Filesys::read('install.sql');
+					$sysMapper->importDump($installSQL);
+
 					// admin user creation
-					/*
-					$uploadFolders = glob('../uploads/*', GLOB_ONLYDIR);
-					foreach($uploadFolders AS $folder) {
-						chmod($folder, 0666);
+					$user = new Model_User();
+					foreach($form->valueOf('user') AS $key => $value) {
+						$user->$key = $value;
 					}
-					*/
+
+					$userMapper = new Model_User_Mapper(
+						new Model_User_Gateway_PDO($pdodb)
+					);
+					$userMapper->save($user);
 
 				} else {
+
 					echo $form->render();
+
 				}
+
 			?>
 
 		</section>
