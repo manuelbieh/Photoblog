@@ -79,7 +79,7 @@ class Model_System_Gateway_PDO {
 
 	}
 
-	public function importDump($dump) {
+	public function importDump($dump, $abortOnError=true) {
 
 		$queries = explode($this->queryDelimiter, $dump);
 		$status = true;
@@ -94,7 +94,11 @@ class Model_System_Gateway_PDO {
 
 			$q = $this->query($query);
 			if($q !== true) {
-				$status[] = $q;
+				if($abortOnError == true) {
+					return;
+				}
+				$err = $this->db->errorInfo();
+				$status[] = $err[2];
 			}
 
 		}
