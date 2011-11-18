@@ -42,28 +42,6 @@ $(function() {
 
 			<?php
 
-				if(get_magic_quotes_gpc() == true) {
-					$warning[] = __("<strong>get_magic_quotes</strong> is currently 'on'. It's strongly recommended to turn it 'off'.");
-				}
-				if(!class_exists('IMagick') && extension_loaded('gd')) {
-					$warning[] = __("Class <strong>IMagick</strong> doesn't exist. Using GDLib instead (less performance).");
-				}
-
-				if(is_array($warning)) {
-					?>
-					<ul class="warnings">
-					<?php
-					foreach($warning AS $w) {
-					?>
-						<li><?php echo $w; ?></li>
-					<?php
-					}
-					?>
-					</ul>
-					<?php
-					
-				}
-
 				$form = new Modules_Form(dirname(__FILE__) . '/../templates/install/install.form.html');
 
 				if(!class_exists('DOMXPath')) {
@@ -144,7 +122,7 @@ $(function() {
 					'../uploads/thumbs',
 					'../uploads/web',
 					'../Sys',
-					'../Includes/Config.inc.php',
+					'../Includes',
 					'../Includes/Settings.xml',
 					'../Extensions'
 				);
@@ -165,7 +143,7 @@ $(function() {
 					}
 
 					$salt = Modules_Functions::getRandomString(24);
-					$config = Modules_Functions::patternReplace($config, array('settings[salt]', $salt));
+					$config = Modules_Functions::patternReplace($config, array('settings[salt]'=>$salt));
 
 					file_put_contents(dirname(__FILE__) . '/../Includes/Config.inc.php', $config);
 					include_once dirname(__FILE__) . '/../Includes/Config.inc.php';
@@ -186,13 +164,42 @@ $(function() {
 					$enc = new Modules_Encryption_Md5();
 
 					$user->password = $enc->encryptWithSalt($user->password, __SALT__);
+					$user->active = 1;
 
 					$userMapper = new Model_User_Mapper(
 						new Model_User_Gateway_PDO($pdodb)
 					);
 					$userMapper->save($user);
 
+					$view = new Application_View();
+					$view->loadHTML('templates/install/install.success.html');
+					$view->render(true);
+					
+
 				} else {
+
+					if(get_magic_quotes_gpc() == true) {
+						$warning[] = __("<strong>get_magic_quotes</strong> is currently 'on'. It's strongly recommended to turn it 'off'.");
+					}
+
+					if(!class_exists('IMagick') && extension_loaded('gd')) {
+						$warning[] = __("Class <strong>IMagick</strong> doesn't exist. Using GDLib instead (less performance).");
+					}
+
+					if(is_array($warning)) {
+						?>
+						<ul class="warnings">
+						<?php
+						foreach($warning AS $w) {
+						?>
+							<li><?php echo $w; ?></li>
+						<?php
+						}
+						?>
+						</ul>
+						<?php
+						
+					}
 
 					echo $form->render();
 

@@ -183,7 +183,7 @@ CREATE TABLE `cel_users` (
   KEY `loggedin` (`loggedin`),
   KEY `active` (`active`),
   KEY `passconf` (`passconf`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- QUERY END
 
 CREATE TABLE `cel_users_x_usergroups` (
