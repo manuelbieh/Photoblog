@@ -99,8 +99,25 @@ class Modules_Image_GDLib {
 
 		}
 
-		$this->filehandle = imagecreatetruecolor($width, $height);
-		imageCopyResampled($this->filehandle, $oldImage, 0, 0, 0, 0, $width, $height, $source_w, $source_h);
+		$hRatio = $source_w / $width;
+		$vRatio = $source_h / $height;
+
+		if($bestfit == true) {
+			if($hRatio > $vRatio) {
+				$newHeight = $source_h / $hRatio;
+				$newWidth = $source_w / $hRatio;
+			} else {
+				$newHeight = $source_h / $vRatio;
+				$newWidth = $source_w / $vRatio;
+			}
+		} else {
+			$newWidth = $width;
+			$newHeight = $height;
+		}
+
+		$this->filehandle = imagecreatetruecolor($newWidth, $newHeight);
+		imageCopyResampled($this->filehandle, $oldImage, 0, 0, 0, 0, $newWidth, $newHeight, $source_w, $source_h);
+
 
 /*
 		if( ($w <= $width) && ($h <= $height) && ($bestfit == false) ) {
@@ -133,6 +150,7 @@ class Modules_Image_GDLib {
 				case 'png':
 					ImagePNG($this->filehandle, $outputFilename);
 					break;
+
 			}
 
 		}
