@@ -25,9 +25,26 @@ class Application_View {
 		$this->app->extensions()->registerObservers($this);
 		$this->app->extensions()->notify($this, 'init');
 
-		$this->XML = new DOMDocument;
-		$this->XSL = new XSLTProcessor();
-	
+	}
+
+	public function getXSL() {
+
+		if(!isset($this->XSL)) {
+			$this->XSL = new XSLTProcessor();
+		}
+
+		return $this->XSL;
+
+	}
+
+	public function getXML() {
+
+		if(!isset($this->XML)) {
+			$this->XML = new DOMDocument();
+		}
+
+		return $this->XML;
+
 	}
 
 	public function getThemeURL() {
@@ -90,7 +107,7 @@ class Application_View {
 			$filename = Application_Base::getPath($filename);
 
 			$DOM->load($filename);
-			$this->XSL->importStyleSheet($DOM);
+			$this->getXSL()->importStyleSheet($DOM);
 			$this->outputType = 'XSL';
 
 		#}
@@ -105,9 +122,9 @@ class Application_View {
 		$xmlfile = Application_Base::getPath($xml);
 		if($xmlfile !== false) {
 		#if(Modules_Filesys::isFile($xml)) {
-			$this->XML->load($xmlfile);
+			$this->getXML()->load($xmlfile);
 		} else if (is_string($xml)) {
-			$this->XML->loadXML($xml);
+			$this->getXML()->loadXML($xml);
 		}
 
 		return $this;
@@ -258,11 +275,12 @@ class Application_View {
 
 		$node = $xml->getElementsByTagName('subviews')->item(0);
 
+		$this->getXML();
 		if($this->XML instanceof DOMDocument) {
 		#	var_dump($this->XML->saveXML());
-			$node = $this->XML->importNode($node, true);
-			if($this->XML->documentElement instanceof DOMNode) {
-				$this->XML->documentElement->appendChild($node);
+			$node = $this->getXML()->importNode($node, true);
+			if($this->getXML()->documentElement instanceof DOMNode) {
+				$this->getXML()->documentElement->appendChild($node);
 			}
 		}
 
@@ -280,7 +298,7 @@ class Application_View {
 
 			case 'xsl':
 				#var_dump($this->XML->saveXML());
-				$output = $this->XSL->transformToXML($this->XML);
+				$output = $this->getXSL()->transformToXML($this->getXML());
 				break;
 
 			case 'html':
