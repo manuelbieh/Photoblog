@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Comment implements Application_Observable {
+class Controller_Comment {
 
 	protected $mapper;
 
@@ -44,7 +44,7 @@ class Controller_Comment implements Application_Observable {
 				$comment->photo_id	= (int) $photo_id;
 				$comment->ip		= $_SERVER['REMOTE_ADDR'];
 
-				$this->mapper->save($comment);
+				$this->commentMapper->save($comment);
 				return __('Your comment was saved successfully.');
 
 

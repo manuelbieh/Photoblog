@@ -18,9 +18,11 @@ class Modules_Image_GDLib {
 	public function readImage($filename) {
 
 		if(is_file($filename) && is_readable($filename)) {
+			var_dump("Reading file " . $filename);
 			$this->filename = $filename;
+			$this->filehandle = NULL;
 		} else {
-			throw new Exception('File not found.');
+			throw new Exception(__('File not found.'));
 		}
 
 	}
@@ -45,7 +47,7 @@ class Modules_Image_GDLib {
 	}
 
 	public function getImageSize() {
-		$size = @getimagesize($this->filename);
+		$size = getimagesize($this->filename);
 		return $size;
 	}
 
@@ -81,6 +83,22 @@ class Modules_Image_GDLib {
 		$source_w = $this->getImageWidth();
 		$source_h = $this->getImageHeight();
 
+		$hRatio = $source_w / $width;
+		$vRatio = $source_h / $height;
+
+		if($bestfit == true) {
+			if($hRatio > $vRatio) {
+				$newHeight = floor($source_h / $hRatio);
+				$newWidth = floor($source_w / $hRatio);
+			} else {
+				$newHeight = floor($source_h / $vRatio);
+				$newWidth = floor($source_w / $vRatio);
+			}
+		} else {
+			$newWidth = $width;
+			$newHeight = $height;
+		}
+
 		$imageType = strtolower($this->getImageType());
 
 		switch($imageType) {
@@ -88,44 +106,20 @@ class Modules_Image_GDLib {
 			case 'image/jpeg':
 			case 'image/jpg':
 			case 'image/pjpeg':
-				$oldImage = ImageCreateFromJPEG($this->filename);
+				$this->filehandle = imagecreatefromjpeg($this->filename);
 				break;
 			case 'image/png':
-				$oldImage = ImageCreateFromPNG($this->filename);
+				$this->filehandle = imagecreatefrompng($this->filename);
 				break;
 			case 'image/gif':
-				$oldImage = ImageCreateFromGIF($this->filename);
+				$this->filehandle = imagecreatefromgif($this->filename);
 				break;
 
 		}
 
-		$hRatio = $source_w / $width;
-		$vRatio = $source_h / $height;
 
-		if($bestfit == true) {
-			if($hRatio > $vRatio) {
-				$newHeight = $source_h / $hRatio;
-				$newWidth = $source_w / $hRatio;
-			} else {
-				$newHeight = $source_h / $vRatio;
-				$newWidth = $source_w / $vRatio;
-			}
-		} else {
-			$newWidth = $width;
-			$newHeight = $height;
-		}
-
-		$this->filehandle = imagecreatetruecolor($newWidth, $newHeight);
-		imageCopyResampled($this->filehandle, $oldImage, 0, 0, 0, 0, $newWidth, $newHeight, $source_w, $source_h);
-
-
-/*
-		if( ($w <= $width) && ($h <= $height) && ($bestfit == false) ) {
-			
-		} else {
-			
-		}
-*/
+		$this->newFile = imagecreatetruecolor($newWidth, $newHeight);
+		imagecopyresampled($this->newFile, $this->filehandle, 0, 0, 0, 0, $newWidth, $newHeight, $source_w, $source_h);
 
 	}
 
@@ -142,16 +136,18 @@ class Modules_Image_GDLib {
 				case 'jpeg':
 				case 'pjpeg':
 				default:
-					ImageJPEG($this->filehandle, $outputFilename, $this->COMPRESSION_QUALITY);
+					ImageJPEG($this->newFile, $outputFilename, $this->COMPRESSION_QUALITY);
 					break;
 				case 'gif':
-					ImageGIF($this->filehandle, $outputFilename);
+					ImageGIF($this->newFile, $outputFilename);
 					break;
 				case 'png':
-					ImagePNG($this->filehandle, $outputFilename);
+					ImagePNG($this->newFile, $outputFilename);
 					break;
-
 			}
+
+			imagedestroy($this->filehandle);
+			$this->readImage($outputFilename);
 
 		}
 

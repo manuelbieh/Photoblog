@@ -116,13 +116,6 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 						$this->app->extensions()->notify($this, 'uploadSuccessful');
 
-						if($this->form->valueOf('source') == 'web') {
-							file_put_contents($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile, $imageFile);
-							unlink($imageSource);
-						} else {
-							move_uploaded_file($_FILES['upload']['tmp_name'][0], $this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile);
-						}
-
 						$webSize	= Application_Settings::get("//settings/defaults/image/web");
 						$thumbSize	= Application_Settings::get("//settings/defaults/image/thumb");
 						$miniSize	= Application_Settings::get("//settings/defaults/image/mini");
@@ -135,6 +128,13 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 						$this->uploadImage->thumbnailImage($miniSize['maxwidth'], $miniSize['maxheight'], true);
 						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $this->webFile);
+
+						if($this->form->valueOf('source') == 'web') {
+							file_put_contents($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile, $imageFile);
+							unlink($imageSource);
+						} else {
+							move_uploaded_file($_FILES['upload']['tmp_name'][0], $this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile);
+						}
 
 						$photo = new Model_Photo();
 						$photoMapper = new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
