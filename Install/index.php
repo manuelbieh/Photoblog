@@ -6,10 +6,11 @@ include "../Includes/Bootstrap.inc.php";
 ?><!DOCTYPE html>
 <html>
 <head>
-<title>Exhibit Blog » Installation</title>
+<title>Exhibit Blog Â» Installation</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 <link href="//<?php echo $projectURL; ?>Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
 <script>
+/*
 $(function() {
 
 	$('fieldset.optional').hide();
@@ -26,7 +27,7 @@ $(function() {
 		return false;
 	});
 
-});
+});*/
 </script>
 </head>
 <body>
@@ -37,9 +38,31 @@ $(function() {
 
 		<section id="content">
 
-			<h2>Exhibit Blog » Install</h2>
+			<h2>Exhibit Blog Â» Install</h2>
 
 			<?php
+
+				if(get_magic_quotes_gpc() == true) {
+					$warning[] = __("<strong>get_magic_quotes</strong> is currently 'on'. It's strongly recommended to turn it 'off'.");
+				}
+				if(!class_exists('IMagick') && extension_loaded('gd')) {
+					$warning[] = __("Class <strong>IMagick</strong> doesn't exist. Using GDLib instead (less performance).");
+				}
+
+				if(is_array($warning)) {
+					?>
+					<ul class="warnings">
+					<?php
+					foreach($warning AS $w) {
+					?>
+						<li><?php echo $w; ?></li>
+					<?php
+					}
+					?>
+					</ul>
+					<?php
+					
+				}
 
 				$form = new Modules_Form(dirname(__FILE__) . '/../templates/install/install.form.html');
 
@@ -85,12 +108,10 @@ $(function() {
 					}
 
 					try {
-						$dsn		= 'mysql:dbname='.$form->valueOf('db[name]').';host='..$form->valueOf('db[host]');
+						$dsn		= 'mysql:dbname='.$form->valueOf('db[name]').';host='.$form->valueOf('db[host]');
 						$user		= $form->valueOf('db[user]');
 						$password	= $form->valueOf('db[pass]');
 						$dbcx = new PDO($dsn, $user, $password);
-						#$dbcx = new PDO("mysql:dbname=51985m41841_3;host=localhost", "51985m41841_3", "WWeP6nPt");
-						
 					} catch(Exception $e) {
 						$validate->addError('Establishing connection to database failed (wrong credentials?)');
 					}
@@ -137,11 +158,14 @@ $(function() {
 				if($form->isSent(true)) {
 
 					// config generation
-					$config = Module_Filesys::read('config.tpl');
+					$config = Modules_Filesys::read('config.tpl');
 
 					foreach($form->valueOf('db') AS $key => $value) {
 						$config = Modules_Functions::patternReplace($config, array('db['.$key.']'=>$value));
 					}
+
+					$salt = Modules_Functions::getRandomString(24);
+					$config = Modules_Functions::patternReplace($config, array('settings[salt]', $salt));
 
 					file_put_contents(dirname(__FILE__) . '/../Includes/Config.inc.php', $config);
 					include_once dirname(__FILE__) . '/../Includes/Config.inc.php';
@@ -158,6 +182,10 @@ $(function() {
 					foreach($form->valueOf('user') AS $key => $value) {
 						$user->$key = $value;
 					}
+
+					$enc = new Modules_Encryption_Md5();
+
+					$user->password = $enc->encryptWithSalt($user->password, __SALT__);
 
 					$userMapper = new Model_User_Mapper(
 						new Model_User_Gateway_PDO($pdodb)

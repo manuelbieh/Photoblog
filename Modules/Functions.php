@@ -176,5 +176,30 @@ class Modules_Functions {
 
 	}
 
+	public static function getRandomString($length=11, $chars='') {
+	 
+		$length = empty($length) ? 11 : $length;
+		$length = $length > 64 ? 64 : $length;
+	 
+		if(!is_array($chars) || (is_array($chars) && empty($chars))) {
+			for($i=33;$i<=90;$i++) {
+				if($i != 34 && $i != 39) {
+					$chars[] = chr($i);
+				}
+			}
+			for($i=97;$i<=122;$i++) {
+				$chars[] = chr($i);
+			}
+		}
+	 
+		$c = count($chars);
+		for($i=0;$i<$length;$i++) {
+			$uid .= $chars[rand(0, $c-1)];
+		}
+
+		return $uid;
+
+	}
+
 
 }

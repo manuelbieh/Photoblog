@@ -21,7 +21,7 @@ CREATE TABLE `cel_content_pages` (
   `date_created` datetime NOT NULL,
   `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`page_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- QUERY END
 
 CREATE TABLE `cel_extensions` (
@@ -44,7 +44,7 @@ CREATE TABLE `cel_permissions` (
   KEY `controller` (`class`),
   KEY `param` (`param`),
   KEY `method` (`method`)
-) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 -- QUERY END
 
 CREATE TABLE `cel_permissions_x_usergroups` (
@@ -67,7 +67,7 @@ CREATE TABLE `cel_photo_archive_settings` (
   `key` varchar(64) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- QUERY END
 
 CREATE TABLE `cel_photo_categories` (
@@ -92,7 +92,7 @@ CREATE TABLE `cel_photo_comments` (
   PRIMARY KEY (`comment_id`),
   KEY `photo_id` (`photo_id`),
   KEY `active` (`active`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- QUERY END
 
 CREATE TABLE `cel_photo_exif` (
@@ -123,7 +123,7 @@ CREATE TABLE `cel_photo_photos` (
   `deleted` tinyint(4) NOT NULL,
   `released` tinyint(4) NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- QUERY END
 
 CREATE TABLE `cel_photo_photos_x_category` (
@@ -143,7 +143,7 @@ CREATE TABLE `cel_usergroups` (
   `created` datetime NOT NULL,
   `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`usergroup_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- QUERY END
 
 CREATE TABLE `cel_userprops` (
@@ -151,7 +151,7 @@ CREATE TABLE `cel_userprops` (
   `prop_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`prop_id`),
   KEY `prop_name` (`prop_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- QUERY END
 
 CREATE TABLE `cel_userprops_x_users` (
@@ -183,7 +183,7 @@ CREATE TABLE `cel_users` (
   KEY `loggedin` (`loggedin`),
   KEY `active` (`active`),
   KEY `passconf` (`passconf`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- QUERY END
 
 CREATE TABLE `cel_users_x_usergroups` (
@@ -191,7 +191,7 @@ CREATE TABLE `cel_users_x_usergroups` (
   `user_id` int(11) NOT NULL,
   `usergroup_id` int(11) NOT NULL,
   PRIMARY KEY (`rel_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- QUERY END
 
 INSERT INTO cel_extensions (`extension_key`,`core`,`deps`,`active`) VALUES ('SystemTweaks','1','','1');
@@ -239,82 +239,76 @@ INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`ti
 INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('12','Admin_Controller_User','profile','own','User/profile','User → view → own profile');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('33','Admin_Controller_Comments','view','','Comments/view','Comments → view');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('13','Admin_Controller_Comments','view','','Comments/view','Comments → view');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('32','Admin_Controller_Comments','edit','','Comments/edit','Comments → edit');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('14','Admin_Controller_Comments','edit','','Comments/edit','Comments → edit');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('31','Admin_Controller_Photo','view','','Photo/view','Photo → overview');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('15','Admin_Controller_Photo','view','','Photo/view','Photo → overview');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('34','Admin_Controller_Comments','delete','','Comments/delete','Comments → delete');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('16','Admin_Controller_Comments','delete','','Comments/delete','Comments → delete');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('35','Admin_Controller_User','view','','User/view','User → view list');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('17','Admin_Controller_User','view','','User/view','User → view list');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('36','Admin_Controller_Settings','edit','','Settings/edit','Settings → edit');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('18','Admin_Controller_Settings','edit','','Settings/edit','Settings → edit');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('37','Admin_Controller_Settings','edit','system','Settings/system','Settings → edit → System');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('19','Admin_Controller_Settings','edit','system','Settings/system','Settings → edit → System');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('38','Admin_Controller_Settings','edit','theme','Settings/theme','Settings → edit → Theme');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('20','Admin_Controller_Settings','edit','theme','Settings/theme','Settings → edit → Theme');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('39','Admin_Controller_Settings','edit','general','Settings/general','Settings → edit → General');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('21','Admin_Controller_Settings','edit','general','Settings/general','Settings → edit → General');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('40','Admin_Controller_User','settings','own','User/settings','User → settings → own');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('22','Admin_Controller_User','settings','own','User/settings','User → settings → own');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('41','Admin_Controller_User','settings','other','User/settings','User → settings → other profiles');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('23','Admin_Controller_User','settings','other','User/settings','User → settings → other profiles');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('42','Admin_Controller_Extensions','manage','','Extensions/manage','Extensions → manage');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('24','Admin_Controller_Extensions','manage','','Extensions/manage','Extensions → manage');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('43','Admin_Controller_Extensions','browse','','Extensions/browse','Extensions → browse');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('25','Admin_Controller_Extensions','browse','','Extensions/browse','Extensions → browse');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('44','Admin_Controller_Extensions','activate','','Extensions/activate','Extensions → activate');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('26','Admin_Controller_Extensions','activate','','Extensions/activate','Extensions → activate');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('45','Admin_Controller_Extensions','deactivate','','Extensions/deactivate','Extensions → deactivate');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('27','Admin_Controller_Extensions','deactivate','','Extensions/deactivate','Extensions → deactivate');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('46','Admin_Controller_Extensions','install','','Extensions/install','Extensions → install');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('28','Admin_Controller_Extensions','install','','Extensions/install','Extensions → install');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('47','Admin_Controller_Photo','delete','other','Photo/delete','Photo → delete → other\'s photos');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('29','Admin_Controller_Photo','delete','other','Photo/delete','Photo → delete → other\'s photos');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('48','Admin_Controller_System','update','','System/update','System → update');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('30','Admin_Controller_System','update','','System/update','System → update');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('49','Admin_Controller_System','backup','','System/backup','System → create backup');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('31','Admin_Controller_System','backup','','System/backup','System → create backup');
 -- QUERY END
 
-INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('50','Admin_Controller_System','index','','System/index','System → overview');
+INSERT INTO cel_permissions (`permission_id`,`class`,`method`,`param`,`link`,`title`) VALUES ('32','Admin_Controller_System','index','','System/index','System → overview');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','12','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','1','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','35','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','2','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','40','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','3','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','41','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','10','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','11','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','4','');
 -- QUERY END
 
 INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','5','');
@@ -323,74 +317,80 @@ INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES (
 INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','6','');
 -- QUERY END
 
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','7','');
+-- QUERY END
+
 INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','8','');
 -- QUERY END
 
 INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','9','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','7','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','10','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','48','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','11','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','50','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','12','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','49','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','13','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','38','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','14','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','37','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','15','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','39','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','16','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','36','');
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','17','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','18','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','19','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','20','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','21','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','22','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','23','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','24','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','25','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','26','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','27','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','28','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','29','');
+-- QUERY END
+
+INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','30','');
 -- QUERY END
 
 INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','31','');
 -- QUERY END
 
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','1','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','4','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','3','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','47','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','2','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','42','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','46','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','45','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','43','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','44','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','33','');
--- QUERY END
-
 INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','32','');
--- QUERY END
-
-INSERT INTO cel_permissions_x_users (`user_id`,`permission_id`,`value`) VALUES ('1','34','');
 -- QUERY END
