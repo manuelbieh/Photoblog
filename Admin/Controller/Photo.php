@@ -163,7 +163,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 						$photo->web_name		= $this->webFile;
 						$photo->user_id			= Modules_Session::getInstance()->getVar('userdata')->user_id;
 						$photo->active			= 1;
-						$photo->clean_title		= Modules_Functions::cleanURL($photo->title);
+						$photo->clean_title		= $photo->title != '' ? Modules_Functions::cleanURL($photo->title) : 'untitled';
 						$photo->clean_title		= Modules_Functions::getUniqueName($photo->clean_title, $cleanTitles);
 
 						$this->photo = $photo;
