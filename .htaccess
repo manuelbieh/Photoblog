@@ -1,6 +1,7 @@
 #AddHandler php-fastcgi .php
 <IfModule mod_rewrite.c>
 RewriteEngine On
+RewriteRule ^admin/(.*)$ Admin/$1 [L]
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

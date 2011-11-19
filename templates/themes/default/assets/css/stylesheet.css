@@ -49,8 +49,14 @@ input[type="text"], input[type="email"], input[type="url"], input[type="tel"], i
 	background: white;
 	box-shadow: 0 0 10px 0 #000;
 	margin: auto;
+	margin-bottom: -13px;
 	min-height: 100%;
 }
+
+#wrapper *:last-child {
+	margin-bottom: 1em;
+}
+
 
 .center {
 	text-align: center;
