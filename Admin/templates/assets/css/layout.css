@@ -1,11 +1,33 @@
 @font-face {
-    font-family: 'OpenSansCondensedLight';
-    src: url('../fonts/opensans-condlight-webfont.eot');
-    src: url('../fonts/opensans-condlight-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/opensans-condlight-webfont.woff') format('woff'),
-         url('../fonts/opensans-condlight-webfont.ttf') format('truetype'),
-         url('../fonts/opensans-condlight-webfont.svg#OpenSansCondensedLight') format('svg');
-    font-weight: normal;
+    font-family: 'Lato';
+    src: url('../fonts/lato-bold-webfont.eot');
+    src: url('../fonts/lato-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/lato-bold-webfont.woff') format('woff'),
+         url('../fonts/lato-bold-webfont.ttf') format('truetype'),
+         url('../fonts/lato-bold-webfont.svg#Lato') format('svg');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../fonts/lato-regular-webfont.eot');
+    src: url('../fonts/lato-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/lato-regular-webfont.woff') format('woff'),
+         url('../fonts/lato-regular-webfont.ttf') format('truetype'),
+         url('../fonts/lato-regular-webfont.svg#Lato') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../fonts/lato-light-webfont.eot');
+    src: url('../fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/lato-light-webfont.woff') format('woff'),
+         url('../fonts/lato-light-webfont.ttf') format('truetype'),
+         url('../fonts/lato-light-webfont.svg#Lato') format('svg');
+    font-weight: 300;
     font-style: normal;
 }
 
@@ -38,7 +60,8 @@ a:hover {
 }
 
 h1, h2 {
-	font-family: "OpenSansCondensedLight", "Trebuchet MS", Arial, sans-serif;
+	font-family: "Lato", "Trebuchet MS", Arial, sans-serif;
+	font-weight: 300;
 }
 
 h1 {
@@ -52,8 +75,8 @@ h2 {
 
 h3 {
 	font-size: 18px;
-	font-family: Georgia, sans-serif;
-	font-weight: normal;
+	font-family: "Lato", Georgia, sans-serif;
+	font-weight: 400;
 	letter-spacing: 0.1em;
 	margin: 1.5em 0 0.75em 0;
 }
@@ -159,6 +182,14 @@ section#content {
 	padding: 16px;
 	right: 0;
 	top: 0;
+}
+
+section#sidebar #menu {
+	/*font-family: "Lato", "Trebuchet MS", Arial, Sans-Serif;*/
+}
+
+section#sidebar #menu li.active > a {
+	font-weight: 700;
 }
 
 header {
@@ -440,8 +471,6 @@ input[type="checkbox"] + label {
 	width: auto;
 }
 
-
-
 .icon-pics {
 	background: url(../images/famfamfam/camera.png) no-repeat 8px 8px;
 }
@@ -574,11 +603,6 @@ input[type="checkbox"] + label {
 	margin-right: 3px;
 	padding: 2px 6px;
 	
-}
-
-
-#menu li.active > a {
-	font-weight: 700;
 }
 
 #dashlist {
@@ -816,6 +840,8 @@ input[type="checkbox"] + label {
 	-o-box-shadow: inset 0 1px 0 0 white;
 	box-shadow: inset 0 1px 0 0 white;
 	color: #1a3e66;
+	font-weight: bold;
+	letter-spacing: 0.05em;
 	line-height: 1;
 	padding: 6px 12px 7px 12px;
 	text-align: center;
@@ -859,3 +885,24 @@ input[type="checkbox"] + label {
 	background: #ccc;
 	box-shadow: none;
 }
+
+.button.attention, button.attention, input[type="submit"].attention, input[type="button"].attention {
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e9a5a5), to(#e79e9e));
+	background-image: -webkit-linear-gradient(top, #e9a5a5, #e79e9e);
+	background-image: -moz-linear-gradient(top, #e9a5a5, #e79e9e);
+	background-image: -ms-linear-gradient(top, #e9a5a5, #e79e9e);
+	background-image: -o-linear-gradient(top, #e9a5a5, #e79e9e);
+	background-image: linear-gradient(top, #e9a5a5, #e79e9e);
+	color: #aa3333;
+}
+
+.button.attention:hover, button.attention:hover, input[type="submit"].attention:hover, input[type="button"].attention:hover {
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e38e8e), to(#e18686));
+	background-image: -webkit-linear-gradient(top, #e38e8e, #e18686);
+	background-image: -moz-linear-gradient(top, #e38e8e, #e18686);
+	background-image: -ms-linear-gradient(top, #e38e8e, #e18686);
+	background-image: -o-linear-gradient(top, #e38e8e, #e18686);
+	background-image: linear-gradient(top, #e38e8e, #e18686);
+}
+
+

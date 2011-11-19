@@ -5,15 +5,13 @@
 	<div class="entry">
 
 		<div class="content">
-		<?php if($photo->clean_title) { ?>
 			<h2><a href="<?php echo Application_Base::getBaseURL(); ?>photo/<?php echo $photo->clean_title; ?>"><?php echo $photo->title; ?></a></h2>
-		<?php } else { ?>
-			<h2><?php echo $photo->title; ?></h2>
-		<?php } ?>
 		</div>
 
 		<?php $webPhoto = Application_Base::getBaseURL() . 'uploads/web/' . $photo->web_name; ?>
-		<img src="<?php echo $webPhoto; ?>" alt="" width="<?php echo $photo->width; ?>" height="<?php echo $photo->height; ?>" />
+		<a href="<?php echo Application_Base::getBaseURL(); ?>photo/<?php echo $photo->clean_title; ?>">
+			<img src="<?php echo $webPhoto; ?>" alt="" width="<?php echo $photo->width; ?>" height="<?php echo $photo->height; ?>" />
+		</a>
 
 		<div class="content">
 			<p><strong>Photographer:</strong> <?php echo $photo->photographer->username; ?></p>
@@ -34,12 +32,3 @@
 	<a href="<?php echo $this->data['nextLink']; ?>">Next</a>
 	<?php } ?>
 </p>
-
-
-<!--
-<pre>
-<?php
-print_r($this->data);
-?>
-</pre>
--->

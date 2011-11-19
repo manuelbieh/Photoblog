@@ -31,7 +31,7 @@ class Admin_Controller_Content extends Controller_Frontend {
 
 		$subview = $this->app->createView();
 
-		$filename	= str_replace(array('../', './', '..', '\0', '\x', '?'), '', $filename);
+		$filename	= str_replace(array("../", "./", "..", "\0", "\x", "?"), '', $filename);
 
 		if(strlen($filename)-5 == strripos($filename, '.html')) {
 			$filename = substr($filename, 0, strripos($filename, '.html'));
