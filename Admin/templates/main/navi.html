@@ -8,7 +8,7 @@ $action = Application_Base::getAction();
 
 if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
 
-	$menu = new Admin_View_Helper_Menu();
+	$menu = new Admin_Application_View_MenuHelper();
 	$menu->app = $this->app;
 	$menu->gatherJSON(dirname(__FILE__).'/../');
 	echo $menu->create();

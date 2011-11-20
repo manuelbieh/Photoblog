@@ -14,37 +14,37 @@
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(C|c)ontent/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[/(C|c)ontent/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_Content</controller>
 			<action>index</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(S|s)ettings/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[/(S|s)ettings/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_Settings</controller>
 			<action>edit</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>%action%</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/(?<action>.*)]]></pattern>
+			<pattern><![CDATA[/(?<controller>.*)/(?<action>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>%action%</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)]]></pattern>
+			<pattern><![CDATA[/(?<controller>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>index</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin]]></pattern>
+			<pattern><![CDATA[/]]></pattern>
 			<controller>Admin_Controller_Dashboard</controller>
 			<action>index</action>
 		</path>

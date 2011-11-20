@@ -24,11 +24,6 @@ class Admin_Controller_Login extends Controller_Frontend {
 			$this->login->logout();
 		}
 
-		$navi = $this->app->createView();
-		$navi->loadHTML("templates/main/navi.html");
-
-		$this->view->addSubview('navi', $navi);
-
 	}
 
 

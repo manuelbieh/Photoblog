@@ -46,8 +46,12 @@ class Application_Router {
 		$url 		= $this->request->getRequestURL();
 		$host 		= $this->request->getURLPart($url, 'host');
 		$path 		= $this->request->extractPathFromURL($url);
+		$relPath	= trim($this->app->getRelativePath(), '/');
+
+		$path		= str_replace($relPath, '', $path);
 		$urlParts	= explode('/', $path);
 		$pattern	= '/' . rtrim(join('/', $urlParts), ' /');
+
 	#	$query		= $this->request->getURLPart($url, 'query');
 	#	$pattern	.= ($query !== NULL) ? '?' . $this->request->getURLPart($url, 'query') : '';
 
