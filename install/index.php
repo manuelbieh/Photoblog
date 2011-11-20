@@ -54,7 +54,8 @@ $(function() {
 
 				$extensionsNeeded = array(
 					'libxml',
-					'curl', 
+					'pdo',
+					'curl',
 					'zlib'
 				);
 
