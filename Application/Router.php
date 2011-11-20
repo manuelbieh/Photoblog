@@ -50,7 +50,7 @@ class Application_Router {
 
 		$path		= str_replace($relPath, '', $path);
 		$urlParts	= explode('/', $path);
-		$pattern	= '/' . rtrim(join('/', $urlParts), ' /');
+		$pattern	= '/' . trim(join('/', $urlParts), ' /');
 
 	#	$query		= $this->request->getURLPart($url, 'query');
 	#	$pattern	.= ($query !== NULL) ? '?' . $this->request->getURLPart($url, 'query') : '';
