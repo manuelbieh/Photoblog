@@ -3,6 +3,9 @@ header("Content-Type: text/html; charset=utf-8");
 session_start();
 $projectURL = $_SERVER['SERVER_NAME'] . '/' . trim(str_replace($_SERVER['DOCUMENT_ROOT'], '', rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME']) . '/..'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR . '/');
 include "../Includes/Bootstrap.inc.php";
+if(Modules_Filesys::isFile(dirname(__FILE__) . '/INSTALLED')) {
+die(__('Exhibit is already installed. Delete the file /install/INSTALLED to install it again.'));
+}
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -175,7 +178,7 @@ $(function() {
 					$view = new Application_View();
 					$view->loadHTML('templates/install/install.success.html');
 					$view->render(true);
-					
+					Modules_Filesys::write(dirname(__FILE__) . '/INSTALLED');
 
 				} else {
 
