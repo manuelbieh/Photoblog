@@ -7,30 +7,28 @@ class Admin_Controller_User extends Controller_Frontend {
 
 	public function __construct($app=NULL) {
 
-		$app->extensions()->registerObservers($this);
-
-		$this->app 		= $app;
-
-		$this->view		= $this->app->objectManager->get('Application_View');
-		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
-
-		$this->userDB	= new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
-		$this->enc		= new Modules_Encryption_Md5();
-
-		$this->app->objectManager->register('userMapper', new Model_User_Mapper($this->userDB));
-
-		$this->app->extensions()->notify($this, 'configEnd');
-
-		if(!isset($_POST['ajax'])) {
-			$this->view->loadHTML('templates/index.html');
-		} else {
-			$this->view->loadHTML('templates/ajax.html');
-		}
-
-		$this->app->extensions()->notify($this, 'templateLoaded');
+		$this->app 			= $app;
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
+		}
+
+		$app->extensions()->registerObservers($this);
+
+		$this->view			= $this->app->objectManager->get('Application_View');
+		$this->access		= $this->app->objectManager->get('Admin_Application_Access');
+
+		$this->enc			= new Modules_Encryption_Md5();
+		$this->userGateway	= new Model_User_Gateway_PDO($app->objectManager->get('Datastore'));
+
+		$this->app->objectManager->register('userMapper', new Model_User_Mapper($this->userGateway));
+
+		$this->app->extensions()->notify($this, 'configEnd');
+
+		if(!isset($_GET['ajax'])) {
+			$this->view->loadHTML('templates/index.html');
+		} else {
+			$this->view->loadHTML('templates/ajax.html');
 		}
 
 		$this->app->extensions()->notify($this, 'constructorEnd');
@@ -95,7 +93,7 @@ class Admin_Controller_User extends Controller_Frontend {
 
 		} else {
 
-			$subview->data = $this->userDB->getUserDataByField('username', $username);
+			$subview->data = $this->userGateway->getUserDataByField('username', $username);
 
 			$login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 

@@ -49,7 +49,9 @@ class Modules_Request_HTTP {
 			'fragment'=>PHP_URL_FRAGMENT
 		);
 
-		return parse_url($url, $parts[$part]);
+		$url = (is_array($url)) ? $url : parse_url($url);
+
+		return isset($url[$part]) == false ? NULL : $url[$part];
 
 	}
 
@@ -74,13 +76,32 @@ class Modules_Request_HTTP {
 
 	public function removeQueryParams($url, $params) {
 
-		$queryParams = $this->getQueryParams($url);
 		$url = $this->getURLParts($url);
-		foreach((array) $params AS $key) {
-			unset($queryParams[$key]);
+		$queryParams = $this->getURLPart($url, 'query');
+		if($queryParams != '') {
+			$queryParams = $this->getQueryParams($queryParams);
 		}
 
-		$url['query'] = http_build_query($queryParams);
+		foreach((array) $params AS $key) {
+			if(isset($queryParams[$key])) {
+				unset($queryParams[$key]);
+			}
+		}
+
+		if(is_array($queryParams)) {
+
+			$queryParams = http_build_query($queryParams);
+
+			if($queryParams != '') {
+				$url['query'] = $queryParams;
+			} else {
+				unset($url['query']);
+			}
+
+		} else {
+			unset($url['query']);
+		}
+
 		return $this->buildURL($url);
 
 	}
@@ -116,32 +137,32 @@ class Modules_Request_HTTP {
 
 		$ret = NULL;
 
-		if($url['scheme']) {
+		if(isset($url['scheme'])) {
 			$ret .= $url['scheme'] . '://';
 		}
 
-		if($url['user'] && !$url['pass']) {
+		if(isset($url['user']) && !isset($url['pass'])) {
 			$ret .= $url['user'] . '@';
-		} else if($url['user'] && $url['pass']) {
+		} else if(isset($url['user']) && isset($url['pass'])) {
 			$ret .= $url['user'] . ':' . $url['pass'] . '@';
 		}
 
-		if($url['host']) {
+		if(isset($url['host'])) {
 			$ret .= $url['host'];
 		}
 
-		if($url['port'] && $url['port'] != '80' || ($url['port'] && $url['scheme'] == 'https' && $url['port'] != '443')) {
+		if(isset($url['port']) && $url['port'] != '80' || (isset($url['port']) && isset($url['scheme']) == 'https' && isset($url['port']) != '443')) {
 			$ret .= ':' . $url['port'];
 		}
 
 		$ret .= '/';
 		$ret .= ltrim($url['path'], '/');
 
-		if($url['query']) {
+		if(isset($url['query'])) {
 			$ret .= '?' . $url['query'];
 		}
 
-		if($url['fragment']) {
+		if(isset($url['fragment'])) {
 			$ret .= '#' . $url['fragment'];
 		}
 

@@ -263,7 +263,7 @@ class Application_Base {
 		$route = (strpos($route, 'http') === false) ? self::getBaseURL() . ltrim($route, '/') : $route;
 
 		header("Location: " . $route);
-		exit;
+		exit; // never ever remove this 'exit'!
 
 	}
 

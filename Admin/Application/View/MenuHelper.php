@@ -115,6 +115,8 @@ class Admin_Application_View_MenuHelper {
 					$this->JSON[] = $content;
 				}
 
+			} else if(is_dir($item)) {
+				$this->gatherJSON($item);
 			}
 
 		}

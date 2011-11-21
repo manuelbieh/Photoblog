@@ -4,22 +4,21 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 	public function __construct($app) {
 
-		$app->extensions()->registerObservers($this);
-
 		$this->app = $app;
+
+		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
+			$this->app->go('Login');
+		}
+
+		$app->extensions()->registerObservers($this);
 
 		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
-		if(!isset($_POST['ajax'])) {
+		if(!isset($_GET['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
-		}
-
-
-		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			$this->app->go('Login');
 		}
 
 	}

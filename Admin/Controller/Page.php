@@ -1,35 +1,35 @@
 <?php
 
-class Admin_Controller_Page {
+class Admin_Controller_Page extends Controller_Frontend {
 
 	public function __construct($app) {
 
 		$this->app = $app;
 
-		$this->view		= $this->app->objectManager->get('Application_View');
+		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
+			$this->app->go('Login');
+		}
 
-		if(!isset($_POST['ajax'])) {
+		$app->extensions()->registerObservers($this);
+
+		$this->view				= $this->app->objectManager->get('Application_View');
+
+		$this->pageGateway		= new Model_Page_Gateway_PDO($app->objectManager->get('Datastore'));
+		$this->pageMapper		= new Model_Page_Mapper($this->pageGateway);
+
+		if(!isset($_GET['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
 		}
 
-		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			$this->app->go('Login');
-		}
-
-	}
-
-	public function __destruct() {
-		$this->view->render(true);
 	}
 
 	public function view() {
 
-		$pageMapper		= new Model_Page_Mapper(new Model_Page_Gateway_PDO(Application_Registry::get('pdodb')));
-		$allPages		= $pageMapper->fetchAll();
+		$allPages	= $this->pageMapper->fetchAll();
 
-		$subview = $this->app->createView();
+		$subview	= $this->app->createView();
 		$subview->loadHTML('templates/page/view.html');
 
 		$subview->data['pages'] = $allPages;

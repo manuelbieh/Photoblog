@@ -56,6 +56,7 @@ if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
 
 	$menu = new Admin_Application_View_MenuHelper($this->app);
 	$menu->gatherJSON(dirname(__FILE__));
+	$menu->gatherJSON($this->app->getProjectDir() . '/../Extensions');
 	echo $menu->create();
 
 }
@@ -96,6 +97,36 @@ $(function() {
 		}
 
 		$(this).parent().toggleClass('closed');
+
+	});
+
+/*
+	// Awesome ajax stuff. Currently doesnt work with forms properly
+*/
+
+	$('ul#menu li ul li a').bind('click', function(e) {
+
+		$('#content').css({opacity: 0.3});
+
+		e.preventDefault();
+		$$ = $(this);
+		$.ajax({
+			url: $$.attr('href'),
+			type: 'get',
+			data: 'ajax=true',
+			success: function(content) {
+				$('#content').html(content).css({opacity: 1});
+				history.pushState({}, null, $$.attr('href'));
+				$('ul#menu li ul li').removeClass('active');
+				$$.parent('li').addClass('active');
+			},
+			error: function() {
+				$('#content').css({opacity: 1});
+			}
+		});
+
+
+		return false;
 
 	});
 

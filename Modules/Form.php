@@ -8,7 +8,7 @@
  * @version     0.7    
  * @author      Manuel Bieh
  * 
- * @depends     Modules_Filesys
+ * @depends     Modules_Session
  */
 class Modules_Form {
 
@@ -48,10 +48,10 @@ class Modules_Form {
 		$this->app = $GLOBALS['app'] instanceof Application_Base ? $GLOBALS['app'] : new Application_Base();
 		$this->app->extensions()->registerObservers($this);
 
-		$oldToken = Modules_Session::getInstance()->getVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']');
+		$oldToken = Modules_Session::getInstance()->getVar('form__token[' . md5($this->getRequestURI()) . ']');
 		$oldToken = $oldToken[0];
 
-		Modules_Session::getInstance()->setVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']', 
+		Modules_Session::getInstance()->setVar('form__token[' . md5($this->getRequestURI()) . ']', 
 			array(
 				0=>$this->__token,
 				1=>$oldToken
@@ -399,7 +399,7 @@ class Modules_Form {
 
 	public function alreadySent() {
 
-		$formToken = Modules_Session::getInstance()->getVar('form__token[' . md5($_SERVER['REQUEST_URI']) . ']');
+		$formToken = Modules_Session::getInstance()->getVar('form__token[' . md5($this->getRequestURI()) . ']');
 		if($this->valueOf('__token') != $formToken[1]) {
 			$this->addError(__('The submitted form is no longer valid.'));
 			return true;
@@ -733,6 +733,12 @@ class Modules_Form {
 	}
 
 
+	public function getRequestURI() {
+		$request = new Modules_Request_HTTP();
+		$requestURI = $request->removeQueryParams(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_NOQUOTES, 'UTF-8'), array('ajax', '_ajax', '__ajax'));
+		return $requestURI;
+	}
+
 	public function render() {
 
 		if($this->form === false) {
@@ -776,9 +782,11 @@ class Modules_Form {
 
 		} else {
 
+			$requestURI = $this->getRequestURI();
+
 			$actionGetParams = false;
 			if(!$this->formaction) {
-				$this->formaction = htmlspecialchars($_SERVER['REQUEST_URI'], ENT_NOQUOTES, 'UTF-8');
+				$this->formaction = $requestURI;
 			}
 
 		}

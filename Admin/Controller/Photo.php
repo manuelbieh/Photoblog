@@ -14,23 +14,25 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 	public function __construct($app) {
 
-		$app->extensions()->registerObservers($this);
-
 		$this->app = $app;
-
-		$this->view		= $this->app->objectManager->get('Application_View');
-		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
-		
-		$this->app->objectManager->register('photoMapper', new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore'))));
-
-		if(!isset($_POST['ajax'])) {
-			$this->view->loadHTML('templates/index.html');
-		} else {
-			$this->view->loadHTML('templates/ajax.html');
-		}
 
 		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
 			$this->app->go('Login');
+		}
+
+		$app->extensions()->registerObservers($this);
+
+		$this->view			= $this->app->objectManager->get('Application_View');
+		$this->access		= $this->app->objectManager->get('Admin_Application_Access');
+
+		$this->photoGateway	= new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore'));
+
+		$this->app->objectManager->register('photoMapper', new Model_Photo_Mapper($this->photoGateway));
+
+		if(!isset($_GET['ajax'])) {
+			$this->view->loadHTML('templates/index.html');
+		} else {
+			$this->view->loadHTML('templates/ajax.html');
 		}
 
 		$this->app->extensions()->notify($this, 'constructorEnd');

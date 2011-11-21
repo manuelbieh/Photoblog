@@ -11,7 +11,7 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
-		if(!isset($_POST['ajax'])) {
+		if(!isset($_GET['ajax'])) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');

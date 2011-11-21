@@ -9,7 +9,12 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
-		$this->view->loadHTML('templates/index.html');
+		if(!isset($_GET['ajax'])) {
+			$this->view->loadHTML('templates/index.html');
+		} else {
+			$this->view->loadHTML('templates/ajax.html');
+		}
+
 		$this->app->extensions()->buildIndex();
 
 		$this->extGateway	= new Model_Extension_Gateway_PDO($this->app->objectManager->get('Datastore'));
