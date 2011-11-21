@@ -193,9 +193,9 @@ section#sidebar #menu li.active > a {
 }
 
 header {
-	background: url(../images/tmplogo3.png) no-repeat;
-	background-size: 50% auto;
-	padding-top: 80px;
+	background: url(../images/logo2.png) no-repeat top center;
+	background-size: 75% auto;
+	padding-top: 100px;
 }
 
 header h1 {
