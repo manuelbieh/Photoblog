@@ -23,11 +23,14 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 	}
 
-	public function view($photo_id=NULL, $offset=0, $order='DESC') {
+	public function view($photo_id=NULL, $offset=0, $order='desc') {
 
 		if($this->access->check(__METHOD__)) {
 
-			$order			= $order == 'ASC' ? 'ASC' : 'DESC';
+			$order			= strtolower($order);
+			$order			= $order == 'asc' ? 'asc' : 'desc';
+			$revOrder		= $order == 'asc' ? 'desc' : 'asc';
+
 			$commentMapper	= new Model_Comment_Mapper(new Model_Comment_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$subview		= $this->app->createView();
@@ -52,7 +55,7 @@ class Admin_Controller_Comments extends Controller_Frontend {
 				$subview->data['photomapper'] = $photoMapper;
 				$subview->data['offset'] = (int) $offset;
 				for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-					if($order == 'DESC') {
+					if($order == 'desc') {
 						if(isset($allCommentsReverse[$i])) {
 							$subview->data['comments'][$i] = $allCommentsReverse[$i];
 						}
@@ -65,10 +68,14 @@ class Admin_Controller_Comments extends Controller_Frontend {
 
 				$pagina = new Modules_Pagination;
 				$pagina->setLink(Application_Base::getBaseURL() . "Comments/view/" . (int) $photo_id . '/')->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
-				if($order == 'ASC') {
+				if($order == 'asc') {
 					$pagina->setParams('/' . $order);
 				}
 				$subview->data['pagination'] = $pagina->render();
+
+				$subview->data['sortLink'] = Modules_Functions::patternReplace(Application_Base::getBaseURL() . "Comments/view/%photo_id%/%page%/%sort%", array('photo_id'=>(int) $photo_id, 'page'=>$offset, 'sort'=>$revOrder));
+				$subview->data['sortLabel'] = $order == 'asc' ? __('Show newest first') : __('Show oldest first');
+				$subview->data['sort'] = htmlentities($order, ENT_NOQUOTES, 'UTF-8');
 
 			} else {
 

@@ -460,6 +460,17 @@ input[type="checkbox"] + label {
 	min-width: 250px;
 }
 
+.contentspinner {
+	background: url(../images/loadspinner.gif) no-repeat center;
+	height: 80px;
+	left: 50%;
+	margin-left: -40px;
+	margin-top: -40px;
+	position: absolute;
+	top: 50%;
+	width: 80px;
+}
+
 .small {
 	font-size: 11px;
 }

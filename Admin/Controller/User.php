@@ -36,11 +36,13 @@ class Admin_Controller_User extends Controller_Frontend {
 	}
 
 
-	public function view($offset=0, $order='ASC') {
+	public function view($offset=0, $order='asc') {
 
 		if($this->access->check(__METHOD__)) {
 
-			$order				= $order == 'DESC' ? 'DESC' : 'ASC';
+			$order				= strtolower($order);
+			$order				= $order == 'desc' ? 'desc' : 'asc';
+			$revOrder			= $order == 'desc' ? 'asc' : 'desc';
 			$userMapper			= $this->app->objectManager->get('userMapper');
 			$allUsers			= $userMapper->fetchAll();
 			$allUsersReverse	= array_reverse($allUsers);
@@ -55,7 +57,7 @@ class Admin_Controller_User extends Controller_Frontend {
 
 			$subview->data['offset'] = (int) $offset;
 			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-				if($order == 'ASC') {
+				if($order == 'asc') {
 					if(isset($allUsers[$i])) {
 						$subview->data['users'][$i] = $allUsers[$i];
 					}
@@ -68,10 +70,14 @@ class Admin_Controller_User extends Controller_Frontend {
 
 			$pagina = new Modules_Pagination;
 			$pagina->setLink(Application_Base::getBaseURL() . "User/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
-			if($order == 'DESC') {
+			if($order == 'desc') {
 				$pagina->setParams('/' . $order);
 			}
 			$subview->data['pagination'] = $pagina->render();
+
+			$subview->data['sortLink'] = Modules_Functions::patternReplace(Application_Base::getBaseURL() . "User/view/%page%/%sort%", array('page'=>$offset, 'sort'=>$revOrder));
+			$subview->data['sortLabel'] = $order == 'asc' ? __('Show newest first') : __('Show oldest first');
+			$subview->data['sort'] = htmlentities($order, ENT_NOQUOTES, 'UTF-8');
 
 			$this->view->addSubview('main', $subview);
 

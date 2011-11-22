@@ -2,9 +2,7 @@
 
 <?php if(count($this->data['comments']) > 0) { ?>
 
-	<p class="pagination">
-		<?php echo $this->data['pagination']; ?>
-	</p>
+	<p class="pagination"><?php echo $this->data['pagination']; ?> | <a href="<?php echo $this->data['sortLink']; ?>" class="<?php echo $this->data['sort']; ?>"><span class="pLabel"><?php echo $this->data['sortLabel']; ?></span></a></p>
 
 	<ul class="itemlist" id="commentlist">
 	<?php
@@ -30,9 +28,7 @@
 
 	<br style="clear: both;" />
 
-	<p class="pagination">
-		<?php echo $this->data['pagination']; ?>
-	</p>
+	<p class="pagination"><?php echo $this->data['pagination']; ?> | <a href="<?php echo $this->data['sortLink']; ?>" class="<?php echo $this->data['sort']; ?>"><span class="pLabel"><?php echo $this->data['sortLabel']; ?></span></a></p>
 
 <?php } else { ?>
 

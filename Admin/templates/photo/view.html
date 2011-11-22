@@ -3,7 +3,7 @@
 <?php
 if(count($this->data['images']) > 0) {
 ?>
-<p class="pagination"><?php echo $this->data['pagination']; ?></p>
+<p class="pagination"><?php echo $this->data['pagination']; ?> | <a href="<?php echo $this->data['sortLink']; ?>" class="<?php echo $this->data['sort']; ?>"><span class="pLabel"><?php echo $this->data['sortLabel']; ?></span></a></p>
 
 <ul id="photos" class="itemlist">
 <?php foreach($this->data['images'] AS $image => $data) { ?>
@@ -38,7 +38,7 @@ if(count($this->data['images']) > 0) {
 </ul>
 
 <br style="clear: both;" />
-<p class="pagination"><?php echo $this->data['pagination']; ?></p>
+<p class="pagination"><?php echo $this->data['pagination']; ?> | <a href="<?php echo $this->data['sortLink']; ?>" class="<?php echo $this->data['sort']; ?>"><span class="pLabel"><?php echo $this->data['sortLabel']; ?></span></a></p>
 
 <?php } else { ?>
 

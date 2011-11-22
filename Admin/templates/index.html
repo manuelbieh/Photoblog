@@ -106,9 +106,12 @@ $(function() {
 
 	$('ul#menu li ul li a').bind('click', function(e) {
 
+		e.preventDefault();
+
 		$('#content').css({opacity: 0.3});
 
-		e.preventDefault();
+		$('body').append('<div class="contentspinner"></div>');
+
 		$$ = $(this);
 		$.ajax({
 			url: $$.attr('href'),
@@ -119,9 +122,11 @@ $(function() {
 				history.pushState({}, null, $$.attr('href'));
 				$('ul#menu li ul li').removeClass('active');
 				$$.parent('li').addClass('active');
+				$('.contentspinner').remove();
 			},
 			error: function() {
 				$('#content').css({opacity: 1});
+				$('.contentspinner').remove();
 			}
 		});
 

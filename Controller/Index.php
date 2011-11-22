@@ -17,13 +17,30 @@ class Controller_Index extends Controller_Frontend {
 
 	}
 
-	public function index($command=NULL, $param1=NULL) {
+	public function index($link='page', $param1=NULL) {
 
-	//	$photoMapper		= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO(Application_Registry::get('pdodb')));
 		$allPhotos			= $this->photoMapper->fetchAll();
+		$this->showPhotos($allPhotos, $link, $param1);
+
+	}
+
+
+	public function tag($link='tag', $tag, $param1=NULL) {
+
+		$allPhotos = $this->photoMapper->findByTag($tag);
+		$this->showPhotos($allPhotos, $link . '/' . $tag, $param1, array('photosPerPage'=>5));
+
+	}
+
+
+	private function showPhotos($allPhotos, $link=NULL, $param1=NULL, $options=array()) {
 
 		$photosPerPage		= (int) Application_Settings::get('//theme//photosPerPage');
+		if((int) $options['photosPerPage'] !== 0) {
+			$photosPerPage = (int) $options['photosPerPage'];
+		}
 		$photosPerPage		= $photosPerPage < 1 ? 1 : $photosPerPage;
+
 		$totalPhotos		= count($allPhotos);
 
 		$allPhotosReverse	= is_array($allPhotos) ? array_reverse($allPhotos) : array();
@@ -35,21 +52,46 @@ class Controller_Index extends Controller_Frontend {
 
 		for($i = $offset; $i < $offset + $photosPerPage; $i++) {
 
-			$currentPhoto = $allPhotosReverse[$i];
+			if($allPhotosReverse[$i]->datenum > date('YmdHis')) {
 
-			if(Modules_Filesys::isFile($this->app->getProjectDir() . 'uploads/web/' . $currentPhoto->web_name)) {
+				continue;
 
-				$image = new Modules_Image($this->app->getProjectDir() . 'uploads/web/' . $currentPhoto->web_name);
+			} else {
 
-				$currentPhoto->width = $image->getImageWidth();
-				$currentPhoto->height = $image->getImageHeight();
-				$currentPhoto->photographer = $this->userMapper->find($currentPhoto->user_id, new Model_User);
+				$currentPhoto = $allPhotosReverse[$i];
 
-				$maxWidth	= $maxWidth == NULL || $currentPhoto->width > $maxWidth ? $currentPhoto->width : $maxWidth;
-				$maxHeight	= $maxHeight == NULL || $currentPhoto->height > $maxHeight ? $currentPhoto->height : $maxHeight;
+				if(Modules_Filesys::isFile($this->app->getProjectDir() . 'uploads/web/' . $currentPhoto->web_name)) {
 
-				$subview->data['photos'][] = $currentPhoto;
+					$image = new Modules_Image($this->app->getProjectDir() . 'uploads/web/' . $currentPhoto->web_name);
 
+					$currentPhoto->width = $image->getImageWidth();
+					$currentPhoto->height = $image->getImageHeight();
+					$currentPhoto->photographer = $this->userMapper->find($currentPhoto->user_id, new Model_User);
+
+					$maxWidth	= $maxWidth == NULL || $currentPhoto->width > $maxWidth ? $currentPhoto->width : $maxWidth;
+					$maxHeight	= $maxHeight == NULL || $currentPhoto->height > $maxHeight ? $currentPhoto->height : $maxHeight;
+
+				
+					if($currentPhoto->tags != '') {
+
+						$tags = explode(',', $currentPhoto->tags);
+
+						foreach($tags AS $j => $tag) {
+							$tag = htmlentities($tag, ENT_NOQUOTES, 'UTF-8');
+							$tags[$j] = '<a href="' . $this->app->getBaseURL() . 'tag/' . $tag .'">' . $tag . '</a>';						
+						}
+
+						$currentPhoto->taglinks = $tags;
+
+					} else {
+
+						$currentPhoto->taglinks = array();
+
+					}
+
+					$subview->data['photos'][] = $currentPhoto;
+
+				}
 
 			}
 
@@ -61,13 +103,13 @@ class Controller_Index extends Controller_Frontend {
 			$this->view->data['maxHeight'] = $maxHeight;
 
 			if( (($page+1) * $photosPerPage) < $totalPhotos) {
-				$subview->data['prevLink'] = $this->app->getBaseURL() . 'page/' . ((int) $page+1);
+				$subview->data['prevLink'] = $this->app->getBaseURL() . $link . '/' . ((int) $page+1);
 			} else {
 				$subview->data['prevLink'] = '';
 			}
 
 			if(!($page < 1)) {
-				$subview->data['nextLink'] = $this->app->getBaseURL() . 'page/' . ((int) $page-1);
+				$subview->data['nextLink'] = $this->app->getBaseURL() . $link . '/' . ((int) $page-1);
 			} else {
 				$subview->data['nextLink'] = '';
 			}
@@ -76,7 +118,7 @@ class Controller_Index extends Controller_Frontend {
 			$pagina->setUsePages(true)
 					->setAtLast(3)
 					->setAtLeast(3)
-					->setLink($this->app->getBaseURL() . "page/")
+					->setLink($this->app->getBaseURL() . $link . "/")
 					->setItemsPerPage($photosPerPage)
 					->setItemsTotal($totalPhotos)
 					->currentPageNum($page);
@@ -86,7 +128,7 @@ class Controller_Index extends Controller_Frontend {
 
 		$this->view->addSubview('main', $subview);
 
-	}
 
+	}
 
 }

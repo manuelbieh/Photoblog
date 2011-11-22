@@ -4,7 +4,7 @@ if(count($this->data['users']) > 0) {
 $login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 ?>
 
-	<p class="pagination"><?php echo $this->data['pagination']; ?></p>
+	<p class="pagination"><?php echo $this->data['pagination']; ?> | <a href="<?php echo $this->data['sortLink']; ?>" class="<?php echo $this->data['sort']; ?>"><span class="pLabel"><?php echo $this->data['sortLabel']; ?></span></a></p>
 
 	<ul id="userlist" class="itemlist">
 	<?php foreach($this->data['users'] AS $user => $data) { ?>
@@ -41,7 +41,7 @@ $login_user_id = Modules_Session::getInstance()->getVar('userdata')->user_id;
 	</ul>
 
 	<br style="clear: both;" />
-	<p class="pagination"><?php echo $this->data['pagination']; ?></p>
+	<p class="pagination"><?php echo $this->data['pagination']; ?> | <a href="<?php echo $this->data['sortLink']; ?>" class="<?php echo $this->data['sort']; ?>"><span class="pLabel"><?php echo $this->data['sortLabel']; ?></span></a></p>
 
 <?php } else { ?>
 

@@ -231,11 +231,14 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 	}
 
-	public function view($offset=0, $order='DESC') {
+	public function view($offset=0, $order='desc') {
 
 		if($this->access->check(__METHOD__)) {
 
-			$order			= $order == 'ASC' ? 'ASC' : 'DESC';
+			$order = strtolower($order);
+
+			$order			= $order == 'asc' ? 'asc' : 'desc';
+			$revOrder		= $order == 'asc' ? 'desc' : 'asc';
 
 			$photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($this->app->objectManager->get('Datastore')));
 			$userMapper		= new Model_User_Mapper(new Model_User_Gateway_PDO($this->app->objectManager->get('Datastore')));
@@ -254,7 +257,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			$subview->data['offset'] = (int) $offset;
 			for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
-				if($order == 'DESC') {
+				if($order == 'desc') {
 					if(isset($allPhotosReverse[$i])) {
 						$subview->data['images'][$i] = $allPhotosReverse[$i];
 						$subview->data['images'][$i]->photographer = $userMapper->find($allPhotosReverse[$i]->user_id, new Model_User);
@@ -269,10 +272,14 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			$pagina = new Modules_Pagination;
 			$pagina->setLink(Application_Base::getBaseURL() . "Photo/view/")->setItemsPerPage($itemsPerPage)->setItemsTotal($totalItems)->currentPageNum($offset);
-			if($order == 'ASC') {
+			if($order == 'asc') {
 				$pagina->setParams('/' . $order);
 			}
 			$subview->data['pagination'] = $pagina->render();
+
+			$subview->data['sortLink'] = Modules_Functions::patternReplace(Application_Base::getBaseURL() . "Photo/view/%page%/%sort%", array('page'=>$offset, 'sort'=>$revOrder));
+			$subview->data['sortLabel'] = $order == 'asc' ? __('Show newest first') : __('Show oldest first');
+			$subview->data['sort'] = htmlentities($order, ENT_NOQUOTES, 'UTF-8');
 
 			$this->view->addSubview('main', $subview);
 

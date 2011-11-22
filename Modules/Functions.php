@@ -201,5 +201,10 @@ class Modules_Functions {
 
 	}
 
+	public function datetimeToNum($date) {
+
+		return str_replace(array('-', ' ', ':'), '', $date);
+
+	}
 
 }

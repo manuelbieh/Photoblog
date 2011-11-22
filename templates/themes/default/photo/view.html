@@ -8,6 +8,9 @@
 
 	<p class="desc"><?php echo $this->data['photo']->description; ?></p>
 	<p>Posted on <strong><?php echo $this->data['photo']->date_publish; ?></strong> by <strong><?php echo $this->data['photo']->photographer->username; ?></strong></p>
+	<?php if($this->data['photo']->tags) { ?>
+	<p><strong>Tags:</strong> <?php echo join(', ', $this->data['photo']->taglinks); ?></p>
+	<?php } ?>
 
 	<section id="comments">
 

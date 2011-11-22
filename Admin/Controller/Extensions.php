@@ -6,6 +6,10 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 		$this->app = $app;
 
+		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
+			$this->app->go('Login');
+		}
+
 		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
@@ -19,10 +23,6 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 		$this->extGateway	= new Model_Extension_Gateway_PDO($this->app->objectManager->get('Datastore'));
 		$this->extMapper	= new Model_Extension_Mapper($this->extGateway);
-
-		if((int) Modules_Session::getInstance()->getVar('userdata')->user_id === 0) {
-			$this->app->go('Login');
-		}
 
 	}
 

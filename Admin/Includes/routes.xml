@@ -3,24 +3,13 @@
 	<domain name="*">
 
 		<path>
-			<pattern><![CDATA[/Api/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
-			<controller>Api_%controller%</controller>
-			<action>%action%</action>
-			<!--
-			<options>
-				<dontSplitParams />
-			</options>
-			-->
-		</path>
-
-		<path>
-			<pattern><![CDATA[/(C|c)ontent/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[^/(C|c)ontent/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_Content</controller>
 			<action>index</action>
 		</path>
 
 		<path>
-			<pattern><![CDATA[/(S|s)ettings/(?<params>.*)]]></pattern>
+			<pattern><![CDATA[^/(S|s)ettings/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_Settings</controller>
 			<action>edit</action>
 		</path>

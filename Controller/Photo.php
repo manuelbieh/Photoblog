@@ -29,7 +29,7 @@ class Controller_Photo extends Controller_Frontend {
 
 		$subview = new Application_View_Theme();
 
-		if($photo !== NULL && Modules_Filesys::isFile($this->app->getProjectDir() . 'uploads/web/' . $photo->web_name)) {
+		if($photo !== NULL && Modules_Filesys::isFile($this->app->getProjectDir() . 'uploads/web/' . $photo->web_name) && $photo->datenum <= date('YmdHis')) {
 
 			$image = new Modules_Image($this->app->getProjectDir() . 'uploads/web/' . $photo->web_name);
 
@@ -49,6 +49,17 @@ class Controller_Photo extends Controller_Frontend {
 
 			$photo->comments		= $this->commentMapper->findByPhoto($photo->photo_id);
 			$subview->data['photo'] = $photo;
+
+			if($photo->tags != '') {
+				$tags = explode(',', $photo->tags);
+				foreach($tags AS $i => $tag) {
+					$tag = htmlentities($tag, ENT_NOQUOTES, 'UTF-8');
+					$tags[$i] = '<a href="' . $this->app->getBaseURL() . 'tag/' . $tag .'">' . $tag . '</a>';
+				}
+				$subview->data['photo']->taglinks = $tags;
+			} else {
+				$subview->data['photo']->taglinks = array();
+			}
 
 			$this->view->addSubview('main', $subview);
 
