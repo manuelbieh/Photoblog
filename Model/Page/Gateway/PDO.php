@@ -46,7 +46,7 @@ class Model_Page_Gateway_PDO {
 
 	public function fetchAll($columns=NULL, $where=NULL) {
 
-		$s = $this->db->prepare("SELECT *, (SELECT count(page_id) FROM cel_content_pages WHERE parent_page_id = main.page_id) AS childcount FROM `cel_content_pages` AS main ORDER BY page_id ASC");
+		$s = $this->db->prepare("SELECT *, (SELECT count(page_id) FROM cel_content_pages WHERE parent_page_id = main.page_id) AS childcount FROM `cel_content_pages` AS main ORDER BY sort ASC");
 		$s->execute();
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 

@@ -49,8 +49,6 @@ class Admin_Controller_Page extends Controller_Frontend {
 			$oldStructure[$data->page_id]['sort'] = $data->sort;
 		}
 
-
-		// make structure parent->page first so the pages are ordered correctly!
 		foreach($_POST['page'] AS $page_id => $parent_page_id) {
 
 			$parent_page_id = (int) $parent_page_id;
@@ -60,6 +58,7 @@ class Admin_Controller_Page extends Controller_Frontend {
 			} else {
 				$counter[$parent_page_id] += 1;
 			}
+
 
 			if((int) $oldStructure[$page_id]['sort'] !== (int) $counter[$parent_page_id] * $factor) {
 				$newStructure[$page_id]['sort'] = $counter[$parent_page_id] * $factor;
@@ -80,7 +79,9 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 				$page = new Model_Page();
 				$page->page_id = $page_id;
-				$page->parent_page_id = $properties['parent_page_id'];
+				if($properties['parent_page_id']) {
+					$page->parent_page_id = $properties['parent_page_id'];
+				}
 				$page->sort = $properties['sort'];
 				$this->pageMapper->save($page);
 

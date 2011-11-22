@@ -1,3 +1,6 @@
+<script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery-ui-1.8.11.custom.min.js"></script>
+<script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery.ui.nestedSortable.js"></script>
+
 <h2><?php echo __('Manage pages'); ?></h2>
 <?php
 	$n = new Modules_Structure_Presets($this->data['nested_pages']);
@@ -54,8 +57,6 @@ ol.sortable {
 
 
 </style>
-<script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery-ui-1.8.11.custom.min.js"></script>
-<script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery.ui.nestedSortable.js"></script>
 <script>
 $(function() {
 	$('.sortable').nestedSortable({
@@ -73,7 +74,7 @@ $(function() {
 				data: newOrder,
 				type: 'post',
 				success: function(response) {
-					
+
 				}
 			});
 		},
