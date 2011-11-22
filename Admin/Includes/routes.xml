@@ -15,6 +15,25 @@
 		</path>
 
 		<path>
+			<pattern><![CDATA[^/Ext/(?<namespace>.*)/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
+			<controller>Extensions_%namespace%_Admin_Controller_%controller%</controller>
+			<action>%action%</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[^/Ext/(?<namespace>.*)/(?<controller>.*)/(?<action>.*)]]></pattern>
+			<controller>Extensions_%namespace%_Admin_Controller_%controller%</controller>
+			<action>%action%</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[^/Ext/(?<namespace>.*)/(?<controller>.*)]]></pattern>
+			<controller>Extensions_%namespace%_Admin_Controller_%controller%</controller>
+			<action>index</action>
+		</path>
+
+
+		<path>
 			<pattern><![CDATA[/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
 			<controller>Admin_Controller_%controller%</controller>
 			<action>%action%</action>

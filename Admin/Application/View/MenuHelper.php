@@ -115,10 +115,12 @@ class Admin_Application_View_MenuHelper {
 					$this->JSON[] = $content;
 				}
 
-			} else if(is_dir($item)) {
-				$this->gatherJSON($item);
 			}
 
+		}
+
+		foreach(glob($dir . '/*', GLOB_ONLYDIR) AS $subdirs) {
+			$this->gatherJSON($subdirs);
 		}
 
 		return $this;

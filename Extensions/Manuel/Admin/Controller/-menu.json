@@ -1,0 +1,14 @@
+{
+	"title":"Page",
+	"order":"2048",
+	"id":"p-page",
+	"controller":"Page",
+	"class":"icon-page",
+	"link":"",
+	"sub":[
+		{
+			"title":"View",
+			"link":"Ext/Manuel/Page/view"
+		}
+	]
+}
