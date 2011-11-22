@@ -66,6 +66,17 @@ $(function() {
 		items: 'li',
 		maxLevels: 3,
 		opacity: .6,
+		update: function(data) {
+			var newOrder = $(this).nestedSortable('serialize');
+			$.ajax({
+				url: "<?php echo Application_Base::getBaseURL(); ?>Page/reorder/?ajax=true",
+				data: newOrder,
+				type: 'post',
+				success: function(response) {
+					
+				}
+			});
+		},
 		placeholder: 'placeholder',
 		revert: 250,
 		tabSize: 25,
