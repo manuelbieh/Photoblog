@@ -116,7 +116,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 						$this->sourceFile	= time() . base64_encode($imageSourceName) .'.'. $uploadImageSuffix;
 						$this->webFile		= time() . base64_encode($imageSourceName) .'.'. $uploadImageSuffix;
 
-						$this->app->extensions()->notify($this, 'uploadSuccessful');
+						$this->app->extensions()->notify($this, 'addUploadSuccessful');
 
 						$webSize	= Application_Settings::get("//settings/defaults/image/web");
 						$thumbSize	= Application_Settings::get("//settings/defaults/image/thumb");
@@ -169,13 +169,15 @@ class Admin_Controller_Photo extends Controller_Frontend {
 						$photo->clean_title		= Modules_Functions::getUniqueName($photo->clean_title, $cleanTitles);
 
 						$this->photo = $photo;
-						$this->app->extensions()->notify($this, 'savePhoto');
+						$this->app->extensions()->notify($this, 'addBeforeSavePhoto');
 
 						// Now save the file!
 						$photo_id = $photoMapper->save($this->photo);
 
 						if($photo_id == false) {
 
+							
+							$this->app->extensions()->notify($this, 'addPhotoError');
 							$subview->loadHTML('templates/photo/add.error.html');
 
 						} else {
@@ -196,6 +198,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 							}
 
+							$this->app->extensions()->notify($this, 'addPhotoSuccess');
 							$subview->loadHTML('templates/photo/add.success.html');
 
 						}
@@ -324,7 +327,12 @@ class Admin_Controller_Photo extends Controller_Frontend {
 					$photo->exif = $form->valueOf('data[exif]') == false ? 0 : $form->valueOf('data[exif]');
 					$photo->allow_comments = $form->valueOf('data[allow_comments]') == false ? 0 : $form->valueOf('data[allow_comments]');
 
-					$photo_id = $photoMapper->save($photo);
+					$this->photo = $photo;
+
+					$this->app->extensions()->notify($this, 'editBeforeSavePhoto');
+					$photo_id = $photoMapper->save($this->photo);
+
+					// Check is needed if data was saved correctly! (+ notifiers)
 					$subview = $this->app->createView();
 					$subview->loadHTML('templates/photo/edit.form.success.html');
 					$this->view->addSubview('main', $subview);
