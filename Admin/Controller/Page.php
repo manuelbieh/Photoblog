@@ -122,7 +122,8 @@ class Admin_Controller_Page extends Controller_Frontend {
 			foreach($allPages AS $page => $data) {
 
 				$data->cssclass = '';
-				$data->cssclass .= $data->active == 1 ? ' active ':' inactive ';
+				$data->cssclass .= $data->hidden == 1 ? ' hidden ' : '';
+				$data->cssclass .= $data->active == 1 ? ' active ' : ' inactive ';
 				$data->cssclass .= $data->childcount > 0 ? ' haschildren ':'';
 				$pages[$data->parent_page_id][$data->page_id] = $data;
 

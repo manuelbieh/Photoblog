@@ -1,0 +1,77 @@
+/* PAGETREE STUFF */
+.placeholder {
+	background-color: #cfcfcf;
+}
+
+.ui-nestedSortable-error {
+	background: #fbe3e4;
+	color:#8a1f11;
+}
+
+ol.pagetree, ol.pagetree ol {
+	margin: 0 0 0 6px;
+	padding: 0;
+	list-style-type: none;
+}
+
+.pagetree li {
+	background-image: url(../images/treeview-default-line.gif);
+	background-repeat: no-repeat;
+	background-position: -7px 0px;
+	margin: -1px 0 0 0;
+	padding-left: 14px;
+}
+
+.pagetree li:last-child {
+	background-position: -7px -1766px;
+}
+
+.pagetree li span  {
+	background: url(../images/icons/page.gif) no-repeat left center;
+	cursor: move;
+	display: block;
+	margin: 0;
+	padding: 3px 3px 3px 20px;
+}
+
+.pagetree li.hidden span {
+	background: url(../images/icons/page_hidden.gif) no-repeat left center;
+}
+
+.pagetree li.inactive span {
+	background: url(../images/icons/page_inactive.gif) no-repeat left center;
+}
+
+.pagetree li.hidden.inactive span {
+	background: url(../images/icons/page_hidden_inactive.gif) no-repeat left center;
+}
+
+
+/* CONTEXTMENU ICONS */
+.icon-tree-addpagebelow {
+	background: url(../images/famfamfam/page_white_down.png) no-repeat 4px 4px;
+}
+
+.icon-tree-addpageinside {
+	background: url(../images/famfamfam/page_white_go.png) no-repeat 4px 4px;
+}
+
+.icon-tree-deletepage {
+	background-image: url(../images/fugue/cross-script.png);
+	background-repeat: no-repeat;
+	background-position: 4px 4px;
+	color: #BA5050;
+}
+
+.icon-tree-deletepage.hover {
+	background-color: #BA5050 !Important;
+	color: white;
+}
+
+.icon-tree-addpage {
+	background: url(../images/famfamfam/page_white_add.png) no-repeat 4px 4px;
+}
+
+.icon-tree-renamepage {
+	background: url(../images/fugue/document-rename.png) no-repeat 4px 4px;
+}

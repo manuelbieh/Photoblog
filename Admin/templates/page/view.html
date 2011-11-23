@@ -1,13 +1,19 @@
 <script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery-ui-1.8.11.custom.min.js"></script>
 <script src="<?php echo Application_Base::getBaseURL(); ?>templates/assets/js/jquery.ui.nestedSortable.js"></script>
 
+<script src="/<?php echo $this->app->getRelativePath(); ?>templates/assets/js/jquery.ui.position.js"></script>
+<script src="/<?php echo $this->app->getRelativePath(); ?>templates/assets/js/jquery.contextMenu.js"></script>
+
+<link href="/<?php echo $this->app->getRelativePath(); ?>templates/assets/css/jquery.contextMenu.css" rel="stylesheet" type="text/css">
+<link href="/<?php echo $this->app->getRelativePath(); ?>templates/assets/css/pagetree.css" rel="stylesheet" type="text/css">
+
 <h2><?php echo __('Manage pages'); ?></h2>
 <?php
 	$n = new Modules_Structure_Presets($this->data['nested_pages']);
 	$n->HTMLunorderedList();
 	$n->setItemContent('<span>%title%</span>')
-		->setBeforeItem('<li id="page_%page_id%" class="%cssclass%">')
-		->setListWrap('<ol class="sortable">%content%</ol>')
+		->setBeforeItem('<li data-page_id="%page_id%" id="page_%page_id%" class="%cssclass%">')
+		->setListWrap('<ol class="pagetree">%content%</ol>')
 		->setBeforeList('<ol>')
 		->setAfterList('</ol>');
 	echo $n->draw(); 
@@ -15,51 +21,71 @@
 <!--
 <?php print_r($this->data['nested_pages']); ?>
 -->
-<style>
-.placeholder {
-	background-color: #cfcfcf;
-}
 
-.ui-nestedSortable-error {
-	background: #fbe3e4;
-	color:#8a1f11;
-}
-
-ol {
-	margin-left: 1.5em;
-	padding: 0;
-}
-
-ol.sortable, ol.sortable ol {
-	margin: 0 0 0 10px;
-	padding: 0;
-	list-style-type: none;
-}
-
-ol.sortable {
-	margin: 4em 0;
-}
-
-.sortable li {
-	background-image: url(<?php echo Application_Base::getBaseURL(); ?>/templates/assets/images/treeview-default-line.gif);
-	background-repeat: no-repeat;
-
-	margin: -1px 0 0 0;
-	padding-left: 18px;
-}
-
-.sortable li span  {
-	padding: 3px;
-	margin: 0;
-	cursor: move;
-	display: block;
-}
-
-
-</style>
 <script>
 $(function() {
-	$('.sortable').nestedSortable({
+
+	var ApplicationURL = '/<?php echo $this->app->getRelativePath(); ?>';
+
+    $.contextMenu({
+        selector: '.pagetree li', 
+        callback: function(key, opt) {
+            var m = "clicked: " + key;
+            alert(ApplicationURL + 'Page/context/' + key + '/' + opt.$trigger.data('page_id'));
+        },
+        items: {
+            "edit": {
+				name: "Edit page", 
+				icon: "tree-editpage",
+				callback: function(key, opt) {
+					alert(ApplicationURL + 'Page/edit/' + opt.$trigger.data('page_id'));
+				}
+			},
+            "rename": {
+				name: "Rename", 
+				icon: "tree-renamepage",
+				callback: function(key, opt) {
+					var newName = prompt("<?php echo __('Enter a new name: '); ?>", opt.$trigger.text());
+					opt.$trigger.find('span').text(newName);
+					//alert(ApplicationURL + 'Page/context/rename/' + opt.$trigger.data('page_id'));
+				}
+			},
+            "add": {
+				name: "Create new page", 
+				icon: "tree-addpage",
+				callback: function() {
+					return false;
+				},
+				items: {
+					"inside": {
+						name: "Inside this page",
+						icon: "tree-addpageinside"
+					},
+					"below": {
+						name: "Below this page",
+						icon: "tree-addpagebelow"
+					}
+				}
+			},
+            "sep1": "---------",
+            "delete": {
+				name: "Delete", 
+				icon: "tree-deletepage", 
+				callback: function(key, opt) { 
+					var del = confirm('<?php echo __('Are you sure you want to delete this page?'); ?>');
+					if(del == true) {
+						opt.$trigger.hide();
+						$.ajax({
+						//	url: 
+						});
+					}
+				}
+			},
+        }
+    });
+
+
+	$('.pagetree').nestedSortable({
 		disableNesting: 'no-nest',
 		forcePlaceholderSize: true,
 		handle: 'span',
@@ -84,5 +110,6 @@ $(function() {
 		tolerance: 'pointer',
 		toleranceElement: '> span'
 	});
+
 });
 </script>
