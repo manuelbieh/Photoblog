@@ -153,6 +153,19 @@ section#sidebar nav ul li ul li.active a {
 	padding: 3px 0 3px 28px;
 }
 
+/* Alternativ */
+/*
+section#sidebar nav ul li ul li.active a {
+	background: white;
+	box-shadow: 5px 0px 4px -3px #000;
+	font-weight: 400 !important;
+	margin-left: 4px;
+	padding: 3px 0 3px 28px;
+	background: -moz-linear-gradient(left, #F2F5F6 0%, #fff 100%);
+}
+*/
+
+
 section#sidebar nav ul li a:hover {
 	color: #152737;
 }
