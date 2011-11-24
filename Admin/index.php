@@ -21,6 +21,8 @@ try {
 
 }
 
+if(!isset($_GET['__ajax']) && !isset($_GET['ajax'])) {
 echo $benchmark->end();
+}
 
 

@@ -1,0 +1,9 @@
+{
+	"title":"Pages",
+	"order":"-48",
+	"id":"p-pages",
+	"controller":"Pages",
+	"class":"icon-pages",
+	"link":"Page/view",
+	"sub":[]
+}

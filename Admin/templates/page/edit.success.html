@@ -1,0 +1,8 @@
+<h2><?php echo __('Page was updated.'); ?></h2>
+
+<p><?php echo __('Your page was updated successfully!'); ?></p>
+
+<ul>
+	<li><a href="<?php echo $this->app->getBaseURL(); ?>Page/view" class="icon-back"><?php echo __('Back to overview'); ?></a></li>
+	<li><a href="<?php echo htmlentities($_SERVER['REQUEST_URI'], ENT_NOQUOTES, 'UTF-8'); ?>" class="icon-back"><?php echo __('Back to page'); ?></a></li>
+</ul>

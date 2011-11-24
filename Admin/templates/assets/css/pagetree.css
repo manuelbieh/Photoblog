@@ -34,20 +34,24 @@ ol.pagetree, ol.pagetree ol {
 	padding: 3px 3px 3px 20px;
 }
 
-.pagetree li.hidden span {
+.pagetree li.hidden > span {
 	background: url(../images/icons/page_hidden.gif) no-repeat left center;
 }
 
-.pagetree li.inactive span {
+.pagetree li.inactive > span {
 	background: url(../images/icons/page_inactive.gif) no-repeat left center;
 }
 
-.pagetree li.hidden.inactive span {
+.pagetree li.hidden.inactive > span {
 	background: url(../images/icons/page_hidden_inactive.gif) no-repeat left center;
 }
 
 
 /* CONTEXTMENU ICONS */
+.icon-tree-editpage {
+	background: url(../images/famfamfam/page_white_edit.png) no-repeat 4px 4px;
+}
+
 .icon-tree-addpagebelow {
 	background: url(../images/famfamfam/page_white_down.png) no-repeat 4px 4px;
 }

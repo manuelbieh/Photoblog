@@ -408,7 +408,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 				Application_Base::go($_POST['r']);
 			} else {
 
-				if($_POST['ajax']) {
+				if($_GET['ajax'] || $_GET['_ajax'] || $_GET['__ajax']) {
 					
 				} else {
 					$form = new Modules_Form('templates/photo/delete.form.html');
@@ -420,7 +420,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			}
 
-			if($_POST['ajax']) {
+			if($_GET['ajax'] || $_GET['_ajax'] || $_GET['__ajax']) {
 
 				$subview = $this->app->createView();
 				if($deleted == true) {

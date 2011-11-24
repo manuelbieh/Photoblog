@@ -51,10 +51,16 @@
 	</system>
 
 	<theme label="Theme">
-		<layout label="layout">
+		<layout label="Layout">
 			<main label="Theme" type="select" callback="Application_View_Theme::getThemelist()">default</main>
 			<photosPerPage label="Photos per page on frontpage" type="range" min="1" max="25" default="1">4</photosPerPage>
 		</layout>
+
+		<pages label="Pages">
+			<allowHTML label="Allow HTML on content pages?" type="checkbox" default="1">1</allowHTML>
+			<allowedHTMLElements label="Allowed HTML elements" type="text" default="strong,em,span,img,h1,h2,h3,h4,br,p">strong,em,span,img,h1,h2,h3,h4,br,p</allowedHTMLElements>
+		</pages>
+
 	</theme>
 
 </settings>

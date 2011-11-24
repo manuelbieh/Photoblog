@@ -1,0 +1,55 @@
+<!--
+<link rel="stylesheet" type="text/css" href="/<?php echo $this->app->getRelativePath(); ?>templates/assets/libs/markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="/<?php echo $this->app->getRelativePath(); ?>templates/assets/libs/markitup/sets/default/style.css" />
+
+<script type="text/javascript" src="/<?php echo $this->app->getRelativePath(); ?>templates/assets/libs/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="/<?php echo $this->app->getRelativePath(); ?>templates/assets/libs/markitup/sets/default/set.js"></script>
+
+<script language="javascript">
+$(function()	{
+   $('__data_content').markItUp(mySettings);
+});
+</script>
+-->
+
+<h2><?php echo __('Create new page'); ?></h2>
+
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend><?php echo __('Page information'); ?></legend>
+	<p>
+		<label for="__data_title"><?php echo __('Title'); ?></label>
+		<?php echo $this->input(array('name'=>'data[title]', 'class'=>'i5', 'id'=>'__data_title')); ?>
+	</p>
+
+	<p>
+		<label for="__data_nav_title"><?php echo __('Menutitle'); ?></label>
+		<?php echo $this->input(array('name'=>'data[nav_title]', 'class'=>'i6', 'rows'=>5, 'id'=>'__data_nav_title')); ?><span class="infotooltip"><span><?php echo __('Title shown in navigation menus'); ?></span></span>
+	</p>
+
+	<p>
+		<label for="__data_content"><?php echo __('Content:'); ?></label>
+		<?php echo $this->textarea(array('name'=>'data[content]', 'id'=>'__data_content', 'class'=>'i5')); ?>
+	</p>
+
+</fieldset>
+
+<fieldset>
+
+	<legend><?php echo __('Options'); ?></legend>
+
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[active]', 'name'=>'data[active]', 'checked'=>'checked', 'value'=>'1' )); ?>
+		<label for="data[active]"><?php echo __('Active'); ?></label>
+	</p>
+
+	<p>
+		<?php echo $this->input(array('type'=>'checkbox', 'id'=>'data[hidden]', 'name'=>'data[hidden]', 'value'=>'1' )); ?>
+		<label for="data[hidden]"><?php echo __('Hide from menus'); ?></label>
+	</p>
+
+</fieldset>
+
+[[$SEND]]

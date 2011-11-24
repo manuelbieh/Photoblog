@@ -529,6 +529,10 @@ input[type="checkbox"] + label {
 	background: url(../images/fugue/application--plus.png) no-repeat 8px 8px;
 }
 
+.icon-pages {
+	background: url(../images/famfamfam/page_white.png) no-repeat 8px 8px;
+}
+
 
 .delete {
 	background: url(../images/fugue/cross-script.png) no-repeat;

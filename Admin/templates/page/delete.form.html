@@ -1,0 +1,6 @@
+<h2><?php echo __('Delete page'); ?></h2>
+
+<p><?php echo __('Are you sure you want to delete this page and (all its subpages!)?'); ?></p>
+<p><?php echo $this->input(array('name'=>'__confirm', 'type'=>'submit', 'value'=>__('Yes, please!'))); ?> <?php echo $this->input(array('name'=>'cancel', 'type'=>'submit', 'value'=>__('Wait, no no no!'))); ?></p>
+
+<input type="hidden" name="r" value="<?php echo htmlentities($_SERVER['HTTP_REFERER'], ENT_NOQUOTES); ?>" />

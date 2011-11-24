@@ -35,35 +35,54 @@ $(function() {
         },
         items: {
             "edit": {
-				name: "Edit page", 
+				name: "<?php echo __("Edit page"); ?>",
 				icon: "tree-editpage",
 				callback: function(key, opt) {
-					alert(ApplicationURL + 'Page/edit/' + opt.$trigger.data('page_id'));
+					ajaxLoad(ApplicationURL + 'Page/edit/' + opt.$trigger.data('page_id'));
 				}
 			},
             "rename": {
-				name: "Rename", 
+				name: "<?php echo __("Rename"); ?>",
 				icon: "tree-renamepage",
 				callback: function(key, opt) {
 					var newName = prompt("<?php echo __('Enter a new name: '); ?>", opt.$trigger.text());
-					opt.$trigger.find('span').text(newName);
-					//alert(ApplicationURL + 'Page/context/rename/' + opt.$trigger.data('page_id'));
+					if(newName != '') {
+						$.ajax({
+							url: ApplicationURL + 'Page/edit/' + opt.$trigger.data('page_id') + '/inline?ajax=true',
+							type: 'post',
+							data: 'data[title]=' + newName,
+							dataType: 'json',
+							success: function(response) {
+								if(response.error) {
+									alert(response.error);
+								} else {
+									opt.$trigger.find('span').text(newName);
+								}
+							}
+						});
+					}
 				}
 			},
-            "add": {
-				name: "Create new page", 
+            "create": {
+				name: "<?php echo __("Create new page"); ?>",
 				icon: "tree-addpage",
 				callback: function() {
 					return false;
 				},
 				items: {
 					"inside": {
-						name: "Inside this page",
-						icon: "tree-addpageinside"
+						name: "<?php echo __("Inside this page"); ?>",
+						icon: "tree-addpageinside",
+						callback: function(key, opt) {
+							ajaxLoad(ApplicationURL + 'Page/create/'+ opt.$trigger.data('page_id') + '/inside');
+						}
 					},
 					"below": {
-						name: "Below this page",
-						icon: "tree-addpagebelow"
+						name: "<?php echo __("After this page"); ?>",
+						icon: "tree-addpagebelow",
+						callback: function(key, opt) {
+							ajaxLoad(ApplicationURL + 'Page/create/'+ opt.$trigger.data('page_id') + '/after');
+						}
 					}
 				}
 			},
@@ -72,11 +91,20 @@ $(function() {
 				name: "Delete", 
 				icon: "tree-deletepage", 
 				callback: function(key, opt) { 
-					var del = confirm('<?php echo __('Are you sure you want to delete this page?'); ?>');
+					var del = confirm('<?php echo __('Are you sure you want to delete this page and (all its subpages!)?'); ?>');
 					if(del == true) {
-						opt.$trigger.hide();
 						$.ajax({
-						//	url: 
+							url: ApplicationURL + 'Page/delete/' + opt.$trigger.data('page_id') + '?ajax=true',
+							type: 'post',
+							data: '__confirm=true',
+							dataType: 'json',
+							success: function(response) {
+								if(response.error) {
+									alert(response.error);
+								} else {
+									opt.$trigger.remove();
+								}
+							}
 						});
 					}
 				}

@@ -4,13 +4,13 @@ class Model_Page_Mapper extends Model_Mapper_Abstract {
 
 	protected $blacklist = array();
 
-	public function find($id, Model_Page $model) {
+	public function find($page_id, Model_Page $model) {
 
-		$data = $this->_db->getPageById($id);
+		$data = $this->_db->getPageById($page_id);
 
 		if(isset($data) && is_array($data)) {
 
-			$model->page_id = $id;
+			$model->page_id = $page_id;
 
 			foreach($data AS $prop => $value) {
 				$model->$prop = $value;
@@ -25,6 +25,36 @@ class Model_Page_Mapper extends Model_Mapper_Abstract {
 		return $model;
 
 	}
+
+	public function findByParentId($parent_page_id) {
+
+		$pages = array();
+
+		foreach($this->_db->getPagesByParentId($parent_page_id) AS $entry => $data) {
+
+			$page = new Model_Page;
+
+			if(isset($data) && is_array($data)) {
+
+				foreach($data AS $prop => $value) {
+					$page->$prop = $value;
+				}
+
+			} else if($data == false) {
+
+				return false;
+
+			}
+
+			$pages[] = $page;
+
+		}
+
+		return $pages;
+
+	}
+
+
 
 
 	public function fetchAll() {
@@ -49,7 +79,9 @@ class Model_Page_Mapper extends Model_Mapper_Abstract {
 			$data[$key] = $value;
 		}
 
-		$this->_db->setProperties($model->page_id, $data);
+		unset($data['childcount']);
+
+		return $this->_db->setProperties($model->page_id, $data);
 
 	}
 

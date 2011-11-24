@@ -3,6 +3,7 @@
 <head>
 <title>Exhibit Blog</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
+<script src="/<?php echo $this->app->getRelativePath(); ?>templates/assets/js/custom.js" type="text/javascript"></script>
 <?php
 
 $adminDir = Application_Base::getProjectDir();
@@ -83,7 +84,7 @@ if(Modules_Session::getInstance()->getVar('userdata')->user_id) {
 $(function() {
 
 	$('ul#menu li:not(.active) ul').hide();
-	$('ul#menu > li:not(:first-child(ul)) > a').bind('click', function(e) {
+	$('ul#menu > li:has(> ul) > a').bind('click', function(e) {
 		e.preventDefault();
 		$(this).parent().find('ul').slideToggle('fast');
 	});
@@ -106,6 +107,13 @@ $(function() {
 	// Awesome ajax stuff. Currently doesnt work with forms properly
 */
 
+
+	$(window).on('popstate', function(event) {
+		console.log(event.originalEvent.state);
+		$('ul#menu li ul li').removeClass('active');
+		$('#' + event.originalEvent.state.active).addClass('active');
+	});
+
 	$('ul#menu li ul li a').bind('click', function(e) {
 
 		e.preventDefault();
@@ -113,7 +121,13 @@ $(function() {
 		$('#content').css({opacity: 0.3});
 
 		$('body').append('<div class="contentspinner"></div>');
-
+/*
+		var activeItem = $('ul#menu li ul li.active');
+		if(!activeItem.attr('id')) {
+			var tempId = 'item_' + Math.ceil(Math.random() * 10000);
+			activeItem.attr('id', tempId);
+		}
+*/
 		$$ = $(this);
 		$.ajax({
 			url: $$.attr('href'),
@@ -121,6 +135,7 @@ $(function() {
 			data: 'ajax=true',
 			success: function(content) {
 				$('#content').html(content).css({opacity: 1});
+				//history.pushState({active: tempId, text: activeItem.text()}, null, $$.attr('href'));
 				history.pushState({}, null, $$.attr('href'));
 				$('ul#menu li ul li').removeClass('active');
 				$$.parent('li').addClass('active');
