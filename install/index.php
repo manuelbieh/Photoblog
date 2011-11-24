@@ -178,7 +178,7 @@ $(function() {
 					$view = new Application_View();
 					$view->loadHTML('templates/install/install.success.html');
 					$view->render(true);
-					Modules_Filesys::write(dirname(__FILE__) . '/INSTALLED');
+					Modules_Filesys::write(dirname(__FILE__) . '/INSTALLED', '');
 
 				} else {
 

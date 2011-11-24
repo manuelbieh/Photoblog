@@ -8,7 +8,7 @@ require_once $rootDir . '/Application/Base.php';
 $app = new Application_Base();
 $app->setProjectDir(dirname(__FILE__ . "/.."));
 
-include_once 'Config.inc.php';
+@include_once 'Config.inc.php';
 include_once 'Functions.inc.php';
 
 $app->objectManager->register('Datastore', $pdodb);
