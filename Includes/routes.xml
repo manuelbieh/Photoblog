@@ -3,14 +3,9 @@
 	<domain name="*">
 
 		<path>
-			<pattern><![CDATA[/(A|a)dmin/(?<controller>.*)/(?<action>.*)/(?<params>.*)]]></pattern>
-			<controller>Admin_%controller%</controller>
-			<action>%action%</action>
-			<!--
-			<options>
-				<dontSplitParams />
-			</options>
-			-->
+			<pattern><![CDATA[/content/(?<params>.*)(\.html)?]]></pattern>
+			<controller>Controller_Page</controller>
+			<action>view</action>
 		</path>
 
 		<path>

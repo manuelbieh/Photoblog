@@ -73,6 +73,25 @@ class Model_Page_Mapper extends Model_Mapper_Abstract {
 	}
 
 
+	public function fetchWhere($where, $op='AND') {
+
+		foreach($this->_db->fetchWhere($where, $op) AS $entry => $data) {
+
+			$page = new Model_Page;
+
+			foreach($data AS $key => $value) {
+				$page->$key = $value;
+			}
+
+			$pages[] = $page;
+
+		}
+
+		return $pages;
+
+	}
+
+
 	public function save(Model_Page $model) {
 
 		foreach($model->_data AS $key => $value) {

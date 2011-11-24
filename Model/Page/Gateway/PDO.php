@@ -77,6 +77,29 @@ class Model_Page_Gateway_PDO {
 
 	}
 
+
+	public function fetchWhere($where, $op='AND') {
+
+		$op = $op == 'OR' ? ' OR ' : ' AND ';
+
+		if(is_array($where)) {
+			$w = array();
+			foreach($where AS $field => $value) {
+				$w[] = preg_replace("([^a-zA-Z0-9_])", '', $field) . ' = :' . preg_replace("([^a-zA-Z0-9_])", '', $field);
+				$prep[preg_replace("([^a-zA-Z0-9_])", '', $field)] = $value;
+			}
+			$w = " WHERE " . join($op, $w);
+		}
+
+		$s = $this->db->prepare("SELECT *, (SELECT count(page_id) FROM cel_content_pages WHERE parent_page_id = main.page_id) AS childcount FROM cel_content_pages AS main $w ORDER BY sort ASC");
+		$s->execute($prep);
+
+		return $s->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+
+
 	public function delete($page_id) {
 
 		$s = $this->db->prepare("DELETE FROM cel_content_pages WHERE page_id = :page_id");

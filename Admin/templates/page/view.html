@@ -86,9 +86,16 @@ $(function() {
 					}
 				}
 			},
+			"link": {
+				name: "Show link",
+				icon: "tree-showlink",
+				callback: function() {
+					alert("<?php echo $this->app->getBaseUrl(); ?>".replace('|Admin|', ''));
+				}
+			},
             "sep1": "---------",
             "delete": {
-				name: "Delete", 
+				name: "<?php echo __('Delete'); ?>",
 				icon: "tree-deletepage", 
 				callback: function(key, opt) { 
 					var del = confirm('<?php echo __('Are you sure you want to delete this page and (all its subpages!)?'); ?>');

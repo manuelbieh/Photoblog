@@ -153,16 +153,20 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 			$page = $this->pageMapper->find($page_id, new Model_Page);
 
+			$currentCleanTitle = $page->clean_title;
+
 			if($this->app->isAjaxRequest() && $inline == true) {
 
 				if(isset($_POST['data']) && $page != false) {
 
 					foreach($_POST['data'] AS $key => $value) {
+
 						$page->$key = $value;
+
 						if($key == 'title') {
-							$cleanTitle = $this->getCleanTitle($value);
-							$page->clean_title = $cleanTitle;
+							$page->clean_title = $this->getCleanTitle($value, $currentCleanTitle);
 						}
+
 					}
 
 					if($this->pageMapper->save($page) != false) {
@@ -209,7 +213,7 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 						// Remove HTML Tags, apply Extension modifications, etc
 						$page->content		= $this->parseContent($page->content); 
-						$page->clean_title	= $this->getCleanTitle($page->title);
+						$page->clean_title	= $this->getCleanTitle($page->title, $currentCleanTitle);
 
 						if($this->pageMapper->save($page) != false) {
 							$subview->loadHTML('templates/page/edit.success.html');
@@ -369,12 +373,14 @@ class Admin_Controller_Page extends Controller_Frontend {
 		
 	}
 
-	protected function getCleanTitle($pagetitle) {
+	protected function getCleanTitle($pagetitle, $currentTitle=NULL) {
 
 		$allPages = $this->pageMapper->fetchAll();
 		if(is_array($allPages)) {
 			foreach($allPages AS $pageObject) {
-				$cleanTitles[] = $pageObject->clean_title;
+				if($pageObject->clean_title != $currentTitle) {
+					$cleanTitles[] = $pageObject->clean_title;
+				}
 			}
 		}
 
