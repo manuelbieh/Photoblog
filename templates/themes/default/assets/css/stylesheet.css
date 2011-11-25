@@ -25,6 +25,33 @@ header a {
 	text-indent: -9999px;
 }
 
+footer {
+	background: white;
+	border-top: 1px solid #ccc;
+	bottom: 0;
+	clear: both;
+	color: #333;
+	display: block;
+	margin: 0 !important;
+	position: absolute;
+	left: 0;
+	text-align: center;
+	width: 100%;
+}
+
+footer p {
+	margin-bottom: 0;
+}
+
+footer .footnote {
+	color: #999;
+	font-size: 0.9em;
+}
+
+footer .footnote a {
+	color: #666;
+}
+
 h2, h3 {
 	margin: 0.75em 0 1em 0;
 }
@@ -45,18 +72,30 @@ input[type="text"], input[type="email"], input[type="url"], input[type="tel"], i
 	max-width: 100%;
 }
 
+a {
+	color: #007BBF;
+}
+
+a:hover {
+	color: #00D4FF;
+}
+
 #wrapper {
 	background: white;
 	box-shadow: 0 0 10px 0 #000;
 	margin: auto;
 	margin-bottom: -13px;
 	min-height: 100%;
+	position: relative;
 }
 
 #wrapper *:last-child {
 	margin-bottom: 1em;
 }
 
+section#content {
+	margin-bottom: 3em;
+}
 
 .center {
 	text-align: center;
