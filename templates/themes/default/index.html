@@ -6,16 +6,22 @@
 </head>
 <body>
 <div id="wrapper"<?php if(isset($this->data['maxWidth'])) { ?> style="width: <?php echo (int) $this->data['maxWidth'] ?>px"<?php } else {?> style="width: 800px;" <?php } ?>>
+
 	<header>
 		<h1><a href="<?php echo Application_Base::getBaseURL(); ?>"><?php echo Application_Settings::get('//general/site/sitename'); ?></a></h1>
 	</header>
+
 	<section id="content">
 		[sub:[main]]
 	</section>
+
+	<br style="clear: both;" />
+
 	<footer>
 		<p><a href="<?php echo $this->app->getBaseUrl(); ?>content/imprint.html">Imprint</a><br />
 		<span class="footnote">Powered by <a href="http://www.exhibit-blog.net">Exhibit Blog</a></span></p>
 	</footer>
+
 </div>
 </body>
 </html>
