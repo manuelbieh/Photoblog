@@ -72,4 +72,40 @@ class Controller_Photo extends Controller_Frontend {
 
 	}
 
+
+	public function overview($filter='all', $param1=0, $order='desc') {
+
+		$allPhotos			= $this->photoMapper->fetchAll();
+		$allPhotosReverse	= is_array($allPhotos) ? array_reverse($allPhotos) : array();
+
+		$subview = new Application_View_Theme();
+		$subview->loadHTML('photo/overview.html');
+
+		$itemsPerPage	= 30;
+
+		$totalItems		= count($allPhotos);
+
+		$page				= (int) $param1 < 0 ? 0 : (int) $param1;
+		$offset				= $page * $itemsPerPage;
+
+		$subview->data['offset'] = (int) $offset;
+
+		for($i = $offset; $i < $offset+$itemsPerPage; $i++) {
+			if($order == 'desc') {
+				if(isset($allPhotosReverse[$i])) {
+					$subview->data['photos'][$i] = $allPhotosReverse[$i];
+					$subview->data['photos'][$i]->photographer = $this->userMapper->find($allPhotosReverse[$i]->user_id, new Model_User);
+				}
+			} else {
+				if(isset($allPhotos[$i])) {
+					$subview->data['photos'][$i] = $allPhotos[$i];
+					$subview->data['photos'][$i]->photographer = $this->userMapper->find($allPhotos[$i]->user_id, new Model_User);
+				}					
+			}
+		}
+
+		$this->view->addSubview('main', $subview);
+
+	}
+
 }

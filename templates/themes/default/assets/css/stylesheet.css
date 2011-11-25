@@ -89,3 +89,32 @@ input[type="text"], input[type="email"], input[type="url"], input[type="tel"], i
 	margin-top: 0;
 	padding: 0.5em;
 }
+
+.overview {
+	padding: 1em;
+}
+
+.overview .mini, .overview .thumb {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	border: 4px solid #ddd;
+	float: left;
+	margin: 8px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.overview .mini:hover, .overview .thumb:hover {
+	border: 4px solid #aaa;
+}
+
+.overview .mini {
+	width: 150px;
+	height: 100px;
+}
+
+.overview .thumb {
+	height: 400px;
+	width: 300px;
+}

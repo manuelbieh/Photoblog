@@ -1,0 +1,13 @@
+<div class="overview">
+
+	<h2><?php echo __('Overview'); ?></h2>
+
+	<?php if(is_array($this->data['photos'])) { ?>
+		<?php foreach($this->data['photos'] AS $photo) { ?>
+		<a class="mini" href="<?php echo $this->app->getBaseURL(); ?>photo/<?php echo $photo->clean_title; ?>" style="background-image: url(<?php echo $this->app->getBaseURL(); ?>uploads/thumbs/<?php echo $photo->web_name; ?>);"></a>
+		<?php } ?>
+	<?php } else { ?>
+		<p><?php echo __('Sorry, no photos found.'); ?></p>
+	<?php }?>
+
+</div>

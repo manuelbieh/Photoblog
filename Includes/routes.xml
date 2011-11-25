@@ -28,6 +28,18 @@
 		</path>
 
 		<path>
+			<pattern><![CDATA[/overview]]></pattern>
+			<controller>Controller_Photo</controller>
+			<action>overview</action>
+		</path>
+
+		<path>
+			<pattern><![CDATA[/overview/(?<params>.*)]]></pattern>
+			<controller>Controller_Photo</controller>
+			<action>overview</action>
+		</path>
+
+		<path>
 			<pattern><![CDATA[/photo/view/(?<params>.*)]]></pattern>
 			<controller>Controller_Photo</controller>
 			<action>view</action>
