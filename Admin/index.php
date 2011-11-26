@@ -22,6 +22,7 @@ try {
 }
 
 if(!isset($_GET['__ajax']) && !isset($_GET['ajax'])) {
+//echo '<div style="position: fixed; background: white; top: 0; left: 0; margin: 0; padding: 0 8px;">' . $benchmark->end() . '</div>';
 echo $benchmark->end();
 }
 
