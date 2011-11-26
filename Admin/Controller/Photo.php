@@ -215,6 +215,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 				} catch(Exception $e) {
 
 					$this->form->addError(__('Unable to upload file.'));
+					$this->view->addSubview('main', $this->form);
 
 				}
 

@@ -19,10 +19,8 @@ header {
 }
 
 header a {
-	background: url(http://photos.manuelbieh.com/templates/manuel/styles/images/headline.jpg) no-repeat center center;
 	display: block;
 	height: 70px;
-	text-indent: -9999px;
 }
 
 footer {
