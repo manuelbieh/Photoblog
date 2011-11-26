@@ -1,44 +1,43 @@
-<div class="content">
-	<h2><?php echo $this->data['photo']->title; ?></h2>
-</div>
+<div class="entry">
 
-<img src="<?php echo Application_Base::getBaseURL(); ?>uploads/web/<?php echo $this->data['photo']->web_name; ?>" alt="" />
+	<img src="<?php echo $this->app->getBaseURL(); ?>uploads/web/<?php echo $this->data['photo']->web_name; ?>" alt="" />
 
-<section class="content">
+	<section class="content">
 
-	<p class="desc"><?php echo $this->data['photo']->description; ?></p>
-	<p>Posted on <strong><?php echo $this->data['photo']->date_publish; ?></strong> by <strong><?php echo $this->data['photo']->photographer->username; ?></strong></p>
-	<?php if($this->data['photo']->tags) { ?>
-	<p><strong>Tags:</strong> <?php echo join(', ', $this->data['photo']->taglinks); ?></p>
-	<?php } ?>
+		<h2><?php echo $this->data['photo']->title; ?></h2>
 
-	<section id="comments">
+		<p class="desc"><?php echo $this->data['photo']->description; ?></p>
 
-		<h3><?php echo __('Comments'); ?></h3>
-
-		<?php if($this->data['photo']->comments) { ?>
-			<?php foreach($this->data['photo']->comments AS $commentID => $comment) { ?>
-				<div class="comment">
-					<p class="comment-meta">
-						<small><?php echo $comment->datetime; ?></small><br />
-						<?php echo $comment->name; ?> <?php echo __('wrote:'); ?>
-					</p>
-					<p><?php echo nl2br(htmlentities($comment->text, ENT_NOQUOTES, 'UTF-8')); ?></p>
-				</div>
-			<?php } ?>
-		<?php } else { ?>
-		<p><?php echo __('No comments so far.'); ?></p>
+		<p><strong>Photographer:</strong> <?php echo $this->data['photo']->photographer->username; ?></p>
+		<p><strong>Posted:</strong> <?php echo $this->data['photo']->date_publish; ?></p>
+		<?php if($this->data['photo']->taglinks) { ?>
+		<p><strong>Tags:</strong> <?php echo join(', ', $this->data['photo']->taglinks); ?></p>
 		<?php } ?>
 
-		<h3><?php echo __('Add comment'); ?></h3>
+		<section id="comments">
 
-		[[commentform]]
+			<h3><?php echo __('Comments'); ?></h3>
+
+			<?php if($this->data['photo']->comments) { ?>
+				<?php foreach($this->data['photo']->comments AS $commentID => $comment) { ?>
+					<div class="comment">
+						<p class="comment-meta">
+							<small><?php echo $comment->datetime; ?></small><br />
+							<?php echo $comment->name; ?> <?php echo __('wrote:'); ?>
+						</p>
+						<p><?php echo nl2br(htmlentities($comment->text, ENT_NOQUOTES, 'UTF-8')); ?></p>
+					</div>
+				<?php } ?>
+			<?php } else { ?>
+			<p><?php echo __('No comments so far.'); ?></p>
+			<?php } ?>
+
+			<h3><?php echo __('Add comment'); ?></h3>
+
+			[[commentform]]
+
+		</section>
 
 	</section>
 
-</section>
-	<!--
-	<?php
-	var_dump($this); 
-	?>
-	-->
+</div>

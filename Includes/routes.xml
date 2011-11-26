@@ -10,13 +10,13 @@
 
 		<path>
 			<pattern><![CDATA[/(?<params>(tag)/(.*))]]></pattern>
-			<controller>Controller_Index</controller>
+			<controller>Controller_Photo</controller>
 			<action>tag</action>
 		</path>
 
 		<path>
 			<pattern><![CDATA[/(?<params>(page)/(.*))]]></pattern>
-			<controller>Controller_Index</controller>
+			<controller>Controller_Photo</controller>
 			<action>index</action>
 		</path>
 
@@ -71,7 +71,7 @@
 
 		<path>
 			<pattern><![CDATA[/]]></pattern>
-			<controller>Controller_Index</controller>
+			<controller>Controller_Photo</controller>
 			<action>index</action>
 		</path>
 

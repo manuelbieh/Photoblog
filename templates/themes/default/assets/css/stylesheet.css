@@ -92,7 +92,7 @@ a:hover {
 	position: relative;
 }
 
-#wrapper *:last-child {
+#wrapper > *:last-child {
 	margin-bottom: 1em;
 }
 
@@ -112,6 +112,11 @@ section#content {
 	border-bottom: 10px solid #dedede;
 	margin-bottom: 10px;
 	padding-bottom: 10px;
+}
+
+.entry img {
+	display: block;
+	margin: 0 auto !important;
 }
 
 .content {
@@ -159,4 +164,33 @@ section#content {
 .overview .thumb {
 	height: 400px;
 	width: 300px;
+}
+
+.pagination {
+	text-align: center;
+}
+
+.pagination a {
+	text-decoration: none;
+}
+
+.pagination a .pLabel {
+	border: 1px solid #ccc;
+	color: #2b4e69;
+}
+
+.pagination a .pLabel:hover {
+	background: #E6E6E6;
+}
+
+.pLabel {
+	background: #efefef;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	color: #aaa;
+	cursor: pointer;
+	font-weight: bold;
+	font-family: verdana, sans-serif;
+	margin-right: 3px;
+	padding: 2px 6px;
 }

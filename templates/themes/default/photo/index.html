@@ -1,0 +1,77 @@
+<?php if(isset($this->data['photos']) && is_array($this->data['photos'])) { ?>
+
+	<?php foreach($this->data['photos'] AS $photo) { ?>
+
+	<div class="entry">
+
+		<?php $webPhoto = $this->app->getBaseURL() . 'uploads/web/' . $photo->web_name; ?>
+
+		<a href="<?php echo $this->app->getBaseURL(); ?>photo/<?php echo $photo->clean_title; ?>">
+			<img src="<?php echo $webPhoto; ?>" alt="" width="<?php echo $photo->width; ?>" height="<?php echo $photo->height; ?>" />
+		</a>
+
+		<div class="content">
+
+			<h2><?php echo $photo->title; ?></h2>
+
+			<p class="desc"><?php echo $photo->description; ?></p>
+
+			<p><strong>Photographer:</strong> <?php echo $photo->photographer->username; ?></p>
+			<p><strong>Posted:</strong> <?php echo $photo->date_publish; ?></p>
+			<?php if($photo->taglinks) { ?>
+			<p><strong>Tags:</strong> <?php echo join(', ', $photo->taglinks); ?></p>
+			<?php } ?>
+
+			<p><strong class="">Comments:</strong> <?php echo $photo->comment_count; ?></p>
+
+			<?php if($this->data['showComments'] == 1) { ?>
+
+			<section class="comments">
+
+				<h3><?php echo __('Comments'); ?></h3>
+
+				<?php if($photo->comments) { ?>
+					<?php foreach($photo->comments AS $commentID => $comment) { ?>
+						<div class="comment">
+							<p class="comment-meta">
+								<small><?php echo $comment->datetime; ?></small><br />
+								<?php echo $comment->name; ?> <?php echo __('wrote:'); ?>
+							</p>
+							<p><?php echo nl2br(htmlentities($comment->text, ENT_NOQUOTES, 'UTF-8')); ?></p>
+						</div>
+					<?php } ?>
+				<?php } else { ?>
+				<p><?php echo __('No comments so far.'); ?></p>
+				<?php } ?>
+
+				<h3><?php echo __('Add comment'); ?></h3>
+
+				[[commentform]]
+
+			</section>
+
+			<?php } ?>
+
+		</div>
+
+	</div>
+
+	<?php } ?>
+
+	<p class="center">
+		<?php if($this->data['prevLink'] != '') { ?>
+		<a href="<?php echo $this->data['prevLink']; ?>">Prev</a>
+		<?php } ?>
+		<?php if($this->data['nextLink'] != '') { ?>
+		<a href="<?php echo $this->data['nextLink']; ?>">Next</a>
+		<?php } ?>
+	</p>
+
+<? } else { ?>
+
+	<div class="content">
+		<h2><?php echo __('Sorry …'); ?></h2>
+		<p><?php echo __('No photos were found.'); ?></p>
+	</div>
+
+<?php } ?>
