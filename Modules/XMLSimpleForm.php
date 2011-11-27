@@ -1,6 +1,22 @@
 <?php
 
+/**
+ * Module to create a form out of a settings/extension XML file
+ *
+ * @author Manuel Bieh
+ * @depends Modules_XML, Modules_XPath
+*/
+
 class Modules_XMLSimpleForm {
+
+	/**
+	 * Renders a node according its attributes
+	 *
+	 * @param DOMNode Node element to be rendered
+	 * @param DOMDocument Settings file
+	 * @param String XPath expression to look for
+	 * @return String The generated form
+	*/
 
 	public function renderNode($node, $settings, $xpath='') {
 

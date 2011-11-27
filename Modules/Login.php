@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Login module
+ * 
+ * @author Manuel Bieh
+ * @depends Modules_Session
+ *
+ */
+
 class Modules_Login {
 
 	public $cookieExpires;

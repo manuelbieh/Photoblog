@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * A small addition to the DOMDocument class. 
+ * 
+ * @author Manuel Bieh
+ *
+ */
 class Modules_XML extends DOMDocument {
 
 	protected $namespaces = array();
@@ -8,7 +14,6 @@ class Modules_XML extends DOMDocument {
 
 	public function __construct() {
 		parent::__construct();
-		#$this->XML = new DOMDocument();
 		$this->XML = $this;
 	}
 
@@ -79,7 +84,6 @@ class Modules_XML extends DOMDocument {
 	public function sanitize($string) {
 
 		return trim(trim($string), '"\'<>');
-		#return $string;
 
 	}
 

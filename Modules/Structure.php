@@ -1,5 +1,12 @@
 <?php
 
+
+/**
+ * Module to create a structue (e.g. nested list, json object, ...) out of an array
+ * 
+ * @author Manuel Bieh
+ *
+ */
 class Modules_Structure {
 
 	private $data;
@@ -35,9 +42,9 @@ class Modules_Structure {
 
 		$this->itemContent = '%item%';
 
-		self::setDepth(0);
-		self::setRoot(0);
-		self::setParent(0);
+		$this->setDepth(0);
+		$this->setRoot(0);
+		$this->setParent(0);
 
 	}
 
@@ -125,7 +132,7 @@ class Modules_Structure {
 					$this->menustring .= Modules_Functions::patternReplace($this->beforeItem, $content);
 					$this->menustring .= Modules_Functions::patternReplace($this->itemContent, $content);
 					$level++;
-					self::level($id, $level);
+					$this->level($id, $level);
 					$this->menustring .= Modules_Functions::patternReplace($this->afterItem, $content);
 					$this->menustring .= $this->afterItemSeparator;
 
@@ -145,7 +152,7 @@ class Modules_Structure {
 	}
 
 	public function draw() {
-		self::level($this->parent_id, $this->level);
+		$this->level($this->parent_id, $this->level);
 		return Modules_Functions::patternReplace($this->listWrap, array('content'=>$this->menustring));
 	}
 

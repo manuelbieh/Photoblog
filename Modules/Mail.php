@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Abstract module to send emails
+ * 
+ * @author Manuel Bieh
+ *
+ */
 abstract class Modules_Mail {
 
 	protected $Encoding = 'UTF-8';

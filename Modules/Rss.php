@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Simple (yet incomplete) RSS creator module.
+ * Feed it with channel information and items and you'll get a valid RSS feed.
+ * 
+ * @author Manuel Bieh
+ *
+ */
 class Modules_RSS {
 
 	protected $XMLDoc;
