@@ -127,6 +127,10 @@ class Modules_Curl {
 	*/
 	public function info($option=NULL) {
 
+		if($this->output == NULL) {
+			$this->exec();
+		}
+
 		if($option === NULL) {
 			return curl_getinfo($this->curl);
 		} else {
@@ -193,9 +197,6 @@ class Modules_Curl {
 
 	}
 
-
 }
-
-
 
 ?>

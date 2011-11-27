@@ -88,7 +88,7 @@ class Application_Router {
 			}
 
 /*
-echo "<hr />\n";
+echo "<hr />\n\n";
 echo "CleanPath: @$path$@U\n";
 echo "<br />Pattern: $pattern <br />\n";
 var_dump(preg_match("@$path$@", $pattern));

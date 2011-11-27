@@ -70,7 +70,7 @@ class Model_Photo_Gateway_PDO {
 
 	public function fetchAll($columns=NULL, $where=NULL) {
 
-		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, date_format(date_publish, '%Y%m%d%H%i%s') AS datenum, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos ORDER BY photo_id ASC");
+		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, date_format(date_publish, '%Y%m%d%H%i%s') AS datenum, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos ORDER BY date_publish ASC");
 		$s->execute();
 
 		return $s->fetchAll(PDO::FETCH_ASSOC);
@@ -90,7 +90,7 @@ class Model_Photo_Gateway_PDO {
 			$w = " WHERE " . join($op, $w);
 		}
 
-		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, date_format(date_publish, '%Y%m%d%H%i%s') AS datenum, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos $w ORDER BY photo_id ASC");
+		$s = $this->db->prepare("SELECT *, date_format(date_publish, '%Y-%m-%d %H:%i:%s') AS date_publish, date_format(date_publish, '%Y%m%d%H%i%s') AS datenum, (SELECT count(comment_id) FROM cel_photo_comments WHERE photo_id = cel_photo_photos.photo_id) AS comment_count FROM cel_photo_photos $w ORDER BY date_publish ASC");
 		$s->execute($prep);
 
 		return $s->fetchAll(PDO::FETCH_ASSOC);

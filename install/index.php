@@ -101,18 +101,75 @@ $(function() {
 				}
 
 
+				/* TRYING TO MODIFY SOME SETTINGS */
+				$tempDir = dirname(__FILE__) . '/temp';
+
+				/* CHECK FOR MOD_REWRITE */
+				if(!is_dir($tempDir)) {
+					mkdir($tempDir);
+				}
+				file_put_contents($tempDir . '/.htaccess', "RewriteEngine On\nRewriteRule ^test$ index.php?test=pass");
+				file_put_contents($tempDir . '/index.php', '<?php echo isset($_GET["test"]) ? $_GET["test"] : "fail"; ?>');
+
+				$curlObj = new Modules_Curl();
+				$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 30);
+				$curlObj->connect('http://' . $_SERVER['SERVER_NAME'] . '/' . trim(str_replace('index.php', '', $_SERVER['REQUEST_URI']), '/') . '/temp/test');
+				$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+				if($curlObj->output() != 'pass') {
+					$warning[] = __('<strong>mod_rewrite</strong> is required and seems to be unavailable on this server. Installation will proceed but there’s no guarantee the application will run properly.');
+				}
+
+				/* CHECK FOR MOD_REWRITE END */
+
+				/* CHECK IF MAGIC QUOTES CAN BE DISABLED VIA .htaccess */
+				if(get_magic_quotes_gpc() == true) {
+
+					file_put_contents($tempDir . '/.htaccess', 'php_flag magic_quotes_gpc Off');
+					file_put_contents($tempDir . '/index.php', '<?php echo (int) get_magic_quotes_gpc() == 0 ? "pass" : "fail"; ?>');
+					$curlObj = new Modules_Curl();
+					$curlObj->connect('http://' . $_SERVER['SERVER_NAME'] . '/' . trim(str_replace('index.php', '', $_SERVER['REQUEST_URI']), '/') . '/temp/');
+					$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+
+					// for some reason, httpStatus is always 0
+					if($httpStatus < 400) {
+
+						if($curlObj->output() == 'fail') {
+							$warning[] = __("<strong>get_magic_quotes</strong> is currently 'on'. It's strongly recommended to turn it 'off'.");
+						} else {
+							file_put_contents(dirname(__FILE__) . '/../.htaccess', 'php_flag magic_quotes_gpc Off', FILE_APPEND);
+						}
+
+					} else {
+
+						$warning[] = __("<strong>get_magic_quotes</strong> is currently 'on'. It's strongly recommended to turn it 'off'.");
+
+					}
+
+				}
+				/* CHECK IF MAGIC QUOTES CAN BE DISABLED VIA .htaccess END */
+
+				/* CLEAN UP */
+				foreach(glob(dirname(__FILE__) . '/temp/*') AS $file) {
+					unlink($file);
+				}
+				unlink(dirname(__FILE__) . '/temp/.htaccess');
+				rmdir(dirname(__FILE__) . '/temp');
+				/* CLEAN UP END */
+
+
+
 				$form->assign('db[host]', $form->input(array('name'=>'db[host]', 'id'=>'db[host]')));
 				$form->assign('db[name]', $form->input(array('name'=>'db[name]', 'id'=>'db[name]')));
 				$form->assign('db[user]', $form->input(array('name'=>'db[user]', 'id'=>'db[user]')));
-				$form->assign('db[pass]', $form->input(array('name'=>'db[pass]', 'id'=>'db[pass]')));
+				$form->assign('db[pass]', $form->input(array('name'=>'db[pass]', 'id'=>'db[pass]', 'type'=>'password')));
 
 				$form->assign('user[username]', $form->input(array('name'=>'user[username]', 'id'=>'user[username]')));
 				$form->assign('user[email]', $form->input(array('name'=>'user[email]', 'id'=>'user[email]')));
 				$form->assign('user[firstname]', $form->input(array('name'=>'user[firstname]', 'id'=>'user[firstname]')));
 				$form->assign('user[lastname]', $form->input(array('name'=>'user[lastname]', 'id'=>'user[lastname]')));
-				$form->assign('user[pass]', $form->input(array('name'=>'user[password]', 'id'=>'user[pass]')));
+				$form->assign('user[pass]', $form->input(array('name'=>'user[password]', 'id'=>'user[pass]', 'type'=>'password')));
 
-				$form->assign('passconf', $form->input(array('name'=>'passconf', 'id'=>'passconf')));
+				$form->assign('passconf', $form->input(array('name'=>'passconf', 'id'=>'passconf', 'type'=>'password')));
 
 				$form->addValidation($validate);
 
@@ -182,12 +239,12 @@ $(function() {
 
 				} else {
 
-					if(get_magic_quotes_gpc() == true) {
-						$warning[] = __("<strong>get_magic_quotes</strong> is currently 'on'. It's strongly recommended to turn it 'off'.");
+					if(!class_exists('IMagick') && extension_loaded('gd')) {
+						$warning[] = __("Class <strong>IMagick</strong> doesn't exist. Using GDLib instead.");
 					}
 
-					if(!class_exists('IMagick') && extension_loaded('gd')) {
-						$warning[] = __("Class <strong>IMagick</strong> doesn't exist. Using GDLib instead (less performance).");
+					if(is_array($warning)) {
+						$warning = array_unique($warning);
 					}
 
 					if(is_array($warning)) {

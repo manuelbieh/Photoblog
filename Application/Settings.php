@@ -16,11 +16,19 @@ class Application_Settings {
 	}
 
 	public function getFile($type=0) {
-		if($type == 1) {
-			return Application_Base::getCoreDir() . 'Includes/Settings.xml';
-		} else {
-			return Application_Base::getProjectDir() . 'Includes/Settings.xml';
+
+		switch($type) {
+			case 0:
+			default:
+				// Main project settings
+				return Application_Base::getProjectDir() . 'Includes/Settings.xml';
+			case 1:
+				// Main project settings for site accessed from /Admin
+				return Application_Base::getProjectDir() . '../Includes/Settings.xml';
+			case 2:
+				return Application_Base::getCoreDir() . 'Includes/Settings.xml';
 		}
+
 	}
 
 	/* Gets the value of the defined key. Returns either string or array when the
