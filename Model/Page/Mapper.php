@@ -110,4 +110,30 @@ class Model_Page_Mapper extends Model_Mapper_Abstract {
 
 	}
 
+
+	public function getPagesOnRootlevel() {
+
+		$rootPages = $this->_db->getPagesOnRootlevel();
+
+		if(is_array($rootPages)) {
+
+			foreach($rootPages AS $rootPage) {
+
+				$page = $this->find($rootPage['page_id'], new Model_Page());
+				$pages[] = $page;
+
+			}
+
+		}
+
+		return $pages;
+
+	}
+
+	public function deleteOrphanedPages() {
+
+		return $this->_db->deleteOrphanedPages();
+
+	}
+
 }

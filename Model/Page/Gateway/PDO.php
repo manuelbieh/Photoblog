@@ -20,7 +20,6 @@ class Model_Page_Gateway_PDO {
 
 	}
 
-
 	public function getPagesByParentId($parent_page_id) {
 
 		$s = $this->db->prepare("SELECT *, (SELECT count(page_id) FROM cel_content_pages WHERE parent_page_id = main.page_id) AS childcount FROM cel_content_pages AS main WHERE parent_page_id = :parent_page_id ORDER BY sort ASC");
@@ -28,7 +27,6 @@ class Model_Page_Gateway_PDO {
 		return $s->fetchAll(PDO::FETCH_ASSOC);
 
 	}
-
 
 	public function setProperties($page_id, $proplist) {
 
@@ -77,7 +75,6 @@ class Model_Page_Gateway_PDO {
 
 	}
 
-
 	public function fetchWhere($where, $op='AND') {
 
 		$op = $op == 'OR' ? ' OR ' : ' AND ';
@@ -98,13 +95,25 @@ class Model_Page_Gateway_PDO {
 
 	}
 
-
-
 	public function delete($page_id) {
 
 		$s = $this->db->prepare("DELETE FROM cel_content_pages WHERE page_id = :page_id");
 		return $s->execute(array('page_id'=>$page_id));
 
 	}
+
+	public function getPagesOnRootlevel() {
+		$s = $this->db->query("SELECT page_id FROM cel_content_pages WHERE parent_page_id = 0");
+		return $s->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function deleteOrphanedPages() {
+		$s = $this->db->query("SELECT GROUP_CONCAT(a.page_id) AS orphaned FROM cel_content_pages AS a LEFT JOIN cel_content_pages AS b ON a.parent_page_id = b.page_id WHERE b.page_id IS NULL AND a.parent_page_id != 0 GROUP BY b.parent_page_id");
+		$result = $s->fetch(PDO::FETCH_ASSOC);
+		if(count($result) > 0) {
+			$s = $this->db->query("DELETE FROM cel_content_pages WHERE page_id IN (" . $result['orphaned'] . ")");
+		}
+	}
+
 
 }

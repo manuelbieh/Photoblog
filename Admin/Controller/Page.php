@@ -255,15 +255,23 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 				if(isset($_POST['__confirm'])) {
 
-					$delete = $this->pageMapper->delete($page_id);
+					if($this->isLastRootpage($page_id) == false) {
 
-					if($delete == true) {
+						$delete = $this->pageMapper->delete($page_id);
 
-						$response = array('message'=>__('Page was deleted successfully.'));
-													
+						if($delete == true) {
+
+							$response = array('message'=>__('Page was deleted successfully.'));
+														
+						} else {
+
+							$response = array('error'=>__('Page could not be deleted.'));
+
+						}
+
 					} else {
 
-						$response = array('error'=>__('Page could not be deleted.'));
+						$response = array('error'=>__('Cannot delete last rootpage from tree.'));
 
 					}
 
@@ -292,15 +300,23 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 				if($form->isSent(true) && $form->valueOf('__confirm') != '') {
 
-					$delete = $this->pageMapper->delete($page_id);
+					if($this->isLastRootpage($page_id) == false) {
 
-					if($delete == true) {
+						$delete = $this->pageMapper->delete($page_id);
 
-						$subview->loadHTML('templates/page/delete.success.html');
+						if($delete == true) {
+
+							$subview->loadHTML('templates/page/delete.success.html');
+
+						} else {
+
+							$subview->loadHTML('templates/page/delete.error.html');
+
+						}
 
 					} else {
 
-						$subview->loadHTML('templates/page/delete.error.html');
+						$response = array('error'=>__('Cannot delete last rootpage from tree.'));
 
 					}
 
@@ -317,6 +333,9 @@ class Admin_Controller_Page extends Controller_Frontend {
 		}
 
 		// DELETE ORPHANED SUBPAGES HERE (Pages with empty parent_page_id)
+		// Should be run recursively to also delete subpages of deleted subpages of deleted subpages ... 
+		// Nevermind.
+		$this->pageMapper->deleteOrphanedPages();
 
 	}
 
@@ -343,6 +362,7 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 
 			if((int) $oldStructure[$page_id]['sort'] !== (int) $counter[$parent_page_id] * $factor) {
+				$newStructure[$page_id]['parent_page_id'] = (int) $parent_page_id;
 				$newStructure[$page_id]['sort'] = $counter[$parent_page_id] * $factor;
 			}
 
@@ -354,14 +374,13 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 		}
 
-
 		if(is_array($newStructure)) {
 
 			foreach($newStructure AS $page_id => $properties) {
 
 				$page = new Model_Page();
 				$page->page_id = $page_id;
-				if($properties['parent_page_id']) {
+				if(isset($properties['parent_page_id'])) {
 					$page->parent_page_id = $properties['parent_page_id'];
 				}
 				$page->sort = $properties['sort'];
@@ -447,6 +466,25 @@ class Admin_Controller_Page extends Controller_Frontend {
 		$ret['parentChild'] = $pages;
 
 		return $ret;
+
+	}
+
+	public function isLastRootpage($page_id) {
+
+		$pagesOnRootlevel = $this->pageMapper->getPagesOnRootlevel();
+		if(count($pagesOnRootlevel) == 1) {
+
+			if($pagesOnRootlevel[0]->page_id == $page_id) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} else {
+
+			return false;
+
+		}
 
 	}
 
