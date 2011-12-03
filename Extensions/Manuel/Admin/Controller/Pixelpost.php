@@ -27,6 +27,15 @@ class Extensions_Manuel_Admin_Controller_Pixelpost extends Controller_Frontend {
 
 	}
 
+	public function test() {
+
+		$subview = $this->app->createView();
+		$subview->loadHTML('Extensions/Manuel/Admin/templates/canyouseeme.html');
+
+		$this->view->addSubview('main', $subview);
+
+	}
+
 	public function import() {
 
 		$pixelpostDB = new PDO('mysql:dbname=d0026071;host=manuelbieh.com', 'd0026071', 'qwertz');

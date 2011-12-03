@@ -10,12 +10,16 @@ if(count($this->data['images']) > 0) {
 
 <li style="clear: both;" class="<?php echo $data->active == 1 ? 'active':'inactive'; ?>">
 
-	<div class="mini"><img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/mini/<?php echo $data->web_name; ?>" alt="" /></div> 
+	<div class="mini">
+		<a href="<?php echo $this->app->getBaseURL(); ?>photo/edit/<?php echo $data->photo_id; ?>">
+			<img src="<?php echo $this->app->getBaseURL(); ?>../uploads/mini/<?php echo $data->web_name; ?>" alt="" />
+		</a>
+	</div> 
 
 	<h4><?php echo $data->title; ?></h4>
 	<ul class="tools">
-		<li><a class="editimage" href="<?php echo Application_Base::getBaseURL(); ?>Photo/edit/<?php echo $data->photo_id; ?>"><?php echo __('Edit details'); ?></a></li>
-		<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Photo/delete/<?php echo $data->photo_id; ?>"><?php echo __('Delete photo'); ?></a></li>
+		<li><a class="editimage" href="<?php echo $this->app->getBaseURL(); ?>Photo/edit/<?php echo $data->photo_id; ?>"><?php echo __('Edit details'); ?></a></li>
+		<li><a class="delete" href="<?php echo $this->app->getBaseURL(); ?>Photo/delete/<?php echo $data->photo_id; ?>"><?php echo __('Delete photo'); ?></a></li>
 		<li><strong><?php echo __('Uploaded'); ?>:</strong> <?php echo $data->date_uploaded; ?></li>
 		<li><strong><?php echo __('by'); ?></strong> <?php echo $data->photographer->firstname; ?> <?php echo $data->photographer->lastname; ?></li>
 		<li><strong><?php echo __('Original size'); ?>:</strong> <?php echo $data->original_width; ?>×<?php echo $data->original_height; ?></li>
@@ -25,7 +29,7 @@ if(count($this->data['images']) > 0) {
 		<li>
 			<strong><?php echo __('Comments'); ?>:</strong> 
 			<?php if($data->comment_count > 0) { ?>
-				<a href="<?php echo Application_Base::getBaseURL(); ?>Comments/view/<?php echo $data->photo_id; ?>"><?php echo $data->comment_count; ?></a>
+				<a href="<?php echo $this->app->getBaseURL(); ?>Comments/view/<?php echo $data->photo_id; ?>"><?php echo $data->comment_count; ?></a>
 			<?php } else { ?>
 				<?php echo $data->comment_count; ?>
 			<?php } ?>

@@ -87,6 +87,8 @@ class Application_View {
 				return $docroot . $tpls . $filepath;
 			} else if(Modules_Filesys::isFile($coredir . $tpls . $filepath)) {
 				return $coredir . $tpls . $filepath;
+			} else if(Modules_Filesys::isFile($docroot . $filepath)) {
+				return $docroot . $filepath;
 			} else {
 				return $filepath;
 				return false;
