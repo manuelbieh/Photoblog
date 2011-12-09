@@ -1,27 +1,33 @@
 $(window).on('popstate', function(event) {
 
-	$('ul#menu li ul li').removeClass('active');
+	// Chrome fires a popstate event on each page load
+	// even if there's no actual popstate event (as it seems)
+	if(event.originalEvent.state != null) {
 
-	$.ajax({
+		$('ul#menu li ul li').removeClass('active');
 
-		url: window.location,
-		type: 'get',
-		data: 'ajax=true',
-		success: function(content) {
+		$.ajax({
 
-			$('#content').html(content).css({opacity: 1});
-			$('ul#menu li ul li').removeClass('active');
-			$('#' + event.originalEvent.state.active).addClass('active');
-			$('.contentspinner').remove();
+			url: window.location,
+			type: 'get',
+			data: 'ajax=true',
+			success: function(content) {
 
-		},
+				$('#content').html(content).css({opacity: 1});
+				$('ul#menu li ul li').removeClass('active');
+				$('#' + event.originalEvent.state.active).addClass('active');
+				$('.contentspinner').remove();
 
-		error: function() {
-			$('#content').css({opacity: 1});
-			$('.contentspinner').remove();
-		}
+			},
 
-	});
+			error: function() {
+				$('#content').css({opacity: 1});
+				$('.contentspinner').remove();
+			}
+
+		});
+
+	}
 
 });
 
@@ -89,7 +95,7 @@ $(function() {
 				history.pushState({active: tempId, text: activeItem.text()}, null, $$.attr('href'));
 
 				$('.contentspinner').remove();
-				console.log(history);
+
 			},
 			error: function() {
 				$('#content').css({opacity: 1});

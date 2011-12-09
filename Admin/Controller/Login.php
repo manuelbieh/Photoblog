@@ -127,7 +127,7 @@ class Admin_Controller_Login extends Controller_Frontend {
 
 		$user = $this->userMapper->findByFields($fields);
 
-		if(count($user) === 1) {
+		if(count($user) === 1 && $hash != '') {
 
 			$form = new Modules_Form('templates/login/reset.form.html');
 			$form->assign('hash', $hash);

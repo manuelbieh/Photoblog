@@ -21,9 +21,6 @@ if(Modules_Filesys::isFile($adminDir . $userStyle)) {
 
 ?>
 <link href="<?php echo Application_Base::getBaseURL() . $styleFile; ?>?d=<?php echo (int) filemtime($adminDir . $styleFile); ?>" rel="stylesheet" type="text/css" />
-<!--
-<link href="<?php echo Application_Base::getBaseURL(); ?>templates/assets/css/famfamfam.css?d=<?php echo (int) filemtime(dirname(__FILE__) . '/assets/css/famfamfam.css'); ?>" rel="stylesheet" type="text/css" />
--->
 
 <?php $this->app->extensions()->notify($this, 'AdminTemplateHeadEnd'); ?>
 

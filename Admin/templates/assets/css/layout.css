@@ -483,7 +483,8 @@ input[type="button"], input[type="submit"] {
 	margin: 8px 0;
 }
 
-input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], textarea {
+input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], input[type="number"], textarea {
+	background: white;
 	border: 1px solid #ccc;
 	display: block;
 	font-family: inherit;
@@ -494,7 +495,7 @@ input[type="text"], input[type="email"], input[type="datetime"], input[type="url
 	width: 60%;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="datetime"]:focus, input[type="url"]:focus, input[type="tel"]:focus, input[type="search"]:focus, input[type="password"]:focus, textarea:focus {
+input[type="text"]:focus, input[type="email"]:focus, input[type="datetime"]:focus, input[type="url"]:focus, input[type="tel"]:focus, input[type="search"]:focus, input[type="password"]:focus, input[type="number"]:focus, textarea:focus {
 	border-color: #666;
 }
 
@@ -528,6 +529,8 @@ input[type="checkbox"] + label, input[type="radio"] + label {
 
 
 select {
+	background: white;
+	margin: 8px;
 	padding: 8px 4px !important;
 	vertical-align: middle;
 }
@@ -971,7 +974,7 @@ option {
 
 
 .ui-tabs {
-	background: #FCFCFC;
+	background: #E9EBEC;
 	border-bottom: 1px solid #ccc;
 }
 
@@ -989,6 +992,8 @@ option {
 
 .ui-tabs ul li {
 	background: #F2F5F6;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 	list-style: none;
 	padding: 8px;
 }
@@ -997,16 +1002,18 @@ option {
 	margin-top: 0px;
 }
 
-.ui-tabs ul li.active:last-of-type {
+.ui-tabs ul li:last-of-type {
+	border-bottom: 0 !important;
 	margin-bottom: 0px;
 }
 
 .ui-tabs ul li.active {
-	background: #FCFCFC;
+	background: #E9EBEC;
+	border-right: 0;
 }
 
 .ui-tabs section {
-	background: #FCFCFC;
+	background: #E9EBEC;
 	display: none;
 	float: left;
 	min-width: 60%;
@@ -1019,42 +1026,6 @@ option {
 
 
 
-
-/*
-
-.ui-tabs ul {
-	margin-bottom: 0;
-	margin-left: -24px;
-}
-
-.ui-tabs ul li {
-	border-top: 1px solid #799AA5;
-	border-right: 1px solid #799AA5;
-	border-bottom: 1px solid #fff;
-	border-left: 1px solid #799AA5;
-	display: inline-block;
-	list-style: none;
-	margin-right: 2px;
-	margin-bottom: -1px;
-	padding: 8px 8px;
-}
-
-.ui-tabs section {
-	border: 1px solid #799AA5;
-	display: none;
-	margin-left: -24px;
-	margin-right: -16px;
-	margin-top: 0;
-	margin-bottom: 1em;
-	padding-left: 24px;
-	padding-right: 16px;
-}
-
-.ui-tabs section:nth-of-type(1) {
-	display: block;
-}
-
-*/
 
 .button, button, input[type="submit"], input[type="button"] {
 	background-color: #d7e5f5;
