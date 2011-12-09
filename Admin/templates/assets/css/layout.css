@@ -513,7 +513,11 @@ p input[type="checkbox"]:first-child, p input[type="radio"]:first-child {
 
 input[disabled="disabled"] {
 	border-color: #000;
-	
+}
+
+input[type="file"] {
+	background: white;
+	margin: 8px;
 }
 
 input[type="checkbox"] + label, input[type="radio"] + label {
@@ -684,7 +688,7 @@ option {
 }
 
 .editimage {
-	background: url(../images/fugue/picture--pencil.png) no-repeat;
+	background: url(../images/fugue/picture--pencil.png) no-repeat left center;
 	padding-left: 20px;
 }
 
@@ -1117,5 +1121,11 @@ option {
 	background-image: -ms-linear-gradient(top, #e38e8e, #e18686);
 	background-image: -o-linear-gradient(top, #e38e8e, #e18686);
 	background-image: linear-gradient(top, #e38e8e, #e18686);
+}
+
+#dashlist li a {
+	display: inline-block;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
