@@ -4,28 +4,32 @@
 	<general label="General">
 
 		<site label="Site settings" type="group">
-			<sitename label="Sitename" type="text">My Photoblog</sitename>
+			<sitename label="Sitename" type="text">blog.waporize.net</sitename>
 		</site>
 
 		<exif label="EXIF settings" type="group">
 			<publishByDefault label="Publishing of EXIF data active by default?" type="checkbox">1</publishByDefault>
-			<fields label="Fields to publish (comma separated)" type="text"></fields>
+			<fields label="Fields to publish (comma separated)" type="text"/>
 		</exif>
 
 	</general>
 
 	<system label="System">
 
+		<config label="General configuration">
+			<language label="Blog language" type="select" callback="i18n_Translate::getLanguages()">de_DE</language>
+		</config>
+
 		<email label="Email" type="group">
 
 			<default label="Default" type="group">
 				<name label="From" type="text">[[Sitename]]</name>
-				<address label="Address" type="email">info@example.org</address>
+				<address label="Address" type="email">info@scenito.de</address>
 			</default>
 
 			<signup label="Signup">
 				<name label="From">[[Sitename]] Signup</name>
-				<address label="Address" type="email">signup@example.org</address>
+				<address label="Address" type="email">signup@scenito.de</address>
 			</signup>
 
 		</email>
@@ -36,7 +40,7 @@
 
 		<backend label="Backend configuration">
 			<photosPerPage label="Photos per page shown in backend list" type="number" min="1" max="50" default="15">15</photosPerPage>
-			<stylesheet label="Path to backend stylesheet." type="text" info="(Relative to /Admin/. Default: templates/assets/css/layout.css)" >templates/assets/css/layout.css</stylesheet>
+			<stylesheet label="Path to backend stylesheet." type="text" info="(Relative to /Admin/. Default: templates/assets/css/layout.css)">templates/assets/css/layout.css</stylesheet>
 			<extRepoUrl label="URL to the extension repository" type="text">http://extensions.exhibit-blog.net/1.0/</extRepoUrl>
 		</backend>
 
@@ -54,12 +58,12 @@
 		<layout label="Layout">
 			<main label="Theme" type="select" callback="Application_View_Theme::getThemelist()">default</main>
 			<photosPerPage label="Photos per page on frontpage" type="number" min="1" max="25" default="1">4</photosPerPage>
-			<showCommentsOnIndex label="Show comments on index?" type="checkbox" default="0" info="If not checked you have to click a photo first to see the comments and the commentform">1</showCommentsOnIndex>
+			<showCommentsOnIndex label="Show comments on index?" type="checkbox" default="0" info="If not checked you have to click a photo first to see the comments and the commentform">0</showCommentsOnIndex>
 		</layout>
 
 		<pages label="Pages">
 			<allowHTML label="Allow HTML on content pages?" type="checkbox" default="1">1</allowHTML>
-			<allowedHTMLElements label="Allowed HTML elements" type="text" default="a,strong,em,span,img,h1,h2,h3,h4,br,p">a,strong,em,span,img,h1,h2,h3,h4,br,p</allowedHTMLElements>
+			<allowedHTMLElements label="Allowed HTML elements" type="text" default="a,strong,em,span,img,h1,h2,h3,h4,br,p">a,strong,em,span,img,h1,h2,h3,h4,br,p,br</allowedHTMLElements>
 		</pages>
 
 	</theme>

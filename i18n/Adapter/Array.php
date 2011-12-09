@@ -12,13 +12,13 @@ class i18n_Adapter_Array {
 	public function setLocale($locale) {
 
 		$this->locale = $locale;
-		$localeFile = Application_Base::getCoreDir() . "/i18n/lang/array/" . $locale . ".php";
+		$localeFile = Application_Base::getCoreDir() . "/i18n/lang/Array/" . $locale . ".php";
 
 		if(Modules_Filesys::isFile($localeFile)) {
 			include_once $localeFile;
 			$this->lang[$locale] = $_lang;
 		} else {
-			include_once Application_Base::getCoreDir() . "/i18n/lang/array/en_EN.php"
+			include_once Application_Base::getCoreDir() . "/i18n/lang/Array/en_EN.php";
 			$this->lang[$locale] = $_lang;
 		}
 

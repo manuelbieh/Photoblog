@@ -527,14 +527,14 @@ input[type="checkbox"] + label, input[type="radio"] + label {
 
 
 
-
 select {
+	padding: 8px 4px !important;
 	vertical-align: middle;
 }
 
 option {
-	padding: 8px;
 	vertical-align: middle;
+	padding: 0 8px;
 }
 
 .i1 { width: 64px; }
