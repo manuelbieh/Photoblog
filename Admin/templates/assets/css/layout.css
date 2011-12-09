@@ -480,7 +480,7 @@ fieldset label, fieldset .label {
 
 input[type="button"], input[type="submit"] {
 	text-shadow: 1px 1px 0 #e6e6e6;
-	margin: 8px 0;
+	margin: 0;
 }
 
 input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], input[type="number"], textarea {
@@ -1129,3 +1129,10 @@ option {
 	padding-bottom: 4px;
 }
 
+p.pad {
+	padding: 8px;
+}
+
+p.pad:before {
+	border: 0;
+}
