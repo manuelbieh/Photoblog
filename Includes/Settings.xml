@@ -20,12 +20,12 @@
 
 			<default label="Default" type="group">
 				<name label="From" type="text">[[Sitename]]</name>
-				<address label="Address" type="email">info@scenito.de</address>
+				<address label="Address" type="email">info@example.org</address>
 			</default>
 
 			<signup label="Signup">
 				<name label="From">[[Sitename]] Signup</name>
-				<address label="Address" type="email">signup@scenito.de</address>
+				<address label="Address" type="email">signup@example.org</address>
 			</signup>
 
 		</email>
