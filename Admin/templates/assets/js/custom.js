@@ -59,12 +59,13 @@ $(function() {
 
 		$('body').append('<div class="contentspinner"></div>');
 
-		$$ = $(this);
+		var $$ = $(this);
 		$.ajax({
 			url: $$.attr('href'),
 			type: 'get',
 			data: 'ajax=true',
 			success: function(content) {
+
 				$('#content').html(content).css({opacity: 1});
 				$('ul#menu li ul li').removeClass('active');
 				$$.parent('li').addClass('active');
@@ -85,7 +86,6 @@ $(function() {
 					activeItem.attr('id', tempId);
 
 				}
-
 				history.pushState({active: tempId, text: activeItem.text()}, null, $$.attr('href'));
 
 				$('.contentspinner').remove();

@@ -45,7 +45,7 @@ $(function() {
 				name: "<?php echo __("Rename"); ?>",
 				icon: "tree-renamepage",
 				callback: function(key, opt) {
-					var newName = prompt("<?php echo __('Enter a new name: '); ?>", opt.$trigger.text());
+					var newName = prompt("<?php echo __('Enter a new name: '); ?>", opt.$trigger.find('> span').text());
 					if(newName != '') {
 						$.ajax({
 							url: ApplicationURL + 'Page/edit/' + opt.$trigger.data('page_id') + '/inline?ajax=true',
@@ -56,7 +56,7 @@ $(function() {
 								if(response.error) {
 									alert(response.error);
 								} else {
-									opt.$trigger.find('span').text(newName);
+									opt.$trigger.find('> span').text(newName);
 								}
 							}
 						});

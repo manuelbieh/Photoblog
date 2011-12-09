@@ -39,7 +39,7 @@
 
 html, body {
 	background: white;
-	color: #333;
+	color: #555;
 	font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
 	font-size: 13px;
 	line-height: 19px;
@@ -268,9 +268,12 @@ p {
 }
 
 label {
+	cursor: pointer;
 	display: block;
 	vertical-align: middle;
 }
+
+/*
 
 fieldset {
 	border: 1px solid #799aa5;
@@ -292,12 +295,12 @@ legend {
 
 fieldset p {
 
-	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(121,154,165,0.1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(121,154,165,0.1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* IE10+ */
-	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* W3C */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(121,154,165,0.1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(121,154,165,0.1)));
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); 
+	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%);
+	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); 
+	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); 
 
 	border-bottom: 1px solid #d7e1e4;
 	clear: both;
@@ -308,21 +311,21 @@ fieldset p {
 }
 
 fieldset p:hover {
-	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(121,154,165,0.2) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(121,154,165,0.2))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); /* IE10+ */
-	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); /* W3C */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(121,154,165,0.2) 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(121,154,165,0.2)));
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); 
+	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); 
+	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); 
+	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%);
 }
 
 fieldset p.optional {
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(165,165,165,0.05) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.05)), color-stop(100%,rgba(165,165,165,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); /* IE10+ */
-	background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); /* W3C */
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(165,165,165,0.05) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.05)), color-stop(100%,rgba(165,165,165,1)));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); 
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); 
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%);
+	background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%);
 	color: #999;
 }
 
@@ -348,8 +351,10 @@ fieldset p label.fullwidth {
 fieldset label, fieldset .label {
 	font-weight: bold;
 }
+*/
 
 
+/*
 input[type="button"], input[type="submit"] {
 	padding: 8px;
 	text-shadow: 1px 1px 0 #e6e6e6;
@@ -358,8 +363,6 @@ input[type="button"], input[type="submit"] {
 input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], textarea {
 	border: 1px solid #2b4e69;
 	border-radius: 8px;
-/*border-top-width: 2px;
-border-left-width: 2px;*/
 	font-family: inherit;
 	font-size: 110%;
 	padding: 8px;
@@ -383,6 +386,147 @@ textarea:focus, input:focus {
 -moz-box-shadow: inset 1px 1px 4px -2px #000;
 }
 
+input[type="checkbox"] + label {
+	display: inline; 
+}
+
+*/
+
+
+
+fieldset {
+	background: #F2F5F6;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin-bottom: 2em;
+	max-width: 800px;
+	padding: 0;
+}
+
+fieldset fieldset {
+	background: #e9ebec;
+	margin: 2em;
+}
+
+fieldset fieldset legend {
+	background: #dddddd;
+}
+
+fieldset legend {
+	background: #e6e6e6;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	-moz-border-radius: 8px 8px 0 0;
+	-webkit-border-radius: 8px 8px 0 0;
+	border-radius: 8px 8px 0 0;
+	display: block;
+	font-weight: 700;
+	margin: 0 -1px 0 -1px;
+	min-height: 20px;
+	padding: 8px 0;
+	text-indent: 8px;
+	width: 100%;
+}
+
+fieldset p {
+	margin: 0;
+}
+
+fieldset p:before {
+	border-top: 1px solid white;
+	content: " ";
+	display: block;
+}
+
+fieldset p:after {
+	clear: both;
+	content: " ";
+	display: block;
+}
+
+fieldset p {
+	border-bottom: 1px solid #ccc;
+	padding: 0;
+}
+
+/*
+fieldset p:first-of-type {
+	padding-top: 8px;
+}
+*/
+
+fieldset p:last-child {
+	border-bottom: 0;
+	margin-bottom: 0;
+}
+
+fieldset p label {
+	padding: 8px 8px;
+}
+
+fieldset p label:first-child {
+	float: left;
+	/*width: 180px;*/
+	width: 30%
+}
+
+fieldset p label.fullwidth {
+	width: auto;
+}
+
+fieldset label, fieldset .label {
+	font-weight: bold;
+}
+
+input[type="button"], input[type="submit"] {
+	text-shadow: 1px 1px 0 #e6e6e6;
+	margin: 8px 0;
+}
+
+input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], textarea {
+	border: 1px solid #ccc;
+	display: block;
+	font-family: inherit;
+	font-size: 110%;
+	text-shadow: 1px 1px 0 #e6e6e6;
+	margin: 8px;
+	padding: 8px;
+	width: 60%;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="datetime"]:focus, input[type="url"]:focus, input[type="tel"]:focus, input[type="search"]:focus, input[type="password"]:focus, textarea:focus {
+	border-color: #666;
+}
+
+input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], select {
+	
+}
+
+input[type="checkbox"], input[type="radio"] {
+	vertical-align: middle;
+}
+
+p input[type="checkbox"]:first-child, p input[type="radio"]:first-child {
+	margin-left: 8px;
+}
+
+input[disabled="disabled"] {
+	border-color: #000;
+	
+}
+
+input[type="checkbox"] + label, input[type="radio"] + label {
+	display: inline-block; 
+	padding: 8px 0;
+}
+
+
+
+
+
+
+
+
 
 select {
 	vertical-align: middle;
@@ -403,10 +547,6 @@ option {
 .i8 { width: 768px; }
 .i9 { width: 960px; }
 .i10 { width: 100%px; }
-
-input[type="checkbox"] + label {
-	display: inline; 
-}
 
 
 .errors {
@@ -625,6 +765,8 @@ input[type="checkbox"] + label {
 .pagination a .pLabel {
 	border: 1px solid #ccc;
 	color: #2b4e69;
+	line-height: 2em;
+	white-space: pre;
 }
 
 .pagination a .pLabel:hover {
@@ -735,8 +877,10 @@ input[type="checkbox"] + label {
 }
 
 .itemlist {
-	border-top: 1px solid #e6e6e6;
+	border: 1px solid #e6e6e6;
+	border-radius: 8px;
 	margin: 0;
+	max-width: 800px;
 	padding: 0;
 }
 
@@ -752,8 +896,6 @@ input[type="checkbox"] + label {
 	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* IE10+ */
 	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); /* W3C */
-
-
 	border-bottom: 1px solid #e6e6e6;
 	list-style: none;
 	max-width: 100%;
@@ -763,6 +905,10 @@ input[type="checkbox"] + label {
 
 .itemlist > li:nth-child(even) {
 
+}
+
+.itemlist > li:last-child {
+	border-bottom: 0;
 }
 
 .itemlist ul li {
@@ -822,6 +968,60 @@ input[type="checkbox"] + label {
 
 
 
+
+
+.ui-tabs {
+	background: #FCFCFC;
+	border-bottom: 1px solid #ccc;
+}
+
+.ui-tabs:after {
+	clear: left;
+	content: " ";
+	display: block;
+}
+
+.ui-tabs ul {
+	float: left;
+	margin: 0;
+	width: 30%;
+}
+
+.ui-tabs ul li {
+	background: #F2F5F6;
+	list-style: none;
+	padding: 8px;
+}
+
+.ui-tabs ul li.active:first-of-type {
+	margin-top: 0px;
+}
+
+.ui-tabs ul li.active:last-of-type {
+	margin-bottom: 0px;
+}
+
+.ui-tabs ul li.active {
+	background: #FCFCFC;
+}
+
+.ui-tabs section {
+	background: #FCFCFC;
+	display: none;
+	float: left;
+	min-width: 60%;
+	padding: 0 4px;
+}
+
+.ui-tabs section:nth-of-type(1) {
+	display: block;
+}
+
+
+
+
+/*
+
 .ui-tabs ul {
 	margin-bottom: 0;
 	margin-left: -24px;
@@ -854,6 +1054,7 @@ input[type="checkbox"] + label {
 	display: block;
 }
 
+*/
 
 .button, button, input[type="submit"], input[type="button"] {
 	background-color: #d7e5f5;
@@ -946,3 +1147,4 @@ input[type="checkbox"] + label {
 	background-image: -o-linear-gradient(top, #e38e8e, #e18686);
 	background-image: linear-gradient(top, #e38e8e, #e18686);
 }
+

@@ -73,11 +73,11 @@ class Modules_XMLSimpleForm {
 				break;
 
 
-			case 'range':
+			case 'number':
 
 				$data .= '<p>';
 				$data .= '<label for="data[' . $xpath . ']">' . ($label) . '</label>';
-				$data .= '<input type="range" min="' . (int) $node->getAttribute('min') . '" max="' . (int) $node->getAttribute('max') . '" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="' . $node->textContent . '" />';
+				$data .= '<input type="number" min="' . (int) $node->getAttribute('min') . '" max="' . (int) $node->getAttribute('max') . '" id="data[' . $xpath . ']" name="data[' . $xpath . ']" value="' . $node->textContent . '" />';
 				$data .= $info;
 				$data .= '</p>';
 				break;

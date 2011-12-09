@@ -217,6 +217,8 @@ class Admin_Controller_Extensions extends Controller_Frontend {
 
 		}
 
+		$subview = new Application_View_String(__('Extension browser is coming soon!'));
+
 		$this->view->addSubview('main', $subview);
 
 	}
