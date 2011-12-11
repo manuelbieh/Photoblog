@@ -98,17 +98,37 @@ $(function() {
 	});
 
 	$.each($('.ui-tabs.radio > ul > li input:radio'), function(i, el) {
-		if($(el).is(':checked')) {
-			$(el).parents('.ui-tabs').find('section').hide();
-			$(el).parents('.ui-tabs').find('section[data-value="' + $(el).val() + '"]').show();
-		}
-	});
 
+		var $parentTabContainer = $(el).parents('.ui-tabs');
+		var $$ = $(el);
+
+		if($$.is(':checked')) {
+
+			$parentTabContainer.find('section').hide();
+			$parentTabContainer.find('section[data-value="' + $$.val() + '"]').show();
+			$$.parents('li').addClass('active');
+
+		}
+		
+		$$.bind('click', function() {
+
+			var $currentTabParentContainer = $(this).parents('.ui-tabs');
+
+			$currentTabParentContainer.find('section').hide();
+			$currentTabParentContainer.find('section[data-value="' + $(this).val() + '"]').show();
+
+			$currentTabParentContainer.find('li').removeClass('active');
+			$(this).parents('li').addClass('active');
+
+		});
+
+	});
+/*
 	$('.ui-tabs.radio > ul > li input:radio').bind('click', function() {
-		$$ = $(this);
+		var $$ = $(this);
 		$$.parents('.ui-tabs').find('section').hide();
 		$$.parents('.ui-tabs').find('section[data-value="' + $$.val() + '"]').show();
 	});
-
+*/
 });
 </script>
