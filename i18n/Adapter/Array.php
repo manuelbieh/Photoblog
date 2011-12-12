@@ -12,7 +12,20 @@ class i18n_Adapter_Array {
 	public function setLocale($locale) {
 
 		$this->locale = $locale;
+
 		$localeFile = Application_Base::getCoreDir() . "/i18n/lang/Array/" . $locale . ".php";
+		if($this->app instanceof Application_Base) {
+
+			$localeFiles[] = Application_Base::getProjectDir() . "/i18n/lang/Array/" . $locale . ".php";
+			$localeFiles[] = Application_Base::getCoreDir() . "/i18n/lang/Array/" . $locale . ".php";
+
+			foreach($localFiles AS $locale) {
+				if(Module_Filesys::isFile($locale)) {
+					include_once $localeFile;
+					$this->lang[$locale] = $_lang;
+				}
+			}
+		}
 
 		if(Modules_Filesys::isFile($localeFile)) {
 			include_once $localeFile;

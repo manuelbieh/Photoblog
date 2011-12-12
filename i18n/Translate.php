@@ -2,10 +2,12 @@
 
 class i18n_Translate {
 
+	public $adapter;
+
 	public function __construct($adapter=NULL) {
 
 		if($adapter === NULL) {
-			$adapte = new i18n_Adapter_Array();
+			$adapter = new i18n_Adapter_Array();
 		}
 
 		$this->adapter = $adapter;

@@ -12,5 +12,6 @@ $app->setProjectDir(dirname(__FILE__ . "/.."));
 include_once 'Functions.inc.php';
 
 $app->objectManager->register('Datastore', $pdodb);
+$app->objectManager->register('Translate', $translate);
 
 #spl_autoload_register('Application_Base::__autoload');
