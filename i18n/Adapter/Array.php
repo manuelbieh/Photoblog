@@ -31,7 +31,7 @@ class i18n_Adapter_Array {
 			include_once $localeFile;
 			$this->lang[$locale] = $_lang;
 		} else {
-			include_once Application_Base::getCoreDir() . "/i18n/lang/Array/en_EN.php";
+			include_once Application_Base::getCoreDir() . "/i18n/lang/Array/en_US.php";
 			$this->lang[$locale] = $_lang;
 		}
 
