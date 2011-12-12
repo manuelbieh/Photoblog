@@ -9,6 +9,8 @@ if(!function_exists('__')) {
 
 	function __($string, $locale=NULL) {
 
+		global $app; // URRRRRGHS!!!
+
 		$translationsFile = Application_Base::getCoreDir() . 'i18n/Strings.txt';
 		$translationsFile = Application_Base::getCoreDir() . 'i18n/Strings2.txt';
 
@@ -37,7 +39,8 @@ if(!function_exists('__')) {
 
 		}
 
-		$translate = Application_Registry::get('translate');
+		//$translate = Application_Registry::get('translate');
+		$translate = $app->objectManager->get('Translate');
 		if($translate != NULL) {
 			return $translate->__($string, $locale);
 		} else {

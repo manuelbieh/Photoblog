@@ -14,6 +14,10 @@ class i18n_Translate {
 
 	}
 
+	public function setAdapter($adapter) {
+		$this->adapter = $adapter;
+	}
+
 	public function setLocale($locale) {
 
 		$this->adapter->setLocale($locale);
@@ -24,6 +28,10 @@ class i18n_Translate {
 
 		return $this->adapter->__($string, $locale);
 
+	}
+
+	public function getAdapter() {
+		return $this->adapter;
 	}
 
 	public function getLanguages() {

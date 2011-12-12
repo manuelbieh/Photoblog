@@ -19,10 +19,10 @@ class i18n_Adapter_Array {
 			$localeFiles[] = Application_Base::getProjectDir() . "/i18n/lang/Array/" . $locale . ".php";
 			$localeFiles[] = Application_Base::getCoreDir() . "/i18n/lang/Array/" . $locale . ".php";
 
-			foreach($localFiles AS $locale) {
-				if(Module_Filesys::isFile($locale)) {
+			foreach($localeFiles AS $locale) {
+				if(Modules_Filesys::isFile($locale)) {
 					include_once $localeFile;
-					$this->lang[$locale] = $_lang;
+					$this->lang[basename($locale, '.php')] = $_lang;
 				}
 			}
 		}
@@ -35,6 +35,10 @@ class i18n_Adapter_Array {
 			$this->lang[$locale] = $_lang;
 		}
 
+	}
+
+	public function getLocale() {
+		return $this->locale;
 	}
 
 	public function __($string, $locale=NULL) {
