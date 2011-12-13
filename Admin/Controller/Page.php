@@ -249,7 +249,7 @@ class Admin_Controller_Page extends Controller_Frontend {
 
 			if($page == false) {
 
-				$response = array('error'=>__('The page you’re trying to delete does not exist.'));
+				$response = array('error'=>__('The page youâ€™re trying to delete does not exist.'));
 
 			} else {
 

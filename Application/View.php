@@ -175,7 +175,7 @@ class Application_View {
 					$this->HTML = ob_get_contents();
 					ob_end_clean();
 				} else {
-					#throw new Exception(__('Template not found: ' . $origFilename . '/' . $this->HTMLFile));
+					#throw new Exception(sprintf(__('Template not found: %s'), $origFilename . '/' . $this->HTMLFile));
 				}
 			}
 

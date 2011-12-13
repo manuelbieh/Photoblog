@@ -16,7 +16,7 @@ class Extensions_Manuel_Admin_Controller_User extends Application_Extension {
 			$mail = new Modules_Mail_Mail();
 
 			$mail->setRecipient($user['email'], $user['username']);
-			$mail->setSubject(__('New account for photoblog "' . $sitename . '"'));
+			$mail->setSubject(sprintf(__('New account for photoblog "%s"'), $sitename));
 			$mail->setFrom($signupInfo['address'], str_replace('[[Sitename]]', $sitename, $signupInfo['name']));
 
 			$mail->setMessage(
