@@ -1,4 +1,4 @@
-
+<?php
 $_lang['Dashboard'] = 'Dashboard';
 $_lang['Photos'] = 'Fotos';
 $_lang['New'] = 'Neu';
@@ -243,7 +243,7 @@ $_lang['Sorry, nothing to see here yet.'] = 'Sorry, hier gibt es noch nichts zu 
 $_lang['Create new usergroup'] = 'Benutzergruppe erstellen.';
 $_lang['Group information'] = 'Gruppen-Information';
 $_lang['Grouptitle'] = 'Gruppentitel';
-$_lang['Group active?'] = ''Gruppe aktiv?;
+$_lang['Group active?'] = 'Gruppe aktiv?';
 $_lang['Enter Something'] = 'Gib etwas ein';
 $_lang['Enter Something:'] = 'Gib etwas ein:';
 $_lang['Path to backend stylesheet.'] = 'Pfad zum Backend-Stylesheet';
