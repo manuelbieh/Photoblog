@@ -5,6 +5,13 @@ $_lang['<strong>get_magic_quotes</strong> is currently \'on\'. It\'s strongly re
 $_lang['<strong>mod_rewrite</strong> is required and seems to be unavailable on this server. Installation will proceed but there’s no guarantee the application will run properly.'] = '';
 $_lang['A User with this email is already registered.'] = '';
 $_lang['A backup of your system was created successfully. You can find it in your /Sys/backup folder'] = '';
+$_lang['A new account for "%s" has been created. 
+
+Username: %s
+Password: %s
+
+Click here to login:
+%s'] = '';
 $_lang['Account active?'] = '';
 $_lang['Account information'] = '';
 $_lang['Action cancelled by the user.'] = '';
@@ -177,6 +184,7 @@ $_lang['Mrs.'] = '';
 $_lang['My profile'] = '';
 $_lang['Name'] = '';
 $_lang['New account for photoblog "%s"'] = '';
+$_lang['New account for photoblog "blog.waporize.net"'] = '';
 $_lang['New password'] = '';
 $_lang['New photo'] = '';
 $_lang['New user profile was created successfully!'] = '';
@@ -186,6 +194,7 @@ $_lang['No comments so far.'] = '';
 $_lang['No photos were found.'] = '';
 $_lang['No settings available'] = '';
 $_lang['No updates available'] = '';
+$_lang['No valid email address!'] = '';
 $_lang['Not found'] = '';
 $_lang['Notifications'] = '';
 $_lang['Now'] = '';
@@ -201,14 +210,17 @@ $_lang['Page information'] = '';
 $_lang['Page not found or invalid data.'] = '';
 $_lang['Page was deleted successfully!'] = '';
 $_lang['Page was deleted successfully.'] = '';
+$_lang['Page was update successfully.'] = '';
 $_lang['Page was updated successfully.'] = '';
 $_lang['Page was updated.'] = '';
 $_lang['Pages'] = '';
 $_lang['Password'] = '';
 $_lang['Password and password confirmation did not match.'] = '';
+$_lang['Password and password confirmation values did not match.'] = '';
 $_lang['Password cannot be reset. The specified user could not be found.'] = '';
 $_lang['Password could not be reset.'] = '';
 $_lang['Password has been reset successfully.'] = '';
+$_lang['Password must be at least 6 characters'] = '';
 $_lang['Password reset'] = '';
 $_lang['Path to backend stylesheet.'] = '';
 $_lang['Permission'] = '';
@@ -277,6 +289,7 @@ $_lang['System update status'] = '';
 $_lang['Tags'] = '';
 $_lang['Tags (comma separated)'] = '';
 $_lang['Template not found: %s'] = '';
+$_lang['Test'] = '';
 $_lang['The Settings you’ve made were saved successfully.'] = '';
 $_lang['The extension %s was activated successfully.'] = '';
 $_lang['The extension was deactivated successfully.'] = '';
@@ -314,6 +327,7 @@ $_lang['User settings were updated successfully!'] = '';
 $_lang['Usergroup was created successfully'] = '';
 $_lang['Username'] = '';
 $_lang['Username already exists.'] = '';
+$_lang['Username must be between 3 and 32 characters long.'] = '';
 $_lang['Username or email could not be found.'] = '';
 $_lang['Users'] = '';
 $_lang['View all …'] = '';

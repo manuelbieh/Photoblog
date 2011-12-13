@@ -4,6 +4,13 @@
 <strong>mod_rewrite</strong> is required and seems to be unavailable on this server. Installation will proceed but there’s no guarantee the application will run properly.
 A User with this email is already registered.
 A backup of your system was created successfully. You can find it in your /Sys/backup folder
+A new account for "%s" has been created. 
+
+Username: %s
+Password: %s
+
+Click here to login:
+%s
 Account active?
 Account information
 Action cancelled by the user.
@@ -176,6 +183,7 @@ Mrs.
 My profile
 Name
 New account for photoblog "%s"
+New account for photoblog "blog.waporize.net"
 New password
 New photo
 New user profile was created successfully!
@@ -185,6 +193,7 @@ No comments so far.
 No photos were found.
 No settings available
 No updates available
+No valid email address!
 Not found
 Notifications
 Now
@@ -200,14 +209,17 @@ Page information
 Page not found or invalid data.
 Page was deleted successfully!
 Page was deleted successfully.
+Page was update successfully.
 Page was updated successfully.
 Page was updated.
 Pages
 Password
 Password and password confirmation did not match.
+Password and password confirmation values did not match.
 Password cannot be reset. The specified user could not be found.
 Password could not be reset.
 Password has been reset successfully.
+Password must be at least 6 characters
 Password reset
 Path to backend stylesheet.
 Permission
@@ -276,6 +288,7 @@ System update status
 Tags
 Tags (comma separated)
 Template not found: %s
+Test
 The Settings you’ve made were saved successfully.
 The extension %s was activated successfully.
 The extension was deactivated successfully.
@@ -313,6 +326,7 @@ User settings were updated successfully!
 Usergroup was created successfully
 Username
 Username already exists.
+Username must be between 3 and 32 characters long.
 Username or email could not be found.
 Users
 View all …

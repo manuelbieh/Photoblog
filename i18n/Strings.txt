@@ -1,7 +1,15 @@
 /*END*/
 (Relative to /Admin/. Default: templates/assets/css/layout.css)/*END*/
+A new account for "%s" has been created. 
+
+Username: %s
+Password: %s
+
+Click here to login:
+%s/*END*/
 Account active?/*END*/
 Account information/*END*/
+Active/*END*/
 Active extensions/*END*/
 Address/*END*/
 After this page/*END*/
@@ -13,13 +21,25 @@ Are you sure you want to deactivate the extension?/*END*/
 Are you sure you want to delete the comment?/*END*/
 Are you sure you want to delete the file/*END*/
 Are you sure you want to delete the user/*END*/
+Are you sure you want to delete this comment?/*END*/
 Are you sure you want to delete this page and (all its subpages!)?/*END*/
+Are you sure you want to delete this photo?/*END*/
+Author URL/*END*/
+Author email/*END*/
+Back to overview/*END*/
+Back to page/*END*/
 Backend configuration/*END*/
 Birthname/*END*/
 Blog language/*END*/
 Browse/*END*/
 Check for updates every x days/*END*/
+Click here to configure it now./*END*/
+Comment/*END*/
+Comment deleted/*END*/
+Comment edited successfully!/*END*/
+Comment was deleted successfully!/*END*/
 Comments/*END*/
+Content:/*END*/
 Create new page/*END*/
 Create new user/*END*/
 Dashboard/*END*/
@@ -32,7 +52,9 @@ Delete user/*END*/
 Description/*END*/
 EXIF settings/*END*/
 Edit comment/*END*/
+Edit comment #/*END*/
 Edit details/*END*/
+Edit extension settings/*END*/
 Edit image/*END*/
 Edit page/*END*/
 Edit permissions/*END*/
@@ -43,7 +65,9 @@ Email/*END*/
 Enable automatic updates to keep your software up-to-date?/*END*/
 Enter URL/*END*/
 Enter a new name:/*END*/
+Extension activated successfully/*END*/
 Extension browser is coming soon!/*END*/
+Extension is configurable./*END*/
 Extensions/*END*/
 Female/*END*/
 Fields to publish (comma separated)/*END*/
@@ -54,6 +78,7 @@ Gender/*END*/
 General/*END*/
 General configuration/*END*/
 Go back/*END*/
+Hide from menus/*END*/
 If not checked you have to click a photo first to see the comments and the commentform/*END*/
 Inactive extensions/*END*/
 Inside this page/*END*/
@@ -72,22 +97,38 @@ Manage photos/*END*/
 Manage uploaded images/*END*/
 Manage uploaded photos/*END*/
 Manage users/*END*/
+Menutitle/*END*/
 Mr./*END*/
 Mrs./*END*/
 My profile/*END*/
+Name/*END*/
+New account for photoblog "blog.waporize.net"/*END*/
 New photo/*END*/
+New user profile was created successfully!/*END*/
+No valid email address!/*END*/
 Notifications/*END*/
 Options/*END*/
 Original size/*END*/
+Page information/*END*/
+Page was update successfully./*END*/
+Page was updated./*END*/
 Pages/*END*/
 Password/*END*/
+Password and password confirmation values did not match./*END*/
+Password must be at least 6 characters/*END*/
 Path to backend stylesheet./*END*/
+Permission/*END*/
+Permissions for the user have been changed successfully!/*END*/
+Permissions were set successfully/*END*/
 Personal information/*END*/
 Photo information/*END*/
 Photos/*END*/
 Photos per page on frontpage/*END*/
 Photos per page shown in backend list/*END*/
+Please enter a pagetitle/*END*/
 Profile image/*END*/
+Profile updated successfully/*END*/
+Profile was created successfully/*END*/
 Publish EXIF data?/*END*/
 Publish date (YYYY-MM-DD)/*END*/
 Publish new photo/*END*/
@@ -99,9 +140,11 @@ Repeat password/*END*/
 Salutation/*END*/
 Select file/*END*/
 Select image/*END*/
+Select permissions/*END*/
 Send notification emails on new comments/*END*/
 Settings/*END*/
 Settings changed/*END*/
+Settings changed successfully!/*END*/
 Show comments on index?/*END*/
 Show newest first/*END*/
 Show oldest first/*END*/
@@ -111,8 +154,13 @@ Sitename/*END*/
 System/*END*/
 Tags/*END*/
 Tags (comma separated)/*END*/
+Test/*END*/
+The Settings you’ve made were saved successfully./*END*/
+The extension %s was activated successfully./*END*/
+The extension was deactivated successfully./*END*/
 Theme/*END*/
 Title/*END*/
+Title shown in navigation menus/*END*/
 URL to the extension repository/*END*/
 Update/*END*/
 UpdateServerUrl/*END*/
@@ -120,13 +168,18 @@ Upload/*END*/
 Upload new photo/*END*/
 Uploaded/*END*/
 Username/*END*/
+Username must be between 3 and 32 characters long./*END*/
 Users/*END*/
 View all …/*END*/
 View comments/*END*/
 View userlist/*END*/
+Wait, no no no!/*END*/
 We currently have %s photos uploaded and %s comments received./*END*/
 What do you want to do next?/*END*/
+Yes, please!/*END*/
 Your majesty/*END*/
+Your page was updated successfully!/*END*/
+Your profile was updated successfully!/*END*/
 Your settings were saved successfully./*END*/
 at/*END*/
 by/*END*/
