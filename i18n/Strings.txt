@@ -1,128 +1,135 @@
-array (
-  0 => 'Are you sure you want to delete the file ',
-  1 => 'Edit photo',
-  2 => 'General information',
-  3 => 'Title',
-  4 => 'Account information',
-  5 => 'Email',
-  6 => 'Password',
-  7 => 'Repeat password',
-  8 => 'Personal information',
-  9 => 'Firstname',
-  10 => 'Lastname',
-  11 => 'Birthname',
-  12 => 'You\'ve currently uploaded %s photos and received %s comments.',
-  13 => 'What do you want to do next?',
-  14 => 'Upload new photo',
-  15 => 'View comments',
-  16 => 'Recent comments',
-  17 => 'commented on',
-  18 => 'edit',
-  19 => 'Are you sure you want to delete the comment?',
-  20 => 'Manage users',
-  21 => 'Site settings',
-  22 => 'Sitename',
-  23 => 'EXIF settings',
-  24 => 'Publishing of EXIF data active by default?',
-  25 => 'Fields to publish (comma separated)',
-  26 => 'Default',
-  27 => 'From',
-  28 => 'Address',
-  29 => 'Signup',
-  30 => 'Theme',
-  31 => 'Photos per page on frontpage',
-  32 => 'Yes, please!',
-  33 => 'Wait, no no no!',
-  34 => 'Manage photos',
-  35 => 'Username',
-  36 => 'Account active?',
-  37 => 'Personal data',
-  38 => 'Salutation',
-  39 => 'Gender',
-  40 => 'Male',
-  41 => 'Female',
-  42 => 'Profile updated successfully',
-  43 => 'Your profile was updated successfully!',
-  44 => 'Create new user',
-  45 => 'User',
-  46 => 'Contact',
-  47 => 'Edit comment',
-  48 => 'Edit comment #',
-  49 => 'Name',
-  50 => 'Author URL',
-  51 => 'Author email',
-  52 => 'Comment',
-  53 => 'Comment edited successfully!',
-  54 => 'New photo',
-  55 => 'Photo information',
-  56 => 'Description',
-  57 => 'Select image',
-  58 => 'Tags (comma separated)',
-  59 => 'e.g. outdoor, landscape, body',
-  60 => 'Options',
-  61 => 'Publish now',
-  62 => 'Publish date',
-  63 => 'Publish exif data',
-  64 => 'New account for photoblog "My Photoblog"',
-  65 => 'A new account for "%s" has been created. 
-
-Username: %s
-Password: %s
-
-Click here to login:
-%s',
-  66 => 'Profile was created successfully',
-  67 => 'New user profile was created successfully!',
-  68 => 'Notifications',
-  69 => 'Comment notifications',
-  70 => 'Send notification on for new comments',
-  71 => 'Send notification for new comments',
-  72 => 'Comments',
-  73 => 'Remember login',
-  74 => 'Login was not correct.',
-  75 => 'Dashboard',
-  76 => 'Fotos',
-  77 => 'Neu',
-  78 => 'Verwalten',
-  79 => 'Kommentare',
-  80 => 'Bearbeiten',
-  81 => 'Benutzer',
-  82 => 'Mein Profil',
-  83 => 'Settings',
-  84 => 'General',
-  85 => 'System',
-  86 => 'Photos',
-  87 => 'New',
-  88 => 'Manage',
-  89 => 'Edit',
-  90 => 'Users',
-  91 => 'My profile',
-  92 => 'Edit profile',
-  93 => 'Logout',
-  94 => 'Publish date (YYYY-MM-DD)',
-  95 => 'Edit details',
-  96 => 'Delete photo',
-  97 => 'Tags',
-  98 => 'at',
-  99 => 'Delete comment',
-  100 => 'Photo edited successfully!',
-  101 => 'Form has already been sent',
-  102 => 'Username already exists.',
-  103 => 'Form is no longer valid.',
-  104 => 'The submitted form is no longer valid.',
-  105 => 'wrote:',
-  106 => 'Add comment',
-  107 => 'URL',
-  108 => 'Please enter your name.',
-  109 => 'Comment text is missing?',
-  110 => 'Your comment was saved successfully.',
-  111 => 'No comments so far.',
-  112 => 'File was deleted successfully.',
-  113 => 'Upload successful!',
-  114 => 'Your file was uploaded successfully!',
-  115 => 'Photos per shown in backend list',
-  116 => 'Backend configuration',
-  117 => 'Sorry, nothing to see here yet.',
-  118 => '{"error":"Comment was deleted successfully."}',
-  119 => '{"response":"Comment was deleted successfully."}',
-)
+/*END*/
+(Relative to /Admin/. Default: templates/assets/css/layout.css)/*END*/
+Account active?/*END*/
+Account information/*END*/
+Active extensions/*END*/
+Address/*END*/
+After this page/*END*/
+All data (incl. photos!) will be deleted!/*END*/
+Allow HTML on content pages?/*END*/
+Allow users to comment on this photo?/*END*/
+Allowed HTML elements/*END*/
+Are you sure you want to deactivate the extension?/*END*/
+Are you sure you want to delete the comment?/*END*/
+Are you sure you want to delete the file/*END*/
+Are you sure you want to delete the user/*END*/
+Are you sure you want to delete this page and (all its subpages!)?/*END*/
+Backend configuration/*END*/
+Birthname/*END*/
+Blog language/*END*/
+Browse/*END*/
+Check for updates every x days/*END*/
+Comments/*END*/
+Create new page/*END*/
+Create new user/*END*/
+Dashboard/*END*/
+Default/*END*/
+Delete/*END*/
+Delete comment/*END*/
+Delete photo/*END*/
+Delete profile image?/*END*/
+Delete user/*END*/
+Description/*END*/
+EXIF settings/*END*/
+Edit comment/*END*/
+Edit details/*END*/
+Edit image/*END*/
+Edit page/*END*/
+Edit permissions/*END*/
+Edit profile/*END*/
+Edit settings/*END*/
+Edit your profile/*END*/
+Email/*END*/
+Enable automatic updates to keep your software up-to-date?/*END*/
+Enter URL/*END*/
+Enter a new name:/*END*/
+Extension browser is coming soon!/*END*/
+Extensions/*END*/
+Female/*END*/
+Fields to publish (comma separated)/*END*/
+Firstname/*END*/
+From/*END*/
+From the web/*END*/
+Gender/*END*/
+General/*END*/
+General configuration/*END*/
+Go back/*END*/
+If not checked you have to click a photo first to see the comments and the commentform/*END*/
+Inactive extensions/*END*/
+Inside this page/*END*/
+Instantly/*END*/
+Lastcheck/*END*/
+Lastname/*END*/
+Layout/*END*/
+Logout/*END*/
+Make backups before updating (strongly recommended!)/*END*/
+Male/*END*/
+Manage/*END*/
+Manage comments/*END*/
+Manage extensions/*END*/
+Manage pages/*END*/
+Manage photos/*END*/
+Manage uploaded images/*END*/
+Manage uploaded photos/*END*/
+Manage users/*END*/
+Mr./*END*/
+Mrs./*END*/
+My profile/*END*/
+New photo/*END*/
+Notifications/*END*/
+Options/*END*/
+Original size/*END*/
+Pages/*END*/
+Password/*END*/
+Path to backend stylesheet./*END*/
+Personal information/*END*/
+Photo information/*END*/
+Photos/*END*/
+Photos per page on frontpage/*END*/
+Photos per page shown in backend list/*END*/
+Profile image/*END*/
+Publish EXIF data?/*END*/
+Publish date (YYYY-MM-DD)/*END*/
+Publish new photo/*END*/
+Publish now/*END*/
+Publishing of EXIF data active by default?/*END*/
+Recent comments/*END*/
+Rename/*END*/
+Repeat password/*END*/
+Salutation/*END*/
+Select file/*END*/
+Select image/*END*/
+Send notification emails on new comments/*END*/
+Settings/*END*/
+Settings changed/*END*/
+Show comments on index?/*END*/
+Show newest first/*END*/
+Show oldest first/*END*/
+Signup/*END*/
+Site settings/*END*/
+Sitename/*END*/
+System/*END*/
+Tags/*END*/
+Tags (comma separated)/*END*/
+Theme/*END*/
+Title/*END*/
+URL to the extension repository/*END*/
+Update/*END*/
+UpdateServerUrl/*END*/
+Upload/*END*/
+Upload new photo/*END*/
+Uploaded/*END*/
+Username/*END*/
+Users/*END*/
+View all …/*END*/
+View comments/*END*/
+View userlist/*END*/
+We currently have %s photos uploaded and %s comments received./*END*/
+What do you want to do next?/*END*/
+Your majesty/*END*/
+Your settings were saved successfully./*END*/
+at/*END*/
+by/*END*/
+commented on/*END*/
+e.g. outdoor, landscape, body/*END*/
+edit

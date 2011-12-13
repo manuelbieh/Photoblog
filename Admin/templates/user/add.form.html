@@ -52,7 +52,7 @@
 
 	<p>
 		<label for="data[salutation]"><?php echo __('Salutation'); ?></label>
-		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Herr'=>'Herr', 'Frau'=>'Frau', 'Eure Majestät'=>'Eure Majestät')); ?>
+		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Mr.'=>__('Mr.'), 'Mrs.'=>__('Mrs.'), 'Your majesty'=>__('Your majesty'))); ?>
 	</p>
 
 	<p>

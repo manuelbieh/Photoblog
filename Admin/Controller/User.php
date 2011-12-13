@@ -471,7 +471,7 @@ class Admin_Controller_User extends Controller_Frontend {
 
 			if($form->isSent(true)) {
 
-				$this->whitelist = array('adminstyle');
+				$this->whitelist = array('adminstyle', 'language');
 				foreach($form->valueOf('data') AS $prop => $value) {
 
 					if(in_array($prop, $this->whitelist)) {

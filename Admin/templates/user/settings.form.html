@@ -11,6 +11,11 @@
 		<?php echo $this->input(array('type'=>'text', 'name'=>'data[adminstyle]', 'id'=>'data[adminstyle]', 'value'=>$this->data->adminstyle)); ?>
 	</p>
 
+	<p>
+		<label for="data[language]"><?php echo __('Backend language'); ?></label>
+		<?php echo $this->select(array('name'=>'data[language]', 'id'=>"data[language]"), array_merge(array(''=>__('Exhibit default')), i18n_Translate::getLanguages()), $this->data->language); ?>
+	</p>
+
 </fieldset>
 
 [[$SEND]]

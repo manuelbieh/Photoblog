@@ -45,7 +45,7 @@
 
 	<p>
 		<label for="data[salutation]"><?php echo __('Salutation'); ?></label>
-		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Herr'=>'Herr', 'Frau'=>'Frau', 'Eure Majestät'=>'Eure Majestät'), $this->data->salutation); ?>
+		<?php echo $this->select(array('name'=>'data[salutation]', 'id'=>'data[salutation]'), array(''=>'', 'Mr.'=>__('Mr.'), 'Mrs.'=>__('Mrs.'), 'Your majesty'=>__('Your majesty')), $this->data->salutation); ?>
 	</p>
 
 	<p>

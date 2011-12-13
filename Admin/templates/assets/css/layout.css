@@ -702,6 +702,11 @@ option {
 	padding-left: 20px;
 }
 
+.editsettings {
+	background: url(../images/fugue/gear--pencil.png) no-repeat;
+	padding-left: 20px;
+}
+
 .editcomment {
 	background: url(../images/fugue/balloon--pencil.png) no-repeat;
 	padding-left: 20px;

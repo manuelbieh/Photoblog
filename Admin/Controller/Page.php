@@ -170,7 +170,7 @@ class Admin_Controller_Page extends Controller_Frontend {
 					}
 
 					if($this->pageMapper->save($page) != false) {
-						$response = array('message'=>__('Page was update successfully.'));
+						$response = array('message'=>__('Page was updated successfully.'));
 					} else {
 						$response = array('error'=>__('Could not save changes to the page.'));
 					}

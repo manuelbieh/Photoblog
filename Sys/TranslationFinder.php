@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
 set_time_limit(0);
-error_reporting(E_NONE);
+error_reporting(0);
 
 class TranslationHelper {
 
@@ -41,7 +41,10 @@ class TranslationHelper {
 				if(is_array($hits)) {
 
 					foreach($hits[2] AS $hit) {
-						$trans[$file][] = $hit;
+						$stringCollector[] = $hit;
+						if(!in_array($stringCollector, $hit)) {
+							$trans[$file][] = $hit;
+						}
 						#file_put_contents('translations.txt', var_export($hit), FILE_APPEND);
 						
 					}
@@ -69,7 +72,13 @@ foreach($translations AS $file => $strings) {
 	}
 }
 
+$moreStrings = file_get_contents(dirname(__FILE__) . '/../i18n/Strings.txt');
+$moreStrings = explode("/*END*/\n", $moreStrings);
+
+$stringArray = array_merge($moreStrings, $stringArray);
+
 $stringArray = array_unique($stringArray);
+asort($stringArray);
 foreach($stringArray AS $string) {
 	$phpArray .= "\$_lang['" . str_replace('\"', '"', addslashes($string)) ."'] = '';\n";
 	$csvPattern = strpos($string, ',') !== false ? '"%s"' : '%s';
