@@ -1,295 +1,295 @@
-"Method was not specified";
-"Show newest first";
-"Show oldest first";
-"{"response":"Comment was deleted successfully."}";
-"{"error":"For some reason the comment could not be deleted."}";
-"There are updates available on the update server. Do you wish to upgrade now?";
-"Extension browser is coming soon!";
-"Login";
-"Login was not correct.";
-"You must specify at least a username or your email.";
-"Username or email could not be found.";
-"Please enter a pagetitle";
-"Page was update successfully.";
-"Could not save changes to the page.";
-"Page not found or invalid data.";
-"The page you’re trying to delete does not exist.";
-"Page was deleted successfully.";
-"Page could not be deleted.";
-"Cannot delete last rootpage from tree.";
-"Action cancelled by the user.";
-"Downloading the file from the URL you specified was not successful.";
-"Unable to upload file.";
-"Unknown filetype. Please upload JPG, GIF or PNG only.";
-"File was deleted successfully.";
-"File could not be deleted.";
-"Username already exists.";
-"A User with this email is already registered.";
-"An unknown error occured. Please try again.";
-"Unable to upload avatar file.";
-"Error: Comment was not deleted";
-"Comment could not be deleted.";
-"Delete comment";
-"Comment could not be found.";
-"Are you sure you want to delete this comment?";
-"Yes, please!";
-"Wait, no no no!";
-"Comment deleted";
-"Comment was deleted successfully!";
-"Error: Comment not found";
-"The selected comment could not be found.";
-"Edit comment";
-"Edit comment #";
-"Name";
-"Author URL";
-"Author email";
-"Comment";
-"Comment edited successfully!";
-"No comments found";
-"Couldn’t find any comments.";
-"View comments";
-"at";
-"Edit image";
-"Sorry, no comments so far.";
-"Are you sure you want to delete the comment?";
-"We currently have %s photos uploaded and %s comments received.";
-"What do you want to do next?";
-"Upload new photo";
-"Manage uploaded images";
-"Edit your profile";
-"Recent comments";
-"commented on";
-"edit";
-"View all …";
-"No comments so far.";
-"Could not activate extension";
-"The extension you were trying to activate does not exist or is already activated.";
-"Go back";
-"Extension activated successfully";
-"The extension %s was activated successfully.";
-"Extension is configurable.";
-"Click here to configure it now.";
-"Could not deactivate extension";
-"The extension you were trying to deactivate does not exist or is already deactivated.";
-"The extension was deactivated successfully.";
-"Manage extensions";
-"Active extensions";
-"Inactive extensions";
-"Are you sure you want to deactivate the extension?";
-"Settings not saved!";
-"An error occured. Your settings could not be saved.";
-"Settings changed successfully!";
-"The Settings you’ve made were saved successfully.";
-"No settings available";
-"This extension cannot be configured. Install and have fun!";
-"← Back to previous page";
-"Extension not found";
-"The extension you are trying to configure could not be found.";
-"Edit extension settings";
-"Edit profile";
-"Logout";
-"Forgotten password";
-"Please enter your username or email address:";
-"Username";
-"Email";
-"Back to login";
-"Email was sent";
-"An email was sent to your email address. Please have a look!";
-"← Back to the login page";
-"Password";
-"Remember login";
-"Logged in as";
-"Password could not be reset.";
-"User not found";
-"Password cannot be reset. The specified user could not be found.";
-"Reset your password";
-"Please choose a new password";
-"New password";
-"Repeat password";
-"Password reset";
-"Password has been reset successfully.";
-"← You can now go back and login with your new password.";
-"Error!";
-"Your page could not be created this time.";
-"Create new page";
-"Page information";
-"Title";
-"Menutitle";
-"Title shown in navigation menus";
-"Content:";
-"Options";
-"Active";
-"Hide from menus";
-"Page created!";
-"Your page was created successfully!";
-"Back to overview";
-"Page could not be deleted";
-"Delete page";
-"Are you sure you want to delete this page and (all its subpages!)?";
-"Page deleted";
-"Page was deleted successfully!";
-"Your page could not be updated this time.";
-"Back to page";
-"The page you’re trying to edit does not exist.";
-"Edit page";
-"Page was updated.";
-"Your page was updated successfully!";
-"Manage pages";
-"Rename";
-"Enter a new name: ";
-"Inside this page";
-"After this page";
-"Delete";
-"Upload failed!";
-"An error occured while saving your photo. Photo could not be saved in the database.";
-"New photo";
-"Photo information";
-"Description";
-"Upload";
-"From the web";
-"Select image";
-"Enter URL";
-"Tags (comma separated)";
-"e.g. outdoor, landscape, body";
-"Publish now";
-"Publish date (YYYY-MM-DD)";
-"Instantly";
-"Publish EXIF data?";
-"Allow users to comment on this photo?";
-"Upload successful!";
-"Your file was uploaded successfully!";
-"Image could not be deleted";
-"Delete photo";
-"Are you sure you want to delete this photo?";
-"Photo deleted";
-"Photo was deleted successfully!";
-"Error: Photo not found";
-"The selected photo could not be found.";
-"Edit photo";
-"General information";
-"Publish instantly";
-"Timed publishing (YYYY-MM-DD HH:MM:SS)";
-"Now";
-"Photo edited successfully!";
-"Your photo was edited successfully.";
-"← Back to overview";
-"← Back to photo";
-"Manage photos";
-"Edit details";
-"Uploaded";
-"Original size";
-"Tags";
-"Comments";
-"Sorry, nothing to see here yet.";
-"Are you sure you want to delete the file ";
-"by";
-"Settings changed";
-"Your settings were saved successfully.";
-"Backup failed!";
-"An error occured while creating a backup. Please try again later.";
-"Backup created successfully!";
-"A backup of your system was created successfully. You can find it in your /Sys/backup folder";
-"System information";
-"Currently there is no update available. Your system is already up-to-date!";
-"System update failed!";
-"Could not update the system this time. The error message was ";
-"System update status";
-"Create new user";
-"Account information";
-"Account active?";
-"Profile image";
-"Select file";
-"Personal information";
-"Salutation";
-"Firstname";
-"Lastname";
-"Birthname";
-"Gender";
-"Male";
-"Female";
-"Profile was created successfully";
-"New user profile was created successfully!";
-"The specified user could not be found!";
-"Delete profile image?";
-"Profile updated successfully";
-"Your profile was updated successfully!";
-"An error occured";
-"Permissions for the user could not be set.";
-"Cannot edit permissions";
-"Cannot edit permissions. No user was selected!";
-"Edit permissions";
-"Select permissions";
-"Permission";
-"Permissions were set successfully";
-"Permissions for the user have been changed successfully!";
-"User";
-"Contact";
-"Edit user settings";
-"Admin settings";
-"Custom admin stylesheet (path relative to /Admin/):";
-"Settings updated successfully";
-"User settings were updated successfully!";
-"Manage users";
-"Delete user";
-"Are you sure you want to delete the user ";
-"All data (incl. photos!) will be deleted!";
-"Create new usergroup";
-"Group information";
-"Grouptitle";
-"Group active?";
-"Usergroup was created successfully";
-"New usergroup was created successfully!";
-"Edit usergroup";
-"Logfile not writable";
-"Template not found: %s";
-"Please enter your name.";
-"Comment text is missing?";
-"Your comment was saved successfully.";
-"Comments are closed.";
-"Enter Something:";
-"New account for photoblog "%s"";
-"Could not establish connection to server";
-"Failed to get file";
-"Failed to upload file.";
-"Failed to create folder.";
-"Failed to rename folder.";
-"Failed to delete folder.";
-"Failed to delete file.";
-"Found unknown form element.";
-"Attributes list contained invalid data.";
-"The submitted form is no longer valid.";
-"An error occured while checking a file type";
-"File not found.";
-"Failed to perform database upgrade. ";
-"Failed to unzip file. Make sure the directory permissions are set properly";
-"Update was successful! New version is ";
-"No updates available";
-"Exhibit is already installed. Delete the file /install/INSTALLED to install it again.";
-"Required class <strong>DOMXPath</strong> was not found.";
-"Class <strong>DOMDocument</strong> was not found.";
-"Required PHP extension <strong>%s</strong> could not be found.";
-"Either GDLib or PECL-Imagick extension is required. Could not found either of them.";
-"You are running a PHP version <strong>(%s)</strong> which is lower than the required version <strong>(%s)</strong>.";
-"Please specify a database host";
-"Please specify a database name";
-"Please specify a database user";
-"Please choose a username.";
-"Please enter a valid email address.";
-"Please choose a password with at least 6 characters.";
-"Password and password confirmation did not match.";
-"<strong>mod_rewrite</strong> is required and seems to be unavailable on this server. Installation will proceed but there’s no guarantee the application will run properly.";
-"<strong>get_magic_quotes</strong> is currently \'on\'. It\'s strongly recommended to turn it \'off\'.";
-"is not writable by the webserver.";
-"Class <strong>IMagick</strong> doesn\'t exist. Using GDLib instead.";
-"You don’t have the proper permissions to view this page.";
-"Congratulations! Exhibit was installed successfully. <a href="../Admin">You can now login!</a>";
-"URL";
-"Not found";
-"Page could not be found.";
-"wrote:";
-"Add comment";
-"Sorry …";
-"No photos were found.";
-"Overview";
-"Sorry, no photos found.";
-"Photo could not be found.";
+Method was not specified
+Show newest first
+Show oldest first
+{"response":"Comment was deleted successfully."}
+{"error":"For some reason the comment could not be deleted."}
+There are updates available on the update server. Do you wish to upgrade now?
+Extension browser is coming soon!
+Login
+Login was not correct.
+You must specify at least a username or your email.
+Username or email could not be found.
+Please enter a pagetitle
+Page was update successfully.
+Could not save changes to the page.
+Page not found or invalid data.
+The page you’re trying to delete does not exist.
+Page was deleted successfully.
+Page could not be deleted.
+Cannot delete last rootpage from tree.
+Action cancelled by the user.
+Downloading the file from the URL you specified was not successful.
+Unable to upload file.
+"Unknown filetype. Please upload JPG, GIF or PNG only."
+File was deleted successfully.
+File could not be deleted.
+Username already exists.
+A User with this email is already registered.
+An unknown error occured. Please try again.
+Unable to upload avatar file.
+Error: Comment was not deleted
+Comment could not be deleted.
+Delete comment
+Comment could not be found.
+Are you sure you want to delete this comment?
+"Yes, please!"
+"Wait, no no no!"
+Comment deleted
+Comment was deleted successfully!
+Error: Comment not found
+The selected comment could not be found.
+Edit comment
+Edit comment #
+Name
+Author URL
+Author email
+Comment
+Comment edited successfully!
+No comments found
+Couldn’t find any comments.
+View comments
+at
+Edit image
+"Sorry, no comments so far."
+Are you sure you want to delete the comment?
+We currently have %s photos uploaded and %s comments received.
+What do you want to do next?
+Upload new photo
+Manage uploaded images
+Edit your profile
+Recent comments
+commented on
+edit
+View all …
+No comments so far.
+Could not activate extension
+The extension you were trying to activate does not exist or is already activated.
+Go back
+Extension activated successfully
+The extension %s was activated successfully.
+Extension is configurable.
+Click here to configure it now.
+Could not deactivate extension
+The extension you were trying to deactivate does not exist or is already deactivated.
+The extension was deactivated successfully.
+Manage extensions
+Active extensions
+Inactive extensions
+Are you sure you want to deactivate the extension?
+Settings not saved!
+An error occured. Your settings could not be saved.
+Settings changed successfully!
+The Settings you’ve made were saved successfully.
+No settings available
+This extension cannot be configured. Install and have fun!
+← Back to previous page
+Extension not found
+The extension you are trying to configure could not be found.
+Edit extension settings
+Edit profile
+Logout
+Forgotten password
+Please enter your username or email address:
+Username
+Email
+Back to login
+Email was sent
+An email was sent to your email address. Please have a look!
+← Back to the login page
+Password
+Remember login
+Logged in as
+Password could not be reset.
+User not found
+Password cannot be reset. The specified user could not be found.
+Reset your password
+Please choose a new password
+New password
+Repeat password
+Password reset
+Password has been reset successfully.
+← You can now go back and login with your new password.
+Error!
+Your page could not be created this time.
+Create new page
+Page information
+Title
+Menutitle
+Title shown in navigation menus
+Content:
+Options
+Active
+Hide from menus
+Page created!
+Your page was created successfully!
+Back to overview
+Page could not be deleted
+Delete page
+Are you sure you want to delete this page and (all its subpages!)?
+Page deleted
+Page was deleted successfully!
+Your page could not be updated this time.
+Back to page
+The page you’re trying to edit does not exist.
+Edit page
+Page was updated.
+Your page was updated successfully!
+Manage pages
+Rename
+Enter a new name: 
+Inside this page
+After this page
+Delete
+Upload failed!
+An error occured while saving your photo. Photo could not be saved in the database.
+New photo
+Photo information
+Description
+Upload
+From the web
+Select image
+Enter URL
+Tags (comma separated)
+"e.g. outdoor, landscape, body"
+Publish now
+Publish date (YYYY-MM-DD)
+Instantly
+Publish EXIF data?
+Allow users to comment on this photo?
+Upload successful!
+Your file was uploaded successfully!
+Image could not be deleted
+Delete photo
+Are you sure you want to delete this photo?
+Photo deleted
+Photo was deleted successfully!
+Error: Photo not found
+The selected photo could not be found.
+Edit photo
+General information
+Publish instantly
+Timed publishing (YYYY-MM-DD HH:MM:SS)
+Now
+Photo edited successfully!
+Your photo was edited successfully.
+← Back to overview
+← Back to photo
+Manage photos
+Edit details
+Uploaded
+Original size
+Tags
+Comments
+"Sorry, nothing to see here yet."
+Are you sure you want to delete the file 
+by
+Settings changed
+Your settings were saved successfully.
+Backup failed!
+An error occured while creating a backup. Please try again later.
+Backup created successfully!
+A backup of your system was created successfully. You can find it in your /Sys/backup folder
+System information
+Currently there is no update available. Your system is already up-to-date!
+System update failed!
+Could not update the system this time. The error message was 
+System update status
+Create new user
+Account information
+Account active?
+Profile image
+Select file
+Personal information
+Salutation
+Firstname
+Lastname
+Birthname
+Gender
+Male
+Female
+Profile was created successfully
+New user profile was created successfully!
+The specified user could not be found!
+Delete profile image?
+Profile updated successfully
+Your profile was updated successfully!
+An error occured
+Permissions for the user could not be set.
+Cannot edit permissions
+Cannot edit permissions. No user was selected!
+Edit permissions
+Select permissions
+Permission
+Permissions were set successfully
+Permissions for the user have been changed successfully!
+User
+Contact
+Edit user settings
+Admin settings
+Custom admin stylesheet (path relative to /Admin/):
+Settings updated successfully
+User settings were updated successfully!
+Manage users
+Delete user
+Are you sure you want to delete the user 
+All data (incl. photos!) will be deleted!
+Create new usergroup
+Group information
+Grouptitle
+Group active?
+Usergroup was created successfully
+New usergroup was created successfully!
+Edit usergroup
+Logfile not writable
+Template not found: %s
+Please enter your name.
+Comment text is missing?
+Your comment was saved successfully.
+Comments are closed.
+Enter Something:
+New account for photoblog "%s"
+Could not establish connection to server
+Failed to get file
+Failed to upload file.
+Failed to create folder.
+Failed to rename folder.
+Failed to delete folder.
+Failed to delete file.
+Found unknown form element.
+Attributes list contained invalid data.
+The submitted form is no longer valid.
+An error occured while checking a file type
+File not found.
+Failed to perform database upgrade. 
+Failed to unzip file. Make sure the directory permissions are set properly
+Update was successful! New version is 
+No updates available
+Exhibit is already installed. Delete the file /install/INSTALLED to install it again.
+Required class <strong>DOMXPath</strong> was not found.
+Class <strong>DOMDocument</strong> was not found.
+Required PHP extension <strong>%s</strong> could not be found.
+Either GDLib or PECL-Imagick extension is required. Could not found either of them.
+You are running a PHP version <strong>(%s)</strong> which is lower than the required version <strong>(%s)</strong>.
+Please specify a database host
+Please specify a database name
+Please specify a database user
+Please choose a username.
+Please enter a valid email address.
+Please choose a password with at least 6 characters.
+Password and password confirmation did not match.
+<strong>mod_rewrite</strong> is required and seems to be unavailable on this server. Installation will proceed but there’s no guarantee the application will run properly.
+<strong>get_magic_quotes</strong> is currently \'on\'. It\'s strongly recommended to turn it \'off\'.
+is not writable by the webserver.
+Class <strong>IMagick</strong> doesn\'t exist. Using GDLib instead.
+You don’t have the proper permissions to view this page.
+Congratulations! Exhibit was installed successfully. <a href="../Admin">You can now login!</a>
+URL
+Not found
+Page could not be found.
+wrote:
+Add comment
+Sorry …
+No photos were found.
+Overview
+"Sorry, no photos found."
+Photo could not be found.
