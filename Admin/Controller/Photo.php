@@ -385,9 +385,9 @@ class Admin_Controller_Photo extends Controller_Frontend {
 				$files = array();
 
 				$files['original']	= Extensions_Manuel_Helper::getSourceFolder() . '/' . $photo->original_name;
-				$files['web']		= rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $photo->web_name;
-				$files['thumb']		= rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $photo->web_name;
-				$files['mini']		= rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $photo->web_name;
+				$files['web']		= rtrim($this->app->getProjectDir(), '/') . '/../uploads/web/' . $photo->web_name;
+				$files['thumb']		= rtrim($this->app->getProjectDir(), '/') . '/../uploads/thumbs/' . $photo->web_name;
+				$files['mini']		= rtrim($this->app->getProjectDir(), '/') . '/../uploads/mini/' . $photo->web_name;
 
 				foreach($files AS $file) {
 
@@ -406,7 +406,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 				$this->view->addSubview('main', $subview);
 			
 			} else if(isset($_POST['cancel'])) {
-				Application_Base::go($_POST['r']);
+				$this->app->go($_POST['r']);
 			} else {
 
 				if($_GET['ajax'] || $_GET['_ajax'] || $_GET['__ajax']) {
@@ -433,7 +433,9 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			} else {
 
-				
+				$subview = $this->app->createView();
+				$subview->loadHTML('templates/photo/delete.success.html');
+				$this->view->addSubview('main', $subview);
 
 			}
 
