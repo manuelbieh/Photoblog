@@ -72,7 +72,7 @@ foreach($translations AS $file => $strings) {
 $stringArray = array_unique($stringArray);
 foreach($stringArray AS $string) {
 	$phpArray .= "\$_lang['" . str_replace('\"', '"', addslashes($string)) ."'] = '';\n";
-	$csvFile .= '"'.addslashes($string) .'";'."\n";
+	$csvFile .= '"'. str_replace('\"', '"', addslashes($string)) .'";'."\n";
 }
 
 file_put_contents('translationStrings.php', "<?php \n" . $phpArray);

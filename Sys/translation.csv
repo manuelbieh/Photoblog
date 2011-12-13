@@ -1,8 +1,8 @@
 "Method was not specified";
 "Show newest first";
 "Show oldest first";
-"{\"response\":\"Comment was deleted successfully.\"}";
-"{\"error\":\"For some reason the comment could not be deleted.\"}";
+"{"response":"Comment was deleted successfully."}";
+"{"error":"For some reason the comment could not be deleted."}";
 "There are updates available on the update server. Do you wish to upgrade now?";
 "Extension browser is coming soon!";
 "Login";
@@ -247,7 +247,7 @@
 "Your comment was saved successfully.";
 "Comments are closed.";
 "Enter Something:";
-"New account for photoblog \"%s\"";
+"New account for photoblog "%s"";
 "Could not establish connection to server";
 "Failed to get file";
 "Failed to upload file.";
@@ -282,7 +282,7 @@
 "is not writable by the webserver.";
 "Class <strong>IMagick</strong> doesn\'t exist. Using GDLib instead.";
 "You don’t have the proper permissions to view this page.";
-"Congratulations! Exhibit was installed successfully. <a href=\"../Admin\">You can now login!</a>";
+"Congratulations! Exhibit was installed successfully. <a href="../Admin">You can now login!</a>";
 "URL";
 "Not found";
 "Page could not be found.";
