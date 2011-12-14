@@ -72,8 +72,41 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 	public function feedback() {
 
 		$form = new Modules_Form('templates/dashboard/feedback.form.html');
+		
+		if($form->isSent()) {
+			if($form->valueOf('data[text]') == '' && $form->valueOf('data[rating]')  == '') {
+				$form->addError('Please provide some text or at least a rating!');
+			}
+		}
 
-		$this->view->addSubview('main', new Application_View_String('test'));
+		if($form->isSent(true)) {
+
+			$mail = new Modules_Mail_Mail();
+
+			$mail->setRecipient('feedback@exhibit-blog.net', 'Feedback Form');
+			$mail->setSubject('Feedback');
+
+			$name = $form->valueOf('data[name]') == '' ? 'Anonymous' : $form->valueOf('data[name]');
+
+			if($form->valueOf('data[email]')) {
+				$mail->setFrom($form->valueOf('data[email]'), $name);
+			} else {
+				$mail->setFrom('noreply@exhibit-blog.net', $name);
+			}
+
+			$mail->setMessage("Rating: " . $form->valueOf('data[rating]') . "\n\nMessage:\n" . $form->valueOf('data[text]'));
+
+			#if($mail->send()) {
+			$mail->send();
+			$this->view->addSubview('main', new Application_View_String('Feedback sent successfully. Thank you!'));
+			#} else {
+			#	$this->view->addSubview('main', new Application_View_String('Failed to send feedback.'));
+			#}
+
+		} else {
+			$this->view->addSubview('main', $form);
+		}
+
 
 
 	}

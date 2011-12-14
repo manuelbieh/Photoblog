@@ -357,7 +357,13 @@ class Modules_Form {
 					isset($GLOBALS['_'.strtoupper($this->method)][$button]) && 
 					$GLOBALS['_'.strtoupper($this->method)][$button] === $this->valueOf($button) &&
 					( 
-						($validate == true && ( (isset($this->validation) && $this->errors() == false) || !isset($this->validation)) ) ||
+						($validate == true && 
+							( 
+							//	(isset($this->validation) && $this->errors() == false) || 
+							//	!isset($this->validation)
+								$this->getErrors() == false
+							) 
+						) ||
 						$validate == false
 					)
 				) {
@@ -377,7 +383,13 @@ class Modules_Form {
 				isset($GLOBALS['_'.strtoupper($this->method)][$button]) && 
 				$GLOBALS['_'.strtoupper($this->method)][$this->sendname] === $this->valueOf($button) &&
 				( 
-						($validate == true && ( (isset($this->validation) && $this->errors() == false) || !isset($this->validation)) ) ||
+						($validate == true && 
+							( 
+								//(isset($this->validation) && $this->errors() == false) || 
+								//!isset($this->validation)
+								$this->getErrors() == false
+							) 
+						) ||
 					$validate == false
 				)
 			) {

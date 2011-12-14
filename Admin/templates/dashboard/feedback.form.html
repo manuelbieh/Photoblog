@@ -1,4 +1,12 @@
+<h2>Submit feedback</h2>
+
+<div class="content">
+
+<p>Exhibit was realized as pure free time project and is released for free under open source license. So the biggest loan you can pay is to provide some feedback so I can see what's already good and what I could do to improve this software. <em>(I speak German and English, so please don't write in Spanish, French, Italian, Latin, Greek, … Thank you!)</em></p>
+
 [[$ERRORS]]
+
+</div>
 
 <fieldset>
 
@@ -6,27 +14,35 @@
 
 	<p>
 		<label for="data[name]">Your name (if you like)</label>
-		<?php echo $this->input('name'=>'data[name]', 'id'=>'data[name]'); ?>
+		<?php echo $this->input(array('name'=>'data[name]', 'id'=>'data[name]')); ?>
+	</p>
+
+	<p>
+		<label for="data[email]">Your email (optional)</label>
+		<?php echo $this->input(array('name'=>'data[email]', 'id'=>'data[email]')); ?>
 	</p>
 
 	<p>
 		<label for="data[url]">Your blog's URL (optional)</label>
-		<?php echo $this->input('name'=>'data[url]', 'id'=>'data[url]', 'value'=>$_SERVER['SERVER_NAME']); ?>
+		<?php echo $this->input(array('name'=>'data[url]', 'id'=>'data[url]', 'value'=>str_replace('/Admin', '', $this->app->getBaseUrl()))); ?>
 	</p>
 
 	<p>
-		How do you like Exhibit?
-		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'5'); ?> ***** It's awesome, dude!</label>
-		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'4'); ?> **** I'd like to see some improvements but overall it's pretty cool!</label>
-		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'3'); ?> *** I've seen better software but I've also seen software worse than Exhibit.</label>
-		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'2'); ?> ** I dont really like it a lot</label>
-		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'1'); ?> * It is totally not cool</label>
+		<br />
+		<span class="pad"><strong>How do you like Exhibit?</strong></span><br />
+		<label><?php echo $this->input(array('type'=>'radio', 'name'=>'data[rating]', 'value'=>'5', 'id'=>'rate_5')); ?> ***** It's awesome, dude!</label>
+		<label><?php echo $this->input(array('type'=>'radio', 'name'=>'data[rating]', 'value'=>'4')); ?> **** I'd like to see some improvements but overall it's pretty cool!</label>
+		<label><?php echo $this->input(array('type'=>'radio', 'name'=>'data[rating]', 'value'=>'3')); ?> *** I've seen better software but I've also seen software worse than Exhibit.</label>
+		<label><?php echo $this->input(array('type'=>'radio', 'name'=>'data[rating]', 'value'=>'2')); ?> ** I dont really like it a lot</label>
+		<label><?php echo $this->input(array('type'=>'radio', 'name'=>'data[rating]', 'value'=>'1')); ?> * It is totally not cool</label>
 	</p>
 
 	<p>
 		<label for="data[text]">Room for some personal opinion, statements, ...</label>
-		<?php echo $this->textarea('name'=>'data[text]', 'id'=>'data[text]', 'cols'=>'40', 'rows'=>'6'); ?>
+		<?php echo $this->textarea(array('name'=>'data[text]', 'id'=>'data[text]', 'cols'=>'40', 'rows'=>'6')); ?>
 	</p>
+
+	<p class="pad">Please note that <strong>I do not provide technical support here!</strong> This form is just for feedback. In case you found a bug you can open a new ticket in the issue tracker <a href="https://github.com/manuelbieh/exhibitblog/issues">you can find here</a>.</p>
 
 </fieldset>
 

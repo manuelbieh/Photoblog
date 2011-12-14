@@ -263,6 +263,10 @@ footer p {
 	height: 200px;
 }
 
+.content {
+	max-width: 800px;
+}
+
 p {
 	margin: 1em 0;
 }
@@ -272,126 +276,6 @@ label {
 	display: block;
 	vertical-align: middle;
 }
-
-/*
-
-fieldset {
-	border: 1px solid #799aa5;
-	border-radius: 8px;
-	margin: 1.5em 0 1.5em 0;
-	padding: 0 24px 16px 32px;
-}
-
-legend {
-	background: #e6e6e6;
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	font-weight: 700;
-	margin: 0 -1em;
-	padding: 5px 16px;
-	text-shadow: 1px 1px 1px #fff;
-}
-
-
-fieldset p {
-
-	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(121,154,165,0.1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(121,154,165,0.1)));
-	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); 
-	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%);
-	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); 
-	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.1) 100%); 
-
-	border-bottom: 1px solid #d7e1e4;
-	clear: both;
-	margin-left: -24px;
-	margin-right: -16px;
-	padding: 0 16px 1em 16px;
-
-}
-
-fieldset p:hover {
-	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(121,154,165,0.2) 100%); 
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(121,154,165,0.2)));
-	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); 
-	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); 
-	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%); 
-	background: linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(121,154,165,0.2) 100%);
-}
-
-fieldset p.optional {
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(165,165,165,0.05) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.05)), color-stop(100%,rgba(165,165,165,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); 
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%); 
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%);
-	background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(165,165,165,0.05) 100%);
-	color: #999;
-}
-
-fieldset p:after {
-	clear: both;
-	content: " ";
-	display: block;
-}
-
-fieldset p:last-child {
-	margin-bottom: 0;
-}
-
-fieldset p label:first-child {
-	float: left;
-	width: 180px;
-}
-
-fieldset p label.fullwidth {
-	width: auto;
-}
-
-fieldset label, fieldset .label {
-	font-weight: bold;
-}
-*/
-
-
-/*
-input[type="button"], input[type="submit"] {
-	padding: 8px;
-	text-shadow: 1px 1px 0 #e6e6e6;
-}
-
-input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], textarea {
-	border: 1px solid #2b4e69;
-	border-radius: 8px;
-	font-family: inherit;
-	font-size: 110%;
-	padding: 8px;
-	text-shadow: 1px 1px 0 #e6e6e6;
-}
-
-input[type="text"], input[type="email"], input[type="datetime"], input[type="url"], input[type="tel"], input[type="search"], input[type="password"], select {
-	width: 300px;
-}
-
-input[type="checkbox"], input[type="radio"] {
-	vertical-align: middle;
-}
-
-input[disabled="disabled"] {
-	border-color: #000;
-	
-}
-
-textarea:focus, input:focus {
--moz-box-shadow: inset 1px 1px 4px -2px #000;
-}
-
-input[type="checkbox"] + label {
-	display: inline; 
-}
-
-*/
-
 
 
 fieldset {
@@ -1134,7 +1018,7 @@ option {
 	padding-bottom: 4px;
 }
 
-p.pad {
+.pad {
 	padding: 8px;
 }
 
