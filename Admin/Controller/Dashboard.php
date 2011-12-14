@@ -69,4 +69,11 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 
 	}
 
+	public function feedback() {
+
+		
+
+
+	}
+
 }
