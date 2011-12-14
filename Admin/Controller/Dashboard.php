@@ -71,7 +71,9 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 
 	public function feedback() {
 
-		
+		$form = new Modules_Form('templates/dashboard/feedback.form.html');
+
+		$this->view->addSubview('main', new Application_View_String('test'));
 
 
 	}

@@ -1,0 +1,35 @@
+[[$ERRORS]]
+
+<fieldset>
+
+	<legend>Please give us your feedback!</legend>
+
+	<p>
+		<label for="data[name]">Your name (if you like)</label>
+		<?php echo $this->input('name'=>'data[name]', 'id'=>'data[name]'); ?>
+	</p>
+
+	<p>
+		<label for="data[url]">Your blog's URL (optional)</label>
+		<?php echo $this->input('name'=>'data[url]', 'id'=>'data[url]', 'value'=>$_SERVER['SERVER_NAME']); ?>
+	</p>
+
+	<p>
+		How do you like Exhibit?
+		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'5'); ?> ***** It's awesome, dude!</label>
+		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'4'); ?> **** I'd like to see some improvements but overall it's pretty cool!</label>
+		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'3'); ?> *** I've seen better software but I've also seen software worse than Exhibit.</label>
+		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'2'); ?> ** I dont really like it a lot</label>
+		<label><?php echo $this->input('type'=>'radio', 'name'=>'data[rating]', 'value'=>'1'); ?> * It is totally not cool</label>
+	</p>
+
+	<p>
+		<label for="data[text]">Room for some personal opinion, statements, ...</label>
+		<?php echo $this->textarea('name'=>'data[text]', 'id'=>'data[text]', 'cols'=>'40', 'rows'=>'6'); ?>
+	</p>
+
+</fieldset>
+
+[[$SEND]]
+
+
