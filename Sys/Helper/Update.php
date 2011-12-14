@@ -72,7 +72,7 @@ class Sys_Helper_Update {
 									$qryStatus = $this->systemMapper->query($query);
 									if($qryStatus !== true) {
 										// ROLLBACK
-										$status['warning'] = __('Failed to perform database upgrade. ') . '(' . $qryStatus . ')';
+										$status['warning'] = __('Failed to perform database upgrade.') . '(' . $qryStatus . ')';
 									}
 
 								}
