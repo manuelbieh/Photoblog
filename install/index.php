@@ -199,6 +199,7 @@ $(function() {
 							mkdir(dirname(__FILE__) . '/../uploads/' . $dirName);
 						}
 					}
+					mkdir(dirname(__FILE__) . '/../Sys/update');
 
 					// config generation
 					$config = Modules_Filesys::read('config.tpl');
