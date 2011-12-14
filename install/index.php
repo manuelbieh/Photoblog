@@ -95,7 +95,7 @@ $(function() {
 						$password	= $form->valueOf('db[pass]');
 						$dbcx = new PDO($dsn, $user, $password);
 					} catch(Exception $e) {
-						$validate->addError('Establishing connection to database failed (wrong credentials?)');
+						$validate->addError(__('Establishing connection to database failed (wrong credentials?)'));
 					}
 
 				}
@@ -119,7 +119,7 @@ $(function() {
 					$warning[] = __('<strong>mod_rewrite</strong> is required and seems to be unavailable on this server. Installation will proceed but there’s no guarantee the application will run properly.');
 				}
 
-				/* CHECK FOR MOD_REWRITE END */
+				/* END CHECK FOR MOD_REWRITE */
 
 				/* CHECK IF MAGIC QUOTES CAN BE DISABLED VIA .htaccess */
 				if(get_magic_quotes_gpc() == true) {
@@ -146,7 +146,7 @@ $(function() {
 					}
 
 				}
-				/* CHECK IF MAGIC QUOTES CAN BE DISABLED VIA .htaccess END */
+				/* END CHECK IF MAGIC QUOTES CAN BE DISABLED VIA .htaccess */
 
 				/* CLEAN UP */
 				foreach(glob(dirname(__FILE__) . '/temp/*') AS $file) {
@@ -154,8 +154,7 @@ $(function() {
 				}
 				unlink(dirname(__FILE__) . '/temp/.htaccess');
 				rmdir(dirname(__FILE__) . '/temp');
-				/* CLEAN UP END */
-
+				/* END CLEAN UP */
 
 
 				$form->assign('db[host]', $form->input(array('name'=>'db[host]', 'id'=>'db[host]')));
@@ -174,15 +173,10 @@ $(function() {
 				$form->addValidation($validate);
 
 				$perm644 = array(
-					'../Admin/templates',
+					#'../Admin/templates', // needs write permission? sure?!
 					'../uploads',
-					'../uploads/avatars',
-					'../uploads/mini',
-					'../uploads/pile',
-					'../uploads/source',
-					'../uploads/thumbs',
-					'../uploads/web',
 					'../Sys',
+					'../Sys/Hooks.xml',
 					'../Includes',
 					'../Includes/Settings.xml',
 					'../Extensions'
@@ -195,6 +189,16 @@ $(function() {
 				}
 
 				if($form->isSent(true)) {
+
+					// create required folders
+					$letters = array_merge(range('a', 'z'), range('A', 'Z'), range('0', '9'));
+					$secret = Modules_Functions::getRandomString(36, $letters);
+					$uploadDirs = array('avatars', 'mini', 'pile', "pile/$secret", 'source', "source/$secret", 'temp', 'thumbs', 'web');
+					foreach($uploadDirs AS $dirName) {
+						if(!file_exists(dirname(__FILE__) . '/../uploads/' . $dirName)) {
+							mkdir(dirname(__FILE__) . '/../uploads/' . $dirName);
+						}
+					}
 
 					// config generation
 					$config = Modules_Filesys::read('config.tpl');
@@ -224,7 +228,7 @@ $(function() {
 
 					$enc = new Modules_Encryption_Md5();
 
-					$user->password = $enc->encryptWithSalt($user->password, __SALT__);
+					$user->password = $enc->encryptWithSalt($user->password, $salt);
 					$user->active = 1;
 
 					$userMapper = new Model_User_Mapper(

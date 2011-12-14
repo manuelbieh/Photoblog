@@ -258,7 +258,7 @@ class Sys_Helper_Update {
 
 		$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
 
-		if($httpStatus > 400) {
+		if($httpStatus >= 400) {
 
 			//throw new UpdateException();
 			return false;

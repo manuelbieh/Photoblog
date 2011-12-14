@@ -105,6 +105,7 @@ class Admin_Application_View_MenuHelper {
 
 		$dir = $dir !== NULL ? rtrim($dir, '/') : '';
 
+		// TODO: check if glob(...) returns an array first
 		foreach(glob($dir . '/*/menu.json') AS $item) {
 
 			if(is_file($item)) {
