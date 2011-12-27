@@ -200,6 +200,7 @@ $(function() {
 						}
 					}
 					mkdir(dirname(__FILE__) . '/../Sys/update');
+					mkdir(dirname(__FILE__) . '/../Sys/backup');
 
 					// config generation
 					$config = Modules_Filesys::read('config.tpl');
