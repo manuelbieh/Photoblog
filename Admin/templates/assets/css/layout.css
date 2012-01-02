@@ -660,14 +660,19 @@ option {
 
 .pagination a .pLabel {
 	background-image: -moz-linear-gradient(center top , #FFFFFF 0pt, #E0E0E0 100%);
+	background-image: -webkit-linear-gradient(center top , #FFFFFF 0pt, #E0E0E0 100%);
+	background-image: linear-gradient(center top , #FFFFFF 0pt, #E0E0E0 100%);
 	/*border: 1px solid #ccc;*/
-    border-color: #CCCCCC #CCCCCC #AAAAAA;
-    border-radius: 3px 3px 3px 3px;
-    border-style: solid;
-    border-width: 1px;
+	border-color: #CCCCCC #CCCCCC #AAAAAA;
+	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
 	color: #2b4e69;
 	cursor: pointer;
 	line-height: 2em;
+	-moz-transition: all 0.1s linear;
+	-webkit-transition: all 0.1s linear;
+	transition: all 0.1s linear;
 	white-space: pre;
 }
 
