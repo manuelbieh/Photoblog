@@ -7,7 +7,8 @@ class Modules_Image {
 	public function __construct($file) {
 
 		if(class_exists('IMagick')) { 
-			$this->imageObject = new IMagick($file);
+			//$this->imageObject = new IMagick($file);
+			$this->imageObject = new Modules_Image_IMagick($file);
 		} else {
 			$this->imageObject = new Modules_Image_GDLib($file);
 		}

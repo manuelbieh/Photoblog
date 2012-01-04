@@ -18,7 +18,6 @@ class Modules_Image_GDLib {
 	public function readImage($filename) {
 
 		if(is_file($filename) && is_readable($filename)) {
-			var_dump("Reading file " . $filename);
 			$this->filename = $filename;
 			$this->filehandle = NULL;
 		} else {

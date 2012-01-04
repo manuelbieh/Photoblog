@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'on');
+error_reporting(E_ALL);
 header("Content-Type: text/html; charset=utf-8");
 session_start();
 $projectURL = $_SERVER['SERVER_NAME'] . '/' . trim(str_replace($_SERVER['DOCUMENT_ROOT'], '', rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME']) . '/..'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR . '/');
@@ -11,7 +13,7 @@ die(__('Exhibit is already installed. Delete the file /install/INSTALLED to inst
 <head>
 <title>Exhibit Blog » Installation</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-<link href="//<?php echo $projectURL; ?>Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
+<link href="//<?php echo $projectURL; ?>/Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
 <script>
 /*
 $(function() {
@@ -220,7 +222,7 @@ $(function() {
 					$sysMapper	= new Model_System_Mapper($sysGateway);
 
 					$installSQL = Modules_Filesys::read('install.sql');
-					$sysMapper->importDump($installSQL);
+					$sqlImport = $sysMapper->importDump($installSQL);
 
 					// admin user creation
 					$user = new Model_User();
@@ -279,6 +281,11 @@ $(function() {
 	</div>
 
 <footer></footer>
+<!--
+<?php
+print_r($sqlImport);
+?>
+-->
 
 </body>
 </html>

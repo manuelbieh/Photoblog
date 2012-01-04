@@ -2,7 +2,7 @@
 
 class Model_System_Gateway_PDO {
 
-	public $queryDelimiter = "\n-- QUERY END\n\n";
+	public $queryDelimiter = "\n-- QUERY END";
 
 	public function __construct($dbh) {
 
@@ -83,7 +83,7 @@ class Model_System_Gateway_PDO {
 
 		$queries = explode($this->queryDelimiter, $dump);
 		$status = true;
-
+		var_dump($queries);
 		foreach($queries AS $query) {
 
 			$i++;
@@ -93,17 +93,20 @@ class Model_System_Gateway_PDO {
 			}
 
 			$q = $this->query($query);
+			$info[$i]['query'] = $query;
 			if($q !== true) {
-				if($abortOnError == true) {
-					return;
-				}
 				$err = $this->db->errorInfo();
+				if($abortOnError == true) {
+					return $err[2];
+				}
 				$status[] = $err[2];
+				$info[$i]['error'] = $err[2];
 			}
 
 		}
 
-		return $status;
+		$info['dump'] = $queries;
+		return $info;
 
 	}
 
