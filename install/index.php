@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
+
 header("Content-Type: text/html; charset=utf-8");
 session_start();
 $projectURL = $_SERVER['SERVER_NAME'] . '/' . trim(str_replace($_SERVER['DOCUMENT_ROOT'], '', rtrim(realpath(dirname($_SERVER['SCRIPT_FILENAME']) . '/..'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR . '/');
@@ -12,7 +13,7 @@ die(__('Exhibit is already installed. Delete the file /install/INSTALLED to inst
 <html>
 <head>
 <title>Exhibit Blog » Installation</title>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <link href="//<?php echo $projectURL; ?>/Admin/templates/assets/css/layout.css" rel="stylesheet" type="text/css" />
 <script>
 /*
@@ -54,7 +55,7 @@ $(function() {
 				}
 
 				if(!class_exists('DOMDocument')) {
-					$form->addError(__('Class <strong>DOMDocument</strong> was not found.'));
+					$form->addError(__('Required class <strong>DOMDocument</strong> was not found.'));
 				}
 
 				$extensionsNeeded = array(
@@ -132,7 +133,6 @@ $(function() {
 					$curlObj->connect('http://' . $_SERVER['SERVER_NAME'] . '/' . trim(str_replace('index.php', '', $_SERVER['REQUEST_URI']), '/') . '/temp/');
 					$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
 
-					// for some reason, httpStatus is always 0
 					if($httpStatus < 400) {
 
 						if($curlObj->output() == 'fail') {
@@ -181,6 +181,7 @@ $(function() {
 					'../Sys/Hooks.xml',
 					'../Includes',
 					'../Includes/Settings.xml',
+					'../Includes/VERSION',
 					'../Extensions'
 				);
 
@@ -213,6 +214,8 @@ $(function() {
 
 					$salt = Modules_Functions::getRandomString(24);
 					$config = Modules_Functions::patternReplace($config, array('settings[salt]'=>$salt));
+
+					$updatePW = Modules_Functions::getRandomString(mt_rand(8,12));
 
 					file_put_contents(dirname(__FILE__) . '/../Includes/Config.inc.php', $config);
 					include_once dirname(__FILE__) . '/../Includes/Config.inc.php';

@@ -9,5 +9,7 @@ $translate  = new i18n_Translate($translationAdapter);
 
 // NEVER EVER[!!!] change this value or you won't be able to login again.
 define('__SALT__', '%settings[salt]%');
+define('__UPDATEPASS__', '%settings[updatepass]%');
+
 
 #$installPassword = '%settings[installpw]%';

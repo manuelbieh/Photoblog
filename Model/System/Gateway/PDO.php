@@ -14,6 +14,10 @@ class Model_System_Gateway_PDO {
 
 	}
 
+	public function getQueryDelimiter() {
+		return $this->queryDelimiter;
+	}
+
 	public function query($query) {
 
 		if($this->db->query($query) === false) {
@@ -83,7 +87,7 @@ class Model_System_Gateway_PDO {
 
 		$queries = explode($this->queryDelimiter, $dump);
 		$status = true;
-		var_dump($queries);
+#		var_dump($queries);
 		foreach($queries AS $query) {
 
 			$i++;
@@ -97,10 +101,10 @@ class Model_System_Gateway_PDO {
 			if($q !== true) {
 				$err = $this->db->errorInfo();
 				if($abortOnError == true) {
-					return $err[2];
+					return array('error'=>$err[2]);
 				}
 				$status[] = $err[2];
-				$info[$i]['error'] = $err[2];
+				$info['error'][$i] = $err[2];
 			}
 
 		}
@@ -108,6 +112,19 @@ class Model_System_Gateway_PDO {
 		$info['dump'] = $queries;
 		return $info;
 
+	}
+
+
+	public function beginTransaction() {
+		$this->db->beginTransaction();
+	}
+
+	public function commit() {
+		$this->db->commit();
+	}
+
+	public function rollBack() {
+		$this->db->rollBack();
 	}
 
 }

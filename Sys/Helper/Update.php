@@ -45,49 +45,47 @@ class Sys_Helper_Update {
 
 	}
 
+	public function updateDatabase() {
 
-	public function update($version=NULL) {
+		// there are updates available
+		$files = $this->download($version);
+		$status = array();
 
-		$core = $this->app->getCoreDir();
+		if(is_array($files['sql'])) {
 
-		if($this->checkForUpdates() === true) {
+			foreach($files['sql'] AS $sqlFile) {
 
-			// there are updates available
-			$files = $this->download($version);
+				if(Modules_Filesys::isFile($sqlFile)) {
+					
+					$installSQL = Modules_Filesys::read($sqlFile);
+					$sqlImport = $this->systemMapper->importDump($installSQL);
 
-			if(is_array($files['sql'])) {
-
-				foreach($files['sql'] AS $sqlFile) {
-
-					if(Modules_Filesys::isFile($sqlFile)) {
-
-						$queries = explode($this->queryDelimiter, trim(Modules_Filesys::read($sqlFile)));
-
-						if(is_array($queries)) {
-
-							foreach($queries AS $query) {
-
-								if($query != '') {
-
-									$qryStatus = $this->systemMapper->query($query);
-									if($qryStatus !== true) {
-										// ROLLBACK
-										$status['warning'] = __('Failed to perform database upgrade.') . '(' . $qryStatus . ')';
-									}
-
-								}
-
-							}
-
-						}
-
+					if(isset($sqlImport['error'])) {
+						$status['error'] = __('Failed to perform database upgrade.');
 					}
 
 				}
 
 			}
 
-			if(is_array($files['update'])) {
+		}
+
+		return $status;
+
+	}
+
+	public function update($version=NULL) {
+
+		$core	= $this->app->getCoreDir();
+		$files	= $this->download($version);
+
+		if($this->checkForUpdates() === true) {
+
+			$this->systemMapper->beginTransaction();
+
+			$status = $this->updateDatabase();
+
+			if(!isset($status['error']) && is_array($files['update'])) {
 
 				foreach($files['update'] AS $updateFile) {
 
@@ -95,8 +93,10 @@ class Sys_Helper_Update {
 
 					if($archive->extract(PCLZIP_OPT_PATH, $core, PCLZIP_OPT_REPLACE_NEWER) == 0) {
 						// SQL ROLLBACK
-						$status['error'] = __('Failed to unzip file. Make sure the directory permissions are set properly');
+						$this->systemMapper->rollBack();
+						$status['error'] = __('Failed to unzip file. Make sure the directory permissions are set properly or update files manually!');
 						break;
+
 					}
 
 				}
@@ -105,6 +105,7 @@ class Sys_Helper_Update {
 
 			if(!isset($status['error'])) {
 				// SQL COMMIT
+				$this->systemMapper->commit();
 				$this->app->setVersion($this->latest);
 				$status['info'] = __('Update was successful! New version is ') . $this->latest;
 			}
@@ -133,9 +134,10 @@ class Sys_Helper_Update {
 
 		$tables		= $this->systemMapper->exportTables();
 		$inserts	= $this->systemMapper->exportTableData();
+		$qD			= $this->systemMapper->getQueryDelimiter();
 
-		$sqlDump = join('', $tables);
-		$sqlDump .= join('', $inserts);
+		$sqlDump = join($qd, $tables);
+		$sqlDump .= join($qd, $inserts);
 
 		file_put_contents($path . $sqlFile, $sqlDump);
 		#Modules_Filesys::write($path . $sqlFile, $sqlDump);
@@ -174,7 +176,7 @@ class Sys_Helper_Update {
 			return false;
 
 		} else {
-			
+
 			$response = json_decode($curlObj->exec(), true);
 			if(is_array($response)) {
 
@@ -183,6 +185,11 @@ class Sys_Helper_Update {
 					$updateFilename = $core . 'Sys/update/' . basename($data['url']);
 					if(isset($data['sql'])) {
 						$sqlFilename = $core . 'Sys/update/' . basename($data['sql']);
+					}
+					if(isset($data['callback'])) {
+						foreach($data['callback'] AS $type => $callbackFile) {
+							$callbackFiles[$type][] = $callbackFile;
+						}
 					}
 
 					if(!Modules_Filesys::isFile($updateFilename)) {

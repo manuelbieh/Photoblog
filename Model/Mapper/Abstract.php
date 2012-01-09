@@ -34,4 +34,5 @@ class Model_Mapper_Abstract {
 
 	}
 
+
 }
