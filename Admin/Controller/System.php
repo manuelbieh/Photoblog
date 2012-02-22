@@ -11,12 +11,14 @@ class Admin_Controller_System extends Controller_Frontend {
 
 		$app->extensions()->registerObservers($this);
 
-		$this->app 		= $app;
+		$this->app 			= $app;
 
-		$this->view		= $this->app->objectManager->get('Application_View');
-		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
+		$this->view			= $this->app->objectManager->get('Application_View');
+		$this->access		= $this->app->objectManager->get('Admin_Application_Access');
 
-		if(!isset($_GET['ajax'])) {
+		$this->photoMapper	= new Model_Photo_Mapper(new Model_Photo_Gateway_PDO($app->objectManager->get('Datastore')));
+		
+		if(!$this->app->isAjaxRequest()) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
@@ -54,15 +56,54 @@ class Admin_Controller_System extends Controller_Frontend {
 		$updateManager->test();
 	}
 
+	public function clean() {
+
+		$photos = $this->photoMapper->fetchAll();
+		$sourceFolder = Extensions_Manuel_Helper::getSourceFolder();
+
+		if(is_array($photos)) {
+
+			foreach($photos AS $photo) {
+				$photos['original'][] = $photo->original_name;
+				$photos['web'][] = $photo->web_name;
+			}
+
+		}
+
+		foreach(glob($sourceFolder . '/*') AS $filename) {
+			if(!in_array(basename($filename), $photos['original'])) {
+				unlink($filename);
+				$folder = dirname($filename);
+			}
+		}
+
+		$files = array_merge(
+			glob(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/*'),
+			glob(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/*'),
+			glob(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/*')
+		);
+
+		foreach($files AS $filename) {
+			if(!in_array(basename($filename), $photos['web'])) {
+				unlink($filename);
+				$folder = dirname($filename);
+			}
+		}
+
+		$this->app->go('Dashboard');
+
+	}
+
 	public function update() {
 
 		if($this->access->check(__METHOD__)) {
 
 			$updateManager	= new Sys_Helper_Update($this->app);
+			$updateManager->backup();
+
 			$subview		= $this->app->createView();
 			$update			= $updateManager->update();
 
-			$updateManager->backup();
 
 			if(isset($update['error'])) {
 

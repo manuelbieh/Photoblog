@@ -25,7 +25,7 @@ class Admin_Controller_User extends Controller_Frontend {
 
 		$this->app->extensions()->notify($this, 'configEnd');
 
-		if(!isset($_GET['ajax'])) {
+		if(!$this->app->isAjaxRequest()) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');

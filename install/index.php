@@ -66,7 +66,9 @@ $(function() {
 				);
 
 				foreach($extensionsNeeded AS $ext) {
-					if(!extension_loaded($ext)) { $form->addError(sprintf(__('Required PHP extension <strong>%s</strong> could not be found.'), $ext)); }
+					if(!extension_loaded($ext)) { 
+						$form->addError(sprintf(__('Required PHP extension <strong>%s</strong> could not be found.'), $ext)); 
+					}
 				}
 
 				if(!extension_loaded('gd') && !extension_loaded('imagick')) {
@@ -193,7 +195,10 @@ $(function() {
 
 				if($form->isSent(true)) {
 
-					// create required folders
+
+					/////////////////////////////
+					// create required folders //
+					/////////////////////////////
 					$letters = array_merge(range('a', 'z'), range('A', 'Z'), range('0', '9'));
 					$secret = Modules_Functions::getRandomString(36, $letters);
 					$uploadDirs = array('avatars', 'mini', 'pile', "pile/$secret", 'source', "source/$secret", 'temp', 'thumbs', 'web');
@@ -205,29 +210,38 @@ $(function() {
 					mkdir(dirname(__FILE__) . '/../Sys/update');
 					mkdir(dirname(__FILE__) . '/../Sys/backup');
 
-					// config generation
+
+					///////////////////////
+					// config generation //
+					///////////////////////
 					$config = Modules_Filesys::read('config.tpl');
 
 					foreach($form->valueOf('db') AS $key => $value) {
 						$config = Modules_Functions::patternReplace($config, array('db['.$key.']'=>$value));
 					}
 
-					$salt = Modules_Functions::getRandomString(24);
-					$config = Modules_Functions::patternReplace($config, array('settings[salt]'=>$salt));
+					$salt		= Modules_Functions::getRandomString(24);
+					$config		= Modules_Functions::patternReplace($config, array('settings[salt]'=>$salt));
 
-					$updatePW = Modules_Functions::getRandomString(mt_rand(8,12));
+					$updatePW	= Modules_Functions::getRandomString(mt_rand(8,12));
 
 					file_put_contents(dirname(__FILE__) . '/../Includes/Config.inc.php', $config);
 					include_once dirname(__FILE__) . '/../Includes/Config.inc.php';
 
-					// mysql table import
+
+					////////////////////////
+					// mysql table import //
+					////////////////////////
 					$sysGateway	= new Model_System_Gateway_PDO($pdodb);
 					$sysMapper	= new Model_System_Mapper($sysGateway);
 
-					$installSQL = Modules_Filesys::read('install.sql');
-					$sqlImport = $sysMapper->importDump($installSQL);
+					$installSQL	= Modules_Filesys::read('install.sql');
+					$sqlImport	= $sysMapper->importDump($installSQL);
 
-					// admin user creation
+
+					/////////////////////////
+					// admin user creation //
+					/////////////////////////
 					$user = new Model_User();
 					foreach($form->valueOf('user') AS $key => $value) {
 						$user->$key = $value;
@@ -237,10 +251,13 @@ $(function() {
 
 					$user->password = $enc->encryptWithSalt($user->password, $salt);
 					$user->active = 1;
+					$user->user_id = 1;
 
 					$userMapper = new Model_User_Mapper(
 						new Model_User_Gateway_PDO($pdodb)
 					);
+					$userMapper->delete(1); // delete old user 1
+
 					$userMapper->save($user);
 
 					$view = new Application_View();

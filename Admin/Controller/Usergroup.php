@@ -11,7 +11,7 @@ class Admin_Controller_Usergroup extends Controller_Frontend {
 		$this->db		= new Model_Usergroup_Gateway_PDO(Application_Registry::get('pdodb'));
 		$this->view		= $this->app->createView();
 
-		if(!isset($_POST['ajax'])) {
+		if(!$this->app->isAjaxRequest()) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');

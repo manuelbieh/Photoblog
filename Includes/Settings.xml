@@ -17,19 +17,19 @@
 	<system label="System">
 
 		<config label="General configuration">
-			<language label="Blog language" type="select" callback="i18n_Translate::getLanguages()">de_DE</language>
+			<language label="Blog language" type="select" callback="i18n_Translate::getLanguages()">en_US</language>
 		</config>
 
 		<email label="Email" type="group">
 
 			<default label="Default" type="group">
 				<name label="From" type="text">[[Sitename]]</name>
-				<address label="Address" type="email">info@scenito.de</address>
+				<address label="Address" type="email">info@waporize.net</address>
 			</default>
 
 			<signup label="Signup">
 				<name label="From">[[Sitename]] Signup</name>
-				<address label="Address" type="email">signup@scenito.de</address>
+				<address label="Address" type="email">signup@waporize.net</address>
 			</signup>
 
 		</email>
@@ -39,7 +39,7 @@
 		</notifications>
 
 		<backend label="Backend configuration">
-			<photosPerPage label="Photos per page shown in backend list" type="number" min="1" max="50" default="15">15</photosPerPage>
+			<photosPerPage label="Photos per page shown in backend list" type="number" min="1" max="50" default="15">6</photosPerPage>
 			<stylesheet label="Path to backend stylesheet." type="text" info="(Relative to /Admin/. Default: templates/assets/css/layout.css)">templates/assets/css/layout.css</stylesheet>
 			<extRepoUrl label="URL to the extension repository" type="text">http://extensions.exhibit-blog.net/1.0/</extRepoUrl>
 		</backend>
@@ -57,7 +57,7 @@
 	<theme label="Theme">
 		<layout label="Layout">
 			<main label="Theme" type="select" callback="Application_View_Theme::getThemelist()">default</main>
-			<photosPerPage label="Photos per page on frontpage" type="number" min="1" max="25" default="1">4</photosPerPage>
+			<photosPerPage label="Photos per page on frontpage" type="number" min="1" max="25" default="1">1</photosPerPage>
 			<showCommentsOnIndex label="Show comments on index?" type="checkbox" default="0" info="If not checked you have to click a photo first to see the comments and the commentform">0</showCommentsOnIndex>
 		</layout>
 

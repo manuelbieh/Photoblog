@@ -259,7 +259,7 @@ class Application_Base {
 
 	public function isAjaxRequest() {
 
-		return isset($_GET['ajax']) || isset($_GET['__ajax']) ? true : false;
+		return isset($_REQUEST['ajax']) || isset($_REQUEST['__ajax']) ? true : false;
 
 	}
 

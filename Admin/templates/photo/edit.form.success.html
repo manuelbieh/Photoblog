@@ -3,6 +3,6 @@
 <p><?php echo __('Your photo was edited successfully.'); ?></p>
 
 <ul>
-	<li><a href="<?php echo Application_Base::getBaseURL(); ?>Photo/view" class="icon-back"><?php echo __('← Back to overview'); ?></a></li>
+	<li><a href="<?php echo $this->app->getBaseURL(); ?>Photo/view" class="icon-back"><?php echo __('← Back to overview'); ?></a></li>
 	<li><a href="<?php echo htmlentities($_SERVER['REQUEST_URI'], ENT_NOQUOTES, 'UTF-8'); ?>" class="icon-back"><?php echo __('← Back to photo'); ?></a></li>
 </ul>

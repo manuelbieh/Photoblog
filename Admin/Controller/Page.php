@@ -20,7 +20,7 @@ class Admin_Controller_Page extends Controller_Frontend {
 		$this->pageGateway		= new Model_Page_Gateway_PDO($app->objectManager->get('Datastore'));
 		$this->pageMapper		= new Model_Page_Mapper($this->pageGateway);
 
-		if(!isset($_GET['ajax'])) {
+		if(!$this->app->isAjaxRequest()) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');

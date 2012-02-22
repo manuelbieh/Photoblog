@@ -8,7 +8,7 @@
 <div id="wrapper"<?php if(isset($this->data['maxWidth'])) { ?> style="width: <?php echo (int) $this->data['maxWidth'] ?>px"<?php } else {?> style="width: 800px;" <?php } ?>>
 
 	<header>
-		<h1><a href="<?php echo Application_Base::getBaseURL(); ?>"><?php echo Application_Settings::get('//general/site/sitename'); ?></a></h1>
+		<h1><a href="<?php echo $this->app->getBaseURL(); ?>"><?php echo Application_Settings::get('//general/site/sitename'); ?></a></h1>
 	</header>
 
 	<section id="content">

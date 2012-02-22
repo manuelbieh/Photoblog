@@ -1,17 +1,5 @@
 <?php
 
-function backupPreAddCallback($p_event, &$p_header) {
-
-	if(strpos($p_header['stored_filename'], 'Sys/backup') === 0) {
-		return 0;
-	//} else if(strpos($p_header['stored_filename'], 'uploads') === 0) {
-	//	return 0;
-	} else {
-		return 1;
-	}
-
-}
-
 class Sys_Helper_Update {
 
 	protected $latest;
@@ -76,10 +64,26 @@ class Sys_Helper_Update {
 
 	public function update($version=NULL) {
 
-		$core	= $this->app->getCoreDir();
-		$files	= $this->download($version);
+		$core		= $this->app->getCoreDir();
+		$files		= $this->download($version);
+		$version	= $version == NULL ? $this->latest : $version;
 
 		if($this->checkForUpdates() === true) {
+
+			if(Modules_Filesys::isFile($core . '/Sys/update/beforeUpdate.' . $version . '.php')) {
+
+				try {
+
+					include_once $core . '/Sys/update/beforeUpdate.' . $version . '.php';
+
+				} catch (Exception $e) {
+
+					$status['error'] = __('An error occured. Error message: ' . $e->getMessage());
+					return $status;
+
+				}
+
+			}
 
 			$this->systemMapper->beginTransaction();
 
@@ -104,10 +108,29 @@ class Sys_Helper_Update {
 			}
 
 			if(!isset($status['error'])) {
+
+
+				if(Modules_Filesys::isFile($core . '/Sys/update/afterUpdate.' . $version . '.php')) {
+
+					try {
+
+						include_once $core . '/Sys/update/afterUpdate.' . $version . '.php';
+
+					} catch (Exception $e) {
+
+						$this->systemMapper->rollBack();
+						$status['error'] = __('An error occured. Error message: ' . $e->getMessage());
+						return $status;
+
+					}
+
+				}
+
 				// SQL COMMIT
 				$this->systemMapper->commit();
 				$this->app->setVersion($this->latest);
 				$status['info'] = __('Update was successful! New version is ') . $this->latest;
+
 			}
 
 		} else {
@@ -186,9 +209,10 @@ class Sys_Helper_Update {
 					if(isset($data['sql'])) {
 						$sqlFilename = $core . 'Sys/update/' . basename($data['sql']);
 					}
+
 					if(isset($data['callback'])) {
 						foreach($data['callback'] AS $type => $callbackFile) {
-							$callbackFiles[$type][] = $callbackFile;
+							$callbackFiles[$type] = $callbackFile;
 						}
 					}
 
@@ -217,6 +241,25 @@ class Sys_Helper_Update {
 						}
 
 					}
+
+					if(isset($callbackFiles) && is_array($callbackFiles)) {
+
+						foreach($callbackFiles AS $type => $callbackFile) {
+
+							$curlObj = new Modules_Curl();
+							$curlObj->connect($updateServer . $callbackFile);
+
+							$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+							$cbData = $curlObj->exec();
+
+							if($httpStatus < 400 && $cbData != 'null') {
+								file_put_contents($core . 'Sys/update/' . strtolower($type) . 'Update.' . $version . '.php', $cbData);
+							}
+
+						}
+
+					}
+
 
 					if(isset($updateFilename) && Modules_Filesys::isFile($updateFilename)) {
 						$updateFiles['update'][]= $updateFilename;
@@ -329,6 +372,17 @@ class Sys_Helper_Update {
 
 	}
 
+}
 
+
+function backupPreAddCallback($p_event, &$p_header) {
+
+	if(strpos($p_header['stored_filename'], 'Sys/backup') === 0) {
+		return 0;
+	//} else if(strpos($p_header['stored_filename'], 'uploads') === 0) {
+	//	return 0;
+	} else {
+		return 1;
+	}
 
 }

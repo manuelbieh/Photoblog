@@ -64,7 +64,7 @@ if(count($this->data['images']) > 0) {
 			$.ajax({
 				url: $(this).attr('href'),
 				type: 'POST',
-				data: 'ajax=1&confirm=true',
+				data: '__ajax=true&confirm=true',
 				success: function(msg) {
 					alert(msg);
 					item.fadeOut();

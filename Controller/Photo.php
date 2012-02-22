@@ -51,7 +51,7 @@ class Controller_Photo extends Controller_Frontend {
 			$photo->width	= $image->getImageWidth();
 			$photo->height	= $image->getImageHeight();
 
-			$photo->photographer	= $this->userMapper->find($photo->user_id, new Model_User);
+			$photo->setPhotographer($this->userMapper->find($photo->user_id, new Model_User));
 
 			$this->view->data['maxWidth'] = $photo->width;
 
@@ -63,7 +63,8 @@ class Controller_Photo extends Controller_Frontend {
 				$subview->assign('commentform', __('Comments are closed.'));
 			}
 
-			$photo->comments		= $this->commentMapper->findByPhoto($photo->photo_id);
+			$photo->setComments($this->commentMapper->findByPhoto($photo->photo_id));
+
 			$subview->data['photo'] = $photo;
 
 			if($photo->tags != '') {

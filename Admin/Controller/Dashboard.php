@@ -11,7 +11,7 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 		$this->view		= $this->app->objectManager->get('Application_View');
 		$this->access	= $this->app->objectManager->get('Admin_Application_Access');
 
-		if(!isset($_GET['ajax'])) {
+		if(!$this->app->isAjaxRequest()) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
@@ -56,7 +56,11 @@ class Admin_Controller_Dashboard extends Controller_Frontend {
 				$updateManager	= new Sys_Helper_Update($this->app);
 
 				if($updateManager->checkForUpdates() === true) {
-					$subview->data['info']['update'] = __('There are updates available on the update server. Do you wish to upgrade now?');
+					$subview->data['info']['update'] = __('There are updates available on the update server. Do you wish to upgrade now? <a href="' . $this->app->getBaseURL() .'System/update">Yes, please!</a>');
+				}
+
+				if(!Modules_Filesys::isFile(rtrim($this->app->getProjectDir(), '/') . '/../install/INSTALLED')) {
+					$subview->data['warning']['installer'] = __('<strong>Installer is still accessible!</strong> You should create a file called INSTALLED in your /install folder to prevent your Exhibit installation from being hacked!');
 				}
 
 			}

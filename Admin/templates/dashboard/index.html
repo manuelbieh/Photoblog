@@ -3,9 +3,13 @@
 
 <?php if(isset($this->data['info'])) { ?>
 	<?php foreach($this->data['info'] AS $key => $info) { ?>
-		<p class="info"><?php echo $info; ?> 
-		<?php if($key == 'update') { ?><a href="<?php echo $this->app->getBaseURL(); ?>System/update">Yes, please!</a><?php } ?>
-		</p>
+		<p class="info"><?php echo $info; ?></p>
+	<?php } ?>
+<?php } ?>
+
+<?php if(isset($this->data['warning'])) { ?>
+	<?php foreach($this->data['warning'] AS $key => $warning) { ?>
+		<p class="warning"><?php echo $warning; ?></p>
 	<?php } ?>
 <?php } ?>
 

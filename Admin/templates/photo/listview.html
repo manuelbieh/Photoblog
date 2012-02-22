@@ -9,12 +9,12 @@ if(count($this->data['images']) > 0) {
 <?php foreach($this->data['images'] AS $image => $data) { ?>
 
 <li style="clear: both;" class="<?php echo $data->active == 1 ? 'active':'inactive'; ?>">
-	<div class="mini"> <img src="<?php echo Application_Base::getBaseURL(); ?>../uploads/mini/<?php echo $data->web_name; ?>" alt="" /></div> 
+	<div class="mini"> <img src="<?php echo $this->app->getBaseURL(); ?>../uploads/mini/<?php echo $data->web_name; ?>" alt="" /></div> 
 	<div class="meta">
 		<h4><?php echo $data->title; ?></h4>
 		<ul class="tools">
-			<li><a class="editimage" href="<?php echo Application_Base::getBaseURL(); ?>Photo/edit/<?php echo $data->photo_id; ?>"><?php echo __('Edit details'); ?></a></li>
-			<li><a class="delete" href="<?php echo Application_Base::getBaseURL(); ?>Photo/delete/<?php echo $data->photo_id; ?>"><?php echo __('Delete photo'); ?></a></li>
+			<li><a class="editimage" href="<?php echo $this->app->getBaseURL(); ?>Photo/edit/<?php echo $data->photo_id; ?>"><?php echo __('Edit details'); ?></a></li>
+			<li><a class="delete" href="<?php echo $this->app->getBaseURL(); ?>Photo/delete/<?php echo $data->photo_id; ?>"><?php echo __('Delete photo'); ?></a></li>
 			<li><strong><?php echo __('Uploaded'); ?>:</strong> <?php echo $data->date_uploaded; ?></li>
 			<li><strong><?php echo __('Original size'); ?>:</strong> <?php echo $data->original_width; ?>×<?php echo $data->original_height; ?></li>
 			<?php if($data->tags): ?>
@@ -58,7 +58,7 @@ if(count($this->data['images']) > 0) {
 			$.ajax({
 				url: $(this).attr('href'),
 				type: 'POST',
-				data: 'ajax=1&confirm=true',
+				data: '__ajax=true&confirm=true',
 				success: function(msg) {
 					alert(msg);
 					item.fadeOut();

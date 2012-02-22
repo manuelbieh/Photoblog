@@ -470,12 +470,20 @@ option {
 	padding-left: 32px;
 }
 
+.warning {
+	background: #FFEEEE url(../images/fugue/exclamation.png) no-repeat 6px center;
+	border: 1px solid #BA5050;
+}
+
+.warning, .info {
+	border-radius: 8px;
+	margin: 1em 0 1em 0;
+	padding: 3px 3px 3px 32px;
+}
+
 .info {
 	background: #EEEEFF url(../images/fugue/information.png) no-repeat 6px center;
 	border: 1px solid #5078ba;
-	border-radius: 8px;
-	margin: 1em 0 1.5em 0;
-	padding: 3px 3px 3px 32px;
 }
 
 .infobox {

@@ -29,7 +29,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 		$this->app->objectManager->register('photoMapper', new Model_Photo_Mapper($this->photoGateway));
 
-		if(!isset($_GET['ajax'])) {
+		if(!$this->app->isAjaxRequest()) {
 			$this->view->loadHTML('templates/index.html');
 		} else {
 			$this->view->loadHTML('templates/ajax.html');
@@ -122,14 +122,21 @@ class Admin_Controller_Photo extends Controller_Frontend {
 						$thumbSize	= Application_Settings::get("//settings/defaults/image/thumb");
 						$miniSize	= Application_Settings::get("//settings/defaults/image/mini");
 
+						$webSize['maxwidth']  = $uploadImageWidth < $webSize['maxwidth'] ? $uploadImageWidth : $webSize['maxwidth'];
+						$webSize['maxheight'] = $uploadImageHeight < $webSize['maxheight'] ? $uploadImageHeight : $webSize['maxheight'];
 						$this->uploadImage->thumbnailImage($webSize['maxwidth'], $webSize['maxheight'], true);
 						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/web/' . $this->webFile);
 
+						$thumbSize['maxwidth']  = $uploadImageWidth < $thumbSize['maxwidth'] ? $uploadImageWidth : $thumbSize['maxwidth'];
+						$thumbSize['maxheight'] = $uploadImageHeight < $thumbSize['maxheight'] ? $uploadImageHeight : $thumbSize['maxheight'];
 						$this->uploadImage->thumbnailImage($thumbSize['maxwidth'], $thumbSize['maxheight'], true);
 						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/thumbs/' . $this->webFile);
 
+						$miniSize['maxwidth']  = $uploadImageWidth < $miniSize['maxwidth'] ? $uploadImageWidth : $miniSize['maxwidth'];
+						$miniSize['maxheight'] = $uploadImageHeight < $miniSize['maxheight'] ? $uploadImageHeight : $miniSize['maxheight'];
 						$this->uploadImage->thumbnailImage($miniSize['maxwidth'], $miniSize['maxheight'], true);
 						$this->uploadImage->writeImage(rtrim(Application_Base::getProjectDir(), '/') . '/../uploads/mini/' . $this->webFile);
+
 
 						if($this->form->valueOf('source') == 'web') {
 							file_put_contents($this->sourceFolder . DIRECTORY_SEPARATOR . $this->sourceFile, $imageFile);
@@ -409,7 +416,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 				$this->app->go($_POST['r']);
 			} else {
 
-				if($_GET['ajax'] || $_GET['_ajax'] || $_GET['__ajax']) {
+				if($this->app->isAjaxRequest()) {
 					
 				} else {
 					$form = new Modules_Form('templates/photo/delete.form.html');
@@ -421,7 +428,7 @@ class Admin_Controller_Photo extends Controller_Frontend {
 
 			}
 
-			if($_GET['ajax'] || $_GET['_ajax'] || $_GET['__ajax']) {
+			if($this->app->isAjaxRequest()) {
 
 				$subview = $this->app->createView();
 				if($deleted == true) {
