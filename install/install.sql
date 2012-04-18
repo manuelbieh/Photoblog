@@ -190,7 +190,7 @@ INSERT INTO `cel_userprops` (`prop_id`, `prop_name`) VALUES
 (3, 'lastname'),
 (4, 'birthname'),
 (5, 'salutation'),
-(6, 'title');
+(6, 'title'),
 (7, 'gender'),
 (8, 'birthday');
 -- QUERY END

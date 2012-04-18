@@ -1,8 +1,12 @@
 <?php
 
-$pdodb = new PDO("mysql:dbname=myDBName;host=localhost", "myDBUser", "MyDBPass");
-$pdodb->query("SET NAMES 'utf8'");
-$pdodb->query("SET CHARACTER SET 'utf8'");
+try {
+	$pdodb = new PDO("mysql:dbname=myDBName;host=localhost", "myDBUser", "MyDBPass");
+	$pdodb->query("SET NAMES 'utf8'");
+	$pdodb->query("SET CHARACTER SET 'utf8'");
+} catch(Exception $e) {
+	die(__('Database connection could not be established'));
+}
 
 $translationAdapter = new i18n_Adapter_Array($app);
 $translationAdapter->setLocale(Application_Settings::get('system/config/language', 1));
