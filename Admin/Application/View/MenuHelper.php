@@ -106,22 +106,30 @@ class Admin_Application_View_MenuHelper {
 		$dir = $dir !== NULL ? rtrim($dir, '/') : '';
 
 		// TODO: check if glob(...) returns an array first
-		foreach(glob($dir . '/*/menu.json') AS $item) {
+		$menuFiles = glob($dir . '/*/menu.json');
+		if(is_array($menuFiles)) {
 
-			if(is_file($item)) {
+			foreach($menuFiles AS $item) {
 
-				$content = json_decode(file_get_contents($item), true);
-				if($content != NULL) {
-					$content['controller'] = $content['controller'] ? $content['controller'] : basename(dirname($item));
-					$this->JSON[] = $content;
+				if(is_file($item)) {
+
+					$content = json_decode(file_get_contents($item), true);
+					if($content != NULL) {
+						$content['controller'] = $content['controller'] ? $content['controller'] : basename(dirname($item));
+						$this->JSON[] = $content;
+					}
+
 				}
 
 			}
 
 		}
 
-		foreach(glob($dir . '/*', GLOB_ONLYDIR) AS $subdirs) {
-			$this->gatherJSON($subdirs);
+		$dirs = glob($dir . '/*', GLOB_ONLYDIR);
+		if(is_array($dirs)) {
+			foreach(glob($dir . '/*', GLOB_ONLYDIR) AS $subdirs) {
+				$this->gatherJSON($subdirs);
+			}
 		}
 
 		return $this;
