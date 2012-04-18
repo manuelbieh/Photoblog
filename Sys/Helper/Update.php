@@ -301,33 +301,37 @@ class Sys_Helper_Update {
 
 		$updateServer = Application_Settings::get('//system/update/updateServerUrl', 1);
 
-		$curlObj = new Modules_Curl();
+		if($updateServer != '') {
 
-		$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 60)
-				->connect($updateServer);
+			$curlObj = new Modules_Curl();
 
-		$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
+			$curlObj->setOption(CURLOPT_CONNECTTIMEOUT, 60)
+					->connect($updateServer);
 
-		if($httpStatus >= 400) {
+			$httpStatus = $curlObj->info(CURLINFO_HTTP_CODE);
 
-			//throw new UpdateException();
-			return false;
+			if($httpStatus >= 400) {
 
-		} else {
-
-			$response = $curlObj->exec();
-			$response = json_decode($response, true);
-
-			$installed = $this->app->getVersion();
-			$available = $response['latest'];
-
-			// -1 = installed is older
-			// 0 = installed is current
-			// 1 = installed is newer
-			if($this->compareVersion($installed, $available) === -1) {
-				return true;
-			} else {
+				//throw new UpdateException();
 				return false;
+
+			} else {
+
+				$response = $curlObj->exec();
+				$response = json_decode($response, true);
+
+				$installed = $this->app->getVersion();
+				$available = $response['latest'];
+
+				// -1 = installed is older
+				// 0 = installed is current
+				// 1 = installed is newer
+				if($this->compareVersion($installed, $available) === -1) {
+					return true;
+				} else {
+					return false;
+				}
+
 			}
 
 		}
